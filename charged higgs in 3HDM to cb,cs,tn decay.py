@@ -24,9 +24,10 @@ mw = 80.33    # mass of w boson
 mtau = 1.7771 # mass of tau neutrino
 gf = 0.0000116639 # fermi constant
 #mhch = 130.00  # mass of charged higgs
+ma = 200.00 # mass of Pseudoscalar 
 massrange = [85.00,130.00]# charged Higgs ranged values
 for mhch in massrange :
-   ma = 200.00 # mass of Pseudoscalar 
+
 # CKM elements
    vcs = 0.97
    vcb = 0.04
@@ -134,7 +135,7 @@ for mhch in massrange :
 #for Z in np.arange(0.0,5.1,0.5):
 
     
-                 Z = 0.1
+                 Z = 1.0
 #          for Z in z:          
 
 
@@ -197,55 +198,57 @@ for mhch in massrange :
    linecs5 = (0.0001,0.0005,0.001 ,0.002 ,0.005 ,0.01 )
    print('--------------------------------------------------')                                                                                                                                                                      
 # Contour of Branching ratio for first H+ > c,s x-axis: |X|, y-axis = |Y|; |Z|= 0.1
-#plt.figure()
-#ax = plt.subplot(1, 1, 1)#axes for minor ticks plot
-#ContourBRCS = plt.contour(xarray,yarray,BRCS,levels = linecs)
-#plt.title('BR($H^+ \longrightarrow $ cs)')#plot title
-#ax.axes.xaxis.set_minor_locator(MultipleLocator(2))# add minor ticks in x-axis
-#ax.axes.yaxis.set_minor_locator(MultipleLocator(0.02))# add minor ticks in y-axis
-#plt.xlabel('|X|')
-#plt.ylabel('|Y|')
-#plt.text(12.0, 0.2, r'|Z|= '+ str(Z) +',$M_{H^+}$= '+ str(mhch) +' GeV')# text|Z|= fixed MH+= GeV 
-#plt.axis([0.0, 40.0, 0.0, 0.5])# plot x,y-axis limit : ([xmin,xmax,ymin,ymax])
-#plt.clabel(ContourBRCS, inline= 0.05, fontsize=10)#plot
-#plt.colorbar(ContourBRCS)
-#plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-#plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#plt.savefig('hcs.png')
-#plt.close()
-#print('--------------------------------------------------')      
-# Contour of Branching ratio for first H+ > c,b x-axis: |X|, y-axis = |Y|; |Z|= 0.1
    plt.figure()
-#   ax = plt.subplot(1, 1, 1)#axes for minor ticks plot
-   ContourBRCB = plt.contour(xarray,yarray,BRCB,levels = linecs)
-   plt.title('BR($H^+ \longrightarrow $ cb) ') #plot title
+#ax = plt.subplot(1, 1, 1)#axes for minor ticks plot
+   ContourBRCS = plt.contour(xarray,yarray,BRCS,levels = linecs,\
+    colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
+   plt.title('BR($H^{\pm} \longrightarrow $ cs)')#plot title
 #   ax.axes.xaxis.set_minor_locator(MultipleLocator(2))# add minor ticks in x-axis
 #   ax.axes.yaxis.set_minor_locator(MultipleLocator(0.02))# add minor ticks in y-axis
    plt.xlabel('|X|')
    plt.ylabel('|Y|')
-   plt.text(12.0, 0.2, r'|Z|= '+ str(Z) +',$M_{H^+}$= '+ str(mhch) +' GeV')# text|Z|= fixed MH+= GeV 
-   plt.axis([0.0, 40.0, 0.0, 0.5])# plot x,y-axis limit : ([xmin,xmax,ymin,ymax])
-   plt.clabel(ContourBRCB, inline=1, fontsize=10)#plot
+   plt.text(12.0, 0.2, r'|Z|= '+ str(Z) +',$M_{H^{\pm}}$= '+ str(mhch) +' GeV')# text|Z|= fixed MH+= GeV 
+   plt.axis([0.0, 30.0, 0.0, 0.5])# plot x,y-axis limit : ([xmin,xmax,ymin,ymax])
+   plt.clabel(ContourBRCS, inline= 0.05, fontsize= 10)#plot
+   plt.colorbar(ContourBRCS)
+   plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+   plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+   plt.savefig('hcs.png')
+   plt.close()
+   print('--------------------------------------------------')      
+# Contour of Branching ratio for first H+ > c,b x-axis: |X|, y-axis = |Y|; |Z|= 0.1
+   plt.figure()
+#   ax = plt.subplot(1, 1, 1)#axes for minor ticks plot
+   ContourBRCB = plt.contour(xarray,yarray,BRCB,levels = linecs,\
+     colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
+   plt.title('BR($H^{\pm} \longrightarrow $ cb) ') #plot title
+#   ax.axes.xaxis.set_minor_locator(MultipleLocator(2))# add minor ticks in x-axis
+#   ax.axes.yaxis.set_minor_locator(MultipleLocator(0.02))# add minor ticks in y-axis
+   plt.xlabel('|X|')
+   plt.ylabel('|Y|')
+   plt.text(12.0, 0.2, r'|Z|= '+ str(Z) +',$M_{H^{\pm}}$= '+ str(mhch) +' GeV')# text|Z|= fixed MH+= GeV 
+   plt.axis([0.0, 30.0, 0.0, 0.5])# plot x,y-axis limit : ([xmin,xmax,ymin,ymax])
+   plt.clabel(ContourBRCB, inline= 10, fontsize= 10)#plot
    plt.colorbar(ContourBRCB)
    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
    plt.savefig('hcb.png')
-   plt.close()
+
    print('--------------------------------------------------')
 # Contour of Branching ratio for H+ > tau,tau-neutrino x-axis: |X|, y-axis = |Y|; |Z|= 0.1
    plt.figure()
-   ContourBRTN = plt.contour(xarray,yarray,BRTN,levels = linecs)
-   plt.title('BR($H^+ \longrightarrow $ $\\tau \\nu_\\tau $)')#plot title
+   ContourBRTN = plt.contour(xarray,yarray,BRTN,levels = linecs,\
+    colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
+   plt.title('BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $)')#plot title
    plt.xlabel('|X|')
    plt.ylabel('|Y|')
-   plt.text(12.0, 0.2, r'|Z|= '+ str(Z) +',$M_{H^+}$= '+ str(mhch) +' GeV')# text|Z|= fixed MH+= GeV 
-   plt.axis([0.0, 40.0, 0.0, 0.6])# plot x,y-axis limit : ([xmin,xmax,ymin,ymax])
-   plt.clabel(ContourBRTN, inline=0.05, fontsize=10)#plot 
+   plt.text(4.0, 0.2, r'|Z|= '+ str(Z) +',$M_{H^{\pm}}$= '+ str(mhch) +' GeV')# text|Z|= fixed MH+= GeV 
+   plt.axis([0.0, 25.0, 0.0, 0.5])# plot x,y-axis limit : ([xmin,xmax,ymin,ymax])
+   plt.clabel(ContourBRTN, inline=0.05, fontsize= 10)#plot 
    plt.colorbar(ContourBRTN)
    plt.grid(axis='y', linestyle='-', color='0.8') # show y-axis grid line
    plt.grid(axis='x', linestyle='-', color='0.8') # show x-axis grid line
    plt.savefig('htaunv.png')
-   plt.close()
    print('---------------------------------------------------') 
 ##############################################################################
 ##############################################################################
@@ -266,7 +269,7 @@ for mhch in massrange :
    plt.clabel(ContourBRTHBBRCB, inline=0.05, fontsize=10)#plot 
    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-   plt.savefig('M{H^+}= '+ str(mhch) +' GeV,thbhcbXY.png')
+   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,thbhcbXY.png')
    plt.show()
    print('--------------------------------------------------')
 # Contour of Branching ratio for t >H+b - H+ > cs in X,Y plane
@@ -287,7 +290,7 @@ for mhch in massrange :
    plt.colorbar(ContourBRTHBBRCS)
    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-   plt.savefig('M{H^+}= '+ str(mhch) +' GeV,thbhcsXY.png')
+   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,thbhcsXY.png')
    plt.show()
    print('--------------------------------------------------')
 # Contour of Branching ratio for t >H+b - H+ > tau,nv in Y,Z plane
@@ -792,7 +795,7 @@ for mhch in massrange :
    plt.figure()
 #ax =plt.subplot(1,1,1)
    Contourbrcs = plt.contour(A,B, \
-          np.resize(BRCSfinal,len(BRCSfinal)).reshape(len(B),len(A)),cmap = 'brg')
+          np.resize(BRCSfinal,len(BRCSfinal)).reshape(len(B),len(A)),colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
    plt.axis([min(A), max(A),min(B), max(B)])
 #print('||',len(A),len(B),len(BRCSfinal),np.ndim(A),np.ndim(BRCSfinal))
 # (4 parameters):A,B, BRCS contour plot [in the :reshape(y,x) not reshape(x,y)]
@@ -803,11 +806,11 @@ for mhch in massrange :
    plt.ylabel(readlist[int(read2)])# y-axis label
    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-   plt.savefig('M{H^+}= '+ str(mhch) +' GeV,cs.png')
+   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cs.png')
    print('--------------------------------------------------')
    plt.figure()
    Contourbrcb = plt.contour(A,B, \
-           np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),cmap = 'brg',levels = linecs)
+           np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
    plt.clabel(Contourbrcb, inline= 0.02, fontsize= 9)# contour level show
    plt.colorbar(Contourbrcb)
@@ -821,7 +824,7 @@ for mhch in massrange :
    plt.figure()
 #ax =plt.subplot(1,1,1)
    Contourbrtn = plt.contour(A,B, \
-           np.resize(BRTNfinal,len(BRTNfinal)).reshape(len(B),len(A)),cmap = 'brg',levels = linecs)
+           np.resize(BRTNfinal,len(BRTNfinal)).reshape(len(B),len(A)),colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
 #(4 parameters): A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
 #plt.clabel(Contourbrtn)# contour level show
    plt.colorbar(Contourbrtn)
@@ -915,14 +918,14 @@ for mhch in massrange :
    plt.title('REAL(XY^*) in '+ readlist[int(read1)] +','+ readlist[int(read2)] +' plane,$M_{H^+}$= '+ str(mhch) +' GeV')#plot title
 #plt.axis([1.0, 4.0, 1.0, 60.0])
    contourxy = plt.contour(A,B,\
-            np.resize(np.array(np.real(xyfun)),len(np.array(np.real(xyfun)))).reshape(len(B),len(A)),levels = np.arange(-1.1,0.9,0.6),cmap = 'brg')#,levels = linecs3)#
+            np.resize(np.array(np.real(xyfun)),len(np.array(np.real(xyfun)))).reshape(len(B),len(A)),levels = np.arange(-1.1,0.9,0.2),cmap = 'brg')#,levels = linecs3)#
    plt.clabel(contourxy, inline= 0.01, fontsize=10)# contour level show
    plt.colorbar(contourxy)
    plt.xlabel(readlist[int(read1)])# x-axis label
    plt.ylabel(readlist[int(read2)])# y-axis label
    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-   plt.savefig('M{H^+}= '+ str(mhch) +' GeV,realxy.png')
+   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,realxy.png')
    print('--------------------------------------------------')
 #(4 parameters): A,B, IM(XY^{*}) plot
 # [in the :reshape(y,x) not reshape(x,y)]
@@ -933,12 +936,12 @@ for mhch in massrange :
    contourxy2 = plt.contour(A,B,\
             np.resize(np.array(np.imag(xyfun)),len(np.array(np.imag(xyfun)))).reshape(len(B),len(A)),levels = linecs4,cmap = 'brg')
 #   plt.clabel(contourxy2, inline= 0.01, fontsize=10)# contour level show
-#   plt.colorbar(contourxy2)
+   plt.colorbar(contourxy2)
    plt.xlabel(readlist[int(read1)])# x-axis label
    plt.ylabel(readlist[int(read2)])# y-axis label
    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-   plt.savefig('M{H^+}= '+ str(mhch) +' GeV,imxy.png')
+   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,imxy.png')
    print('--------------------------------------------------')
 #(4 parameters): A,B, |Y| plot
 # [in the :reshape(y,x) not reshape(x,y)]
@@ -1000,6 +1003,7 @@ for mhch in massrange :
 #    return [[ud1,ud2,ud3],[uu1,uu2,uu3],[ul1,ul2,ul3]] 
 #print(U(i,j,k,l))
 #############################################################
+
 ##################################################################
 #################################################################
 #BOSONIC DECAY H+ > A*W
