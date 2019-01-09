@@ -579,8 +579,8 @@ for mhch in massrange :
                 BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                 BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-   i = - PI / 4 #theta
-   j = 10.0    #tangentbeta
+   i = - PI / 3 #theta
+   j = 40.0    #tangentbeta
    k = 10.0 #tangamma
    l = 0.0 # set delta (phase shift) to 0
    start3()
@@ -830,10 +830,10 @@ for mhch in massrange :
    plt.figure()
    Contourbrcbtn = plt.contour(A,B, \
            np.resize(np.array(BRCBfinal) * np.array(BRTNfinal),len(np.array(BRCBfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
-           colors = ['black','royalblue','purple','darkgreen','brown','red','gray'], levels = np.arange(0.0, 0.30,0.05))
+           cmap = 'brg', levels = np.arange(0.12, 0.22,0.02))
    plt.clabel(Contourbrcbtn, inline= 0.02, fontsize= 9)# contour level show
    plt.colorbar(Contourbrcbtn)
-   plt.title('BR($H^{\pm} \longrightarrow $ cbtn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+   plt.title(' BR($H^{\pm} \longrightarrow $ cb) * BR($H^{\pm} \longrightarrow $ tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
    plt.xlabel(readlist[int(read1)])# x-axis label
    plt.ylabel(readlist[int(read2)])# y-axis label
    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -851,33 +851,51 @@ for mhch in massrange :
    plt.ylabel(readlist[int(read2)])# y-axis label
    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-   plt.savefig('CharHnotagging'+ str(mhch) +'.png')
+   plt.savefig('CharHnotagging4jet'+ str(mhch) +'.png')
 ################################
-   plt.figure()
-   Contoursignal4 = plt.contour(A,B, \
-        np.resize(fl.eeHH_event() * np.array(BRCBfinal) * np.array(BRTNfinal) * fl.epsilon / np.sqrt(fl.backgroundnotagging()),\
-              len(fl.eeHH_event() * np.array(BRCBfinal) * np.array(BRTNfinal) * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).reshape(len(B),len(A)),\
-        cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
-   plt.colorbar(Contoursignal4)
-   plt.title('Signicance BR($H^{\pm} \longrightarrow $ cb * tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-   plt.xlabel(readlist[int(read1)])# x-axis label
-   plt.ylabel(readlist[int(read2)])# y-axis label
-   plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-   plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-   plt.savefig('CharHnotaggingtn'+ str(mhch) +'.png')
+#   plt.figure()
+#   Contoursignal4 = plt.contour(A,B, \
+#        np.resize(fl.eeHH_event() * np.array(BRCSfinal) * np.array(BRTNfinal) * 0.3 / np.sqrt(fl.backgroundtagging2()),\
+#              len(fl.eeHH_event() * np.array(BRCSfinal) * np.array(BRTNfinal) * 0.3 / np.sqrt(fl.backgroundtagging2()))).reshape(len(B),len(A)),\
+#        cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
+#   plt.colorbar(Contoursignal4)
+#   plt.title('Signicance BR($H^{\pm} \longrightarrow $ cs * tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+#   plt.xlabel(readlist[int(read1)])# x-axis label
+#   plt.ylabel(readlist[int(read2)])# y-axis label
+#   plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#   plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#   plt.savefig('signottaggingcbtn'+ str(mhch) +'.png')
 ####################################
    plt.figure()
-   Contoursignal5 = plt.contour(A,B, \
+   Contourbrcstn = plt.contour(A,B, \
         np.resize(np.array(BRCSfinal) * np.array(BRTNfinal),\
               len(np.array(BRCSfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
         cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
-   plt.colorbar(Contoursignal5)
-   plt.title(' BR($H^{\pm} \longrightarrow $ cs) *BR($H^{\pm} \longrightarrow $ tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+   plt.colorbar(Contourbrcstn)
+   plt.title(' BR($H^{\pm} \longrightarrow $ cs) * BR($H^{\pm} \longrightarrow $ tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
    plt.xlabel(readlist[int(read1)])# x-axis label
    plt.ylabel(readlist[int(read2)])# y-axis label
    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
    plt.savefig('CharHcstn'+ str(mhch) +'.png')
+###################################
+   plt.figure()
+   Contoursignal7 = plt.contour(A,B, \
+        np.resize((fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
+                                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
+                                ) * 0.3 / np.sqrt(fl.backgroundtagging2()),\
+              len((fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
+                                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
+                                ) * 0.3 / np.sqrt(fl.backgroundtagging2()))).reshape(len(B),len(A)),\
+        cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
+   plt.colorbar(Contoursignal7)
+   plt.title('Signicance BR($H^{\pm} \longrightarrow $ cb * tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+   plt.xlabel(readlist[int(read1)])# x-axis label
+   plt.ylabel(readlist[int(read2)])# y-axis label
+   plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+   plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+   plt.savefig('sigtaggingcbtn'+ str(mhch) +'.png')
+   print('111',fl.eeHH_event() * 2.0 * 0.65 * 0.35)
 ##################################################################
 ##################################################################
 #def U(i,j,k,l):

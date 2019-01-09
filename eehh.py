@@ -9,8 +9,8 @@ import math
 import random
 import numpy as np
 import matplotlib.pyplot as plt
-#import vegas
-#import gvar as gv
+import vegas
+import gvar as gv
 import itertools
 ########################################################
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
@@ -25,6 +25,7 @@ pwz = 2.4952  # partial width of z boson
 pww = 2.085  #  partial width of w boson 
 alpha_electroweak = 1.0 / 128.0 # alpha for sigma_0 
 #mhch = 130.00  # mass of charged higgs
+charH_mass = float(input('chaH mass value:'))
 ma = 130.00 # mass of Pseudoscalar 
 e_blist = np.arange(0.5,0.75,0.1) # b-tag efficiency 0.7
 e_b = float(input('e_b value:'))
@@ -42,7 +43,7 @@ epsilon = e_mass * e_4jet * e_isignal # total epsilon
 vcs = 0.97
 vcb = 0.04
 ###########
-massrange = np.arange(90.00,91.00,1.00)# charged Higgs ranged values
+massrange = np.arange(charH_mass,charH_mass + 1.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',massrange)
 costhetaw = mw / mz                     # cos (weinberg angle : thetaw)
 sinthetaw = math.sqrt(1 - (costhetaw) ** 2)      # sin(weinberg angle: thetaw)
@@ -102,13 +103,17 @@ def wwcscs_background():# ww>cscs background
     chunk_4 = chunk_3 / 4 # after ww>cscs
     return chunk_4 
 print('|ww background:',wwcscs_background())
-def backgroundtagging():# ww>cscs
+def backgroundtagging():# ww>cscs 4jet
     #wwcscs with e_c , or 3389.6
     result = 3389.6 * 1855.5 / 2506.2 / 4  * e_c**2
     # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback = 0.1 invariant mass cut
     qqbar = 964.6 * 0.15 * e_b**2 * e_iback
     return result + qqbar
-def backgroundnotagging():
+def backgroundtagging2():
+    e_l = 0.01
+    background = 300 / 2.0  * (e_c * (1 - e_l) + e_l * (1 - e_c)) # 400
+    return background
+def backgroundnotagging():# ww>4jet no specific
     #wwcscs with e_c , or 3389.6
     result_1 = 3389.6 * 1855.5 / 2506.2 
     # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback : 0.1 invariant mass cut
@@ -201,6 +206,7 @@ print('signal/sqrt(background) FOR cbcb decay',eeHH_event() * 0.8**2 * 0.7**2 / 
       np.sqrt(backgroundtagging() * 0.1**2))
 print('signal/sqrt(background) FOR no-tagging ',eeHH_event()* 1.0**2* 0.536 / \
       np.sqrt(1855.5))
+print('|Background for 2jetTN',backgroundtagging2())
 # epsilon_signal = 0.536 * 71.8 / 57.8 = 0.6658269896193771
 ######################################################################
 #with b signal of charged Higgs event:
@@ -223,21 +229,21 @@ def eeHHcbcb_0bsignal(x,y):#0real b 2 fake b
 #print('||||| Singal of char_H_cbcb after 0b-tagging:',eeHHcbcb_0bsignal())
 ######################################################################
 def eeHHcbcs_2bsignal(x,y):#2real b 0 fake b
-    return eeHH_event() * x * y * 0.0 #* epsilon #* e_antiww # after 3 selections chosen
+    return eeHH_event() * 2.0 * x * y * 0.0 #* epsilon #* e_antiww # after 3 selections chosen # 2.0 for cbcs and cscb 
 #print('||||| Singal of char_H after 2b-tagging:',eeHHcbcs_2bsignal())
 ######################################################################
 def eeHHcbcs_1bsignal(x,y):#1real b 1 fake b
     e_l = 0.01
     chunk2 = e_b * e_c * (1 - e_c) * (1 - e_l) + e_b * e_l * (1 - e_c)**2
-    chunk1 = eeHH_event() * x * y * chunk2  # before compare with table 
+    chunk1 = eeHH_event() * 2.0 * x * y * chunk2  # before compare with table  # 2.0 for cbcs and cscb 
     return chunk1 #* epsilon #* e_antiww # after 3 selections chosen
 #print('||||| Singal of char_H_cbcs after 1b-tagging:',eeHHcbcs_1bsignal())
 ######################################################################
 def eeHHcbcs_0bsignal(x,y):#0real b 2 fake b
     e_l = 0.01
-    chunk2 = 2 * e_c * e_l * (1 - e_b) * (1 - e_c) + e_c**2 * (1 - e_b) * (1 - e_l)
-    chunk1 = eeHH_event() * x * y * chunk2  # before compare with table 
-    return chunk1# * epsilon #* e_antiww # after 3 selections chosen
+    chunk2 =  2 * e_c * e_l * (1 - e_b) * (1 - e_c) + e_c**2 * (1 - e_b) * (1 - e_l)
+    chunk1 = eeHH_event() * 2.0 * x * y * chunk2  # before compare with table  # 2.0 for cbcs and cscb 
+    return chunk1 # * epsilon #* e_antiww # after 3 selections chosen
 #print('||||| Singal of char_H_cbcs after 0b-tagging:',eeHHcbcs_0bsignal())
     
 ######################################################################
@@ -252,23 +258,20 @@ def eeHHcscs_0bsignal(x,y): #0real b 2 fake b
 def eeHHcbtn_1bsignal(x,y):
 #    brcb = 0.8
 #    brtn = 0.2
-    chunk1 = eeHH_event() * x * y * \
-    e_b * (1 - e_c)  # before compare with table 
+    chunk1 = eeHH_event() * 2.0 * x * y *  e_b * (1 - e_c) # before compare with table  # permutations  
     return chunk1 #* epsilon #* e_antiww  after 3 selections chosen
 #print('||||| Singal of char_H_cbtn after 1b-tagging:',eeHHcbtn_1bsignal())
 ######################################################################
 def eeHHcbtn_0bsignal(x,y):
-#    brcb = 0.8
-#    brtn = 0.2
-    chunk1 = eeHH_event() * x * y * \
-    e_b * (1 - e_c) # before compare with table 
+    chunk1 = eeHH_event()* 2.0 * x * y * e_b * (1 - e_c) # 2.0 for cbtn and tncb permutations
+     # before compare with table 
     return chunk1 #* epsilon #* e_antiww  after 3 selections chosen
 #print('||||| Singal of char_H_cbtn after 0b-tagging:',eeHHcbtn_0bsignal())
 ######################################################################
 def eeHHcstn_1bsignal(x,y):
 #    brcs = 0.8
 #    brtn = 0.2
-    chunk1 = eeHH_event() * x * y * 0.0  # before compare with table 
+    chunk1 = eeHH_event() * 2.0 * x * y * 0.0  # before compare with table # 2.0 for cstn and tncs permutations
     return chunk1 #* epsilon# * e_antiww  after 3 selections chosen 
 #print('||||| Singal of char_H_cstn after 1b-tagging:',eeHHcstn_1bsignal())
 ######################################################################
@@ -277,7 +280,7 @@ def eeHHcstn_0bsignal(x,y):
 #    brtn = 0.4
     e_l = 0.01 # e_s
     chunk2 = e_c * (1 - e_l) + e_l * (1 - e_c)
-    chunk1 = eeHH_event() * x * y * chunk2  # before compare with table 
+    chunk1 = eeHH_event() * 2.0 * x * y * chunk2  # before compare with table # 2.0 for cstn and tncs 
     return chunk1 #* epsilon# * e_antiww  after 3 selections chosen 
 #print('||||| Singal of char_H_cstn after 0b-tagging:',eeHHcstn_0bsignal())
 ################################
