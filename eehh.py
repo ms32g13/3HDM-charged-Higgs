@@ -25,12 +25,21 @@ pwz = 2.4952  # partial width of z boson
 pww = 2.085  #  partial width of w boson 
 alpha_electroweak = 1.0 / 128.0 # alpha for sigma_0 
 #mhch = 130.00  # mass of charged higgs
-charH_mass = float(input('chaH mass value:'))
+#charH_mass = float(input('chaH mass value:'))
 ma = 130.00 # mass of Pseudoscalar 
 e_blist = np.arange(0.5,0.75,0.1) # b-tag efficiency 0.7
 e_b = float(input('e_b value:'))
-e_clist = np.arange(0.01,0.11,0.01) # c-tag efficiency 0.1
-e_c = float(input('e_c value:'))
+e_clist = np.arange(0.005,0.05,0.0045) # c-tag efficiency
+while True: 
+    inputec = input('e_c single or range (s or r)?:') 
+    if inputec == 'r' or inputec == 'R':
+        e_c = e_clist
+        break
+    elif inputec =='s' or inputec == 'S':
+        e_c = float(input('e_c value prefered:'))
+        break
+    else:
+        input('e_c single or range (s or r)?:') 
 e_4jet = 0.841 # charged Higgs after 4-jet selection
 e_mass = 0.718 / 0.841 #charged Higgs after mass-selection
 e_antiww = 0.536 / 0.578 # charged Higgs after anti-ww background
@@ -43,8 +52,8 @@ epsilon = e_mass * e_4jet * e_isignal # total epsilon
 vcs = 0.97
 vcb = 0.04
 ###########
-massrange = np.arange(charH_mass,charH_mass + 1.0 ,1.0)# charged Higgs ranged values
-print('charH_mass:',massrange)
+mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
+print('charH_mass:',mhch)
 costhetaw = mw / mz                     # cos (weinberg angle : thetaw)
 sinthetaw = math.sqrt(1 - (costhetaw) ** 2)      # sin(weinberg angle: thetaw)
 #S = np.arange(180.00 , 219.00 , 10.00) ** 2  # Centre of Mass Energy ^ 2
@@ -109,7 +118,7 @@ def backgroundtagging():# ww>cscs 4jet
     # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback = 0.1 invariant mass cut
     qqbar = 964.6 * 0.15 * e_b**2 * e_iback
     return result + qqbar
-def backgroundtagging2():
+def backgroundtagging2():# 2jet
     e_l = 0.01
     background = 300 / 2.0  * (e_c * (1 - e_l) + e_l * (1 - e_c)) # 400
     return background
@@ -166,7 +175,7 @@ def F_HIGGS(i):
 #Charged Higgs cross-section produced from e+e- >H+H- based on CoM Energy^2(S).
 def cross_section_eeHH():
     ListeechaHH = [] # a list for same H+ mass, differ COM crosssection H+H-
-    for j in massrange:#char_H mass
+    for j in mhch:#char_H mass
 #    Summ_HH = 0.0 #Total(cross-section * Luminosity)
         for i in np.array(S):# COM Energy^2
 #            print('i',i)
@@ -184,66 +193,66 @@ def cross_section_eeHH():
 def eeHH_event():
     Summ_HH = []
     eventHH = []
-    for k in np.arange(0,len(np.array(S))*len(massrange)):
+    for k in np.arange(0,len(np.array(S))*len(mhch)):
         #expand luminosity to fit length of chargedHiggs mass length
-        Lumin_h_array = np.array(Lumin_h *len(massrange))
+        Lumin_h_array = np.array(Lumin_h *len(mhch))
         #Single(cross-section * Luminosity)
         Product_HH = np.array(cross_section_eeHH())[k] * Lumin_h_array [k]  
         Summ_HH.append(Product_HH) # List_(cross-section * Luminosity)
     #split whole List_(cross-section * Luminosity) to different charged Higgs mass 
     #region in order to calculate signal events for single chargedHiggs mass
-    eecharH_seperate = np.split(np.array(Summ_HH),len(massrange))
+    eecharH_seperate = np.split(np.array(Summ_HH),len(mhch))
     #calculate single charged_higgs mass total signals from SIGMA(cross-section * luminosity)
 #    print('SIGMA(cross-section * luminosity) events for each charged Higgs mass:')
-    for i in np.arange(0,len(massrange)):
+    for i in np.arange(0,len(mhch)):
     #SIGMA(cross-section * luminosity) of each charged Higgs mass produced signals
         eecharH = sum(eecharH_seperate[i]) 
         eventHH.append(eecharH)
-        print(i,'charH_mass:',massrange[i],'GeV',eecharH,'events')
+#        print(i,'charH_mass:',mhch[i],'GeV',eecharH,'events',eventHH)
     return np.array(eventHH)
 print('SIGNAL after H+H- > cbcb',eeHH_event() * 0.8**2 ,'events')
-print('signal/sqrt(background) FOR cbcb decay',eeHH_event() * 0.8**2 * 0.7**2 / \
+print('signal/sqrt(background) FOR cbcb decay',eeHH_event()[0] * 0.8**2 * 0.7**2 / \
       np.sqrt(backgroundtagging() * 0.1**2))
-print('signal/sqrt(background) FOR no-tagging ',eeHH_event()* 1.0**2* 0.536 / \
+print('signal/sqrt(background) FOR no-tagging ',eeHH_event()[0] * 1.0**2* 0.536 / \
       np.sqrt(1855.5))
 print('|Background for 2jetTN',backgroundtagging2())
 # epsilon_signal = 0.536 * 71.8 / 57.8 = 0.6658269896193771
 ######################################################################
 #with b signal of charged Higgs event:
 def eeHHcbcb_2bsignal(x,y): #2real b 0 fake b
-    chunk1 = eeHH_event() * x * y * \
+    chunk1 = np.array(x) * np.array(y) * \
     e_b**2 * (1 - e_c)**2# before compare with table 
-    return chunk1 # * epsilon  # after 3 selections chosen
+    return np.array(chunk1) # * epsilon  # after 3 selections chosen
 #print('||||| Singal of char_H_cbcb after 2b-tagging:',eeHHcbcb_2bsignal(),'events')
 ######################################################################
 def eeHHcbcb_1bsignal(x,y):#1real b 1 fake b
-    chunk1 = eeHH_event() * x * y * 4.0 * \
+    chunk1 =  np.array(x) * np.array(y) * 4.0 * \
     e_b * e_c * (1 - e_b) * (1 - e_c)
       # before compare with table 
-    return chunk1 #* epsilon # * e_antiww # after 3 selections chosen
+    return np.array(chunk1) #* epsilon # * e_antiww # after 3 selections chosen
 #print('||||| Singal of char_H_cbcb after 1b-tagging:',eeHHcbcb_1bsignal())
 ######################################################################
 def eeHHcbcb_0bsignal(x,y):#0real b 2 fake b
-    chunk1 = eeHH_event() * x * y * e_c**2 * (1 - e_b)**2# before compare with table 
+    chunk1 =  np.array(x) * np.array(y) * e_c**2 * (1 - e_b)**2# before compare with table 
     return chunk1 # * epsilon # * e_antiww # after 3 selections chosen
 #print('||||| Singal of char_H_cbcb after 0b-tagging:',eeHHcbcb_0bsignal())
 ######################################################################
 def eeHHcbcs_2bsignal(x,y):#2real b 0 fake b
-    return eeHH_event() * 2.0 * x * y * 0.0 #* epsilon #* e_antiww # after 3 selections chosen # 2.0 for cbcs and cscb 
+    return  2.0 * np.array(x) * np.array(y) * 0.0 #* epsilon #* e_antiww # after 3 selections chosen # 2.0 for cbcs and cscb 
 #print('||||| Singal of char_H after 2b-tagging:',eeHHcbcs_2bsignal())
 ######################################################################
 def eeHHcbcs_1bsignal(x,y):#1real b 1 fake b
     e_l = 0.01
     chunk2 = e_b * e_c * (1 - e_c) * (1 - e_l) + e_b * e_l * (1 - e_c)**2
-    chunk1 = eeHH_event() * 2.0 * x * y * chunk2  # before compare with table  # 2.0 for cbcs and cscb 
-    return chunk1 #* epsilon #* e_antiww # after 3 selections chosen
+    chunk1 =  2.0 * np.array(x) * np.array(y) * chunk2  # before compare with table  # 2.0 for cbcs and cscb 
+    return np.array(chunk1) #* epsilon #* e_antiww # after 3 selections chosen
 #print('||||| Singal of char_H_cbcs after 1b-tagging:',eeHHcbcs_1bsignal())
 ######################################################################
 def eeHHcbcs_0bsignal(x,y):#0real b 2 fake b
     e_l = 0.01
     chunk2 =  2 * e_c * e_l * (1 - e_b) * (1 - e_c) + e_c**2 * (1 - e_b) * (1 - e_l)
-    chunk1 = eeHH_event() * 2.0 * x * y * chunk2  # before compare with table  # 2.0 for cbcs and cscb 
-    return chunk1 # * epsilon #* e_antiww # after 3 selections chosen
+    chunk1 =  2.0 * np.array(x) * np.array(y) * chunk2  # before compare with table  # 2.0 for cbcs and cscb 
+    return np.array(chunk1) # * epsilon #* e_antiww # after 3 selections chosen
 #print('||||| Singal of char_H_cbcs after 0b-tagging:',eeHHcbcs_0bsignal())
     
 ######################################################################
@@ -251,28 +260,28 @@ def eeHHcscs_0bsignal(x,y): #0real b 2 fake b
     e_l = 0.01
     chunk2 = 2 * e_c * e_l * (1 - e_c) * (1 - e_l) + e_c**2 * (1 - e_l)**2 + \
     e_l**2 * (1 - e_c)**2
-    chunk1 = eeHH_event() * x * y * chunk2  # before compare with table 
-    return chunk1 #* epsilon #* e_antiww  after 3 selections chosen
+    chunk1 =  np.array(x) * np.array(y) * chunk2  # before compare with table 
+    return np.array(chunk1) #* epsilon #* e_antiww  after 3 selections chosen
 #print('||||| Singal of char_H_cscs after 0b-tagging:',eeHHcscs_0bsignal())
 ######################################################################
 def eeHHcbtn_1bsignal(x,y):
 #    brcb = 0.8
 #    brtn = 0.2
-    chunk1 = eeHH_event() * 2.0 * x * y *  e_b * (1 - e_c) # before compare with table  # permutations  
-    return chunk1 #* epsilon #* e_antiww  after 3 selections chosen
+    chunk1 = 2.0 * np.array(x) * np.array(y) *  e_b * (1 - e_c) # before compare with table  # permutations  
+    return np.array(chunk1) #* epsilon #* e_antiww  after 3 selections chosen
 #print('||||| Singal of char_H_cbtn after 1b-tagging:',eeHHcbtn_1bsignal())
 ######################################################################
 def eeHHcbtn_0bsignal(x,y):
-    chunk1 = eeHH_event()* 2.0 * x * y * e_b * (1 - e_c) # 2.0 for cbtn and tncb permutations
+    chunk1 =  2.0 * np.array(x) * np.array(y) * e_b * (1 - e_c) # 2.0 for cbtn and tncb permutations
      # before compare with table 
-    return chunk1 #* epsilon #* e_antiww  after 3 selections chosen
+    return np.array(chunk1) #* epsilon #* e_antiww  after 3 selections chosen
 #print('||||| Singal of char_H_cbtn after 0b-tagging:',eeHHcbtn_0bsignal())
 ######################################################################
 def eeHHcstn_1bsignal(x,y):
 #    brcs = 0.8
 #    brtn = 0.2
-    chunk1 = eeHH_event() * 2.0 * x * y * 0.0  # before compare with table # 2.0 for cstn and tncs permutations
-    return chunk1 #* epsilon# * e_antiww  after 3 selections chosen 
+    chunk1 = 2.0 * np.array(x) * np.array(y) * 0.0  # before compare with table # 2.0 for cstn and tncs permutations
+    return np.array(chunk1)#* epsilon# * e_antiww  after 3 selections chosen 
 #print('||||| Singal of char_H_cstn after 1b-tagging:',eeHHcstn_1bsignal())
 ######################################################################
 def eeHHcstn_0bsignal(x,y):
@@ -280,8 +289,8 @@ def eeHHcstn_0bsignal(x,y):
 #    brtn = 0.4
     e_l = 0.01 # e_s
     chunk2 = e_c * (1 - e_l) + e_l * (1 - e_c)
-    chunk1 = eeHH_event() * 2.0 * x * y * chunk2  # before compare with table # 2.0 for cstn and tncs 
-    return chunk1 #* epsilon# * e_antiww  after 3 selections chosen 
+    chunk1 =  2.0 * np.array(x) * np.array(y) * chunk2  # before compare with table # 2.0 for cstn and tncs 
+    return np.array(chunk1) #* epsilon# * e_antiww  after 3 selections chosen 
 #print('||||| Singal of char_H_cstn after 0b-tagging:',eeHHcstn_0bsignal())
 ################################
 ###########################################################################
@@ -297,7 +306,7 @@ plt.show()
 ####################################################################################
 ################################################################################### 
 def boson_decay_exist():  #check bosonic decay of charged Higgs exist or not and get lamaw value
-    for i in massrange:                                                                                                                                                                                              
+    for i in mhch:                                                                                                                                                                                              
         if i > ma:
            gaw = 0.1
            lamaw=9.0 * gf**2 * mw**4 * i * gaw /(16.0 * PI**3)
@@ -310,31 +319,79 @@ def boson_decay_exist():  #check bosonic decay of charged Higgs exist or not and
 ####################################################################################
 #############################################################
 def sig(x,y):# Signal/sqrt(Background)
-    return matrixmul(x,1/np.sqrt(y))
-print(sig(eeHH_event() * 0.8**2,backgroundtagging()))
-print(matrixmul(e_blist**2,(1 - e_clist)**2),len(e_blist),len(e_clist))
-print(sig(eeHH_event() * 0.4*0.6 * matrixmul(e_blist - e_blist**2,e_clist - e_clist**2),backgroundtagging()* e_clist**2),\
-      len(sig(eeHH_event() * 0.4*0.6 * matrixmul(e_blist**2,(1 - e_clist)**2),backgroundtagging()* e_clist**2)))
-plt.figure()
-Contoursigma1 = plt.contour(e_clist,e_blist, \
-           np.resize(sig(eeHH_event() * 0.8**2 * e_blist**2,backgroundtagging()* e_clist**2),\
-            len(sig(eeHH_event() * 0.8**2 * e_blist**2,backgroundtagging() * e_clist**2))).reshape(len(e_blist),len(e_clist))\
-                    )# ,levels = np.arange(1.0,6.0,1.0))
-plt.title('Significance of H+H->cbcb / sqrt(background) with e_b and e_c')
-plt.xlabel('e_c')# x-axis label
-plt.ylabel('e_b')# y-axis label
-plt.colorbar(Contoursigma1)
+    return matrixmul(x,y)
+#plt.figure()
+#Contoursigma1 = plt.contour(e_clist,e_blist, \
+#    np.resize(sig(eeHH_event() * 0.8**2 * e_blist**2,backgroundtagging()* e_clist**2),\
+#    len(sig(eeHH_event() * 0.8**2 * e_blist**2,backgroundtagging() * e_clist**2))).reshape(len(e_blist),len(e_clist))\
+#)# ,levels = np.arange(1.0,6.0,1.0))
+#plt.title('Significance of H+H->cbcb / sqrt(background) with e_b and e_c')
+#plt.xlabel('e_c')# x-axis label
+#plt.ylabel('e_b')# y-axis label
+#plt.colorbar(Contoursigma1)
 
-plt.figure()
-Contoursigma2 = plt.contour(e_clist,e_blist, \
-           np.resize(sig(eeHH_event() * 0.8**2 * matrixmul(e_clist**2 , (1 - e_blist)**2),backgroundtagging()* e_clist**2),\
-            int(len(sig(eeHH_event() * 0.8**2  * matrixmul(e_clist**2 , (1 - e_blist)**2),backgroundtagging()* e_clist**2))/len(e_clist))).\
-                     reshape(len(e_blist),len(e_clist)))# ,levels = np.arange(1.0,6.0,1.0))
-plt.title('Significance of H+H->cbcb / sqrt(background) with e_b and e_c')
-plt.xlabel('e_c')# x-axis label
-plt.ylabel('e_b')# y-axis label
-plt.colorbar(Contoursigma2)
+#plt.figure()
+#Contoursigma2 = plt.contour(e_clist,e_blist, \
+    #np.resize(sig(eeHH_event() * 0.8**2 * matrixmul(e_clist**2 , (1 - e_blist)**2),backgroundtagging()* e_clist**2),\
+    #int(len(sig(eeHH_event() * 0.8**2  * matrixmul(e_clist**2 , (1 - e_blist)**2),backgroundtagging()* e_clist**2))/len(e_clist))).\
+    #reshape(len(e_blist),len(e_clist)))# ,levels = np.arange(1.0,6.0,1.0))
+#plt.title('Significance of H+H->cbcb / sqrt(background) with e_b and e_c')
+#plt.xlabel('e_c')# x-axis label
+#plt.ylabel('e_b')# y-axis label
+#plt.colorbar(Contoursigma2)
 #plt.figure()
 #Contoursignal2 = plt.contour(e_c,e_b, \
 #           np.resize(eeHHcbcb_1bsignal(),len(eeHHcbcb_1bsignal())).reshape(len(e_b),len(e_c)))
 #plt.colorbar(Contoursignal2)
+
+##############################################################
+def massH_ec_plane4jet():
+    print('wlw',mhch,eeHH_event())
+#     for  c in e_c:
+#        print(eeHHcbcb_2bsignal(0.8,0.8))
+#    for j in mhch:#char_H mass
+    tagging_4jet = (eeHHcbcb_2bsignal(0.8,0.8) + eeHHcbcb_1bsignal(0.8,0.8) + \
+                   eeHHcbcs_2bsignal(0.8,0.0) + eeHHcbcs_1bsignal(0.8,0.0) + \
+                   eeHHcbcb_0bsignal(0.8,0.8) + eeHHcbcs_0bsignal(0.8,0.0) + \
+                   eeHHcscs_0bsignal(0.0,0.0) * epsilon)
+    eeHH_eventarry,tagging_4jetarry = np.meshgrid(eeHH_event(),tagging_4jet)
+    print(len(eeHH_event()), len(tagging_4jet),len(eeHH_eventarry), len(tagging_4jetarry))
+    for j in eeHH_event():
+        print (j)
+    plt.figure()
+    signal4jet_tag = plt.contour(mhch,e_c,\
+                   np.reshape(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )),\
+                          len(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )))).\
+               reshape(len(e_c),len(mhch)),colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])# ,levels = np.arange(1.0,6.0,1.0))
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet_tag with max BR ')
+    plt.xlabel('mhch')# x-axis label
+    plt.ylabel('e_c')# y-axis label
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.colorbar(signal4jet_tag)
+#    plt.savefig('sig_4jetecmhch.png')
+def massH_ec_plane2jet():
+#    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
+    tagging_2jet = eeHHcbtn_1bsignal(0.65,0.25) + eeHHcbtn_0bsignal(0.65,0.25) + \
+                                eeHHcstn_1bsignal(0.65,0.25) + eeHHcstn_0bsignal(0.65,0.25)
+                                 
+    plt.figure()
+    signal2jet_tag = plt.contour(mhch,e_c, \
+        np.resize(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundtagging2())) ,\
+              len(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundtagging2())) )).\
+                  reshape(len(e_c),len(mhch)),cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
+    plt.colorbar(signal2jet_tag)
+    plt.title('S/$\sqrt{B}$ 2jet_tag with max BR')#plot title
+    plt.xlabel('mhch')# x-axis label
+    plt.ylabel('e_c')# y-axis label
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#    plt.savefig('sig_4jetecmhch.png')
+    plt.show()
+    plt.close()
+if type(e_c) == type(e_clist):
+    massH_ec_plane4jet()
+    massH_ec_plane2jet()
+for n in np.arange(0,len(mhch)):
+    print(n,mhch[n],eeHH_event()[n],e_c)
+########################
