@@ -253,7 +253,7 @@ def start():#choose what 2 parameters in total 4 parameters (theta,tanbeta,tanga
 
 #############################################################################
 def start1():# choose model
-        global read0,X2,Y2,Z2
+        global X2,Y2,Z2
         while True:
             read0 = input('Choose type of3HDM (1 for I, 2 for II ,\
 3 for Leptonic-specific, 4 for flipped,5 for Democratic):')
