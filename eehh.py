@@ -391,10 +391,10 @@ def massH_ec_plane2jet():
     plt.show()
     plt.close()
 ###################################################################
-# 4jet tagging with plane in [e_c ,e_b]
+# 4jet tagging with plane in [e_c ,e_b] for mhch from 80 to 90 GeV
 def ec_eb_plane4jet():
     global e_b,e_c
-    for n in np.arange(0,len(mhch)):
+    for n in np.arange(0,len(mhch)): # for each time, eeHH_event()[n] gives specific charH event
         totalcbcb_2bsig =[]
         totalcbcs_2sig =[]
         totalcbcb_1sig =[]
@@ -423,19 +423,19 @@ def ec_eb_plane4jet():
                   len(eeHH_event()[n] * tagging_4jet * epsilon / np.sqrt(np.array(background4tag)) )).\
                       reshape(len(e_blist),len(e_clist)),cmap = 'brg')
         plt.colorbar(one)
-        plt.title('S/$\sqrt{B}$ 4jet_tag with max BR with charH mass: '+ str(mhch[n]))#plot title
+        plt.title('S/$\sqrt{B}$ 4jet_tag Max BR with charH mass: '+ str(mhch[n]))#plot title
         plt.xlabel('e_c')# x-axis label
         plt.ylabel('e_b')# y-axis label
         plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
         plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-        #plt.savefig('sig_4jetebec.png')
+        #plt.savefig('sig_4jetebec'+ str(mhch[n]) + '.png')
         plt.show()
         plt.close()
 ########################################
-# 2jet tagging with plane in [e_c ,e_b]
+# 2jet tagging with plane in [e_c ,e_b] for mhch from 80 to 90 GeV
 def ec_eb_plane2jet():
     global e_b,e_c
-    for n in np.arange(0,len(mhch)):
+    for n in np.arange(0,len(mhch)):# for each time, eeHH_event()[n] gives specific charH event
         totalcbtn_1bsig =[]
         totalcbtn_0bsig =[]
         totalcstn_1bsig =[]
@@ -450,6 +450,7 @@ def ec_eb_plane2jet():
                 totalcstn_1bsig.append(float(eeHHcstn_1bsignal(0.65,0.25)))
                 totalcstn_0bsig.append(float(eeHHcstn_0bsignal(0.65,0.25)))
                 background2tag.append(backgroundtagging2())
+#                print('ebeccbtn1b',e_b,e_c,eeHHcbtn_1bsignal(0.65,0.25))
         tagging_2jet = np.array(totalcbtn_1bsig) + np.array(totalcbtn_0bsig) + np.array(totalcstn_1bsig) +\
             np.array(totalcstn_0bsig)
         print(tagging_2jet,type(tagging_2jet),len(background2tag),len(tagging_2jet))
@@ -458,12 +459,12 @@ def ec_eb_plane2jet():
                   len(eeHH_event()[n] * tagging_2jet * 0.3 / np.sqrt(np.array(background2tag)) )).\
                       reshape(len(e_blist),len(e_clist)),cmap = 'brg')
         plt.colorbar(one)
-        plt.title('S/$\sqrt{B}$ 2jet_tag with max BR with charH mass: '+ str(mhch[n]))#plot title
+        plt.title('S/$\sqrt{B}$ 2jet_tag Max BR with charH mass: '+ str(mhch[n]))#plot title
         plt.xlabel('e_c')# x-axis label
         plt.ylabel('e_b')# y-axis label
         plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
         plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-        #plt.savefig('sig_2jetebec.png')
+        #plt.savefig('sig_2jetebec'+ str(mhch[n]) + '.png')
         plt.show()
         plt.close()
 ###################################################################
