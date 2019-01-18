@@ -39,7 +39,7 @@ while True:
         e_c = float(input('e_c value prefered:'))
         break
     else:
-        input('e_c single or range (s or r)?:') 
+        inputec = inputec
 e_4jet = 0.841 # charged Higgs after 4-jet selection
 e_mass = 0.718 / 0.841 #charged Higgs after mass-selection
 e_antiww = 0.536 / 0.578 # charged Higgs after anti-ww background
@@ -370,6 +370,7 @@ def massH_ec_plane4jet():
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet_tag)
 #    plt.savefig('sig_4jetecmhch.png')
+##################################################################
 def massH_ec_plane2jet():
 #    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
     tagging_2jet = eeHHcbtn_1bsignal(0.65,0.25) + eeHHcbtn_0bsignal(0.65,0.25) + \
@@ -389,9 +390,16 @@ def massH_ec_plane2jet():
 #    plt.savefig('sig_4jetecmhch.png')
     plt.show()
     plt.close()
+###################################################################
+#def ec_eb_plane4jet():
+#    for n in np.arange(0,len(mhch)):
+#        tagging4jet = plt.contour(e_blist,e_c,\
+#        )
+###################################################################
 if type(e_c) == type(e_clist):
     massH_ec_plane4jet()
     massH_ec_plane2jet()
+# mhch[n] : the n th charH mass, eeHH_events()[n] : the n th charH events produced
 for n in np.arange(0,len(mhch)):
-    print(n,mhch[n],eeHH_event()[n],e_c)
+    print(n,mhch[n],eeHH_event()[n])
 ########################
