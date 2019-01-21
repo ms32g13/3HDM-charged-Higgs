@@ -13,6 +13,8 @@ from scipy import special as sp
 #import vegas
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
 mt = 171.2    # mass of top quark
+mb = 4.89     # mass of bottom quark
+mc = 1.64     # mass of charm quark
 mz = 91.18    # mass of z boson
 nf = 5.0      # origin 5
 PI = math.pi  # pi number 
@@ -27,6 +29,17 @@ vcs = 0.97
 vcb = 0.04
 x = mt**2 / mw**2 # mt^2 /mw^2
 y = mt**2 / mh**2 # mt^2 / mh^2
+a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
+h_i = np.array([626126/272277 , - 56281/51730, - 3/7, - 1/14, - 0.6494, - 0.0380,\
+                - 0.0186, - 0.0057])#{h_i}
+a2_i = np.array([14/23, 0.4086, - 0.4230, - 0.8994, 0.1456])#{a'_i}
+h2_i = np.array([313063/363036, - 0.9135, 0.0873, - 0.0571, 0.0209])#{h'_i}
+e_i = np.array([4661194/816831, - 8516/2217, 0.0,0.0,- 1.9043, - 0.1008,\
+                0.1216,0.0183])#{e_i}
+f_i = np.array([- 17.3023, 8.5027, 4.5508, 0.7519, 2.0040, 0.7476, - 0.5385, 0.0914])#{f_i}
+k_i = np.array([9.9372, - 7.4878, 1.2688, - 0.2925, -2.2923, - 0.1461, 0.1239, 0.0812])#{k_i}
+l_i = np.array([0.5784, - 0.3921, -0.1429, 0.0476, - 0.1275, 0.0317, 0.0078, - 0.0031])#{l_i}
+
 ############
 #QCD running coupling constant (alp) at energy scale MH. Relevant                                                                                                                                                                        
 #for QCD corrections to Higgs decay widths.
@@ -34,8 +47,14 @@ y = mt**2 / mh**2 # mt^2 / mh^2
 coeffmc = 12.0/25.0
 coeffmb = 12.0/23.0
 alpmz = 0.1185 #alpha at z 
-mu_w = 246 # scale at mu_w
+mu_w = 0.119 # scale at mu_w
 mu_b = 5.0 # scale of mu_b 
+def run_quark_bar(q):#running quark mass at scale mu_w under minimal subtract scheme
+    c1 = np.log(q**2 / mw**2)
+    c2 = mu_w / PI
+    return q * (1 + c2 * c1 - 4 / 3 * c2 )
+print(run_quark_bar(mb))
+
 ##########################################################################
 #4*pi*SQRT(2); factor appears in partial width of 2 fermions
 fac = 4.0 * np.sqrt(2.0) * PI 
@@ -82,7 +101,6 @@ def c0_eff(mu_w,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0
     c0_eff[7] = c0_8eff(mu_w,i,j) # c0_8eff
     return np.array(c0_eff)
 print('c0_eff(mu_w,i,j)',c0_eff(mu_w,1.0,20))
-# NLO Effective Wilson coefficient  # i = Y^2 j = (XY^*) 
 ####################### NLO
 def E_0(mu_w):#NLO
     chunk_1 = x * (x**2 + 11 * x - 18) / (12 * (x - 1)**3)
