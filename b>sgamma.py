@@ -34,7 +34,7 @@ y = mt**2 / mh**2 # mt^2 / mh^2
 coeffmc = 12.0/25.0
 coeffmb = 12.0/23.0
 alpmz = 0.1185 #alpha at z 
-mu_w = 246.0 # scale at mu_w
+mu_w = 246 # scale at mu_w
 mu_b = 5.0 # scale of mu_b 
 ##########################################################################
 #4*pi*SQRT(2); factor appears in partial width of 2 fermions
@@ -75,15 +75,13 @@ c0_8xy(mu_w)
 # LO Effective Wilson coefficient  # i = Y^2 j = (XY^*) 
 def c0_eff(mu_w,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0 
     c0_eff = []
-    for i in np.arange(1.0,9.0,1.0):
+    for n in np.arange(1.0,9.0,1.0):
         c0_eff.append(0.0)
     c0_eff[1] = 1.0 # c0_2eff
     c0_eff[6] = c0_7eff(mu_w,i,j) # c0_7eff
     c0_eff[7] = c0_8eff(mu_w,i,j) # c0_8eff
-    return c0_eff
-print(c0_eff(mu_w,20,1))
-
-
+    return np.array(c0_eff)
+print('c0_eff(mu_w,i,j)',c0_eff(mu_w,1.0,20))
 # NLO Effective Wilson coefficient  # i = Y^2 j = (XY^*) 
 ####################### NLO
 def E_0(mu_w):#NLO
@@ -165,50 +163,7 @@ def t8_yy(mu_w):#NLO
     chunk_1 = - y**3 - 9 * y**2 + 9 * y + 1 + (6 * y**2 + 6 * y) * np.log(y)
     chunk_2 = (y - 1)**5
     return 1 / 3 * ( 2 * y * (chunk_1 / chunk_2) )
-####
-def Wi_sm(mu_w):#w7,8_sm values as array at NLO
-    wi_sm = []
-    for i in np.arange(1.0,9.0,1.0):
-        wi_sm.append(0.0)
-    wi_sm[6] = w7_sm(mu_w)
-    wi_sm[7] = w8_sm(mu_w)
-    return wi_sm
-print(Wi_sm(mu_w))
-def Mi_sm(mu_w):#m7,8_sm values as array at NLO
-    mi_sm = []
-    for i in np.arange(1.0,9.0,1.0):
-        mi_sm.append(0.0)
-    mi_sm[6] = m7_sm(mu_w)
-    mi_sm[7] = m8_sm(mu_w)
-    return mi_sm
-def Ti_sm(mu_w):#t7,8_sm values as array at NLO
-    ti_sm = []
-    for i in np.arange(1.0,9.0,1.0):
-        ti_sm.append(0.0)
-    ti_sm[6] = t7_sm(mu_w)
-    ti_sm[7] = t8_sm(mu_w)
-    return ti_sm
-def Wi_yy(mu_w):##w7,8_yy values as array at NLO
-    wi_yy = []
-    for i in np.arange(1.0,9.0,1.0):
-        wi_yy.append(0.0)
-    wi_yy[6] = w7_yy(mu_w)
-    wi_yy[7] = w8_yy(mu_w)
-    return wi_yy
-def Mi_yy(mu_w):##m7,8_yy values as array at NLO
-    mi_yy = []
-    for i in np.arange(1.0,9.0,1.0):
-        mi_yy.append(0.0)
-    mi_yy[6] = m7_yy(mu_w)
-    mi_yy[7] = m8_yy(mu_w)
-    return mi_yy
-def Ti_yy(mu_w):##t7,8_yy values as array at NLO
-    ti_yy = []
-    for i in np.arange(1.0,9.0,1.0):
-        ti_yy.append(0.0)
-    ti_yy[6] = t7_yy(mu_w)
-    ti_yy[7] = t8_yy(mu_w)
-    return ti_yy
+
 #Coupling (XY*)
 def w7_xy(mu_w):#NLO
     chunk_1 = (8 * y**2 - 28 * y + 12) / (3 * (y - 1)**3)
@@ -242,26 +197,60 @@ def t8_xy(mu_w):#NLO
     c1 = - y**2 - 4 * y + 5 + (4 * y + 2) * np.log(y)
     c2 = (y - 1)**4
     return 2 * y * (c1 / c2)
+
+####
+def Wi_sm(mu_w):#w7,8_sm values as array at NLO
+    return np.array([w7_sm(mu_w),w8_sm(mu_w)])
+def Mi_sm(mu_w):#m7,8_sm values as array at NLO
+    return np.array([m7_sm(mu_w),m8_sm(mu_w)])
+def Ti_sm(mu_w):#t7,8_sm values as array at NLO
+    return np.array([t7_sm(mu_w),t8_sm(mu_w)])
+def Wi_yy(mu_w):##w7,8_yy values as array at NLO
+    return np.array([w7_yy(mu_w),w8_yy(mu_w)])
+def Mi_yy(mu_w):##m7,8_yy values as array at NLO
+    return np.array([m7_yy(mu_w),m8_yy(mu_w)])
+def Ti_yy(mu_w):##t7,8_yy values as array at NLO
+    return np.array([t7_yy(mu_w),t8_yy(mu_w)])
 def Wi_xy(mu_w):##w7,8_xy values as array at NLO
-    wi_xy = []
-    for i in np.arange(1.0,9.0,1.0):
-        wi_xy.append(0.0)
-    wi_xy[6] = w7_xy(mu_w)
-    wi_xy[7] = w8_xy(mu_w)
-    return wi_xy
+    return np.array([w7_xy(mu_w),w8_xy(mu_w)])
 def Mi_xy(mu_w):##m7,8_xy values as array at NLO
-    mi_xy = []
-    for i in np.arange(1.0,9.0,1.0):
-        mi_xy.append(0.0)
-    mi_xy[6] = m7_xy(mu_w)
-    mi_xy[7] = m8_xy(mu_w)
-    return mi_xy
+    return np.array([m7_xy(mu_w),m8_xy(mu_w)])
 def Ti_xy(mu_w):##t7,8_xy values as array at NLO
-    ti_xy = []
-    for i in np.arange(1.0,9.0,1.0):
-        ti_xy.append(0.0)
-    ti_xy[6] = t7_xy(mu_w)
-    ti_xy[7] = t8_xy(mu_w)
-    return ti_xy
-#############################
+    return np.array([t7_xy(mu_w),t8_xy(mu_w)])
+############
+# NLO Effective Wilson coefficient  # i = Y^2 j = (XY^*) 
+def c1_eff(mu_w,i,j):#c1,eff,i,sm with Y^2 and XY*
+    ratio1 = np.log(mt**2 / mu_w**2)
+    ratio = np.log(mu_w**2 / mw**2)
+    list1 = []
+    for n in np.arange(0.0,6.0,1.0):
+        list1.append(0.0)
+    list1[0] = Wi_sm(mu_w)[0] + Mi_sm(mu_w)[0] * ratio + \
+        Ti_sm(mu_w)[0] * (ratio1  - 4 / 3)#7
+    list1[1] = Wi_sm(mu_w)[1] + Mi_sm(mu_w)[1] * ratio + \
+        Ti_sm(mu_w)[1] * (ratio1  - 4 / 3)#8
+    list1[2] = Wi_yy(mu_w)[0] + Mi_yy(mu_w)[0] * ratio + \
+        Ti_yy(mu_w)[0] * (ratio1  - 4 / 3)#7
+    list1[3] = Wi_yy(mu_w)[1] + Mi_yy(mu_w)[1] * ratio + \
+        Ti_yy(mu_w)[1] * (ratio1  - 4 / 3)#8
+    list1[4] = Wi_xy(mu_w)[0] + Mi_xy(mu_w)[0] * ratio + \
+        Ti_xy(mu_w)[0] * (ratio1  - 4 / 3)#7
+    list1[5] = Wi_xy(mu_w)[1] + Mi_xy(mu_w)[1] * ratio + \
+        Ti_xy(mu_w)[1] * (ratio1  - 4 / 3)#8
+    print('list1', list1)
+    c1_eff = []
+    for n in np.arange(1.0,9.0,1.0):
+        c1_eff.append(0.0)
+    c1_eff[0] = 15 + 6 * ratio #c1,eff,1,sm
+    c1_eff[3] = E_0(mu_w) + 2 / 3 * ratio + i * E_H(mu_w)
+    c1_eff[6] = list1[0] + i * list1[2] + j * list1[4]
+    c1_eff[7] = list1[1] + i * list1[3] + j * list1[5]
+    return np.array(c1_eff)
+print('c1_eff(mu_w,i,j)',c1_eff(mu_w,1.0,20))
+######Total Ceffective_i (mu_w) at matching scale 
+def c_i_eff_muw(mu_w,i,j):
+    return c0_eff(mu_w,i,j) + alpmz / (4.0 * PI) * c1_eff(mu_w,i,j)
+print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(mu_w,1.0,20))
+#################################################################
+##################################################################
 #### Wilson coefficient at low scale(mu_b)
