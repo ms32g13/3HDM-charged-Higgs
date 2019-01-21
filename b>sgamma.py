@@ -67,10 +67,10 @@ def c0_8xy(mu_w):
     return y / 4 * ( chunk / (y - 1)**3 )
 ###
 def c0_7eff(mu_w,i,j):# i = Y^2 j = (XY^*) 
-    return c0_7sm(mu_w) + np.array(i)**2 * c0_7yy(mu_w) + np.array(j) * \
+    return c0_7sm(mu_w) + np.array(abs(i)**2)**2 * c0_7yy(mu_w) + np.array(j) * \
 c0_7xy(mu_w)
 def c0_8eff(mu_w,i,j):# i = Y^2 j = (XY^*) 
-    return c0_8sm(mu_w) + np.array(i)**2 * c0_8yy(mu_w) + np.array(j) * \
+    return c0_8sm(mu_w) + np.array(abs(i)**2)**2 * c0_8yy(mu_w) + np.array(j) * \
 c0_8xy(mu_w)
 # LO Effective Wilson coefficient  # i = Y^2 j = (XY^*) 
 def c0_eff(mu_w,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0 
@@ -242,9 +242,9 @@ def c1_eff(mu_w,i,j):#c1,eff,i,sm with Y^2 and XY*
     for n in np.arange(1.0,9.0,1.0):
         c1_eff.append(0.0)
     c1_eff[0] = 15 + 6 * ratio #c1,eff,1,sm
-    c1_eff[3] = E_0(mu_w) + 2 / 3 * ratio + i * E_H(mu_w)
-    c1_eff[6] = list1[0] + i * list1[2] + j * list1[4]
-    c1_eff[7] = list1[1] + i * list1[3] + j * list1[5]
+    c1_eff[3] = E_0(mu_w) + 2 / 3 * ratio + np.array(abs(i)**2) * E_H(mu_w)
+    c1_eff[6] = list1[0] + np.array(abs(i)**2) * list1[2] + np.array(j) * list1[4]
+    c1_eff[7] = list1[1] + np.array(abs(i)**2) * list1[3] + np.array(j) * list1[5]
     return np.array(c1_eff)
 print('c1_eff(mu_w,i,j)',c1_eff(mu_w,1.0,20))
 ######Total Ceffective_i (mu_w) at matching scale 
