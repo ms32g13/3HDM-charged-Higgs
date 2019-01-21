@@ -9,6 +9,7 @@ import math
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+import gammaeffective as gaeff
 from scipy import special as sp
 #import vegas
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
@@ -40,6 +41,8 @@ f_i = np.array([- 17.3023, 8.5027, 4.5508, 0.7519, 2.0040, 0.7476, - 0.5385, 0.0
 k_i = np.array([9.9372, - 7.4878, 1.2688, - 0.2925, -2.2923, - 0.1461, 0.1239, 0.0812])#{k_i}
 l_i = np.array([0.5784, - 0.3921, -0.1429, 0.0476, - 0.1275, 0.0317, 0.0078, - 0.0031])#{l_i}
 
+print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
+print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
 ############
 #QCD running coupling constant (alp) at energy scale MH. Relevant                                                                                                                                                                        
 #for QCD corrections to Higgs decay widths.
@@ -272,3 +275,4 @@ print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(mu_w,1.0,20))
 #################################################################
 ##################################################################
 #### Wilson coefficient at low scale(mu_b)
+
