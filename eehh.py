@@ -362,7 +362,7 @@ def massH_ec_plane4jet():
     signal4jet_tag = plt.contour(mhch,e_c,\
                    np.reshape(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )),\
                           len(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )))).\
-               reshape(len(e_c),len(mhch)),colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])# ,levels = np.arange(1.0,6.0,1.0))
+               reshape(len(e_c),len(mhch)),colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet_tag with max BR ')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('e_c')# y-axis label
@@ -373,14 +373,14 @@ def massH_ec_plane4jet():
 ##################################################################
 def massH_ec_plane2jet():
 #    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
-    tagging_2jet = eeHHcbtn_1bsignal(0.65,0.25) + eeHHcbtn_0bsignal(0.65,0.25) + \
-                                eeHHcstn_1bsignal(0.65,0.25) + eeHHcstn_0bsignal(0.65,0.25)
+    tagging_2jet = eeHHcbtn_1bsignal(0.65,0.20) + eeHHcbtn_0bsignal(0.65,0.20) + \
+                                eeHHcstn_1bsignal(0.65,0.20) + eeHHcstn_0bsignal(0.65,0.20)
                                  
     plt.figure()
     signal2jet_tag = plt.contour(mhch,e_c, \
         np.resize(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundtagging2())) ,\
               len(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundtagging2())) )).\
-                  reshape(len(e_c),len(mhch)),cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
+        reshape(len(e_c),len(mhch)),cmap = 'brg')
     plt.colorbar(signal2jet_tag)
     plt.title('S/$\sqrt{B}$ 2jet_tag with max BR')#plot title
     plt.xlabel('mhch')# x-axis label
@@ -417,11 +417,11 @@ def ec_eb_plane4jet():
                 background4tag.append(backgroundtagging())
         tagging_4jet = np.array(totalcbcb_2bsig) + np.array(totalcbcs_2sig) + np.array(totalcbcb_1sig) +\
             np.array(totalcbcs_1sig) + np.array(totalcbcb_0sig) + np.array(totalcbcs_0sig) + np.array(totalcscs_0sig)
-        print(tagging_4jet,type(tagging_4jet),len(background4tag),len(tagging_4jet))
+#        print(tagging_4jet,type(tagging_4jet),len(background4tag),len(tagging_4jet))
         one = plt.contour(e_clist,e_blist,\
             np.resize(eeHH_event()[n] * tagging_4jet * epsilon / np.sqrt(np.array(background4tag)) ,\
                   len(eeHH_event()[n] * tagging_4jet * epsilon / np.sqrt(np.array(background4tag)) )).\
-                      reshape(len(e_blist),len(e_clist)),cmap = 'brg')
+                reshape(len(e_blist),len(e_clist)),cmap = 'brg')
         plt.colorbar(one)
         plt.title('S/$\sqrt{B}$ 4jet_tag Max BR with charH mass: '+ str(mhch[n]))#plot title
         plt.xlabel('e_c')# x-axis label
@@ -445,19 +445,19 @@ def ec_eb_plane2jet():
             e_b = b
             for c in e_clist:
                 e_c = c
-                totalcbtn_1bsig.append(float(eeHHcbtn_1bsignal(0.65,0.25)))
-                totalcbtn_0bsig.append(float(eeHHcbtn_0bsignal(0.65,0.25)))
-                totalcstn_1bsig.append(float(eeHHcstn_1bsignal(0.65,0.25)))
-                totalcstn_0bsig.append(float(eeHHcstn_0bsignal(0.65,0.25)))
+                totalcbtn_1bsig.append(float(eeHHcbtn_1bsignal(0.65,0.20)))
+                totalcbtn_0bsig.append(float(eeHHcbtn_0bsignal(0.65,0.20)))
+                totalcstn_1bsig.append(float(eeHHcstn_1bsignal(0.65,0.20)))
+                totalcstn_0bsig.append(float(eeHHcstn_0bsignal(0.65,0.20)))
                 background2tag.append(backgroundtagging2())
 #                print('ebeccbtn1b',e_b,e_c,eeHHcbtn_1bsignal(0.65,0.25))
         tagging_2jet = np.array(totalcbtn_1bsig) + np.array(totalcbtn_0bsig) + np.array(totalcstn_1bsig) +\
             np.array(totalcstn_0bsig)
-        print(tagging_2jet,type(tagging_2jet),len(background2tag),len(tagging_2jet))
+#        print(tagging_2jet,type(tagging_2jet),len(background2tag),len(tagging_2jet))
         one = plt.contour(e_clist,e_blist,\
             np.resize(eeHH_event()[n] * tagging_2jet * 0.3 / np.sqrt(np.array(background2tag)) ,\
                   len(eeHH_event()[n] * tagging_2jet * 0.3 / np.sqrt(np.array(background2tag)) )).\
-                      reshape(len(e_blist),len(e_clist)),cmap = 'brg')
+             reshape(len(e_blist),len(e_clist)),cmap ='brg')
         plt.colorbar(one)
         plt.title('S/$\sqrt{B}$ 2jet_tag Max BR with charH mass: '+ str(mhch[n]))#plot title
         plt.xlabel('e_c')# x-axis label

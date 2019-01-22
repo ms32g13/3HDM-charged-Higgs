@@ -58,9 +58,9 @@ A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 3 #theta
+i = - PI / 8 * 3 #theta
 j = 40.0    #tangentbeta
-k = 10.0 #tangamma
+k = 60.0 #tangamma
 l = 0.0 # set delta (phase shift) to 0
 # set contour line value
 linecs = np.arange(0.0,1.2,0.2) # percentage limit 
@@ -253,7 +253,7 @@ def start():#choose what 2 parameters in total 4 parameters (theta,tanbeta,tanga
 
 #############################################################################
 def start1():# choose model
-        global X2,Y2,Z2
+#        global X2,Y2,Z2
         while True:
             read0 = input('Choose type of3HDM (1 for I, 2 for II ,\
 3 for Leptonic-specific, 4 for flipped,5 for Democratic):')
@@ -309,6 +309,7 @@ def start1():# choose model
         return
 ###############################################################################
 def start3():
+        global X2,Y2,Z2 #
         reference_array = [i,j,k,l]
         read1_int = int(read1)
         read2_int = int(read2)
@@ -497,7 +498,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,thbhcsXY.png')
 #   plt.show()
-    plt.close()
+#    plt.close()
 #    print('--------------------------------------------------')
 # Contour of Branching ratio for t >H+b - H+ > tau,nv in Y,Z plane
     for Y in y:
@@ -852,9 +853,9 @@ for n in np.arange(0,len(fl.mhch)):
     plt.close()
 #######################################################
     plt.figure()
-    Contourbrcbtn = plt.contour(A,B, \
+    Contourbrcbtn = plt.contourf(A,B, \
            np.resize(np.array(BRCBfinal) * np.array(BRTNfinal),len(np.array(BRCBfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
-           cmap = 'brg', levels = np.arange(0.0, 0.22,0.02))
+           colors = ['black','royalblue','purple','darkgreen','brown','red','gray'], levels = np.arange(0.06, 0.18,0.02))
     plt.clabel(Contourbrcbtn, inline= 0.02, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcbtn)
     plt.title(' BR($H^{\pm} \longrightarrow $ cb) * BR($H^{\pm} \longrightarrow $ tn) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
