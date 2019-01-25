@@ -253,7 +253,7 @@ def start():#choose what 2 parameters in total 4 parameters (theta,tanbeta,tanga
 
 #############################################################################
 def start1():# choose model
-#        global X2,Y2,Z2
+        global X2,Y2,Z2
         while True:
             read0 = input('Choose type of3HDM (1 for I, 2 for II ,\
 3 for Leptonic-specific, 4 for flipped,5 for Democratic):')
@@ -323,16 +323,16 @@ def start3():
                         my_tuple += (var_b,)
                     else:
                         my_tuple += (reference_array[counter],)
-                                  
                 absolutexlist.append(abs(X2(*my_tuple))) # unpacked bracket of my_tuple by * sign
                 absoluteylist.append(abs(Y2(*my_tuple)))
                 absolutezlist.append(abs(Z2(*my_tuple)))
                 xyfun.append(complexyfunction(*my_tuple))
-#                  print('___________________________________________')
                 BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                 BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                 BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
+                BRCBTN.append(max(np.array(BRCBfinal) * np.array(BRTNfinal) ))#
+
 #######################################################################
 for n in np.arange(0,len(fl.mhch)):
     mhch = fl.mhch[n]
@@ -591,6 +591,8 @@ for n in np.arange(0,len(fl.mhch)):
     BRCB2final = []
 # (4 parameters),for BRTN result
     BRTNfinal = []
+# Max BR(CBTN) 
+    BRCBTN = []
 #############################################################################  
 #####################################################
 #plot labels 
@@ -609,6 +611,7 @@ for n in np.arange(0,len(fl.mhch)):
     start() 
     start1()
     start3()
+    print('BRCBTN',BRCBTN[-1])#
     BRTN1 = brtn(xarray,yarray,0.1)#|X|,|Y| for BRTAUNV result
 #4 parameters for t>H+b to H+ >cb result
     BRTHBBRCB1 = cbevents(np.array(absolutexlist),np.array(absoluteylist),np.array(absolutezlist))

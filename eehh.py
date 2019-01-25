@@ -28,7 +28,8 @@ alpha_electroweak = 1.0 / 128.0 # alpha for sigma_0
 #charH_mass = float(input('chaH mass value:'))
 ma = 130.00 # mass of Pseudoscalar 
 e_blist = np.arange(0.5,0.75,0.023) # b-tag efficiency 0.7
-e_b = float(input('e_b value:'))
+#e_b = float(input('e_b value:')) #
+e_b = 0.7 # set b_tagg = 0.7
 e_clist = np.arange(0.005,0.05,0.0045) # c-tag efficiency
 while True: 
     inputec = input('e_c single or range (s or r)?:') 
@@ -52,7 +53,7 @@ epsilon = e_mass * e_4jet * e_isignal # total epsilon
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
+mhch = np.arange(80.0,81.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz                     # cos (weinberg angle : thetaw)
 sinthetaw = math.sqrt(1 - (costhetaw) ** 2)      # sin(weinberg angle: thetaw)
@@ -112,12 +113,19 @@ def wwcscs_background():# ww>cscs background
     chunk_4 = chunk_3 / 4 # after ww>cscs
     return chunk_4 
 print('|ww background:',wwcscs_background())
-def backgroundtagging():# ww>cscs 4jet
+def backgroundtagging():# ww>cscs 4jet DELPHI
     #wwcscs with e_c , or 3389.6
     result = 3389.6 * 1855.5 / 2506.2 / 4  * e_c**2
     # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback = 0.1 invariant mass cut
     qqbar = 964.6 * 0.15 * e_b**2 * e_iback
     return result + qqbar
+#def backgroundtagging():# OPAL 4jets
+    # total 1117.8 events. 90% is ww.
+#    ww = 1117.8 * 0.9
+#    ww_cscs = ww / 4 * e_c**2
+#    qq_bar = 1117.8 * 0.1 * 0.15 * e_b**2 * e_iback #z>bb_bar
+#    return  ww_cscs + qq_bar
+#print('OPAL',backgroundtagging())
 def backgroundtagging2():# 2jet
     e_l = 0.01
     background = 300 / 2.0  * (e_c * (1 - e_l) + e_l * (1 - e_c)) # 400
@@ -129,7 +137,7 @@ def backgroundnotagging():# ww>4jet no specific
     qqbar_1 = 964.6 * e_iback
     return result_1 + qqbar_1
 print( backgroundnotagging())
-print('WW>cscs and qq_bar background:',backgroundtagging())
+#print('WW>cscs and qq_bar background:',backgroundtagging())
 def eewwcscs_2bsignal():
     brcs = 0.8
     return wwcscs_background() * brcs**2 * 0.0
@@ -369,7 +377,7 @@ def massH_ec_plane4jet():
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet_tag)
-#    plt.savefig('sig_4jetecmhch.png')
+    plt.savefig('sig_4jetecmhch.png')
 ##################################################################
 def massH_ec_plane2jet():
 #    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
@@ -387,7 +395,7 @@ def massH_ec_plane2jet():
     plt.ylabel('e_c')# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.savefig('sig_4jetecmhch.png')
+    plt.savefig('sig_2jetecmhch.png')
     plt.show()
     plt.close()
 ###################################################################
@@ -428,7 +436,7 @@ def ec_eb_plane4jet():
         plt.ylabel('e_b')# y-axis label
         plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
         plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-        #plt.savefig('sig_4jetebec'+ str(mhch[n]) + '.png')
+        plt.savefig('sig_4jetebec'+ str(mhch[n]) + 'GeV.png')
         plt.show()
         plt.close()
 ########################################
@@ -464,7 +472,7 @@ def ec_eb_plane2jet():
         plt.ylabel('e_b')# y-axis label
         plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
         plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-        #plt.savefig('sig_2jetebec'+ str(mhch[n]) + '.png')
+        plt.savefig('sig_2jetebec'+ str(mhch[n]) + 'GeV.png')
         plt.show()
         plt.close()
 ###################################################################
