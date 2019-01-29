@@ -58,8 +58,8 @@ A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 8 * 3 #theta
-j = 40.0    #tangentbeta
+i = - PI / 5 #theta
+j = 10.0    #tangentbeta
 k = 60.0 #tangamma
 l = 0.0 # set delta (phase shift) to 0
 # set contour line value
@@ -330,9 +330,10 @@ def start3():
                 BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                 BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-                BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-                BRCBTN.append(max(np.array(BRCBfinal) * np.array(BRTNfinal) ))#
-
+                BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))           
+def max_valueposition(xxx):# x has to be np.array ; The max value postion of long array
+    yyy = np.where(xxx == max(xxx))[0]
+    return int(yyy)
 #######################################################################
 for n in np.arange(0,len(fl.mhch)):
     mhch = fl.mhch[n]
@@ -590,9 +591,7 @@ for n in np.arange(0,len(fl.mhch)):
 # (4 parameters),for BRCB^2 result
     BRCB2final = []
 # (4 parameters),for BRTN result
-    BRTNfinal = []
-# Max BR(CBTN) 
-    BRCBTN = []
+    BRTNfinal = []  
 #############################################################################  
 #####################################################
 #plot labels 
@@ -611,7 +610,12 @@ for n in np.arange(0,len(fl.mhch)):
     start() 
     start1()
     start3()
-    print('BRCBTN',BRCBTN[-1])#
+    BRCB_TN = np.array(BRCBfinal) * np.array(BRTNfinal)# product of BRCB and BRTN
+    print('MAXBRCBTN',max(BRCB_TN), max_valueposition(BRCB_TN),\
+         BRCBfinal[max_valueposition(BRCB_TN)],BRTNfinal[max_valueposition(BRCB_TN)] )#
+    print('MAXBRCBCB',max(BRCB2final),max_valueposition(BRCB2final),\
+         BRCBfinal[max_valueposition(BRCB2final)]) 
+    print('MAXBRTN',max(BRTNfinal), max_valueposition(BRTNfinal))
     BRTN1 = brtn(xarray,yarray,0.1)#|X|,|Y| for BRTAUNV result
 #4 parameters for t>H+b to H+ >cb result
     BRTHBBRCB1 = cbevents(np.array(absolutexlist),np.array(absoluteylist),np.array(absolutezlist))
@@ -800,7 +804,6 @@ for n in np.arange(0,len(fl.mhch)):
 #                   fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
 #                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) * fl.epsilon)
     print('---------------------------------------------------')
-    print(fl.sig(fl.eeHH_event()[n],np.array(BRCBfinal)**2 * 0.7**2 ))
     print('LLLLLLL',len(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) )))
 # SIGNAL /sqrt(BACKGROUND)   
 #   print('signal/sqrt(background) FOR cbcb decay',fl.eeHH_event() * 0.8**2 * 0.7**2 / \
