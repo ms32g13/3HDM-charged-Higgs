@@ -615,6 +615,7 @@ for n in np.arange(0,len(fl.mhch)):
          BRCBfinal[max_valueposition(BRCB_TN)],BRTNfinal[max_valueposition(BRCB_TN)] )#
     print('MAXBRCBCB',max(BRCB2final),max_valueposition(BRCB2final),\
          BRCBfinal[max_valueposition(BRCB2final)]) 
+    print(BRTNfinal)
     print('MAXBRTN',max(BRTNfinal), max_valueposition(BRTNfinal))
     BRTN1 = brtn(xarray,yarray,0.1)#|X|,|Y| for BRTAUNV result
 #4 parameters for t>H+b to H+ >cb result
@@ -934,47 +935,4 @@ for n in np.arange(0,len(fl.mhch)):
     plt.savefig('sig_2jet'+ str(mhch) +'.png')
     plt.show()
     plt.close()
-    print('111',fl.eeHH_event() * 2.0 * 0.65 * 0.35)
-##################################################################
-##################################################################
-#def U(i,j,k,l):
-#    sga = k / math.sqrt(k**2 + 1.0) # sinegamma
-#    cga = 1.0 / math.sqrt(1.0 + k**2)# cosgamma
-#    sthe = math.sin(i)#sinetheta
-#    cthe = math.cos(i)#costheta
-#    cde = math.cos(l)#cosdelta
-#    sde = math.sin(l)#sindelta
-#    cbe = 1.0 / math.sqrt(1.0 + j**2)# cosbeta
-#    sbe = j / math.sqrt(j**2 + 1.0) # sinebeta
-#    ud1 = sga * cbe
-#    ud2 = complex(- cthe * sbe * cde  - sthe * cga * cbe, cthe * sbe *sde)
-#    ud3 = complex(sthe * sbe * cde - cthe * cga * cbe, sthe * sbe * sde)
-#    uu1 = sga * sbe
-#    uu2 = complex(cthe * cbe * cde - sthe * cga * sbe, cthe * cbe * sde)
-#    uu3 = complex(- sthe * cbe * cde - cthe * cga * sbe, - sthe * cbe * sde)
-#    ul1 = cga
-#    ul2 = sthe * sga
-#    ul3 = cthe * sga
-#    return [[ud1,ud2,ud3],[uu1,uu2,uu3],[ul1,ul2,ul3]] 
-#print(U(i,j,k,l))
-#############################################################
-
-##################################################################
-#################################################################
-#BOSONIC DECAY H+ > A*W
-#KA=(ma/mhch)**2
-#KW=(mw/mhch)**2
-#Gam= 4.326 / mhch**2
-#p2min=0.0
-#p2max=1.0 - KA
-#p2 = p2min+(p2max-p2min)* 
-#def f(x):
-#    dx2 = 0
-##        dx2 += (x[d] - 0.5) ** 2
-#    return math.exp(- dx2 * 100.) * 1013.2118364296088
-
-#integ = vegas.Integrator([[-1, 1], [0, 1], [0, 1], [0, 1]])
-
-#result = integ(f, nitn=10, neval=1000)
-#print( result.summary())
-#print( 'result = %s    Q = %.2f' % (result, result.Q))
+#    print('111',fl.eeHH_event() * 2.0 * 0.65 * 0.35)
