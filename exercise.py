@@ -615,7 +615,6 @@ for n in np.arange(0,len(fl.mhch)):
          BRCBfinal[max_valueposition(BRCB_TN)],BRTNfinal[max_valueposition(BRCB_TN)] )#
     print('MAXBRCBCB',max(BRCB2final),max_valueposition(BRCB2final),\
          BRCBfinal[max_valueposition(BRCB2final)]) 
-    print(BRTNfinal)
     print('MAXBRTN',max(BRTNfinal), max_valueposition(BRTNfinal))
     BRTN1 = brtn(xarray,yarray,0.1)#|X|,|Y| for BRTAUNV result
 #4 parameters for t>H+b to H+ >cb result
@@ -845,22 +844,22 @@ for n in np.arange(0,len(fl.mhch)):
     plt.show()
     plt.close()
 # (4 parameters):A,B, BRCB^2 contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.figure()
-    Contourbrcb_2 = plt.contour(A,B, \
-           np.resize(np.array(BRCBfinal)**2,len(np.array(BRCBfinal)**2)).reshape(len(B),len(A)),\
-           colors = ['black','royalblue','purple','darkgreen','brown','red','gray'],levels = linecs)
-    plt.clabel(Contourbrcb_2, inline= 0.02, fontsize= 9)# contour level show
-    plt.colorbar(Contourbrcb_2)
-    plt.title('BR($H^{\pm} \longrightarrow $ cb)^2,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('CharHcbsquared'+ str(mhch) +'.png')
-    plt.close()
+#    plt.figure()
+#    Contourbrcb_2 = plt.contour(A,B, \
+#           np.resize(np.array(BRCBfinal)**2,len(np.array(BRCBfinal)**2)).reshape(len(B),len(A)),\
+#           colors = ['black','royalblue','purple','darkgreen','brown','red','gray'],levels = linecs)
+#    plt.clabel(Contourbrcb_2, inline= 0.02, fontsize= 9)# contour level show
+#    plt.colorbar(Contourbrcb_2)
+#    plt.title('BR($H^{\pm} \longrightarrow $ cb)^2,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+#    plt.xlabel(readlist[int(read1)])# x-axis label
+#    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#    plt.savefig('CharHcbsquared'+ str(mhch) +'.png')
+#    plt.close()
 #######################################################
     plt.figure()
-    Contourbrcbtn = plt.contourf(A,B, \
+    Contourbrcbtn = plt.contour(A,B, \
            np.resize(np.array(BRCBfinal) * np.array(BRTNfinal),len(np.array(BRCBfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','gray'], levels = np.arange(0.06, 0.18,0.02))
     plt.clabel(Contourbrcbtn, inline= 0.02, fontsize= 9)# contour level show
