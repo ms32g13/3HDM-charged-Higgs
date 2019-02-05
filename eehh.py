@@ -113,29 +113,38 @@ def wwcscs_background():# ww>cscs background
     chunk_4 = chunk_3 / 4 # after ww>cscs
     return chunk_4 
 print('|ww background:',wwcscs_background())
-def backgroundtagging():# ww>cscs 4jet DELPHI
+#def backgroundtagging():# ww>cscs 4jet DELPHI
     #wwcscs with e_c , or 3389.6
-    result = 3389.6 * 1855.5 / 2506.2 / 4  * e_c**2
+#    result = 3389.6 * 1855.5 / 2506.2 / 4  * e_c**2
     # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback = 0.1 invariant mass cut
-    qqbar = 964.6 * 0.15 * e_b**2 * e_iback
-    return result + qqbar
-#def backgroundtagging():# OPAL 4jets
+#    qqbar = 964.6 * 0.15 * e_b**2 * e_iback
+#    return result + qqbar
+def backgroundtagging():# OPAL 4jets tagged
     # total 1117.8 events. 90% is ww.
-#    ww = 1117.8 * 0.9
-#    ww_cscs = ww / 4 * e_c**2
-#    qq_bar = 1117.8 * 0.1 * 0.15 * e_b**2 * e_iback #z>bb_bar
-#    return  ww_cscs + qq_bar
+    ww = 1117.8 * 0.9
+    ww_cscs = ww / 4 * e_c**2
+    qq_bar = 1117.8 * 0.1 * 0.15 * e_b**2  #z>bb_bar
+    return  ww_cscs + qq_bar
 #print('OPAL',backgroundtagging())
-def backgroundtagging2():# 2jet
+def backgroundtagging2():# 2jet tagged
     e_l = 0.01
-    background = 300 / 2.0  * (e_c * (1 - e_l) + e_l * (1 - e_c)) # 400
+    background = 300 / 2.0  * (e_c * (1 - e_l) + e_l * (1 - e_c))
     return background
-def backgroundnotagging():# ww>4jet no specific
+def backgroundnotagging2():# 2jet untagged
+    background = 300 / 2.0   
+    return background
+#def backgroundnotagging():# ww>4jet no specific
     #wwcscs with e_c , or 3389.6
-    result_1 = 3389.6 * 1855.5 / 2506.2 
+#    result_1 = 3389.6 * 1855.5 / 2506.2 
     # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback : 0.1 invariant mass cut
-    qqbar_1 = 964.6 * e_iback
-    return result_1 + qqbar_1
+#    qqbar_1 = 964.6 * e_iback
+#    return result_1 + qqbar_1
+def backgroundnotagging():# OPAL 4jets tagged background
+    # total 1117.8 events. 90% is ww.
+    ww = 1117.8 * 0.9
+    ww_cscs = ww / 4 
+    qq_bar = 1117.8 * 0.1 * 0.15   #z>bb_bar
+    return  ww_cscs + qq_bar
 print( backgroundnotagging())
 #print('WW>cscs and qq_bar background:',backgroundtagging())
 def eewwcscs_2bsignal():
@@ -367,7 +376,7 @@ def massH_ec_plane4jet(x,y):
     for j in eeHH_event():
         print (j)
     plt.figure()
-    signal4jet_tag = plt.contour(mhch,e_c,\
+    signal4jet_tag = plt.contourf(mhch,e_c,\
                    np.reshape(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )),\
                           len(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )))).\
                reshape(len(e_c),len(mhch)),\
@@ -380,6 +389,29 @@ def massH_ec_plane4jet(x,y):
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet_tag)
     plt.savefig('sig_4jetecmhch.png')
+    plt.show()
+    plt.close()
+##########################################################################    
+def massH_ec_plane4jetnotag(x,y):#background not tagged with e_b and e_c
+    tagging_4jet = (eeHHcbcb_2bsignal(x,x) + eeHHcbcb_1bsignal(x,x) + \
+                   eeHHcbcs_2bsignal(x,y) + eeHHcbcs_1bsignal(x,y) + \
+                   eeHHcbcb_0bsignal(x,x) + eeHHcbcs_0bsignal(x,y) + \
+                   eeHHcscs_0bsignal(y,y)) * epsilon
+    signal4jetnotag = plt.contourf(mhch,e_c,\
+                   np.reshape(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundnotagging() )),\
+                          len(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundnotagging() )))).\
+               reshape(len(e_c),len(mhch)),\
+#                levels = np.arange(0.0, 8.0,1.0), \
+               colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jetnotag with max BR ')
+    plt.xlabel('mhch')# x-axis label
+    plt.ylabel('e_c')# y-axis label
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.colorbar(signal4jetnotag)
+    plt.savefig('sig_4jetnotagecmhch.png')
+    plt.show()
+    plt.close()
 ##################################################################
 def massH_ec_plane2jet(x,y):
 #    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
@@ -390,7 +422,7 @@ def massH_ec_plane2jet(x,y):
     signal2jet_tag = plt.contourf(mhch,e_c, \
         np.resize(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundtagging2())) ,\
               len(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundtagging2())) )).\
-        reshape(len(e_c),len(mhch)),cmap = 'brg')
+        reshape(len(e_c),len(mhch)),cmap = 'brg')# 0.3 signal selection efficiency
     plt.colorbar(signal2jet_tag)
     plt.title('S/$\sqrt{B}$ 2jet_tag with max BR')#plot title
     plt.xlabel('mhch')# x-axis label
@@ -398,6 +430,26 @@ def massH_ec_plane2jet(x,y):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('sig_2jetecmhch.png')
+    plt.show()
+    plt.close()
+##################################################################
+def massH_ec_plane2jetnotag(x,y): #background not tagged with e_b and e_c
+#    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
+    tagging_2jet = eeHHcbtn_1bsignal(x,y) + eeHHcbtn_0bsignal(x,y) + \
+                                eeHHcstn_1bsignal(x,y) + eeHHcstn_0bsignal(x,y)
+                                 
+    plt.figure()
+    signal2jetnotag = plt.contourf(mhch,e_c, \
+        np.resize(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundnotagging2())) ,\
+              len(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundnotagging2())) )).\
+        reshape(len(e_c),len(mhch)),cmap = 'brg')# 0.3 signal selection efficiency
+    plt.colorbar(signal2jetnotag)
+    plt.title('S/$\sqrt{B}$ 2jetnotag with max BR')#plot title
+    plt.xlabel('mhch')# x-axis label
+    plt.ylabel('e_c')# y-axis label
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.savefig('sig_2jetnotagecmhch.png')
     plt.show()
     plt.close()
 ###################################################################
@@ -484,7 +536,9 @@ def ec_eb_plane2jet(x,y):
 ###################################################################
 if type(e_c) == type(e_clist):
     massH_ec_plane4jet(0.8,0.0)
+    massH_ec_plane4jetnotag(0.8,0.0)
     massH_ec_plane2jet(0.40,0.33)
+    massH_ec_plane2jetnotag(0.40,0.33)
     ec_eb_plane4jet(0.8,0.0)
     ec_eb_plane2jet(0.40,0.33)
 # mhch[n] : the n th charH mass, eeHH_events()[n] : the n th charH events produced

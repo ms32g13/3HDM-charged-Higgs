@@ -837,6 +837,8 @@ for n in np.arange(0,len(fl.mhch)):
              ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
+    plt.xscale('log')
+    plt.yscale('log')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet)
@@ -867,19 +869,22 @@ for n in np.arange(0,len(fl.mhch)):
     plt.title(' BR($H^{\pm} \longrightarrow $ cb) * BR($H^{\pm} \longrightarrow $ tn) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
+    plt.xscale('log')
+    plt.yscale('log')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('CharHcbtn'+ str(mhch) +'.png')
     plt.show()
     plt.close()
 ################################
+    #4jet notagging (BR($H^{\pm} \longrightarrow $ cb + cs))
     plt.figure()
     signalnotag4jet = plt.contour(A,B, \
         np.resize(fl.eeHH_event()[n] * (np.array(BRCBfinal) + np.array(BRCSfinal)) * fl.epsilon / np.sqrt(fl.backgroundnotagging()) ,\
               len(fl.eeHH_event()[n] * (np.array(BRCBfinal) + np.array(BRCSfinal)) * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).\
         reshape(len(B),len(A)),cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
     plt.colorbar(signalnotag4jet)
-    plt.title('S/$\sqrt{B}$ notag (BR($H^{\pm} \longrightarrow $ cb + cs)),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('S/$\sqrt{B}$ 4jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -929,9 +934,31 @@ for n in np.arange(0,len(fl.mhch)):
     plt.title('S/$\sqrt{B}$ 2jet tag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
+    plt.xscale('symlog')
+    plt.yscale('symlog')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('sig_2jet'+ str(mhch) +'.png')
     plt.show()
     plt.close()
-#    print('111',fl.eeHH_event() * 2.0 * 0.65 * 0.35)
+#    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
+    plt.figure()
+    Contoursignal8 = plt.contour(A,B, \
+        np.resize(fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
+                                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
+                                ) * 0.3 / np.sqrt(fl.backgroundnotagging2()) ,\
+              len(fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
+                                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
+                                ) * 0.3 / np.sqrt(fl.backgroundnotagging2()))).reshape(len(B),len(A)),\
+        cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
+    plt.colorbar(Contoursignal8)
+    plt.title('S/$\sqrt{B}$ 2jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.savefig('sig_2jet'+ str(mhch) +'.png')
+    plt.show()
+    plt.close()
