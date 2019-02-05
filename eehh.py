@@ -119,7 +119,7 @@ print('|ww background:',wwcscs_background())
     # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback = 0.1 invariant mass cut
 #    qqbar = 964.6 * 0.15 * e_b**2 * e_iback
 #    return result + qqbar
-def backgroundtagging():# OPAL 4jets tagged
+def backgroundtagging():# OPAL 4jets tagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
     ww_cscs = ww / 4 * e_c**2
@@ -139,7 +139,7 @@ def backgroundnotagging2():# 2jet untagged
     # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback : 0.1 invariant mass cut
 #    qqbar_1 = 964.6 * e_iback
 #    return result_1 + qqbar_1
-def backgroundnotagging():# OPAL 4jets tagged background
+def backgroundnotagging():# OPAL 4jets untagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
     ww_cscs = ww / 4 
