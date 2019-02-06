@@ -31,6 +31,7 @@ e_blist = np.arange(0.5,0.75,0.023) # b-tag efficiency 0.7
 #e_b = float(input('e_b value:')) #
 e_b = 0.7 # set b_tagg = 0.7
 e_clist = np.arange(0.005,0.05,0.0045) # c-tag efficiency
+
 while True: 
     inputec = input('e_c single or range (s or r)?:') 
     if inputec == 'r' or inputec == 'R':
@@ -47,6 +48,8 @@ e_antiww = 0.536 / 0.578 # charged Higgs after anti-ww background
 e_l = 0.01 #light jet tag efficiency
 e_isignal = 0.9  # invariant mass cut on signal
 e_iback = 0.1 # invariant mass cut on background
+e_ibacklist = np.arange(0.0,1.1,0.1)
+print(len(e_ibacklist),e_ibacklist)
 epsilon = e_mass * e_4jet * e_isignal # total epsilon
 ############
 # CKM elements
@@ -56,7 +59,7 @@ vcb = 0.04
 mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz                     # cos (weinberg angle : thetaw)
-sinthetaw = math.sqrt(1 - (costhetaw) ** 2)      # sin(weinberg angle: thetaw)
+sinthetaw = math.sqrt(1 - (costhetaw)**2)      # sin(weinberg angle: thetaw)
 #S = np.arange(180.00 , 219.00 , 10.00) ** 2  # Centre of Mass Energy ^ 2
 ########################################################
 # DELPHI: (CENTRE OF MASS ENERGY= sqrt(S))^2
@@ -535,11 +538,11 @@ def ec_eb_plane2jet(x,y):
         plt.close()
 ###################################################################
 if type(e_c) == type(e_clist):
-    massH_ec_plane4jet(0.8,0.0)
-    massH_ec_plane4jetnotag(0.8,0.0)
+    massH_ec_plane4jet(0.8,0.19)
+    massH_ec_plane4jetnotag(0.8,0.19)
     massH_ec_plane2jet(0.40,0.33)
     massH_ec_plane2jetnotag(0.40,0.33)
-    ec_eb_plane4jet(0.8,0.0)
+    ec_eb_plane4jet(0.8,0.19)
     ec_eb_plane2jet(0.40,0.33)
 # mhch[n] : the n th charH mass, eeHH_events()[n] : the n th charH events produced
 for n in np.arange(0,len(mhch)):
