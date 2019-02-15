@@ -332,7 +332,7 @@ def start3():
                 absolutezlist.append(abs(Z2(*my_tuple)))
                 xyfun.append(complexyfunction(*my_tuple))
                 BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-                BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
+#                BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                 BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))           
 def max_valueposition(xxx):# x has to be np.array ; The max value postion of long array
@@ -624,8 +624,6 @@ for n in np.arange(0,len(fl.mhch)):
          BRCBfinal[max_valueposition(BRCB_CS)],BRCSfinal[max_valueposition(BRCB_CS)])#
     print('MAXBRCBTN',len(BRCB_TN),max(BRCB_TN), max_valueposition(BRCB_TN),\
          BRCBfinal[max_valueposition(BRCB_TN)],BRTNfinal[max_valueposition(BRCB_TN)] )#
-    print('MAXBRCBCB',max(BRCB2final),max_valueposition(BRCB2final),\
-         BRCBfinal[max_valueposition(BRCB2final)]) 
     print('MAXBRTN',max(BRTNfinal), max_valueposition(BRTNfinal))
     BRTN1 = brtn(xarray,yarray,0.1)#|X|,|Y| for BRTAUNV result
 #4 parameters for t>H+b to H+ >cb result
@@ -861,9 +859,11 @@ for n in np.arange(0,len(fl.mhch)):
 ################################
 # (4 parameters):A,B, BRCB^2 contour plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
-    Contourbrcb_2 = plt.contourf(A,B, \
-           np.resize(np.array(BRCBfinal),len(np.array(BRCBfinal))).reshape(len(B),len(A)),\
-           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],levels = np.arange(0.0, 0.9,0.2))
+    Contourbrcb_2 = plt.contour(A,B, \
+           np.resize(np.array(BRCBfinal) * np.array(BRCBfinal),\
+                 len(np.array(BRCBfinal) * np.array(BRCBfinal) )).reshape(len(B),len(A)),\
+           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
+           levels = np.arange(0.0, 0.9,0.2))
 #    plt.clabel(Contourbrcb_2)# contour level show
     plt.colorbar(Contourbrcb_2)
     plt.title('BR($H^{\pm} \longrightarrow $ cb)^2,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
