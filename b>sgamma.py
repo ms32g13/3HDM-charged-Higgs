@@ -25,6 +25,7 @@ mh = 125 #  mass of higgs
 gf = 0.0000116639 # fermi constant
 #mhch = 130.00  # mass of charged higgs
 ma = 200.00 # mass of Pseudoscalar 
+z = mc**2 / mb**2  # mc^2 / mb^2
 # CKM elements
 vcs = 0.97
 vcb = 0.04
@@ -40,6 +41,8 @@ e_i = np.array([4661194/816831, - 8516/2217, 0.0,0.0,- 1.9043, - 0.1008,\
 f_i = np.array([- 17.3023, 8.5027, 4.5508, 0.7519, 2.0040, 0.7476, - 0.5385, 0.0914])#{f_i}
 k_i = np.array([9.9372, - 7.4878, 1.2688, - 0.2925, -2.2923, - 0.1461, 0.1239, 0.0812])#{k_i}
 l_i = np.array([0.5784, - 0.3921, -0.1429, 0.0476, - 0.1275, 0.0317, 0.0078, - 0.0031])#{l_i}
+y_i = np.array([0.0,0.0,- 1/3.0,- 4/9.0,- 20/3.0, - 80/9.0])# {y_i} 
+z_i = np.array([0,0,1.0,- 1/6.0, 20, - 10/3.0])#{z_i}
 
 print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
 print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
@@ -63,6 +66,9 @@ print(run_quark_bar(mb))
 fac = 4.0 * np.sqrt(2.0) * PI 
 ############################
 #############################
+####Virtual Correction Functions r_i
+
+##########################################################################
 ### Wilson coefficient at matching scale(mu_w)
 ####################### LO
 def c0_7sm(s):
