@@ -53,11 +53,11 @@ print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
 coeffmc = 12.0/25.0
 coeffmb = 12.0/23.0
 alpmz = 0.1185 #alpha at z 
-mu_w = 0.119 # scale at mu_w
+alpmu_w = 0.119 # scale at mu_w
 mu_b = 5.0 # scale of mu_b 
 def run_quark_bar(q):#running quark mass at scale mu_w under minimal subtract scheme
     c1 = np.log(q**2 / mw**2)
-    c2 = mu_w / PI
+    c2 = alpmu_w / PI
     return q * (1 + c2 * c1 - 4 / 3 * c2 )
 print(run_quark_bar(mb))
 
@@ -109,7 +109,7 @@ def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0
     c0_eff[6] = c0_7eff(s,i,j) # c0_7eff
     c0_eff[7] = c0_8eff(s,i,j) # c0_8eff
     return np.array(c0_eff)
-print('c0_eff(mu_w,i,j)',c0_eff(mu_w,1.0,20))
+print('c0_eff(mu_w,i,j)',c0_eff(alpmu_w,1.0,20))
 ##########################
 ########################## NLO
 def E_0(s):#NLO
@@ -274,12 +274,12 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y^2 and XY*
     c1_eff[6] = list1[0] + np.array(abs(i)**2) * list1[2] + np.array(j) * list1[4]
     c1_eff[7] = list1[1] + np.array(abs(i)**2) * list1[3] + np.array(j) * list1[5]
     return np.array(c1_eff)
-print('c1_eff(mu_w,i,j)',c1_eff(mu_w,1.0,20))
+print('c1_eff(mu_w,i,j)',c1_eff(alpmu_w,1.0,20))
 ######Total Ceffective_i (mu_w) at matching scale 
 def c_i_eff_muw(s,i,j):
     print('s',s)
     return c0_eff(s,i,j) + s / (4.0 * PI) * c1_eff(s,i,j)
-print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(mu_w,1.0,20))
+print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(alpmu_w,1.0,20))
 #################################################################
 ##################################################################
 ##################################################################
@@ -294,7 +294,7 @@ def c0_7_eff(s2,s1,i,j): #c0_7_eff(mu_b) LO
         print('ai*hi*1.0',a_i[n] * h_i[n] * c0_eff(s1,i,j)[1])
         result1 += (eta)**(a_i[n]) * h_i[n] * c0_eff(s1,i,j)[1]
     return step1 + 8 /3 * (step2) + result1
-print('C0_7_eff(mu_b)',c0_7_eff(mu_b,mu_w,1.0,20)) #
+print('C0_7_eff(mu_b)',c0_7_eff(mu_b,alpmu_w,1.0,20)) #
     
 ###############################NLO
 def c1_7_eff(s2,s1,i,j): #c1_7_eff(mu_b) NLO
@@ -311,7 +311,7 @@ def c1_7_eff(s2,s1,i,j): #c1_7_eff(mu_b) NLO
         step7 = l_i[n] * eta * c1_eff(s1,i,j)[0]
         result += (eta**(a_i[n])) * (step5 + step6 + step7)
     return step1 + step2 + step3 + step4 + result
-print('C1_7_eff(mu_b)',c1_7_eff(mu_b,mu_w,1.0,20))
+print('C1_7_eff(mu_b)',c1_7_eff(mu_b,alpmu_w,1.0,20))
 #####################################################################
 ##################relavant to BR(B_bar > Xs gamma) LO
 ###################################################################
