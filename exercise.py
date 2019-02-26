@@ -22,26 +22,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 #import vegas
 import eehh as fl
-### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
-mt = 171.2    # mass of top quark
-mz = 91.18    # mass of z boson
-nf = 5.0      # origin 5
-PI = math.pi  # pi number 
-mw = 80.385   # mass of w boson 80.33
-mtau = 1.7771 # mass of tau neutrino
-gf = 0.0000116639 # fermi constant
-#mhch = 130.00  # mass of charged higgs
-ma = 200.00 # mass of Pseudoscalar 
-# CKM elements
-vcs = 0.97
-vcb = 0.04
-############
-#QCD running coupling constant (alp) at energy scale MH. Relevant                                                                                                                                                                        
-#for QCD corrections to Higgs decay widths.
-############
-coeffmc = 12.0/25.0
-coeffmb = 12.0/23.0
-alpmz = 0.1185 #coupling of z 
+from invariant import *
 ##########################################################################
 #4*pi*SQRT(2); factor appears in partial width of 2 fermions
 fac = 4.0 * np.sqrt(2.0) * PI 
@@ -353,7 +334,7 @@ for n in np.arange(0,len(fl.mhch)):
     alp2gev = 0.117 /(1.0 + (0.117 /(12.0 * PI)) * (33.0 - 2 * nf) *\
                   math.log(2.0**2 / mz**2))
 #####################################################
-#    alp2gev = 0.310  Take this value will have same figure as Andrew and Stefano' paper
+    alp2gev = 0.310 # Take this value will have same figure as Andrew and Stefano' paper
 #    [ PHYSICAL REVIEW D 85, 115002 (2012) ]
 #####################################################
 # for running of ms at 2 GeV to ms at 4.88 GeV (mb pole mass)                                                                                                                                                                                                                          
@@ -394,7 +375,7 @@ for n in np.arange(0,len(fl.mhch)):
     z_x = np.array([0.1] * len(x)) # create same length of z array for x array
     z_y = np.array([0.1] * len(y)) # create same length of z array for y array
     for Y in y:
-        print('Y',Y)
+
         for X in x:
 #for Z in np.arange(0.0,5.1,0.5):
                  Z = 1.0
@@ -869,8 +850,8 @@ for n in np.arange(0,len(fl.mhch)):
     plt.title('BR($H^{\pm} \longrightarrow $ cb)^2,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
-#    plt.xscale('log')
-#    plt.yscale('log')
+    plt.xscale('log')
+    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('CharHcbsquared'+ str(mhch) +'.png')

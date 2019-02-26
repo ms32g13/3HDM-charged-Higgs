@@ -11,31 +11,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import gammaeffective as gaeff
 from scipy import special as sp
+from invariant import *
 #import exercise as ex
-#import vegas
-### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
-print('x',x)
-mt = 171.2    # mass of top quark
-mb = 4.89     # mass of bottom quark
-mc = 1.64     # mass of charm quark
-mz = 91.18    # mass of z boson
-nf = 5.0      # origin 5
-PI = math.pi  # pi number 
-mw = 80.385    # mass of w boson 80.33
-mtau = 1.7771 # mass of tau neutrino
-mh = 125 #  mass of higgs
-alpha_electroweak = 1.0 / 128.0 # alpha for EM coupling
-gf = 0.0000116639 # fermi constant
-#mhch = 130.00  # mass of charged higgs
-ma = 200.00 # mass of Pseudoscalar 
-z = mc**2 / mb**2  # mc^2 / mb^2
-# CKM elements
-vcs = 0.97
-vcb = 0.04
-vts = 0.0404
-vtb = 0.999146
 x = mt**2 / mw**2 # mt^2 /mw^2
 y = mt**2 / mh**2 # mt^2 / mh^2
+z = mc**2 / mb**2  # mc^2 / mb^2
 a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
 h_i = np.array([626126/272277 , - 56281/51730, - 3/7, - 1/14, - 0.6494, - 0.0380,\
                 - 0.0186, - 0.0057])#{h_i}

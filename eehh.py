@@ -12,21 +12,8 @@ import matplotlib.pyplot as plt
 import vegas
 import gvar as gv
 import itertools
-########################################################
-### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
-mt = 171.2    # mass of top quark
-mz = 91.18 # 95.0 #98.14954576223639# 101.59443179342345  #91.18    # mass of z boson
-nf = 5.0      # origin 5
-PI = math.pi  # pi number 
-mw = 80.385   # 80.385 # mass of w boson
-mtau = 1.7771 # mass of tau neutrino
-gf = 0.0000116639 # fermi constant
-pwz = 2.4952  # partial width of z boson
-pww = 2.085  #  partial width of w boson 
-alpha_electroweak = 1.0 / 128.0 # alpha for sigma_0 
-#mhch = 130.00  # mass of charged higgs
-#charH_mass = float(input('chaH mass value:'))
-ma = 130.00 # mass of Pseudoscalar 
+from invariant import *
+
 e_blist = np.arange(0.5,0.75,0.023) # b-tag efficiency 0.7
 #e_b = float(input('e_b value:')) #
 e_b = 0.7 # set b_tagg = 0.7
@@ -50,16 +37,16 @@ e_l = 0.01 #light jet tag efficiency
 e_isignal = 0.9  # invariant mass cut on signal
 e_iback = 0.1 # invariant mass cut on background
 e_ibacklist = np.arange(0.1,1.08,0.09)
-print(len(e_ibacklist),e_ibacklist)
 epsilon = e_mass * e_4jet * e_isignal # total epsilon
 ############
 # CKM elements
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
+mhch = np.arange(88.0,91.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
-costhetaw = mw / mz                     # cos (weinberg angle : thetaw)
+costhetaw = mw / mz    # cos (weinberg angle : thetaw)
+print(costhetaw,mw,mz)               
 sinthetaw = math.sqrt(1 - (costhetaw)**2)      # sin(weinberg angle: thetaw)
 #S = np.arange(180.00 , 219.00 , 10.00) ** 2  # Centre of Mass Energy ^ 2
 ########################################################
