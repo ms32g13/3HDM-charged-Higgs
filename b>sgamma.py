@@ -11,8 +11,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import gammaeffective as gaeff
 from scipy import special as sp
+#import exercise as ex
 #import vegas
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
+print('x',x)
 mt = 171.2    # mass of top quark
 mb = 4.89     # mass of bottom quark
 mc = 1.64     # mass of charm quark
@@ -22,6 +24,7 @@ PI = math.pi  # pi number
 mw = 80.385    # mass of w boson 80.33
 mtau = 1.7771 # mass of tau neutrino
 mh = 125 #  mass of higgs
+alpha_electroweak = 1.0 / 128.0 # alpha for EM coupling
 gf = 0.0000116639 # fermi constant
 #mhch = 130.00  # mass of charged higgs
 ma = 200.00 # mass of Pseudoscalar 
@@ -29,6 +32,8 @@ z = mc**2 / mb**2  # mc^2 / mb^2
 # CKM elements
 vcs = 0.97
 vcb = 0.04
+vts = 0.0404
+vtb = 0.999146
 x = mt**2 / mw**2 # mt^2 /mw^2
 y = mt**2 / mh**2 # mt^2 / mh^2
 a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
@@ -43,7 +48,11 @@ k_i = np.array([9.9372, - 7.4878, 1.2688, - 0.2925, -2.2923, - 0.1461, 0.1239, 0
 l_i = np.array([0.5784, - 0.3921, -0.1429, 0.0476, - 0.1275, 0.0317, 0.0078, - 0.0031])#{l_i}
 y_i = np.array([0.0,0.0,- 1/3.0,- 4/9.0,- 20/3.0, - 80/9.0])# {y_i} 
 z_i = np.array([0,0,1.0,- 1/6.0, 20, - 10/3.0])#{z_i}
-
+##########################################################
+#NON-Perturbative kronc-delta (GeV^2)
+delta_NP_ga = - 0.5 / 2 - 9 * (- 0.12) / 2
+delta_NP_c = 0.12 / 2
+#########################################################
 print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
 print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
 ############
@@ -74,7 +83,8 @@ def run_quark_bar(q):
     c1 = np.log(q**2 / mw**2)
     c2 = LOalpha_s(mw) / PI
     return q * (1 + c2 * c1 - 4 / 3 * c2 )
-print('runquark',run_quark_bar(mb))
+print('run-bquark',run_quark_bar(mb))
+print('run-mw', run_quark_bar(mw))
 ##########################################################################
 #4*pi*SQRT(2); factor appears in partial width of 2 fermions
 fac = 4.0 * np.sqrt(2.0) * PI 
@@ -287,12 +297,13 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y^2 and XY*
     c1_eff[6] = list1[0] + np.array(abs(i)**2) * list1[2] + np.array(j) * list1[4]
     c1_eff[7] = list1[1] + np.array(abs(i)**2) * list1[3] + np.array(j) * list1[5]
     return np.array(c1_eff)
-print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),1.0,20))
+print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(run_quark_bar(mw)),1.0,20))
 #################################################################
 ######Total Ceffective_i (mu_w) at matching scale 
 def c_i_eff_muw(i,j):
-    return c0_eff(LOalpha_s(mw),i,j) + NLOalpha_s(mw) / (4.0 * PI) * c1_eff(NLOalpha_s(mw),i,j)
-print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(1.0,np.complex(20,80) ))
+    return c0_eff(LOalpha_s(run_quark_bar(mw)),i,j) + NLOalpha_s(run_quark_bar(mw)) / (4.0 * PI) *\
+           c1_eff(NLOalpha_s(run_quark_bar(mw)),i,j)
+print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(1.0,complex(20,80) ))
 #################################################################
 ##################################################################
 ##################################################################
@@ -344,3 +355,38 @@ def c0_8_eff(s2,s1,i,j): #C0_8_eff(mu_b)
         result += h2_i[n] * eta**(a2_i[n]) * c0_eff(s1,i,j)[1]
     return step1 + result
 ####################################################################
+####################################################################
+def D_bar(i,j):#mu_b
+    seta3 = 1.0
+    L = np.log(z)
+    r2 = complex(2/243 * (-833 + 144 * PI**2 * z**(3/2) + (1728 - 180 * PI**2 - 1296 * seta3 + \
+       (1296 - 324 * PI**2) * L + 108 * L**2 + 36 * L**3 ) * z + \
+       (648 + 72 * PI**2 + (432 - 216 * PI**2) * L + 36 * L**3 ) * z**2 + \
+       (- 54 - 84 * PI**2 + 1092 * L - 756 * L**2) * z**3) ,\
+        16 * PI / 81 * (- 5 + (45 - 3 * PI**2 + 9 * L + 9 * L**2) * z + \
+        (- 3 * PI**2 + 9 * L**2) * z**2 + (28 - 12 * L) * z**3))
+    r1 = - 1 / 6 * r2
+    r7 = 32 / 9 - 8 / 9 * PI**2
+    r8 = - 4 / 27 * complex(- 33 + 2 * PI**2, - 6 *PI )
+    ans1 = c0_1_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) * \
+    (r1 + 1 / 2.0 * gaeff.gamma0eff()[0][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
+    ans2 = c0_2_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) * \
+    (r2 + 1 / 2.0 * gaeff.gamma0eff()[1][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
+    ans7 = c0_7_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) * \
+    (r7 + 1 / 2.0 * gaeff.gamma0eff()[6][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
+    ans8 = c0_8_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) * \
+    (r8 + 1 / 2.0 * gaeff.gamma0eff()[7][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
+    v_ub = ans1 + ans2 + ans7 + ans8 - 16 / 3.0 * \
+    c0_7_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j)
+    return c0_7_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) + \
+LOalpha_s(run_quark_bar(mb)) / (4 * PI) *  (\
+(c1_7_eff(NLOalpha_s(run_quark_bar(mb)),NLOalpha_s(run_quark_bar(mw)),i,j) + \
+ v_ub) )
+####################################################################
+####################################################################
+###########Decay_width of b > s gamma 
+def decay_bsp(i,j):
+    return gf**2 / (32 * PI**4) * (vts * vtb)**2 * \
+    alpha_electroweak * mb**5 * abs(D_bar(i,j))**2
+###########Decay_width of b > s gamma gluon
+#def decay_bspg(i,j):
