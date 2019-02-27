@@ -29,9 +29,14 @@ l_i = np.array([0.5784, - 0.3921, -0.1429, 0.0476, - 0.1275, 0.0317, 0.0078, - 0
 y_i = np.array([0.0,0.0,- 1/3.0,- 4/9.0,- 20/3.0, - 80/9.0])# {y_i} 
 z_i = np.array([0,0,1.0,- 1/6.0, 20, - 10/3.0])#{z_i}
 ##########################################################
+# PHASE- SPACE FUNCTION g(z)
+g_z = 1 - 8 * z + 8 * z**3 - z**4 - 12 * z**2 * np.log(z)
+# QCD-RADIATION FUNCTION f(z)
+f_z = (PI**2 - 31 / 4) * (1 - np.sqrt(z))**2 + 3 / 2
 #NON-Perturbative kronc-delta (GeV^2)
 delta_NP_ga = - 0.5 / 2 - 9 * (- 0.12) / 2
 delta_NP_c = 0.12 / 2
+delta_NP_SL = - 0.5 /2 + 3 * (- 0.12) / 2 * (1 - 4 * (1 - z)**4 / g_z) 
 #########################################################
 print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
 print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
@@ -277,12 +282,12 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y^2 and XY*
     c1_eff[6] = list1[0] + np.array(abs(i)**2) * list1[2] + np.array(j) * list1[4]
     c1_eff[7] = list1[1] + np.array(abs(i)**2) * list1[3] + np.array(j) * list1[5]
     return np.array(c1_eff)
-print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(run_quark_bar(mw)),1.0,20))
+print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),1.0,20))
 #################################################################
 ######Total Ceffective_i (mu_w) at matching scale 
 def c_i_eff_muw(i,j):
-    return c0_eff(LOalpha_s(run_quark_bar(mw)),i,j) + NLOalpha_s(run_quark_bar(mw)) / (4.0 * PI) *\
-           c1_eff(NLOalpha_s(run_quark_bar(mw)),i,j)
+    return c0_eff(LOalpha_s(mw),i,j) + NLOalpha_s(mw) / (4.0 * PI) *\
+           c1_eff(NLOalpha_s(mw),i,j)
 print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(1.0,complex(20,80) ))
 #################################################################
 ##################################################################
@@ -348,25 +353,34 @@ def D_bar(i,j):#mu_b
     r1 = - 1 / 6 * r2
     r7 = 32 / 9 - 8 / 9 * PI**2
     r8 = - 4 / 27 * complex(- 33 + 2 * PI**2, - 6 *PI )
-    ans1 = c0_1_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) * \
+    ans1 = c0_1_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) * \
     (r1 + 1 / 2.0 * gaeff.gamma0eff()[0][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
-    ans2 = c0_2_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) * \
+    ans2 = c0_2_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) * \
     (r2 + 1 / 2.0 * gaeff.gamma0eff()[1][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
-    ans7 = c0_7_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) * \
+    ans7 = c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) * \
     (r7 + 1 / 2.0 * gaeff.gamma0eff()[6][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
-    ans8 = c0_8_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) * \
+    ans8 = c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) * \
     (r8 + 1 / 2.0 * gaeff.gamma0eff()[7][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
     v_ub = ans1 + ans2 + ans7 + ans8 - 16 / 3.0 * \
-    c0_7_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j)
-    return c0_7_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) + \
+    c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
+    return c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) + \
 LOalpha_s(run_quark_bar(mb)) / (4 * PI) *  (\
 (c1_7_eff(NLOalpha_s(run_quark_bar(mb)),NLOalpha_s(mw),i,j) + \
  v_ub) )
+print('D_bar',D_bar(0.8,0.2))
 ####################################################################
 ####################################################################
 ###########Decay_width of b > s gamma 
 def decay_bsp(i,j):
     return gf**2 / (32 * PI**4) * (vts * vtb)**2 * \
     alpha_electroweak * mb**5 * abs(D_bar(i,j))**2
+print('$decay_bsp$',decay_bsp(0.8,0.2))
 ###########Decay_width of b > s gamma gluon
 #def decay_bspg(i,j):
+###########Decay_width of semileptonic 
+def decay_SL():
+    part1 = gf**2 /(192 * PI**3) * abs(vcb)**2 * mb**5 * g_z
+    part2 = 1 - 2 * LOalpha_s(run_quark_bar(mb)) * f_z / (3 * PI) \
+    + delta_NP_SL / mb**2
+    return part1 * part2
+print('Partial width of semileptonic decay', decay_SL() )
