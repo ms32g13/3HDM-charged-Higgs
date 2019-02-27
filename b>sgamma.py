@@ -360,7 +360,7 @@ def D_bar(i,j):#mu_b
     c0_7_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j)
     return c0_7_eff(LOalpha_s(mb),LOalpha_s(run_quark_bar(mw)),i,j) + \
 LOalpha_s(run_quark_bar(mb)) / (4 * PI) *  (\
-(c1_7_eff(NLOalpha_s(run_quark_bar(mb)),NLOalpha_s(run_quark_bar(mw)),i,j) + \
+(c1_7_eff(NLOalpha_s(run_quark_bar(mb)),NLOalpha_s(mw),i,j) + \
  v_ub) )
 ####################################################################
 ####################################################################
