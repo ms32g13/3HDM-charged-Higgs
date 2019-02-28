@@ -68,6 +68,10 @@ def run_quark_bar(q):
     c1 = np.log(q**2 / mw**2)
     c2 = LOalpha_s(mw) / PI
     return q * (1 + c2 * c1 - 4 / 3 * c2 )
+print('LOalpha_s(mw)',LOalpha_s(mw))
+print('NLOalpha_s(mw)',NLOalpha_s(mw))
+print('LOalpha_s(mb)',LOalpha_s(mb))
+print('NLOalpha_s(mb)',NLOalpha_s(mb))
 print('run-bquark',run_quark_bar(mb))
 print('run-mw', run_quark_bar(mw))
 ##########################################################################
@@ -341,10 +345,11 @@ def c0_8_eff(s2,s1,i,j): #C0_8_eff(mu_b)
     return step1 + result
 ####################################################################
 ####################################################################
-def D_bar(i,j):#mu_b
-    seta3 = 1.0
+def D_bar(i,j):#mu_b scale Reduced Amplitude
+    # Riemann Zeta func- tion zeta_3
+    zeta_3 = 1.2021
     L = np.log(z)
-    r2 = complex(2/243 * (-833 + 144 * PI**2 * z**(3/2) + (1728 - 180 * PI**2 - 1296 * seta3 + \
+    r2 = complex(2/243 * (-833 + 144 * PI**2 * z**(3/2) + (1728 - 180 * PI**2 - 1296 * zeta_3 + \
        (1296 - 324 * PI**2) * L + 108 * L**2 + 36 * L**3 ) * z + \
        (648 + 72 * PI**2 + (432 - 216 * PI**2) * L + 36 * L**3 ) * z**2 + \
        (- 54 - 84 * PI**2 + 1092 * L - 756 * L**2) * z**3) ,\
@@ -368,6 +373,33 @@ LOalpha_s(run_quark_bar(mb)) / (4 * PI) *  (\
 (c1_7_eff(NLOalpha_s(run_quark_bar(mb)),NLOalpha_s(mw),i,j) + \
  v_ub) )
 print('D_bar',D_bar(0.8,0.2))
+def delta_D_bar(i,j): #mu_b scale delta_Reduced_Amplitude
+    # Riemann Zeta func- tion zeta_3
+    zeta_3 = 1.2021
+    L = np.log(z)
+    r2 = complex(2/243 * (-833 + 144 * PI**2 * z**(3/2) + (1728 - 180 * PI**2 - 1296 * zeta_3 + \
+       (1296 - 324 * PI**2) * L + 108 * L**2 + 36 * L**3 ) * z + \
+       (648 + 72 * PI**2 + (432 - 216 * PI**2) * L + 36 * L**3 ) * z**2 + \
+       (- 54 - 84 * PI**2 + 1092 * L - 756 * L**2) * z**3) ,\
+        16 * PI / 81 * (- 5 + (45 - 3 * PI**2 + 9 * L + 9 * L**2) * z + \
+        (- 3 * PI**2 + 9 * L**2) * z**2 + (28 - 12 * L) * z**3))
+    r1 = - 1 / 6 * r2
+    r7 = 32 / 9 - 8 / 9 * PI**2
+    r8 = - 4 / 27 * complex(- 33 + 2 * PI**2, - 6 *PI )
+    ans1 = c0_1_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) * \
+    (r1 + 1 / 2.0 * gaeff.gamma0eff()[0][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
+    ans2 = c0_2_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) * \
+    (r2 + 1 / 2.0 * gaeff.gamma0eff()[1][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
+    ans7 = c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) * \
+    (r7 + 1 / 2.0 * gaeff.gamma0eff()[6][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
+    ans8 = c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) * \
+    (r8 + 1 / 2.0 * gaeff.gamma0eff()[7][6] * np.log(mb**2 / run_quark_bar(mb)**2 ))
+    v_ub = ans1 + ans2 + ans7 + ans8 - 16 / 3.0 * \
+    c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
+    return LOalpha_s(run_quark_bar(mb)) / (4 * PI) * \
+(c1_7_eff(NLOalpha_s(run_quark_bar(mb)),NLOalpha_s(mw),i,j) + v_ub) / \
+c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
+print('delta_D_bar',delta_D_bar(0.8,complex(0.2, 0.1)))
 ####################################################################
 ####################################################################
 ###########Decay_width of b > s gamma 
@@ -384,3 +416,6 @@ def decay_SL():
     + delta_NP_SL / mb**2
     return part1 * part2
 print('Partial width of semileptonic decay', decay_SL() )
+#################################################################
+#Measured Semi- leptonic branching ratio B_SL
+B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996

@@ -36,3 +36,4 @@ coeffmc = 12.0/25.0
 coeffmb = 12.0/23.0
 alpmz = 0.1185 #coupling of z 
 alpha_electroweak = 1.0 / 128.0 # alpha for EM coupling
+lambda_t = vtb * vts # lambda_t = V_tb * (V_ts).conjugate  CKM products
