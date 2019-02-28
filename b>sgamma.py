@@ -10,7 +10,7 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import gammaeffective as gaeff
-from scipy import special as sp
+from scipy.integrate import quad
 from invariant import *
 #import exercise as ex
 x = mt**2 / mw**2 # mt^2 /mw^2
@@ -74,6 +74,21 @@ print('LOalpha_s(mb)',LOalpha_s(mb))
 print('NLOalpha_s(mb)',NLOalpha_s(mb))
 print('run-bquark',run_quark_bar(mb))
 print('run-mw', run_quark_bar(mw))
+#########################################################################
+# Function G(t) in E2 of PHYSICAL REVIEW D, Vol58, 074004
+def G_(t):# t < 4 and t > 4
+    if t < 4:
+       return - 2 * np.arctan(np.sqrt(t /(4 - t) ) )**2
+    else:
+       log = np.log((np.sqrt(t) + np.sqrt(t - 4))/2)
+       return complex(- PI**2 / 2 + 2 * log**2,\
+                      -2 * PI * log)
+def grand1(t): # f_22 integrand
+    print('t',t,1 - z)
+    return (1 - z * t)**2 * abs(G_(t) / t + 1 / 2)**2
+def grand2(t): # f_27 integrand
+    return (1 - z * t) * (G_(t)  + 1 / 2)
+print('quad1',z,quad(grand1, 0, 1 - z )[0], type(quad(grand1, 0, 1 - z )))        
 ##########################################################################
 #4*pi*SQRT(2); factor appears in partial width of 2 fermions
 fac = 4.0 * np.sqrt(2.0) * PI 
@@ -406,9 +421,40 @@ print('delta_D_bar',delta_D_bar(0.8,complex(0.2, 0.1)))
 def decay_bsp(i,j):
     return gf**2 / (32 * PI**4) * (vts * vtb)**2 * \
     alpha_electroweak * mb**5 * abs(D_bar(i,j))**2
-print('$decay_bsp$',decay_bsp(0.8,0.2))
+print('$decay_bsp$',decay_bsp(0.8,0.2),PI)
+####################################################################
+def Amp(i,j):# A for Decay_width of b > s gamma gluon
+        f_22 = 16 * z / 27 * quad(grand1, 0, 1 - z )[0]
+        f_27 = - 8 * z**2 / 9 *  quad(grand2, 0, 1 - z )[0]
+        f_11 = 1 /36 * f_22
+        f_12 = - 1 /3 * f_22
+        f_17 = - 1 /6 * f_27
+        f_28 = - 1 /3 * f_27
+        f_18 = - 1 /6 * f_28
+        f_78 = 8 /9 * (25 /12 - PI**2 / 6)
+        f_88 = 1 /27 * (16 /3 - 4 * PI**2 / 3 + 4 * np.log(mb / run_quark_bar(mb) ))
+        summ1 = c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
+c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_11
+        summ2 = c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
+c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_12
+        summ3 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
+c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_22
+        summ4 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
+c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_27
+        summ5 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
+c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_28
+        summ6 = c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
+c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate()* f_78
+        summ7 = c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
+c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_88
+        summ_all = summ1 + summ2 + summ3 + summ4 + summ5 + summ6 + summ7
+        return LOalpha_s(run_quark_bar(mb)) / PI * summ_all.real
+print('Amp',Amp(0.2,0.5 + 1.0j))
 ###########Decay_width of b > s gamma gluon
-#def decay_bspg(i,j):
+def decay_bspg(i,j):
+        a1 = gf**2 / (32 * PI**4) * (vts * vtb)**2 * \
+        alpha_electroweak * mb**5 
+        return a1 * Amp(i,j)   
 ###########Decay_width of semileptonic 
 def decay_SL():
     part1 = gf**2 /(192 * PI**3) * abs(vcb)**2 * mb**5 * g_z
@@ -419,3 +465,15 @@ print('Partial width of semileptonic decay', decay_SL() )
 #################################################################
 #Measured Semi- leptonic branching ratio B_SL
 B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996
+#################################################################
+################################################################
+#################### Partial width of B_bar > X_s + gamma
+def decay_B_bar_Xsg(i,j):
+    a1 = gf**2 / (32 * PI**4) * (vts * vtb)**2 * alpha_electroweak * mb**5 
+    chunk1 = abs(D_bar(i,j))**2 + Amp(i,j) + delta_NP_ga / (mb**2) * \
+    abs(c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j))**2 + \
+    delta_NP_c / (mc**2) * \
+    (c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() *\
+     (c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) - \
+      c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * 1 / 6))
+    return a1 * chunk1
