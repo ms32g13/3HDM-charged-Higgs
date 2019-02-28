@@ -11,6 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import gammaeffective as gaeff
 from scipy.integrate import quad
+from scipy import special as sp
 from invariant import *
 #import exercise as ex
 x = mt**2 / mw**2 # mt^2 /mw^2
