@@ -8,7 +8,7 @@ Created on Tue Feb 26 14:41:45 2019
 import math
 ###Invariant parameters 
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
-mt = 171.2    # mass of top quark
+mt = 175   # mass of top quark  171.2
 mc = 1.29     # mass of charm quark
 mb = 4.18     # mass of bottom quark
 nf = 5.0      # origin 5

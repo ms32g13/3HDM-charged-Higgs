@@ -85,7 +85,7 @@ def G_(t):# t < 4 and t > 4
        return complex(- PI**2 / 2 + 2 * log**2,\
                       -2 * PI * log)
 def grand1(t): # f_22 integrand
-    print('t',t,1 - zz)
+#    print('t',t,1 - zz)
     return (1 - zz * t)**2 * abs(G_(t) / t + 1 / 2)**2
 def grand2(t): # f_27 integrand
     return (1 - zz * t) * (G_(t)  + 1 / 2)
@@ -129,10 +129,10 @@ def c0_8xy(yy):
     return y / 4 * ( chunk / (y - 1)**3 )
 ###
 def c0_7eff(xx,yy,i,j):# i = Y^2 j = (XY^*) 
-    return c0_7sm(xx) + np.array(abs(i)**2)**2 * c0_7yy(yy) + np.array(j) * \
+    return c0_7sm(xx) + np.array(abs(i))**2 * c0_7yy(yy) + np.array(j) * \
 c0_7xy(yy)
 def c0_8eff(xx,yy,i,j):# i = Y^2 j = (XY^*) 
-    return c0_8sm(xx) + np.array(abs(i)**2)**2 * c0_8yy(yy) + np.array(j) * \
+    return c0_8sm(xx) + np.array(abs(i))**2 * c0_8yy(yy) + np.array(j) * \
 c0_8xy(yy)
 # LO Effective Wilson coefficient  # i = Y^2 j = (XY^*) 
 def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0 
@@ -141,10 +141,11 @@ def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0
         c0_eff.append(0.0)
     c0_eff[1] = 1.0 # c0_2eff
     c0_eff[6] = c0_7eff(xx,yy,i,j) # c0_7eff
+    print( 'type',type(c0_7eff(xx,yy,i,j)))
     c0_eff[7] = c0_8eff(xx,yy,i,j) # c0_8eff
     return np.array(c0_eff)
 print('c0_eff(mu_w,i,j)',c0_eff(LOalpha_s(mw),0.1,\
-              0.6 * 0.7 ) )
+              0.6 * 0.7 ))
 ##########################
 ########################## NLO
 def E_0(s):#NLO
@@ -326,8 +327,8 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y^2 and XY*
         c1_eff.append(0.0)
     c1_eff[0] = 15 + 6 * ratio #c1,eff,1,sm
     c1_eff[3] = E_0(s) + 2 / 3 * ratio + np.array(abs(i)**2) * E_H(s)
-    c1_eff[6] = list1[0] + np.array(abs(i)**2) * list1[2] + np.array(j) * list1[4]
-    c1_eff[7] = list1[1] + np.array(abs(i)**2) * list1[3] + np.array(j) * list1[5]
+    c1_eff[6] = list1[0] + np.array(abs(i))**2 * list1[2] + np.array(j) * list1[4]
+    c1_eff[7] = list1[1] + np.array(abs(i))**2 * list1[3] + np.array(j) * list1[5]
     return np.array(c1_eff)
 print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),1.0,20))
 #################################################################
@@ -415,7 +416,7 @@ def D_bar(i,j):#mu_b scale Reduced Amplitude
 LOalpha_s(run_quark_bar(mb)) / (4 * PI) *  (\
 (c1_7_eff(NLOalpha_s(run_quark_bar(mb)),NLOalpha_s(mw),i,j) + \
  v_ub) )
-print('D_bar',D_bar(0.8,0.2))
+print('D_bar',D_bar(0.8,0.2), type(D_bar(0.8,0.2)))
 def delta_D_bar(i,j): #mu_b scale delta_Reduced_Amplitude
     # Riemann Zeta func- tion zeta_3
     zeta_3 = 1.2021
@@ -452,8 +453,8 @@ def decay_bsp(i,j):
 print('$decay_bsp$',decay_bsp(0.8,0.2),PI)
 ####################################################################
 def Amp(i,j):# A for Decay_width of b > s gamma gluon
-        f_22 = 16 * zz / 27 * quad(grand1, 0, 1 - zz )[0]
-        f_27 = - 8 * zz**2 / 9 *  quad(grand2, 0, 1 - zz )[0]
+        f_22 = 16 * zz / 27 * np.array( quad(grand1, 0, 1 - zz )[0] )
+        f_27 = - 8 * zz**2 / 9 * np.array( quad(grand2, 0, 1 - zz )[0])
         f_11 = 1 /36 * f_22
         f_12 = - 1 /3 * f_22
         f_17 = - 1 /6 * f_27
