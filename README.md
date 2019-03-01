@@ -14,7 +14,7 @@ exercise.py : Code to produce BR( H+> cb, cs, taunv ) based on Yukawa couplings 
 > The signal / sqrt(background) of 2jets (cb/cs + taunv) and 4 jets (cb/cs + cs/cb ) cases  plots are included.
 >> This is connected with eehh.py, so after select e_c as single, then a choice for specific parameter for specific type 3HDM is required.
 
-b>sgamma.py : Code to produce Branching ratio of B_bar > Xs + gamma(photon) based on NLO Wilson coefficients from matching scale (mu_w) to lower scale (mu_b).
+b_sgamma.py : Code to produce Branching ratio of B_bar > Xs + gamma(photon) based on NLO Wilson coefficients from matching scale (mu_w) to lower scale (mu_b).
 > Functions are based on paper PHYSICAL REVIEW D 58 074004. 
 >> It generates basic functions which requires to put i = Y^2 and j = XY^* for each function.
 
