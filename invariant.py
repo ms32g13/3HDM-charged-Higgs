@@ -36,4 +36,10 @@ coeffmc = 12.0/25.0
 coeffmb = 12.0/23.0
 alpmz = 0.1185 #coupling of z 
 alpha_electroweak = 1.0 / 128.0 # alpha for EM coupling
+# CKM matrix elements observables from CKMfitter
+#https://indico.cern.ch/event/684284/contributions/2952455/attachments/1719296/2774804/Vale_Silva_3.pdf
+rho_bar_ckm = 0.1577
+eta_bar_ckm = 0.3493
+lanmda_ckm = 0.224747
+A_ckm = 0.8403
 lambda_t = vtb * vts # lambda_t = V_tb * (V_ts).conjugate  CKM products
