@@ -811,29 +811,95 @@ for n in np.arange(0,len(fl.mhch)):
     print('---------------------------------------------------')
 ########################################################################
 #### 2 jet tagged plot array
-    twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
-                                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
-                                ) * 0.3 / np.sqrt(fl.backgroundtagging2())
+    twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
+                fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
+                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
+                ) * 0.3 / np.sqrt(fl.backgroundtagging2())
 #### 4 jet 2b-tagged plot array
-    fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
+    fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
+                   fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
                    fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
-                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
-                               * fl.epsilon / np.sqrt(fl.backgroundtagging())
+                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
+                   fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
+                              * fl.epsilon / np.sqrt(fl.backgroundtagging())
+#### 4 jet 1b-tagged plot array
+    fourtag1bsig = fl.eeHH_event()[n] * (fl.real_b_cbcb(BRCBfinal,BRCBfinal) +\
+                   fl.fake_b_cbcb(BRCBfinal,BRCBfinal) + fl.real_b_cbcs(BRCBfinal,BRCSfinal) + \
+                   fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
+                   fl.fake_b_cscs(BRCSfinal,BRCSfinal)) \
+                              * fl.epsilon / np.sqrt(fl.backgroundtagging())
 #########################################################################
-    plt.figure()
-    Contoursignal0 = plt.contourf(A,B, \
-         np.resize(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) ),\
-               len(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) ))).\
-        reshape(len(B),len(A)),colors = ['black','royalblue','purple','orange','brown','red','gray'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('Significance of H_char>cbcb in '+\
-             readlist[int(read1)] +','+ readlist[int(read2)])
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
-    plt.colorbar(Contoursignal0)
+#    plt.figure()
+#    Contoursignal0 = plt.contourf(A,B, \
+#         np.resize(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) ),\
+#               len(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) ))).\
+#        reshape(len(B),len(A)),colors = ['black','royalblue','purple','orange','brown','red','gray'])# ,levels = np.arange(1.0,6.0,1.0))
+#    plt.title('Significance of H_char>cbcb in '+\
+#             readlist[int(read1)] +','+ readlist[int(read2)])
+#    plt.xlabel(readlist[int(read1)])# x-axis label
+#    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.colorbar(Contoursignal0)
 #    plt.savefig('significance_cbcb'+ str(mhch) +'.png')
 #    plt.show()
+#    plt.close()
+#############################################
+#############################################
+# (4 parameters):A,B, BRCB^2 contour plot [in the :reshape(y,x) not reshape(x,y)]
+    plt.figure()
+    Contourbrcb_2 = plt.contourf(A,B, \
+           np.resize(np.array(BRCBfinal) * np.array(BRCBfinal),\
+                 len(np.array(BRCBfinal) * np.array(BRCBfinal) )).reshape(len(B),len(A)),\
+           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
+           levels = np.arange(0.0, 0.8,0.1))
+#    plt.clabel(Contourbrcb_2)# contour level show
+    plt.colorbar(Contourbrcb_2)
+    plt.title('BR($H^{\pm} \longrightarrow $ cb)^2,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.savefig('CharHcbsquared'+ str(mhch) +'.png')
+    plt.show()
     plt.close()
-############################# 
+#######################################################
+# (4 parameters):A,B,plot (BR(H+> cb)  * BR(H+> tn) )
+    plt.figure()
+    Contourbrcbtn = plt.contourf(A,B, \
+           np.resize(np.array(BRCBfinal) * np.array(BRTNfinal),len(np.array(BRCBfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
+           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
+#    plt.clabel(Contourbrcbtn, inline= 0.02, fontsize= 9)# contour level show
+    plt.colorbar(Contourbrcbtn)
+    plt.title(' BR($H^{\pm} \longrightarrow $ cb) * BR($H^{\pm} \longrightarrow $ tn) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.savefig('CharHcbtn'+ str(mhch) +'.png')
+    plt.show()
+    plt.close()
+#######################################################
+# (4 parameters):A,B,plot (BR(H+> cb)  * BR(H+> cs) )
+    plt.figure()
+    Contourbrcbcs = plt.contourf(A,B, \
+           np.resize(np.array(BRCBfinal) * np.array(BRCSfinal),len(np.array(BRCBfinal) * np.array(BRCSfinal))).reshape(len(B),len(A)),\
+           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
+#    plt.clabel(Contourbrcbcs, inline= 0.02, fontsize= 9)# contour level show
+    plt.colorbar(Contourbrcbcs)
+    plt.title(' BR($H^{\pm} \longrightarrow $ cb) * BR($H^{\pm} \longrightarrow $ cs) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.savefig('CharHcbcs'+ str(mhch) +'.png')
+    plt.show()
+    plt.close()
+###############################################
 # (4 parameters):A,B, 4jet tagged plots
     plt.figure()
     signal4jet = plt.contourf(A,B, \
@@ -853,24 +919,24 @@ for n in np.arange(0,len(fl.mhch)):
     plt.savefig('sig_4jet'+ str(mhch) +'.png')
     plt.show()
     plt.close()
-################################
-# (4 parameters):A,B, BRCB^2 contour plot [in the :reshape(y,x) not reshape(x,y)]
+###############################################
+# (4 parameters):A,B, 4jet tagged plots 1-b
     plt.figure()
-    Contourbrcb_2 = plt.contourf(A,B, \
-           np.resize(np.array(BRCBfinal) * np.array(BRCBfinal),\
-                 len(np.array(BRCBfinal) * np.array(BRCBfinal) )).reshape(len(B),len(A)),\
-           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
-           levels = np.arange(0.0, 0.8,0.1))
-#    plt.clabel(Contourbrcb_2)# contour level show
-    plt.colorbar(Contourbrcb_2)
-    plt.title('BR($H^{\pm} \longrightarrow $ cb)^2,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    signaloneb4jet = plt.contourf(A,B, \
+        np.resize( fourtag1bsig ,\
+              len( fourtag1bsig)).\
+        reshape(len(B),len(A)),\
+        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 1btagged 4jet '+\
+             ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('CharHcbsquared'+ str(mhch) +'.png')
+    plt.colorbar(signaloneb4jet)
+    plt.savefig('sig_1b4jet'+ str(mhch) +'.png')
     plt.show()
     plt.close()
 ################################
@@ -891,23 +957,6 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('sig_4jetnotag'+ str(mhch) +'.png')
 #    plt.show()
-    plt.close()
-#######################################################
-    plt.figure()
-    Contourbrcbtn = plt.contourf(A,B, \
-           np.resize(np.array(BRCBfinal) * np.array(BRTNfinal),len(np.array(BRCBfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
-           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
-#    plt.clabel(Contourbrcbtn, inline= 0.02, fontsize= 9)# contour level show
-    plt.colorbar(Contourbrcbtn)
-    plt.title(' BR($H^{\pm} \longrightarrow $ cb) * BR($H^{\pm} \longrightarrow $ tn) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
-#    plt.xscale('log')
-#    plt.yscale('log')
-#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('CharHcbtn'+ str(mhch) +'.png')
-    plt.show()
     plt.close()
 ####################################
 #    plt.figure()

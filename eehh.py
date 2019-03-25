@@ -716,16 +716,16 @@ print('MHCH',mhch)
 print('charged Higgs events',eeHH_event())
 if len(mhch) > 1:
     if type(e_c) == type(e_clist) :
-        massH_ec_plane4jet(0.6,0.05)
-        massH_ec_planeone4jet(0.6,0.05)
+        massH_ec_plane4jet(0.65,0.20)
+        massH_ec_planeone4jet(0.65,0.20)
         massH_ec_plane2jet(0.40,0.35)
-        ec_eb_plane4jet(0.8,0.19)
+        ec_eb_plane4jet(0.65,0.20)
         ec_eb_plane2jet(0.40,0.35)
 #    ec_eb_plane2jetnotag(0.40,0.33)
-        invariantmsscut_ec(0.8,0.19)
+        invariantmsscut_ec(0.65,0.2)
     else:
-        mhch_invariantmsscut(0.8,0.19)
-        massH_soverb2jetnotag(0.80,0.20)#0.40,0.33
+        mhch_invariantmsscut(0.65,0.2)
+        massH_soverb2jetnotag(0.65,0.20)#0.40,0.33
         massH_soverb2jetag(0.40,0.3)
         massH_soverb4jetnotag(0.5,0.2)
         massH_soverb4jetag(0.4,0.3)
