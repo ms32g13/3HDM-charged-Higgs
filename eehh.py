@@ -43,7 +43,7 @@ epsilon = e_mass * e_4jet * e_isignal # total epsilon
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(90.0,91.0 ,1.0)# charged Higgs ranged values
+mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -306,12 +306,33 @@ def eeHHcstn_0bsignal(x,y):
     chunk2 = e_c * (1 - e_l) + e_l * (1 - e_c)
     chunk1 =  2.0 * np.array(x) * np.array(y) * chunk2  # before compare with table # 2.0 for cstn and tncs 
     return np.array(chunk1) #* epsilon# * e_antiww  after 3 selections chosen 
-################################
+######################################################################
+def real_b_cbcb(x,y): # 1 real b tag for 4jet case (Hadronic) cbcb
+    chunk1 = 2.0 * e_b * e_c * (1 - e_b) * (1 - e_c)
+    return chunk1 * np.array(x) * np.array(y)
+def fake_b_cbcb(x,y): # 1 fake b tag for 4jet case (Hadronic) cbcb
+    chunk1 = 2.0 * (1 - e_b)**2 * (1 - e_c) * e_c
+    return chunk1 * np.array(x) * np.array(y)
+def real_b_cbcs(x,y): # 1 real b tag for 4jet case (Hadronic) cbcs
+    e_l = 0.01
+    chunk1 = e_b * e_c * (1 - e_c)**2 * (1 - e_l)
+    return chunk1 * np.array(x) * np.array(y)
+def fake_b_cbcs(x,y): # 1 fake b tag for 4jet case (Hadronic) cbcs
+    e_l = 0.01
+    chunk1 = 2.0 * (1 - e_b) * e_c * (1 - e_c) * (1 - e_l)
+    return chunk1 * np.array(x) * np.array(y)
+def real_b_cscs(x,y): # 1 real b tag for 4jet case (Hadronic) cscs
+    return 0.0
+def fake_b_cscs(x,y): # 1 fake b tag for 4jet case (Hadronic) cscs
+    e_l = 0.01
+    chunk1 = 2.0 * (e_c * (1 - e_c)**2 * (1 - e_l) + e_c * (1 - e_c) * (1 - e_l)**2 )
+    return chunk1 * np.array(x) * np.array(y) 
 ###########################################################################
+#Cross-section of eeww against COM E 
 plt.figure()
 plt.plot(np.sqrt(np.array(S)), cross_section_eeww()/ (2.56819 * 10 **(-9)))
 plt.ylabel('Cross-section in pb^-1')
-plt.xlabel('CoM energy Squared root of S')
+plt.xlabel('CoM energy $\sqrt{S}$')
 #plt.savefig('picture.png')
 plt.show()
 ####################################################################################
@@ -354,10 +375,28 @@ def sig(x,y):# Signal/sqrt(Background)
 #Contoursignal2 = plt.contour(e_c,e_b, \
 #           np.resize(eeHHcbcb_1bsignal(),len(eeHHcbcb_1bsignal())).reshape(len(e_b),len(e_c)))
 #plt.colorbar(Contoursignal2)
-
+def massH_ec_planeone4jet(x,y):
+    tagging_one4jet = ( real_b_cbcb(x,x) + fake_b_cbcb(x,x) + \
+                        real_b_cbcs(x,y) + fake_b_cbcs(x,y) + \
+                        real_b_cscs(x,y) + fake_b_cbcs(x,y) ) * epsilon
+    plt.figure()
+    sig4jet_tag = plt.contourf(mhch,e_c,\
+                   np.resize(sig(eeHH_event() ,  tagging_one4jet / np.sqrt(backgroundtagging() )),\
+                          len(sig(eeHH_event() ,  tagging_one4jet / np.sqrt(backgroundtagging() )))).\
+               reshape(len(e_c),len(mhch)),\
+#                levels = np.arange(0.0, 8.0,1.0), \
+               colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 1_b_4jet_tag ')
+    plt.xlabel('mhch')# x-axis label
+    plt.ylabel('e_c')# y-axis label
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.colorbar(sig4jet_tag)
+    plt.savefig('sig_1b4jetecmhch.png')
+    plt.show()
+    plt.close()
 ##############################################################
 def massH_ec_plane4jet(x,y):
-    print('wlw',mhch,eeHH_event())
 #     for  c in e_c:
 #        print(eeHHcbcb_2bsignal(0.8,0.8))
 #    for j in mhch:#char_H mass
@@ -384,8 +423,8 @@ def massH_ec_plane4jet(x,y):
     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet_tag with max BR ')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('e_c')# y-axis label
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet_tag)
     plt.savefig('sig_4jetecmhch.png')
     plt.show()
@@ -527,7 +566,7 @@ def signal_mhch_2jetag(x,y): #signal tagged with e_b and e_c
     plt.show()
     plt.close()
 ###################################################################
-# 4jet tagging with plane in [e_c ,e_b] for mhch from 80 to 90 GeV
+# 4jet 2b-tagging with plane in [e_c ,e_b] for mhch from 80 to 90 GeV 
 def ec_eb_plane4jet(x,y):
     global e_b,e_c
     for n in np.arange(0,len(mhch)): # for each time, eeHH_event()[n] gives specific charH event
@@ -671,12 +710,14 @@ colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
      plt.close()        
          
 ###################################################################
+## PLOTS SECTION 
 print('e-b,e-c',e_b,e_c)
-#print(type(sig(eeHH_event(), tagging_4jet / np.sqrt(backtag_invarmasscut() ))),\
-#      sig(eeHH_event(), tagging_4jet / np.sqrt(backtag_invarmasscut() )))
+print('MHCH',mhch)
+print('charged Higgs events',eeHH_event())
 if len(mhch) > 1:
     if type(e_c) == type(e_clist) :
-        massH_ec_plane4jet(0.8,0.19)
+        massH_ec_plane4jet(0.6,0.05)
+        massH_ec_planeone4jet(0.6,0.05)
         massH_ec_plane2jet(0.40,0.35)
         ec_eb_plane4jet(0.8,0.19)
         ec_eb_plane2jet(0.40,0.35)

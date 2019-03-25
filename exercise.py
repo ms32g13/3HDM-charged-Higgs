@@ -39,8 +39,8 @@ A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 2.1#theta
-j = 10.0    #tangentbeta
+i = - PI / 2.1 #theta
+j = 40.0    #tangentbeta
 k = 10.0 #tangamma
 l = 0.0 # set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
@@ -152,9 +152,6 @@ def Y_function(i,j,k,l):
 def Z_function(i,k):
         sthe = math.sin(i)#sinetheta
         return sthe * k
-#############################################################################
-def complexyfunction(i,j,k,l):# (XY^*) function 
-        return (X2(i,j,k,l)*(np.conj(Y2(i,j,k,l))))
 #############################################################################
 #unitary matrix (diagonalization matrix)
 #### theta, tangentbeta, tangamma, delta for U^dagger
@@ -290,6 +287,9 @@ def start1():# choose model
                  print("Not correct type 3HDM")
             print('Model:',read0)
         return 
+#############################################################################
+def complexyfunction(i,j,k,l):# (XY^*) function 
+        return (X2(i,j,k,l) * (np.conj(Y2(i,j,k,l))))
 ###############################################################################
 def start3():
 #        global X2,Y2,Z2 #
@@ -620,53 +620,68 @@ for n in np.arange(0,len(fl.mhch)):
 #################################
 #PLOT OF CONTOUR WITH RANGE OS 4 PARAMETERS INTO |X|,|Y|,|Z = 0.1| WITH CS,CB,TAUNV
 # (4 parameters):A,B, BRCS contour plot [in the :reshape(y,x) not reshape(x,y)]
-    
-    plt.figure()
-    Contourbrcs = plt.contour(A,B, \
+    plt.figure(1)
+    plt.subplot(221)
+    Contourbrcs = plt.contourf(A,B, \
           np.resize(BRCSfinal,len(BRCSfinal)).reshape(len(B),len(A)),\
           colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
     plt.axis([min(A), max(A),min(B), max(B)])
 #plt.clabel(Contourbrcs, inline= 0.01, fontsize=10)# contour level show
     plt.colorbar(Contourbrcs)
-    plt.title('BR($H^{\pm} \longrightarrow $ cs),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($H^{\pm} \longrightarrow $ cs)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cs.png')
-    plt.close()
-    print('--------------------------------------------------')
+#    plt.show()
+#    plt.close()
+#    print('--------------------------------------------------')
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.figure()
-    Contourbrcb = plt.contour(A,B, \
+    plt.subplot(222)
+    Contourbrcb = plt.contourf(A,B, \
            np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
-    plt.clabel(Contourbrcb, inline= 0.02, fontsize= 9)# contour level show
+#    plt.clabel(Contourbrcb, inline= 0.02, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcb)
-    plt.title('BR($H^{\pm} \longrightarrow $ cb),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($H^{\pm} \longrightarrow $ cb)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.png')
-    plt.show()
-    plt.close()
-    print('--------------------------------------------------')
+#    plt.show()
+#    plt.close()
+#    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.figure()
-    Contourbrtn = plt.contour(A,B, \
+    plt.subplot(223)
+    Contourbrtn = plt.contourf(A,B, \
            np.resize(BRTNfinal,len(BRTNfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
 #plt.clabel(Contourbrtn)# contour level show
     plt.colorbar(Contourbrtn)
-    plt.title('BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,TN.png')
+#    plt.show()
+#    plt.close()
+#    print('--------------------------------------------------')
+#(4 parameters): A,B, BRCB + BRCS contour plot 
+    plt.subplot(224)
+    ContourBRCBCS = plt.contourf(A,B, \
+           np.resize(np.array(BRCBfinal) + np.array(BRCSfinal),len(np.array(BRCBfinal) + np.array(BRCSfinal))).reshape(len(B),len(A)),\
+           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
+#    plt.clabel(ContourBRCBCS, inline= 0.02, fontsize= 9)# contour level show
+    plt.colorbar(ContourBRCBCS)
+    plt.title(' BR($H^{\pm} \longrightarrow $ cb) + BR($H^{\pm} \longrightarrow $ CS) ')#, $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.savefig('CharHCBplusCS'+ str(mhch) +'.png')
+    plt.subplots_adjust(top=0.99, bottom=0.06, left=0.1, right=0.99, hspace= 0.6,
+                    wspace=0.3)
+    plt.show()
     plt.close()
-    print('--------------------------------------------------')
 #(4 parameters): A,B, BRTHBBRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
     ContourBRTHBBRCB1 = plt.contour(A,B, \
@@ -875,7 +890,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('sig_4jetnotag'+ str(mhch) +'.png')
-    plt.show()
+#    plt.show()
     plt.close()
 #######################################################
     plt.figure()
@@ -892,23 +907,6 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('CharHcbtn'+ str(mhch) +'.png')
-    plt.show()
-    plt.close()
-################################
-    plt.figure()
-    ContourBRCBCS = plt.contourf(A,B, \
-           np.resize(np.array(BRCBfinal) + np.array(BRCSfinal),len(np.array(BRCBfinal) + np.array(BRCSfinal))).reshape(len(B),len(A)),\
-           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
-#    plt.clabel(ContourBRCBCS, inline= 0.02, fontsize= 9)# contour level show
-    plt.colorbar(ContourBRCBCS)
-    plt.title(' BR($H^{\pm} \longrightarrow $ cb) + BR($H^{\pm} \longrightarrow $ CS) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
-#    plt.xscale('log')
-#    plt.yscale('log')
-#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('CharHCBplusCS'+ str(mhch) +'.png')
     plt.show()
     plt.close()
 ####################################
@@ -961,9 +959,6 @@ for n in np.arange(0,len(fl.mhch)):
     plt.show()
     plt.close()
 ####################################
-    twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
-                                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
-                                ) * 0.3 / np.sqrt(fl.backgroundtagging2())
     print(len(twotagsig),A)
     np.savetxt('fourtag2bsig.txt',(fourtag2bsig),header="fourtag2bsig",fmt = '%10.5f')
     np.savetxt('twotagsig.txt',(twotagsig),header="twotagsig",fmt = '%10.5f')
@@ -984,5 +979,5 @@ for n in np.arange(0,len(fl.mhch)):
                     BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                     BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))) 
         print(len(BRCBfinal))
-    start4()
+#    start4()
     
