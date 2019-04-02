@@ -36,7 +36,7 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tbe = random.uniform(1.0,61.0) #tanbeta (j in loop)
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
-the = np.arange(- PI / 2, PI/50 ,PI / 10)#theta (i in loop)
+the = np.arange(- PI / 2, PI/50 ,PI / 50)#theta (i in loop)
 tbe = np.arange(1.0,61.0,1.0) #tanbeta (j in loop)
 tga = np.arange(1.0,61.0,1.0) #tangamma (k in loop)
 delta = np.arange(0.0,2.1 * PI , PI /6)#delta (l in loop)  #delta fixed#
@@ -1048,6 +1048,8 @@ def start4():#Scan-plot
         list_a =[]
         list_b =[]
         list_c =[]
+#        mhch = 80.0
+        print('mhch',mhch)
         for var_i in the:
             for var_j in tbe:
                 for var_k in tga:
@@ -1065,48 +1067,65 @@ def start4():#Scan-plot
                     BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                     BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                     BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))) 
+        arrayhadron = np.array(BRCBfinal) + np.array(BRCSfinal)
+        arraycbtn = np.array(BRCBfinal) * np.array(BRTNfinal)
         d1 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                       
-                       'BRCB': [*BRCBfinal],
-                       'BRCS': [*BRCSfinal],
-                       'BRTN': [*BRTNfinal]})        
+                           'BRCB': [*BRCBfinal]})
+        d2 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRCS': [*BRCSfinal]})
+        d3 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRTN': [*BRTNfinal]})
+        d4 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRCB+CS': [*arrayhadron]})    
+        d5 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRCB+CS': [*arraycbtn]})      
+        d1.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcb.csv',\
+                   index = None, header=True) 
+        d2.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcs.csv',\
+                   index = None, header=True)
+        d3.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dtn.csv',\
+                   index = None, header=True)
+        d4.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcbpcs.csv',\
+                   index = None, header=True)
+        d5.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcbmtn.csv',\
+                   index = None, header=True)
         xtbe,ytga = np.meshgrid(tbe,tga)
         #zzz = np.reshape(np.array(BRCBfinal),( len(the) , len(tbe) * len(tga) ))
         #break whole list to [ len(tga) * len(tbe) ], * len(the) 
-        list_bx = np.split(np.array(list_b),len(the)) 
-        list_cx = np.split(np.array(list_c),len(the))
-        cbcb = np.split(np.array(BRCBfinal), len(the))
-        cscs = np.split(np.array(BRCSfinal), len(the))
-        tntn = np.split(np.array(BRTNfinal), len(the))
+#        list_bx = np.split(np.array(list_b),len(the)) 
+#        list_cx = np.split(np.array(list_c),len(the))
+#        cbcb = np.split(np.array(BRCBfinal), len(the))
+#        cscs = np.split(np.array(BRCSfinal), len(the))
+#        tntn = np.split(np.array(BRTNfinal), len(the))
 #        print(cbcb,type(cbcb),len(cbcb),np.array(cbcb).ndim)
-        sum_cbcb = []
+#        sum_cbcb = []
 #        sum_bx = []
-        for i in np.arange(0,len(the)):
+#        for i in np.arange(0,len(the)):
             # break single [ len(tga) * len(tbe) ] to [len(tga), len(tbe)]
-            list_bx[i] = np.split(np.array(list_bx[i]),len(tbe) )
-            list_cx[i] = np.split(np.array(list_cx[i]),len(tbe) )
-            cbcb[i] = np.split(np.array(cbcb[i]),len(tbe))
-            cscs[i] = np.split(np.array(cscs[i]),len(tbe))
-            tntn[i] = np.split(np.array(tntn[i]),len(tbe))
+#            list_bx[i] = np.split(np.array(list_bx[i]),len(tbe) )
+#            list_cx[i] = np.split(np.array(list_cx[i]),len(tbe) )
+#            cbcb[i] = np.split(np.array(cbcb[i]),len(tbe))
+#            cscs[i] = np.split(np.array(cscs[i]),len(tbe))
+#            tntn[i] = np.split(np.array(tntn[i]),len(tbe))
 #            print(len(cbcb[i]),len(np.array(tntn[i])))
-            sum_cbcb = sum_cbcb + cbcb[i]
+#            sum_cbcb = sum_cbcb + cbcb[i]
 #            print('-',len(np.array(sum_cbcb).flatten()))
-            fig = plt.figure()
-            ax = Axes3D(fig)
-            surf = ax.plot_surface(xtbe,ytga,np.array(tntn[i]) ,\
-                rstride=1, cstride=1, cmap=cm.hsv,linewidth=0, antialiased=True)
-            surf1 = ax.plot_surface(xtbe,ytga,np.array(cbcb[i]) ,\
-                 rstride=1, cstride=1, cmap=cm.jet,linewidth=0, antialiased=True)
-            surf2 = ax.plot_surface(xtbe,ytga,np.array(cscs[i]) ,\
-                 rstride=1, cstride=1, cmap=cm.cool,linewidth=0, antialiased=True)
-            fig.colorbar(surf, shrink= 0.5, aspect=5)
-            fig.colorbar(surf1, shrink=0.5, aspect=5)
-            fig.colorbar(surf2, shrink=0.5, aspect=5)
+#            fig = plt.figure()
+#            ax = Axes3D(fig)
+#            surf = ax.plot_surface(xtbe,ytga,np.array(tntn[i]) ,\
+#                rstride=1, cstride=1, cmap=cm.hsv,linewidth=0, antialiased=True)
+#            surf1 = ax.plot_surface(xtbe,ytga,np.array(cbcb[i]) ,\
+#                 rstride=1, cstride=1, cmap=cm.jet,linewidth=0, antialiased=True)
+#            surf2 = ax.plot_surface(xtbe,ytga,np.array(cscs[i]) ,\
+#                 rstride=1, cstride=1, cmap=cm.cool,linewidth=0, antialiased=True)
+#            fig.colorbar(surf, shrink= 0.5, aspect=5)
+#            fig.colorbar(surf1, shrink=0.5, aspect=5)
+#            fig.colorbar(surf2, shrink=0.5, aspect=5)
 #        ax.plot_trisurf(d1['tangamma'],d1['tanbeta'],d1['BRCB'],cmap=cm.jet, linewidth=0.2)
 #        ax.plot_trisurf(d1['tangamma'],d1['tanbeta'],d1['BRCS'],cmap=cm.jet, linewidth=0.2)
 #        ax.plot_trisurf(d1['tangamma'],d1['tanbeta'],d1['BRTN'],cmap=cm.jet, linewidth=0.2)
         
-            plt.show()
+#            plt.show()
 #        cbcb_3600 = np.split(np.array(BRCBfinal), len(tga) * len(tbe))
 #        print('--',len(cbcb_3600))
 #        print(len(np.array(sum_cbcb).reshape(len(tbe)* len(tga),len(the) )) )
@@ -1119,7 +1138,7 @@ def start4():#Scan-plot
 #        fig.colorbar(surfsum, shrink= 0.5, aspect=5)
 #        plt.show()
         return
-#    start4()
+start4()
 #    pd.plotting.scatter_matrix(start4(),alpha=0.5)
 #####################################################
 #print('len',len(np.array(BRCBfinal_list).flatten()) ,np.array(BRCBfinal_list).flatten().ndim)
