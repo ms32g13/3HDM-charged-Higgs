@@ -15,6 +15,7 @@ Created on Tue Nov 27 16:27:02 2018
 ###
 
 ### INITIAL SET UP 
+
 import math
 import random
 import numpy as np
@@ -22,7 +23,11 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 #import vegas
 import eehh as fl
+import pandas as pd
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
 from invariant import *
+
 ##########################################################################
 #4*pi*SQRT(2); factor appears in partial width of 2 fermions
 fac = 4.0 * np.sqrt(2.0) * PI 
@@ -39,8 +44,8 @@ A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 3 #theta
-j = 10.0    #tangentbeta
+i = - PI / 2.1 #theta
+j = 40.0    #tangentbeta
 k = 10.0 #tangamma
 l = 0.0 # set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
@@ -78,7 +83,6 @@ def lamcs (X,Y):
 def lamcb (X,Y):
       coupc = Y**2
       coupb = X**2
-    
       return (3 * gf * mhch * (vcb**2)) * (mc**2 * coupc + mb**2 * coupb) * \
            (1.0 + 17.0 * alpmz/(3.0 * PI)) / fac
 ####################################################
@@ -153,9 +157,6 @@ def Y_function(i,j,k,l):
 def Z_function(i,k):
         sthe = math.sin(i)#sinetheta
         return sthe * k
-#############################################################################
-def complexyfunction(i,j,k,l):# (XY^*) function 
-        return (X2(i,j,k,l)*(np.conj(Y2(i,j,k,l))))
 #############################################################################
 #unitary matrix (diagonalization matrix)
 #### theta, tangentbeta, tangamma, delta for U^dagger
@@ -291,6 +292,9 @@ def start1():# choose model
                  print("Not correct type 3HDM")
             print('Model:',read0)
         return 
+#############################################################################
+def complexyfunction(i,j,k,l):# (XY^*) function 
+        return (X2(i,j,k,l) * (np.conj(Y2(i,j,k,l))))
 ###############################################################################
 def start3():
 #        global X2,Y2,Z2 #
@@ -315,11 +319,47 @@ def start3():
                 BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
 #                BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-                BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))           
+                BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
+        print('lenbrcb',len(BRCBfinal))
+        BRCBfinal_list.append(BRCBfinal)
+        BRCSfinal_list.append(BRCSfinal)
+        BRTNfinal_list.append(BRTNfinal)
 def max_valueposition(xxx):# x has to be np.array ; The max value postion of long array
     yyy = np.where(xxx == max(xxx))[0]
     return int(yyy)
+def mhch_sig4jtag(x,y):
+    y_value = []
+    print('xlen',len(x))
+    for n in np.arange(0,len(x)):
+        fourjet = (fl.eeHHcbcb_2bsignal(x[n],x[n]) + fl.eeHHcbcb_1bsignal(x[n],x[n]) + \
+                   fl.eeHHcbcs_2bsignal(x[n],y[n]) + fl.eeHHcbcs_1bsignal(x[n],y[n]) + \
+                   fl.eeHHcbcb_0bsignal(x[n],x[n]) + fl.eeHHcbcs_0bsignal(x[n],y[n]) + \
+                   fl.eeHHcscs_0bsignal(y[n],y[n])) * fl.epsilon / np.sqrt(fl.backgroundtagging()) 
+#        print(len(fourjet))
+        y_value.append(fl.eeHH_event() * fourjet)
+    print('y_value',len(y_value))
+    return y_value
 #######################################################################
+#######################################################################
+#####################################################
+#plot labels 
+readlist = ("$\\theta$","tan$\\beta$","tan$\\gamma$","$\\delta$") 
+# format to 4 possible parameters
+# readlist[int(read1)] = x-axis label
+# readlist[int(read2)] = y-axis label
+##################
+#i = - PI /2#theta
+#j = 2.0    #tangentbeta
+#k = 40.0 #tangamma
+#l = 0 # set delta (phase shift) to 0
+#print('||||',brcb(abs(X_function(- PI /4,40.0,2.0,0.0)),abs(Y_function(- PI /4,40.0,2.0,0.0)),abs(Z_function(- PI /4,40.0))))
+#   print('BRCBfinal',BRCBfinal)
+####################
+BRCBfinal_list = []
+BRCSfinal_list = []
+BRTNfinal_list = []
+start()
+start1()
 for n in np.arange(0,len(fl.mhch)):
     mhch = fl.mhch[n]
 #    mhch = np.array(np.arange(120,131.0,10.0)[n])
@@ -360,10 +400,10 @@ for n in np.arange(0,len(fl.mhch)):
 
 ######### mass of s quark at scale of charged higgs mass
     ms = msatmb * (alpmhch/alpmb)**coeffmb * fb/fbmb
-
+    print('ms_value',ms,mb)
 #mb = 2.95# mass bottom quark
 #ms =0.055
-    print('MCCCCCCCCCCCCC',mc , mb, ms,fl.eeHH_event()[n])
+    print('MCCCCCCCCCCCCC',mc , mb, ms,fl.eeHH_event())
 ###################################################################################                                                                                                                                                                                                  
     if mhch > ma:
       lamaw=9.0 * gf**2 * mw**4 * mhch * gaw /(16.0 * PI**3)
@@ -392,11 +432,9 @@ for n in np.arange(0,len(fl.mhch)):
 ##############!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!               
 # Preparing conotour plots for X,Y,Z 
 ###################################################
-
 ###################################################
     BRCS = brcs(xarray,yarray,0.1)
     BRCB = brcb(xarray,yarray,0.1)
-    print('BRCB',BRCB)
     BRTN = brtn(xarray,yarray,0.1)                                                                                                                                                                  
 # Contour of Branching ratio for first H+ > c,s x-axis: |X|, y-axis = |Y|; |Z|= 0.1
     plt.figure()
@@ -428,7 +466,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('hcb.png')
-    plt.show()
+#    plt.show()
     plt.close()
     print('--------------------------------------------------')
 # Contour of Branching ratio for H+ > tau,tau-neutrino x-axis: |X|, y-axis = |Y|; |Z|= 0.1
@@ -488,7 +526,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,thbhcsXY.png')
-    plt.show()
+#    plt.show()
     plt.close()
 #    print('--------------------------------------------------')
 # Contour of Branching ratio for t >H+b - H+ > tau,nv in Y,Z plane
@@ -582,22 +620,7 @@ for n in np.arange(0,len(fl.mhch)):
 # (4 parameters),for BRTN result
     BRTNfinal = []  
 #############################################################################  
-#####################################################
-#plot labels 
-    readlist = ("$\\theta$","tan$\\beta$","tan$\\gamma$","$\\delta$") 
-# format to 4 possible parameters
-# readlist[int(read1)] = x-axis label
-# readlist[int(read2)] = y-axis label
-##################
-#i = - PI /2#theta
-#j = 2.0    #tangentbeta
-#k = 40.0 #tangamma
-#l = 0 # set delta (phase shift) to 0
-#print('||||',brcb(abs(X_function(- PI /4,40.0,2.0,0.0)),abs(Y_function(- PI /4,40.0,2.0,0.0)),abs(Z_function(- PI /4,40.0))))
-#   print('BRCBfinal',BRCBfinal)
-####################
-    start()
-    start1()
+# paste here
     start3()
     BRCB_TN = np.array(BRCBfinal) * np.array(BRTNfinal)# product of BRCB and BRTN
     BRCB_CS = np.array(BRCBfinal) * np.array(BRCSfinal)# product of BRCB and BRCS
@@ -607,7 +630,6 @@ for n in np.arange(0,len(fl.mhch)):
 #         BRCBfinal[max_valueposition(BRCB_TN)],BRTNfinal[max_valueposition(BRCB_TN)] )#
 #    print('MAXBRTN',max(BRTNfinal), max_valueposition(BRTNfinal))
 #    print('Y',len(absoluteylist),len(absolutexlist))
-    BRTN1 = brtn(xarray,yarray,0.1)#|X|,|Y| for BRTAUNV result
 #4 parameters for t>H+b to H+ >cb result
     BRTHBBRCB1 = cbevents(np.array(absolutexlist),np.array(absoluteylist),np.array(absolutezlist))
 #4 parameters for t>H+b to H+ >cs result
@@ -615,60 +637,74 @@ for n in np.arange(0,len(fl.mhch)):
 #4 parameters for t>H+b to H+ >cs + t>H+b to H+ >cb result
     BRTHQUARK = totalcbcs(np.array(absolutexlist),np.array(absoluteylist),np.array(absolutezlist))
 #################################
-#building same array length for the,tbe,delta,tga as final solution for contour plot
-#print('|||',len(the),len(tbe),len(tga),len(delta),len(BRCS1),len(absolutexlist),\
-#      len(np.resize(BRCSfinal,len(BRCSfinal)).reshape(len(B),len(A))))
-#then,tben =np.meshgrid(the,tbe)# build same length array
-#################################
 #PLOT OF CONTOUR WITH RANGE OS 4 PARAMETERS INTO |X|,|Y|,|Z = 0.1| WITH CS,CB,TAUNV
 # (4 parameters):A,B, BRCS contour plot [in the :reshape(y,x) not reshape(x,y)]
-    
-    plt.figure()
-    Contourbrcs = plt.contour(A,B, \
+    plt.figure(1)
+    plt.subplot(221)
+    Contourbrcs = plt.contourf(A,B, \
           np.resize(BRCSfinal,len(BRCSfinal)).reshape(len(B),len(A)),\
           colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
     plt.axis([min(A), max(A),min(B), max(B)])
 #plt.clabel(Contourbrcs, inline= 0.01, fontsize=10)# contour level show
     plt.colorbar(Contourbrcs)
-    plt.title('BR($H^{\pm} \longrightarrow $ cs),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($H^{\pm} \longrightarrow $ cs)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cs.png')
-    plt.close()
-    print('--------------------------------------------------')
+#    plt.show()
+#    plt.close()
+#    print('--------------------------------------------------')
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.figure()
-    Contourbrcb = plt.contour(A,B, \
+    plt.subplot(222)
+    Contourbrcb = plt.contourf(A,B, \
            np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
-    plt.clabel(Contourbrcb, inline= 0.02, fontsize= 9)# contour level show
+#    plt.clabel(Contourbrcb, inline= 0.02, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcb)
-    plt.title('BR($H^{\pm} \longrightarrow $ cb),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($H^{\pm} \longrightarrow $ cb)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.png')
-    plt.show()
-    plt.close()
-    print('--------------------------------------------------')
+#    plt.show()
+#    plt.close()
+#    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.figure()
-    Contourbrtn = plt.contour(A,B, \
+    plt.subplot(223)
+    Contourbrtn = plt.contourf(A,B, \
            np.resize(BRTNfinal,len(BRTNfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
 #plt.clabel(Contourbrtn)# contour level show
     plt.colorbar(Contourbrtn)
-    plt.title('BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,TN.png')
+#    plt.show()
+#    plt.close()
+#    print('--------------------------------------------------')
+#(4 parameters): A,B, BRCB + BRCS contour plot 
+    plt.subplot(224)
+    ContourBRCBCS = plt.contourf(A,B, \
+           np.resize(np.array(BRCBfinal) + np.array(BRCSfinal),len(np.array(BRCBfinal) + np.array(BRCSfinal))).reshape(len(B),len(A)),\
+           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
+#    plt.clabel(ContourBRCBCS, inline= 0.02, fontsize= 9)# contour level show
+    plt.colorbar(ContourBRCBCS)
+    plt.title(' BR($H^{\pm} \longrightarrow $ cb) + BR($H^{\pm} \longrightarrow $ cs) ')#, $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.savefig('CharHCBplusCS'+ str(mhch) +'.png')
+    plt.subplots_adjust(top=0.99, bottom=0.06, left=0.1, right=0.99, hspace= 0.6,
+                    wspace=0.3)
+    plt.show()
     plt.close()
-    print('--------------------------------------------------')
 #(4 parameters): A,B, BRTHBBRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
     ContourBRTHBBRCB1 = plt.contour(A,B, \
@@ -796,56 +832,48 @@ for n in np.arange(0,len(fl.mhch)):
 #                   fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
 #                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) * fl.epsilon)
     print('---------------------------------------------------')
-#    print('LLLLLLL',len(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) )))
-# SIGNAL /sqrt(BACKGROUND)   
-#   print('signal/sqrt(background) FOR cbcb decay',fl.eeHH_event() * 0.8**2 * 0.7**2 / \
-#      np.sqrt(fl.backgroundtagging() * 0.1**2))
-    plt.figure()
-    Contoursignal0 = plt.contourf(A,B, \
-         np.resize(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) ),\
-               len(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) ))).\
-        reshape(len(B),len(A)),colors = ['black','royalblue','purple','orange','brown','red','gray'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('Significance of H_char>cbcb in '+\
-             readlist[int(read1)] +','+ readlist[int(read2)])
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
-#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.colorbar(Contoursignal0)
+########################################################################
+#### 2 jet tagged plot array
+    twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
+                fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
+                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
+                ) * 0.3 / np.sqrt(fl.backgroundtagging2())
+#### 4 jet 2b-tagged plot array
+    fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
+                   fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
+                   fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
+                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
+                   fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
+                              * fl.epsilon / np.sqrt(fl.backgroundtagging())
+#### 4 jet 1b-tagged plot array
+    fourtag1bsig = fl.eeHH_event()[n] * (fl.real_b_cbcb(BRCBfinal,BRCBfinal) +\
+                   fl.fake_b_cbcb(BRCBfinal,BRCBfinal) + fl.real_b_cbcs(BRCBfinal,BRCSfinal) + \
+                   fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
+                   fl.fake_b_cscs(BRCSfinal,BRCSfinal)) \
+                              * fl.epsilon / np.sqrt(fl.backgroundtagging())
+#########################################################################
+#    plt.figure()
+#    Contoursignal0 = plt.contourf(A,B, \
+#         np.resize(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) ),\
+#               len(fl.sig(fl.eeHH_event()[n] * np.array(BRCBfinal)**2 * 0.7**2 * fl.epsilon , 1.0/np.sqrt(fl.backgroundtagging()) ))).\
+#        reshape(len(B),len(A)),colors = ['black','royalblue','purple','orange','brown','red','gray'])# ,levels = np.arange(1.0,6.0,1.0))
+#    plt.title('Significance of H_char>cbcb in '+\
+#             readlist[int(read1)] +','+ readlist[int(read2)])
+#    plt.xlabel(readlist[int(read1)])# x-axis label
+#    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.colorbar(Contoursignal0)
 #    plt.savefig('significance_cbcb'+ str(mhch) +'.png')
 #    plt.show()
-    plt.close()
-############################# 
-# (4 parameters):A,B, 4jet tagged plots
-    plt.figure()
-    signal4jet = plt.contourf(A,B, \
-        np.resize(fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
-                   fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
-                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal))* fl.epsilon / np.sqrt(fl.backgroundtagging()) ,\
-              len(fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
-                   fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
-                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal))* fl.epsilon / np.sqrt(fl.backgroundtagging()) )).\
-        reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ tagging 4jet '+\
-             ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
-#    plt.xscale('log')
-#    plt.yscale('log')
-#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.colorbar(signal4jet)
-    plt.savefig('sig_4jet'+ str(mhch) +'.png')
-    plt.show()
-    plt.close()
-################################
+#    plt.close()
+#############################################
+#############################################
 # (4 parameters):A,B, BRCB^2 contour plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
-    Contourbrcb_2 = plt.contour(A,B, \
+    Contourbrcb_2 = plt.contourf(A,B, \
            np.resize(np.array(BRCBfinal) * np.array(BRCBfinal),\
                  len(np.array(BRCBfinal) * np.array(BRCBfinal) )).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
-           levels = np.arange(0.0, 0.9,0.2))
+           levels = np.arange(0.0, 0.8,0.1))
 #    plt.clabel(Contourbrcb_2)# contour level show
     plt.colorbar(Contourbrcb_2)
     plt.title('BR($H^{\pm} \longrightarrow $ cb)^2,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
@@ -858,26 +886,8 @@ for n in np.arange(0,len(fl.mhch)):
     plt.savefig('CharHcbsquared'+ str(mhch) +'.png')
     plt.show()
     plt.close()
-################################
-#(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \longrightarrow $ cb + cs))
-    plt.figure()
-    signalnotag4jet = plt.contourf(A,B, \
-        np.resize(fl.eeHH_event()[n] * (np.array(BRCBfinal) + np.array(BRCSfinal)) * fl.epsilon / np.sqrt(fl.backgroundnotagging()) ,\
-              len(fl.eeHH_event()[n] * (np.array(BRCBfinal) + np.array(BRCSfinal)) * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).\
-        reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
-        levels = np.arange(1.0,5.0,0.5))
-    plt.colorbar(signalnotag4jet)
-    plt.title('S/$\sqrt{B}$ 4jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
-#    plt.xscale('log')
-#    plt.yscale('log')
-#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_4jetnotag'+ str(mhch) +'.png')
-    plt.show()
-    plt.close()
 #######################################################
+# (4 parameters):A,B,plot (BR(H+> cb)  * BR(H+> tn) )
     plt.figure()
     Contourbrcbtn = plt.contourf(A,B, \
            np.resize(np.array(BRCBfinal) * np.array(BRTNfinal),len(np.array(BRCBfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
@@ -889,26 +899,88 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
-#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('CharHcbtn'+ str(mhch) +'.png')
     plt.show()
     plt.close()
-################################
+#######################################################
+# (4 parameters):A,B,plot (BR(H+> cb)  * BR(H+> cs) )
     plt.figure()
-    ContourBRCBCS = plt.contourf(A,B, \
-           np.resize(np.array(BRCBfinal) * np.array(BRCSfinal),len(np.array(BRCBfinal) * np.array(BRCSfinal))).reshape(len(B),len(A)),\
+    Contourbrcbcs = plt.contourf(A,B, \
+           np.resize(np.array(BRCB_CS),len(np.array(BRCB_CS))).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
 #    plt.clabel(Contourbrcbcs, inline= 0.02, fontsize= 9)# contour level show
-    plt.colorbar(ContourBRCBCS)
-    plt.title(' BR($H^{\pm} \longrightarrow $ cb) * BR($H^{\pm} \longrightarrow $ CS) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.colorbar(Contourbrcbcs)
+    plt.title(' BR($H^{\pm} \longrightarrow $ cb) * BR($H^{\pm} \longrightarrow $ cs) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('CharHCBCS'+ str(mhch) +'.png')
+    plt.savefig('CharHcbcs'+ str(mhch) +'.png')
+    plt.show()
+    plt.close()
+###############################################
+# (4 parameters):A,B, 4jet tagged plots
+    plt.figure()
+    signal4jet = plt.contourf(A,B, \
+        np.resize( fourtag2bsig ,\
+              len( fourtag2bsig)).\
+        reshape(len(B),len(A)),\
+        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ tagging 4jet '+\
+             ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.colorbar(signal4jet)
+    plt.savefig('sig_4jet'+ str(mhch) +'.png')
+    plt.show()
+    plt.close()
+###############################################
+# (4 parameters):A,B, 4jet tagged plots 1-b
+    plt.figure()
+    signaloneb4jet = plt.contourf(A,B, \
+        np.resize( fourtag1bsig ,\
+              len( fourtag1bsig)).\
+        reshape(len(B),len(A)),\
+        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 1btagged 4jet '+\
+             ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.colorbar(signaloneb4jet)
+    plt.savefig('sig_1b4jet'+ str(mhch) +'.png')
+    plt.show()
+    plt.close()
+################################
+#(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \longrightarrow $ cb + cs))
+    plt.figure()
+    signalnotag4jet = plt.contourf(A,B, \
+        np.resize(fl.eeHH_event()[n] * (np.array(BRCBfinal) + np.array(BRCSfinal))\
+                  * fl.epsilon / np.sqrt(fl.backgroundnotagging()) ,\
+              len(fl.eeHH_event()[n] * (np.array(BRCBfinal) + np.array(BRCSfinal))\
+                  * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).\
+        reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
+        levels = np.arange(0.0,4.0,0.5))
+    plt.colorbar(signalnotag4jet)
+    plt.title('S/$\sqrt{B}$ 4jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.savefig('sig_4jetnotag'+ str(mhch) +'.png')
     plt.show()
     plt.close()
 ####################################
@@ -929,12 +1001,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
     plt.figure()
     Contoursignal7 = plt.contourf(A,B, \
-        np.resize(fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
-                                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
-                                ) * 0.3 / np.sqrt(fl.backgroundtagging2()) ,\
-              len(fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
-                                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
-                                ) * 0.3 / np.sqrt(fl.backgroundtagging2()))).reshape(len(B),len(A)),\
+        np.resize(twotagsig ,\
+              len(twotagsig )).reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#,levels = np.arange(0.0,5.0,1.0))
     plt.colorbar(Contoursignal7)
     plt.title('S/$\sqrt{B}$ 2jet tag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
@@ -951,16 +1019,148 @@ for n in np.arange(0,len(fl.mhch)):
     plt.figure()
     Contoursignal8 = plt.contourf(A,B, \
         np.resize(fl.eeHH_event()[n] * BRCB_TN / np.sqrt(fl.backgroundnotagging2()) ,\
-              len(fl.eeHH_event()[n] * BRCB_TN / np.sqrt(fl.backgroundnotagging2()))).reshape(len(B),len(A)),\
-        colors = ['black','royalblue','purple','orange','brown','red','gray','green'],levels = np.arange(0.0,1.3,0.20))
+              len(fl.eeHH_event()[n] * BRCB_TN / np.sqrt(fl.backgroundnotagging2()))).\
+                  reshape(len(B),len(A)),colors = ['black','royalblue','purple','orange','brown','red','gray','green'],\
+                  levels = np.arange(0.0,1.3,0.20))
     plt.colorbar(Contoursignal8)
     plt.title('S/$\sqrt{B}$ 2jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('sig_2jetnotag'+ str(mhch) +'.png')
     plt.show()
     plt.close()
+####################################
+#    print(len(twotagsig),A)
+#    np.savetxt('fourtag2bsig.txt',(fourtag2bsig),header="fourtag2bsig",fmt = '%10.5f')
+#    np.savetxt('twotagsig.txt',(twotagsig),header="twotagsig",fmt = '%10.5f')
+####################################
+def start4():#Scan-plot
+        BRCBfinal = []
+        BRCSfinal = []
+        BRTNfinal = []
+        list_a =[]
+        list_b =[]
+        list_c =[]
+        print('mhch',mhch)
+        for var_i in the:
+            for var_j in tbe:
+                for var_k in tga:
+#            for var_j,var_k in (tbe,tga):
+                    my_tuple = (var_i,var_j, var_k,0.0) 
+                    list_a.append(var_i)
+                    list_b.append(var_j)
+                    list_c.append(var_k)
+#                    for counter in range(4):
+#                            my_tuple += (reference_array[counter],)
+#                    absolutexlist.append(abs(X2(*my_tuple))) # unpacked bracket of my_tuple by * sign
+#                    absoluteylist.append(abs(Y2(*my_tuple)))
+#                    absolutezlist.append(abs(Z2(*my_tuple)))
+#                    xyfun.append(complexyfunction(*my_tuple))
+                    BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
+                    BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
+                    BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))) 
+        arrayhadron = np.array(BRCBfinal) + np.array(BRCSfinal)
+        arraycbtn = np.array(BRCBfinal) * np.array(BRTNfinal)
+        twotagsig = fl.eeHH_event()[-1] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
+                fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
+                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
+                ) * 0.3 / np.sqrt(fl.backgroundtagging2())
+        fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
+                   fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
+                   fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
+                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
+                   fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
+                              * fl.epsilon / np.sqrt(fl.backgroundtagging())
+        d1 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRCB': [*BRCBfinal]})
+        d2 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRCS': [*BRCSfinal]})
+        d3 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRTN': [*BRTNfinal]})
+        d4 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRCB+CS': [*arrayhadron]})    
+        d5 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRCBTN': [*arraycbtn]})      
+        d6 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRCBTN': [*twotagsig]}) 
+        d7 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           'BRCBTN': [*fourtag2bsig]}) 
+        d1.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcb.csv',\
+                   index = None, header=True) 
+        d2.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcs.csv',\
+                   index = None, header=True)
+        d3.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dtn.csv',\
+                   index = None, header=True)
+        d4.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcbpcs.csv',\
+                   index = None, header=True)
+        d5.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcbmtn.csv',\
+                   index = None, header=True)
+        d6.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/d2jtag.csv',\
+                   index = None, header=True)
+        d7.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/d4jtag.csv',\
+                   index = None, header=True)
+        print('mhchfinal', mhch)
+#        xtbe,ytga = np.meshgrid(tbe,tga)
+        #zzz = np.reshape(np.array(BRCBfinal),( len(the) , len(tbe) * len(tga) ))
+        #break whole list to [ len(tga) * len(tbe) ], * len(the) 
+#        list_bx = np.split(np.array(list_b),len(the)) 
+#        list_cx = np.split(np.array(list_c),len(the))
+#        cbcb = np.split(np.array(BRCBfinal), len(the))
+#        cscs = np.split(np.array(BRCSfinal), len(the))
+#        tntn = np.split(np.array(BRTNfinal), len(the))
+#        print(cbcb,type(cbcb),len(cbcb),np.array(cbcb).ndim)
+#        sum_cbcb = []
+#        sum_bx = []
+#        for i in np.arange(0,len(the)):
+            # break single [ len(tga) * len(tbe) ] to [len(tga), len(tbe)]
+#            list_bx[i] = np.split(np.array(list_bx[i]),len(tbe) )
+#            list_cx[i] = np.split(np.array(list_cx[i]),len(tbe) )
+#            cbcb[i] = np.split(np.array(cbcb[i]),len(tbe))
+#            cscs[i] = np.split(np.array(cscs[i]),len(tbe))
+#            tntn[i] = np.split(np.array(tntn[i]),len(tbe))
+#            print(len(cbcb[i]),len(np.array(tntn[i])))
+#            sum_cbcb = sum_cbcb + cbcb[i]
+#            print('-',len(np.array(sum_cbcb).flatten()))
+#            fig = plt.figure()
+#            ax = Axes3D(fig)
+#            surf = ax.plot_surface(xtbe,ytga,np.array(tntn[i]) ,\
+#                rstride=1, cstride=1, cmap=cm.hsv,linewidth=0, antialiased=True)
+#            surf1 = ax.plot_surface(xtbe,ytga,np.array(cbcb[i]) ,\
+#                 rstride=1, cstride=1, cmap=cm.jet,linewidth=0, antialiased=True)
+#            surf2 = ax.plot_surface(xtbe,ytga,np.array(cscs[i]) ,\
+#                 rstride=1, cstride=1, cmap=cm.cool,linewidth=0, antialiased=True)
+#            fig.colorbar(surf, shrink= 0.5, aspect=5)
+#            fig.colorbar(surf1, shrink=0.5, aspect=5)
+#            fig.colorbar(surf2, shrink=0.5, aspect=5)
+#        ax.plot_trisurf(d1['tangamma'],d1['tanbeta'],d1['BRCB'],cmap=cm.jet, linewidth=0.2)
+#        ax.plot_trisurf(d1['tangamma'],d1['tanbeta'],d1['BRCS'],cmap=cm.jet, linewidth=0.2)
+#        ax.plot_trisurf(d1['tangamma'],d1['tanbeta'],d1['BRTN'],cmap=cm.jet, linewidth=0.2)
+        
+#            plt.show()
+#        cbcb_3600 = np.split(np.array(BRCBfinal), len(tga) * len(tbe))
+#        print('--',len(cbcb_3600))
+#        print(len(np.array(sum_cbcb).reshape(len(tbe)* len(tga),len(the) )) )
+#        sum_cbcb1 = np.array(sum_cbcb).reshape(len(tbe)* len(tga),len(the) )
+#        print(len(sum_cbcb1),len(xxx),np.array(xxx).ndim, sum_cbcb1.ndim )
+#        fig = plt.figure()
+#        ax = Axes3D(fig)
+#        surfsum = ax.plot_surface(xxx, yyy,np.array(cbcb_3600) ,\
+#                rstride=1, cstride=1, cmap=cm.hsv,linewidth=0, antialiased=True)
+#        fig.colorbar(surfsum, shrink= 0.5, aspect=5)
+#        plt.show()
+        return
+start4()
+#    pd.plotting.scatter_matrix(start4(),alpha=0.5)
+#####################################################
+#print('len',len(np.array(BRCBfinal_list).flatten()) ,np.array(BRCBfinal_list).flatten().ndim)
+#plt.figure
+#plt.plot(fl.mhch,np.array(mhch_sig4jtag(list(np.array(BRCBfinal_list).flatten()),\
+#    list(np.array(BRCSfinal_list).flatten()) )).reshape((len(fl.mhch),\
+#         len(np.array(mhch_sig4jtag(list(np.array(BRCBfinal_list).flatten()),\
+#    list(np.array(BRCSfinal_list).flatten()) )) )) )  )
+#plt.show()
+#plt.close
