@@ -553,7 +553,7 @@ def signal_mhch_2jetnotag(x,y): #signal not tagged with e_b and e_c
     twojet = np.array(x) * np.array(y)
                                  
     plt.figure()
-    plt.plot(mhch,eeHH_event() * \
+    plt.plot(mhch,eeHH_event()  * \
                                twojet)# 0.3 signal selection efficiency
 #    plt.colorbar(signal2jetnotag)
     plt.title('Relation between mhch and Signal in 2jetnotag')#plot title
@@ -567,7 +567,7 @@ def signal_mhch_2jetnotag(x,y): #signal not tagged with e_b and e_c
 ###################################################################
 def signal_mhch_2jetag(x,y): #signal tagged with e_b and e_c
     twojet = (eeHHcbtn_1bsignal(x,y) + eeHHcbtn_0bsignal(x,y) + \
-             eeHHcstn_1bsignal(x,y) + eeHHcstn_0bsignal(x,y) ) * 0.3
+             eeHHcstn_1bsignal(x,y) + eeHHcstn_0bsignal(x,y) )
     plt.plot(mhch,eeHH_event() * twojet )
 #    plt.plot(mhch,eeHH_event() * twojet)
     plt.title('Relation between mhch and Signal in 2jettag')
@@ -731,22 +731,22 @@ if len(mhch) > 1:
     if type(e_c) == type(e_clist) :
         massH_ec_plane4jet(0.65,0.20)
         massH_ec_planeone4jet(0.65,0.20)
-        massH_ec_plane2jet(0.40,0.35)
+        massH_ec_plane2jet(0.425,0.3325)
         ec_eb_plane4jet(0.65,0.20)
-        ec_eb_plane2jet(0.40,0.35)
+        ec_eb_plane2jet(0.425,0.3325)
 #    ec_eb_plane2jetnotag(0.40,0.33)
         invariantmsscut_ec(0.65,0.2)
     else:
         mhch_invariantmsscut(0.65,0.2)
-        massH_soverb2jetnotag(0.65,0.20)#0.40,0.33
-        massH_soverb2jetag(0.40,0.3)
+        massH_soverb2jetnotag(0.425,0.3325)#0.40,0.33
+        massH_soverb2jetag(0.425,0.3325)
         massH_soverb4jetnotag(0.65,0.2)
         massH_soverb4jetag(0.65,0.2)
         massH_soverbone4jetag(0.65,0.2)
         signal_mhch_4jetag(0.65,0.2)
         signal_mhch_4jetnotag(0.65,0.20)
-        signal_mhch_2jetag(0.40,0.35)
-        signal_mhch_2jetnotag(0.4,0.35)
+        signal_mhch_2jetag(0.425,0.3325)
+        signal_mhch_2jetnotag(0.425,0.3325)
 else:
     for n in np.arange(0,len(mhch)):
 # mhch[n] : the n th charH mass, eeHH_events()[n] : the n th charH events produced

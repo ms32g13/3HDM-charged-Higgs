@@ -1045,63 +1045,64 @@ def start4():#Scan-plot
         list_a =[]
         list_b =[]
         list_c =[]
-        print('mhch',mhch)
-        for var_i in the:
-            for var_j in tbe:
-                for var_k in tga:
+        for n in np.arange(0,len(fl.mhch)):
+            mhch = fl.mhch[n]
+            for var_i in the:
+                for var_j in tbe:
+                    for var_k in tga:
 #            for var_j,var_k in (tbe,tga):
-                    my_tuple = (var_i,var_j, var_k,0.0) 
-                    list_a.append(var_i)
-                    list_b.append(var_j)
-                    list_c.append(var_k)
+                        my_tuple = (var_i,var_j, var_k,0.0) 
+                        list_a.append(var_i)
+                        list_b.append(var_j)
+                        list_c.append(var_k)
 #                    for counter in range(4):
 #                            my_tuple += (reference_array[counter],)
 #                    absolutexlist.append(abs(X2(*my_tuple))) # unpacked bracket of my_tuple by * sign
 #                    absoluteylist.append(abs(Y2(*my_tuple)))
 #                    absolutezlist.append(abs(Z2(*my_tuple)))
 #                    xyfun.append(complexyfunction(*my_tuple))
-                    BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-                    BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-                    BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))) 
-        arrayhadron = np.array(BRCBfinal) + np.array(BRCSfinal)
-        arraycbtn = np.array(BRCBfinal) * np.array(BRTNfinal)
-        twotagsig = fl.eeHH_event()[-1] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
+                        BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
+                        BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
+                        BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))) 
+                        arrayhadron = np.array(BRCBfinal) + np.array(BRCSfinal)
+                        arraycbtn = np.array(BRCBfinal) * np.array(BRTNfinal)
+                        twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
                 ) * 0.3 / np.sqrt(fl.backgroundtagging2())
-        fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
+                        fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
                    fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
                    fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
                    fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
                    fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
                               * fl.epsilon / np.sqrt(fl.backgroundtagging())
-        d1 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                        d1 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRCB': [*BRCBfinal]})
-        d2 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                        d2 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRCS': [*BRCSfinal]})
-        d3 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                        d3 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRTN': [*BRTNfinal]})
-        d4 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                        d4 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRCB+CS': [*arrayhadron]})    
-        d5 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                        d5 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRCBTN': [*arraycbtn]})      
-        d6 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           'BRCBTN': [*twotagsig]}) 
-        d7 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           'BRCBTN': [*fourtag2bsig]}) 
-        d1.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcb.csv',\
+                        d6 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           '2tagsig': [*twotagsig]}) 
+                        d7 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+                           '4tag2bsig': [*fourtag2bsig]}) 
+            d1.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcb'+ str(mhch) +'.csv',\
                    index = None, header=True) 
-        d2.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcs.csv',\
+            d2.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcs'+ str(mhch) +'.csv',\
                    index = None, header=True)
-        d3.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dtn.csv',\
+            d3.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dtn'+ str(mhch) +'.csv',\
                    index = None, header=True)
-        d4.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcbpcs.csv',\
+            d4.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcbpcs'+ str(mhch) +'.csv',\
                    index = None, header=True)
-        d5.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/dcbmtn.csv',\
+            d5.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcbmtn'+ str(mhch) +'.csv',\
                    index = None, header=True)
-        d6.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/d2jtag.csv',\
+            d6.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d2jtag'+ str(mhch) +'.csv',\
                    index = None, header=True)
-        d7.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/significanceplot/d4jtag.csv',\
+            d7.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d4jtag'+ str(mhch) +'.csv',\
                    index = None, header=True)
         print('mhchfinal', mhch)
 #        xtbe,ytga = np.meshgrid(tbe,tga)
