@@ -36,9 +36,9 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tbe = random.uniform(1.0,61.0) #tanbeta (j in loop)
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
-the = np.arange(- PI / 2, PI/50 ,PI / 50)#theta (i in loop)
-tbe = np.arange(1.0,61.0,1.0) #tanbeta (j in loop)
-tga = np.arange(1.0,61.0,1.0) #tangamma (k in loop)
+the = np.arange(- PI / 2, PI/50 ,PI / 4)#theta (i in loop)
+tbe = np.arange(1.0,11.0,1.0) #tanbeta (j in loop)
+tga = np.arange(1.0,11.0,1.0) #tangamma (k in loop)
 delta = np.arange(0.0,2.1 * PI , PI /6)#delta (l in loop)  #delta fixed#
 A = []
 B = []
@@ -1039,14 +1039,14 @@ for n in np.arange(0,len(fl.mhch)):
 #    np.savetxt('twotagsig.txt',(twotagsig),header="twotagsig",fmt = '%10.5f')
 ####################################
 def start4():#Scan-plot
-        BRCBfinal = []
-        BRCSfinal = []
-        BRTNfinal = []
-        list_a =[]
-        list_b =[]
-        list_c =[]
         for n in np.arange(0,len(fl.mhch)):
             mhch = fl.mhch[n]
+            BRCBfinal = []
+            BRCSfinal = []
+            BRTNfinal = []
+            list_a =[]
+            list_b =[]
+            list_c =[]
             for var_i in the:
                 for var_j in tbe:
                     for var_k in tga:
@@ -1076,19 +1076,19 @@ def start4():#Scan-plot
                    fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
                    fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
                               * fl.epsilon / np.sqrt(fl.backgroundtagging())
-                        d1 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+            d1 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRCB': [*BRCBfinal]})
-                        d2 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+            d2 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRCS': [*BRCSfinal]})
-                        d3 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+            d3 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRTN': [*BRTNfinal]})
-                        d4 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+            d4 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRCB+CS': [*arrayhadron]})    
-                        d5 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+            d5 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRCBTN': [*arraycbtn]})      
-                        d6 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+            d6 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            '2tagsig': [*twotagsig]}) 
-                        d7 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+            d7 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            '4tag2bsig': [*fourtag2bsig]}) 
             d1.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcb'+ str(mhch) +'.csv',\
                    index = None, header=True) 
@@ -1153,7 +1153,7 @@ def start4():#Scan-plot
 #                rstride=1, cstride=1, cmap=cm.hsv,linewidth=0, antialiased=True)
 #        fig.colorbar(surfsum, shrink= 0.5, aspect=5)
 #        plt.show()
-        return
+
 start4()
 #    pd.plotting.scatter_matrix(start4(),alpha=0.5)
 #####################################################
