@@ -44,6 +44,7 @@ vcs = 0.97
 vcb = 0.04
 ###########
 mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
+mhch_list_CEPC = np.arange(80.0,130.0,10.0) # charged Higgs for CEPC search
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -114,7 +115,7 @@ def backgroundtagging():# OPAL 4jets tagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
     ww_cscs = ww / 4 * e_c**2
-    qq_bar = 1117.8 * 0.1 * 0.15 * e_b**2  #z>bb_bar
+    qq_bar = 1117.8 * 0.1 * 0.134 * e_b**2  #z>bb_bar fraction = range(0.134 to 0.15)
     return  ww_cscs + qq_bar
 #print('OPAL',backgroundtagging())
 def backtag_invarmasscut():# OPAL 4jets tagged background with invariant mass cut
@@ -141,7 +142,7 @@ def backgroundnotagging():# OPAL 4jets untagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
     ww_cscs = ww / 4 
-    qq_bar = 1117.8 * 0.1 * 0.15   #z>bb_bar
+    qq_bar = 1117.8 * 0.1 * 0.134    #z>bb_bar fraction = range(0.134 to 0.15)
     return  ww_cscs + qq_bar
 #print('WW>cscs and qq_bar background:',backgroundtagging())
 def eewwcscs_2bsignal():
@@ -176,7 +177,7 @@ def eewwcstn_0bsignal():
 #e+e- > H+H- Cross-section     
 #A.G.Akeroyd Nuclear Physics B447(1995)3-17  EQUATIONS(15 - 17)
 #F_HIGGS(s, mz,partialwidth_z,weinberg angle) function
-def F_HIGGS(i):
+def F_HIGGS(i): #i = sqrt(s)^2 or COM^2
     C_A = - 1.0 / (4 * sinthetaw * costhetaw)  # C_A function
     C_V = (1.0 - 4 * (sinthetaw ** 2)) / (4 * sinthetaw * costhetaw) #C_V function
     C1_V = (- 1.0 + 2 * (sinthetaw ** 2 )) / (2 * sinthetaw * costhetaw) #C'_V function
@@ -202,6 +203,24 @@ def cross_section_eeHH():
 #            print('Production cross section of e+e- > H+H- :',j,i, sigma_eeHH,'GeV**2')
             ListeechaHH.append(sigma_eeHH) #put same H+ mass, differ COM crosssection H+H- together
     return ListeechaHH
+#########################################################
+# CEPC with integrated Luminosity 5000 fb^-1 to 5000 fb^-1 with COM : sqrt(s) = 240 GeV
+def cross_section_eeHH_CEPC():# Total crosssection of e+e- > H+H- in COM = 240 GeV
+    ListeechaHH = [] 
+    S = 241**2 #COM^2
+    for j in mhch_list_CEPC:
+        BETA = math.sqrt(1.0 - 4 * (j)**2 / S)
+        eechaHH = (1.0 / 4) * (4.0 * PI * alpha_electroweak **2 ) / (3.0 * S) * BETA**3 * F_HIGGS(S)
+        sigma_eeHH = eechaHH / (2.56819 * 10 **(-9)) #convert pb^(-1) to GeV
+        ListeechaHH.append(sigma_eeHH)
+    return ListeechaHH
+#0.001ab^-1 = 1fb^-1 = 1000 pb^-1
+def eeHH_event_CEPC(i):# i will = pb^-1 luminoscity
+    event = np.array(cross_section_eeHH_CEPC()) * i
+    for n in np.arange(0,len(mhch_list_CEPC)):
+        print('event',event[n],mhch_list_CEPC[n])
+    return event
+eeHH_event_CEPC(5000.0 * 10**3)#  pb^-1 values
 ########################################################
 #calcualte e+e- > H+H- signal events from cross-section
 def eeHH_event():
@@ -331,7 +350,7 @@ def fake_b_cscs(x,y): # 1 fake b tag for 4jet case (Hadronic) cscs
 #Cross-section of eeww against COM E 
 plt.figure()
 plt.plot(np.sqrt(np.array(S)), cross_section_eeww()/ (2.56819 * 10 **(-9)))
-plt.ylabel('Cross-section in pb^-1')
+plt.ylabel('Cross-section in $pb^-1$')
 plt.xlabel('CoM energy $\sqrt{S}$')
 #plt.savefig('picture.png')
 plt.show()
@@ -705,7 +724,7 @@ def mhch_invariantmsscut(x,y):#2b-4jet case specific
                    eeHHcbcs_2bsignal(x,y) + eeHHcbcs_1bsignal(x,y) + \
                    eeHHcbcb_0bsignal(x,x) + eeHHcbcs_0bsignal(x,y) + \
                    eeHHcscs_0bsignal(y,y)) * epsilon    
-     print('wwwwwwwwwwww',sig(eeHH_event() ,tagging_4jet / np.sqrt(backtag_invarmasscut() ) ) )
+#     print('wwwwwwwwwwww',sig(eeHH_event() ,tagging_4jet / np.sqrt(backtag_invarmasscut() ) ) )
      s4jettagmasscut = plt.contourf(mhch,e_ibacklist,\
 np.resize(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )),\
 len(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )))).\

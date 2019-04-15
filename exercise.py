@@ -36,9 +36,9 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tbe = random.uniform(1.0,61.0) #tanbeta (j in loop)
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
-the = np.arange(- PI / 2, PI/50 ,PI / 4)#theta (i in loop)
-tbe = np.arange(1.0,11.0,1.0) #tanbeta (j in loop)
-tga = np.arange(1.0,11.0,1.0) #tangamma (k in loop)
+the = np.arange(- PI / 2, PI/50 ,PI / 50)#theta (i in loop)
+tbe = np.arange(1.0,61.0,1.0) #tanbeta (j in loop)
+tga = np.arange(1.0,61.0,1.0) #tangamma (k in loop)
 delta = np.arange(0.0,2.1 * PI , PI /6)#delta (l in loop)  #delta fixed#
 A = []
 B = []
@@ -1154,7 +1154,7 @@ def start4():#Scan-plot
 #        fig.colorbar(surfsum, shrink= 0.5, aspect=5)
 #        plt.show()
 
-start4()
+#start4()
 #    pd.plotting.scatter_matrix(start4(),alpha=0.5)
 #####################################################
 #print('len',len(np.array(BRCBfinal_list).flatten()) ,np.array(BRCBfinal_list).flatten().ndim)
