@@ -45,13 +45,11 @@ print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
 #QCD running coupling constant (alp) at energy scale MH. Relevant                                                                                                                                                                        
 #for QCD corrections to Higgs decay widths.
 ############
-coeffmc = 12.0/25.0
-coeffmb = 12.0/23.0
-alpmz = 0.1185 #alpha at z 
 mu_b = 5.0 # scale of mu_b 
 #v = 1 - 23/3 * (alpmz / 2.0 * PI) * np.log(mz / mw)
 ################ LO for strong coupling constant
 def LOalpha_s(i): #alpha_s(mu) at LO
+#    print(i,zz,alpmz,mz)
     beta_0 = 23/3
     beta_1 = 0
     v = 1 - beta_0 * (alpmz / (2.0 * PI)) * np.log(mz / i)
@@ -64,8 +62,9 @@ def NLOalpha_s(i): #alpha_s(mu) at NLO
     v = 1 - beta_0 * (alpmz / (2.0 * PI)) * np.log(mz / i)
     ratio1 = np.log(v) / v
     return alpmz / v * (1 - (beta_1 / beta_0) * (alpmz / (4 * PI)) * ratio1)
+print('mu_w',LOalpha_s(mw))
 #################running quark mass at scale mu_w under minimal subtract scheme
-def run_quark_bar(q):
+def run_quark_bar(q):#
     c1 = np.log(q**2 / mw**2)
     c2 = LOalpha_s(mw) / PI
     return q * (1 + c2 * c1 - 4 / 3 * c2 )
@@ -73,7 +72,7 @@ print('LOalpha_s(mw)',LOalpha_s(mw))
 print('NLOalpha_s(mw)',NLOalpha_s(mw))
 print('LOalpha_s(mb)',LOalpha_s(mb), 'LO a_s(mw)/ a_s(mb)',LOalpha_s(mw) / LOalpha_s(mb) )
 print('NLOalpha_s(mb)',NLOalpha_s(mb), 'NLO a_s(mw)/ a_s(mb)',NLOalpha_s(mw) / NLOalpha_s(mb) )
-print('run-bquark',run_quark_bar(mb))
+print('run-bquark-at-mw-scale',run_quark_bar(mb))
 print('run-mw', run_quark_bar(mw))
 print('LOalpha_s(run_m_b)',LOalpha_s(run_quark_bar(mb)),\
       'LO a_s(mw) / LO a_s(run_mb)', LOalpha_s(mw) / LOalpha_s(run_quark_bar(mb)))
@@ -107,6 +106,7 @@ def c0_7sm(xx):
     chunk = - 8 * x**3 + 3 * x**2 + 12 * x - 7
     chunk1 = (18 * x**2 - 12 * x) * np.log(x)
     return x / 24 * ( (chunk + chunk1) / (x - 1)**4 )
+print(c0_7sm(xx))
 def c0_8sm(xx):
     x = xx
     chunk = - x**3 + 6 * x**2 - 3 * x - 2 - 6 * x * np.log(x)
@@ -115,11 +115,11 @@ def c0_7yy(yy):
     y = yy
     chunk = - 8 * y**3 + 3 * y**2 + 12 * y - 7
     chunk1 = (18 * y**2 - 12 * y) * np.log(y)
-    return y / 24 * ( (chunk + chunk1) / (y - 1)**4 )
+    return y / 24 * ( (chunk + chunk1) / (y - 1)**4 ) * 1 / 3
 def c0_8yy(yy):
     y = yy
     chunk = - y**3 + 6 * y**2 - 3 * y - 2 - 6 * y * np.log(y)
-    return y / 8 * ( chunk / (y - 1)**4 )
+    return y / 8 * ( chunk / (y - 1)**4 ) * 1 / 3
 def c0_7xy(yy):
     y = yy
     chunk = - 5 * y**2 + 8 * y  - 3
@@ -130,11 +130,11 @@ def c0_8xy(yy):
     chunk = - y**2 + 4 * y - 3 - 2 * np.log(y)
     return y / 4 * ( chunk / (y - 1)**3 )
 ###
-def c0_7eff(xx,yy,i,j):# i = Y^2 j = (XY^*) 
-    return c0_7sm(xx) + np.array(np.abs([i]))**2 * c0_7yy(yy) + np.array([j]) * \
+def c0_7eff(xx,yy,i,j):# i = Y j = (XY^*)  i,j are lists
+    return c0_7sm(xx) + np.abs([i])**2 * c0_7yy(yy) + np.array(j) * \
 c0_7xy(yy)
-def c0_8eff(xx,yy,i,j):# i = Y^2 j = (XY^*) 
-    return c0_8sm(xx) + np.array(np.abs([i]))**2 * c0_8yy(yy) + np.array([j]) * \
+def c0_8eff(xx,yy,i,j):# i = Y j = (XY^*) i,j are lists
+    return c0_8sm(xx) + np.abs([i])**2 * c0_8yy(yy) + np.array(j) * \
 c0_8xy(yy)
 # LO Effective Wilson coefficient  # i = Y^2 j = (XY^*) 
 def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0 
@@ -143,11 +143,11 @@ def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0
         c0_eff.append(0.0)
     c0_eff[1] = 1.0 # c0_2eff
     c0_eff[6] = c0_7eff(xx,yy,i,j) # c0_7eff
-    print( 'type',type(c0_7eff(xx,yy,i,j)))
+#    print( 'type',type(c0_7eff(xx,yy,i,j)))
     c0_eff[7] = c0_8eff(xx,yy,i,j) # c0_8eff
     return np.array(c0_eff)
 print('c0_eff(mu_w,i,j)',c0_eff(LOalpha_s(mw),0.1,\
-              0.6 * 0.7 ))
+              6 * 0.1 ))
 ##########################
 ########################## NLO
 def E_0(s):#NLO
@@ -328,11 +328,11 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y^2 and XY*
     for n in np.arange(1.0,9.0,1.0):
         c1_eff.append(0.0)
     c1_eff[0] = 15 + 6 * ratio #c1,eff,1,sm
-    c1_eff[3] = E_0(s) + 2 / 3 * ratio + np.array(np.abs([i])**2) * E_H(s)
-    c1_eff[6] = list1[0] + np.array(np.abs([i]))**2 * list1[2] + np.array(j) * list1[4]
-    c1_eff[7] = list1[1] + np.array(np.abs([i]))**2 * list1[3] + np.array(j) * list1[5]
+    c1_eff[3] = E_0(s) + 2 / 3 * ratio + np.abs([i])**2 * E_H(s)
+    c1_eff[6] = list1[0] + np.abs([i])**2 * list1[2] + np.array(j) * list1[4]
+    c1_eff[7] = list1[1] + np.abs([i])**2 * list1[3] + np.array(j) * list1[5]
     return np.array(c1_eff)
-print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),1.0,20))
+print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),20,1))
 #################################################################
 ######Total Ceffective_i (mu_w) at matching scale 
 def c_i_eff_muw(i,j):
@@ -517,15 +517,17 @@ def decay_B_bar_Xsg(i,j):
 def v_cp(i):
     return (5 + np.log(i) + np.log(i)**2 - PI**2 / 3) + \
  (np.log(i)**2 - PI**2 /3 ) * i + (28/ 9 - 4 /3 * np.log(i)) * i**2
-def g(i,y):
+def g(i,y): # i will = zz, y will = delta_cp
+    stepfunction = np.heaviside(4 * i / y,1.0)
     part1 = (y**2 - 4 * y * i + 6 * i**2) * np.log(np.sqrt(y / (4 * i)) + \
             np.sqrt(y /(4 * i) + 1 ) ) 
-    part2 = 3 * y * (y - 2 * i) / 4 * np.sqrt(1 - 4 * i /y) 
-    return part1 - part2
+    part2 = 3 * y * (y - 2 * i) / 4 * np.sqrt(stepfunction) 
+    return  (part1 - part2)
 def b_cp(i,delta_cp):#delta_cp fraction of Energy cut
     return g(i,1) - g(i, 1 - delta_cp)
 def A_cp(i,j): # CP asymmetry 
     epsilon_s = 0.8 + 0.2j#e_s = V*_usV_ub / V*_tsV_tb
+    delta_cp = 0.5 #delta_cp fraction of Energy cut
     c2 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
     c7 = c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) + \
         NLOalpha_s(run_quark_bar(mb)) / (4 * PI) * \
@@ -533,11 +535,12 @@ def A_cp(i,j): # CP asymmetry
     c8 = c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
     part1 = NLOalpha_s(mb) / (c1_7_eff(NLOalpha_s(mb),NLOalpha_s(mw),i,j))**2
     part2 = 40 / 81 * (c2 * c7.conjugate()).imag 
-    part3 = 8 * zz / 9 * (v_cp(zz) + b_cp(zz, 0.5)) *\
+    part3 = 8 * zz / 9 * (v_cp(zz) + b_cp(zz, delta_cp)) *\
         ( (1 + epsilon_s) * (c2 * c7.conjugate() ) ).imag
     part4 = 4 / 9 * (c8 * c7.conjugate() ).imag
-    part5 = 8 * zz / 27 * b_cp(zz, 0.5) *\
+    part5 = 8 * zz / 27 * b_cp(zz, delta_cp) *\
         ( (1 + epsilon_s) * (c2 * c8.conjugate() ) ).imag
     return part1 * (part2 - part3  - part4 + part5)
-print('zz',zz)
-print(b_cp(zz,0.5))
+print('zz',zz,g(zz,0.1))
+print('b_cp(zz,delta)',b_cp(zz,0.5))
+print('A_cp',A_cp(0.5,0.4))
