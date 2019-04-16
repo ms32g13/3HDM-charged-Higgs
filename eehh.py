@@ -44,7 +44,6 @@ vcs = 0.97
 vcb = 0.04
 ###########
 mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
-mhch_list_CEPC = np.arange(80.0,130.0,10.0) # charged Higgs for CEPC search
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -203,24 +202,6 @@ def cross_section_eeHH():
 #            print('Production cross section of e+e- > H+H- :',j,i, sigma_eeHH,'GeV**2')
             ListeechaHH.append(sigma_eeHH) #put same H+ mass, differ COM crosssection H+H- together
     return ListeechaHH
-#########################################################
-# CEPC with integrated Luminosity 5000 fb^-1 to 5000 fb^-1 with COM : sqrt(s) = 240 GeV
-def cross_section_eeHH_CEPC():# Total crosssection of e+e- > H+H- in COM = 240 GeV
-    ListeechaHH = [] 
-    S = 241**2 #COM^2
-    for j in mhch_list_CEPC:
-        BETA = math.sqrt(1.0 - 4 * (j)**2 / S)
-        eechaHH = (1.0 / 4) * (4.0 * PI * alpha_electroweak **2 ) / (3.0 * S) * BETA**3 * F_HIGGS(S)
-        sigma_eeHH = eechaHH / (2.56819 * 10 **(-9)) #convert pb^(-1) to GeV
-        ListeechaHH.append(sigma_eeHH)
-    return ListeechaHH
-#0.001ab^-1 = 1fb^-1 = 1000 pb^-1
-def eeHH_event_CEPC(i):# i will = pb^-1 luminoscity
-    event = np.array(cross_section_eeHH_CEPC()) * i
-    for n in np.arange(0,len(mhch_list_CEPC)):
-        print('event',event[n],mhch_list_CEPC[n])
-    return event
-eeHH_event_CEPC(5000.0 * 10**3)#  pb^-1 values
 ########################################################
 #calcualte e+e- > H+H- signal events from cross-section
 def eeHH_event():
@@ -244,9 +225,9 @@ def eeHH_event():
 #        print(i,'charH_mass:',mhch[i],'GeV',eecharH,'events',eventHH)
     return np.array(eventHH)
 print('SIGNAL after H+H- > cbcb',eeHH_event() * 0.8**2 ,'events')
-print('signal/sqrt(background) FOR cbcb decay',eeHH_event()[0] * 0.8**2 * 0.7**2 / \
+print('signal/sqrt(background) FOR cbcb decay',eeHH_event() * 0.8**2 * 0.7**2 / \
       np.sqrt(backgroundtagging() * 0.1**2))
-print('signal/sqrt(background) FOR no-tagging ',eeHH_event()[0] * 1.0**2* 0.536 / \
+print('signal/sqrt(background) FOR no-tagging ',eeHH_event() * 1.0**2* 0.536 / \
       np.sqrt(1855.5))
 print('|Background for 2jetTN',backgroundtagging2())
 # epsilon_signal = 0.536 * 71.8 / 57.8 = 0.6658269896193771
@@ -335,16 +316,16 @@ def fake_b_cbcb(x,y): # 1 fake b tag for 4jet case (Hadronic) cbcb
 def real_b_cbcs(x,y): # 1 real b tag for 4jet case (Hadronic) cbcs
     e_l = 0.01
     chunk1 = e_b * e_c * (1 - e_c)**2 * (1 - e_l)
-    return chunk1 * np.array(x) * np.array(y)
+    return chunk1 * np.array(x) * np.array(y) * 2.0 # 2.0 permutation of cbcs,cscb
 def fake_b_cbcs(x,y): # 1 fake b tag for 4jet case (Hadronic) cbcs
     e_l = 0.01
     chunk1 = 2.0 * (1 - e_b) * e_c * (1 - e_c) * (1 - e_l)
-    return chunk1 * np.array(x) * np.array(y)
+    return chunk1 * np.array(x) * np.array(y) * 2.0 # 2.0 permutation of cbcs,cscb
 def real_b_cscs(x,y): # 1 real b tag for 4jet case (Hadronic) cscs
     return 0.0
 def fake_b_cscs(x,y): # 1 fake b tag for 4jet case (Hadronic) cscs
     e_l = 0.01
-    chunk1 = 2.0 * (e_c * (1 - e_c)**2 * (1 - e_l) + e_c * (1 - e_c) * (1 - e_l)**2 )
+    chunk1 = 2.0 * (e_l * (1 - e_c)**2 * (1 - e_l) + e_c * (1 - e_c) * (1 - e_l)**2 )
     return chunk1 * np.array(x) * np.array(y) 
 ###########################################################################
 #Cross-section of eeww against COM E 
@@ -746,31 +727,32 @@ colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
 print('e-b,e-c',e_b,e_c)
 print('MHCH',mhch)
 print('charged Higgs events',eeHH_event())
-if len(mhch) > 1:
-    if type(e_c) == type(e_clist) :
-        massH_ec_plane4jet(0.65,0.20)
-        massH_ec_planeone4jet(0.65,0.20)
-        massH_ec_plane2jet(0.425,0.3325)
-        ec_eb_plane4jet(0.65,0.20)
-        ec_eb_plane2jet(0.425,0.3325)
+def start_plot():
+    if len(mhch) > 1:
+        if type(e_c) == type(e_clist) :
+            massH_ec_plane4jet(0.65,0.20)
+            massH_ec_planeone4jet(0.65,0.20)
+            massH_ec_plane2jet(0.425,0.3325)
+            ec_eb_plane4jet(0.65,0.20)
+            ec_eb_plane2jet(0.425,0.3325)
 #    ec_eb_plane2jetnotag(0.40,0.33)
-        invariantmsscut_ec(0.65,0.2)
+            invariantmsscut_ec(0.65,0.2)
+        else:
+            mhch_invariantmsscut(0.65,0.2)
+            massH_soverb2jetnotag(0.425,0.3325)#0.40,0.33
+            massH_soverb2jetag(0.425,0.3325)
+            massH_soverb4jetnotag(0.65,0.2)
+            massH_soverb4jetag(0.65,0.2)
+            massH_soverbone4jetag(0.65,0.2)
+            signal_mhch_4jetag(0.65,0.2)
+            signal_mhch_4jetnotag(0.65,0.20)
+            signal_mhch_2jetag(0.425,0.3325)
+            signal_mhch_2jetnotag(0.425,0.3325)
     else:
-        mhch_invariantmsscut(0.65,0.2)
-        massH_soverb2jetnotag(0.425,0.3325)#0.40,0.33
-        massH_soverb2jetag(0.425,0.3325)
-        massH_soverb4jetnotag(0.65,0.2)
-        massH_soverb4jetag(0.65,0.2)
-        massH_soverbone4jetag(0.65,0.2)
-        signal_mhch_4jetag(0.65,0.2)
-        signal_mhch_4jetnotag(0.65,0.20)
-        signal_mhch_2jetag(0.425,0.3325)
-        signal_mhch_2jetnotag(0.425,0.3325)
-else:
-    for n in np.arange(0,len(mhch)):
+        for n in np.arange(0,len(mhch)):
 # mhch[n] : the n th charH mass, eeHH_events()[n] : the n th charH events produced
-        print('#',n,mhch[n],eeHH_event()[n])
+            print('#',n,mhch[n],eeHH_event()[n])
         
-
+start_plot()
 ########################
 #ms32g13@soton.ac.uk
