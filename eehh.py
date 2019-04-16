@@ -728,31 +728,40 @@ print('e-b,e-c',e_b,e_c)
 print('MHCH',mhch)
 print('charged Higgs events',eeHH_event())
 def start_plot():
-    if len(mhch) > 1:
-        if type(e_c) == type(e_clist) :
-            massH_ec_plane4jet(0.65,0.20)
-            massH_ec_planeone4jet(0.65,0.20)
-            massH_ec_plane2jet(0.425,0.3325)
-            ec_eb_plane4jet(0.65,0.20)
-            ec_eb_plane2jet(0.425,0.3325)
+    while True:  
+      plotprint = input('Want plot b-tag related figures?:')
+      if plotprint == 'y' or plotprint == 'Y':
+          if len(mhch) > 1:
+             if type(e_c) == type(e_clist) :
+                 massH_ec_plane4jet(0.65,0.20)
+                 massH_ec_planeone4jet(0.65,0.20)
+                 massH_ec_plane2jet(0.425,0.3325)
+                 ec_eb_plane4jet(0.65,0.20)
+                 ec_eb_plane2jet(0.425,0.3325)
 #    ec_eb_plane2jetnotag(0.40,0.33)
-            invariantmsscut_ec(0.65,0.2)
-        else:
-            mhch_invariantmsscut(0.65,0.2)
-            massH_soverb2jetnotag(0.425,0.3325)#0.40,0.33
-            massH_soverb2jetag(0.425,0.3325)
-            massH_soverb4jetnotag(0.65,0.2)
-            massH_soverb4jetag(0.65,0.2)
-            massH_soverbone4jetag(0.65,0.2)
-            signal_mhch_4jetag(0.65,0.2)
-            signal_mhch_4jetnotag(0.65,0.20)
-            signal_mhch_2jetag(0.425,0.3325)
-            signal_mhch_2jetnotag(0.425,0.3325)
-    else:
-        for n in np.arange(0,len(mhch)):
+                 invariantmsscut_ec(0.65,0.2)
+                 break
+             else:
+                 mhch_invariantmsscut(0.65,0.2)
+                 massH_soverb2jetnotag(0.425,0.3325)#0.40,0.33
+                 massH_soverb2jetag(0.425,0.3325)
+                 massH_soverb4jetnotag(0.65,0.2)
+                 massH_soverb4jetag(0.65,0.2)
+                 massH_soverbone4jetag(0.65,0.2)
+                 signal_mhch_4jetag(0.65,0.2)
+                 signal_mhch_4jetnotag(0.65,0.20)
+                 signal_mhch_2jetag(0.425,0.3325)
+                 signal_mhch_2jetnotag(0.425,0.3325)
+                 break
+          else:
+                 for n in np.arange(0,len(mhch)):
 # mhch[n] : the n th charH mass, eeHH_events()[n] : the n th charH events produced
-            print('#',n,mhch[n],eeHH_event()[n])
-        
+                     print('#',n,mhch[n],eeHH_event()[n])
+                 break
+      elif plotprint == 'n' or plotprint == 'N':
+          break
+      else:
+          plotprint = plotprint
 start_plot()
 ########################
 #ms32g13@soton.ac.uk
