@@ -38,6 +38,7 @@ e_isignal = 0.9  # invariant mass cut on signal
 e_iback = 0.1 # invariant mass cut on background
 e_ibacklist = np.arange(0.1,1.08,0.09)
 epsilon = e_mass * e_4jet * e_isignal # total epsilon
+selection_2j = 0.5 # 2j charH signal selection efficiency
 ############
 # CKM elements
 vcs = 0.97
@@ -287,7 +288,7 @@ def eeHHcbtn_1bsignal(x,y):
 #print('||||| Singal of char_H_cbtn after 1b-tagging:',eeHHcbtn_1bsignal())
 ######################################################################
 def eeHHcbtn_0bsignal(x,y):
-    chunk1 =  2.0 * np.array(x) * np.array(y) * e_b * (1 - e_c) # 2.0 for cbtn and tncb permutations
+    chunk1 =  2.0 * np.array(x) * np.array(y) * e_c * (1 - e_b) # 2.0 for cbtn and tncb permutations
      # before compare with table 
     return np.array(chunk1) #* epsilon #* e_antiww  after 3 selections chosen
 #print('||||| Singal of char_H_cbtn after 0b-tagging:',eeHHcbtn_0bsignal())
@@ -504,8 +505,8 @@ def massH_ec_plane2jet(x,y):
                                  
     plt.figure()
     signal2jet_tag = plt.contourf(mhch,e_c, \
-        np.resize(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundtagging2())) ,\
-              len(sig(eeHH_event() , tagging_2jet * 0.3 / np.sqrt(backgroundtagging2())) )).\
+        np.resize(sig(eeHH_event() , tagging_2jet * selection_2j / np.sqrt(backgroundtagging2())) ,\
+              len(sig(eeHH_event() , tagging_2jet * selection_2j / np.sqrt(backgroundtagging2())) )).\
         reshape(len(e_c),len(mhch)),cmap = 'brg')# 0.3 signal selection efficiency
     plt.colorbar(signal2jet_tag)
     plt.title('S/$\sqrt{B}$ 2jet_tag with max BR')#plot title
@@ -520,7 +521,7 @@ def massH_ec_plane2jet(x,y):
 ##################################################################
 def massH_soverb2jetag(x,y):#Significance with background tagged with e_b and e_c
     twojet = (eeHHcbtn_1bsignal(x,y) + eeHHcbtn_0bsignal(x,y) + \
-             eeHHcstn_1bsignal(x,y) + eeHHcstn_0bsignal(x,y) ) * 0.3
+             eeHHcstn_1bsignal(x,y) + eeHHcstn_0bsignal(x,y) ) * selection_2j
     plt.plot(mhch,eeHH_event() * twojet / np.sqrt(backgroundtagging2()) )
     plt.title('Relation between mhch and S/$\sqrt{B}$ in 2jettag')
     plt.xlabel('mhch')# x-axis label
@@ -537,7 +538,7 @@ def massH_soverb2jetnotag(x,y): #Significance with background not tagged with e_
                                  
     plt.figure()
     plt.plot(mhch,eeHH_event() * \
-                               twojet * 0.3 / np.sqrt(backgroundnotagging2()))# 0.3 signal selection efficiency
+                               twojet * selection_2j / np.sqrt(backgroundnotagging2()))# 0.3 signal selection efficiency
 #    plt.colorbar(signal2jetnotag)
     plt.title('Relation between mhch and S/$\sqrt{B}$ in 2jetnotag')#plot title
     plt.xlabel('mhch')# x-axis label
@@ -645,8 +646,8 @@ def ec_eb_plane2jet(x,y):
             np.array(totalcstn_0bsig)
 #        print(tagging_2jet,type(tagging_2jet),len(background2tag),len(tagging_2jet))
         one1 = plt.contourf(e_clist,e_blist,\
-            np.resize(eeHH_event()[n] * tagging_2jet * 0.3 / np.sqrt(np.array(background2tag)) ,\
-                  len(eeHH_event()[n] * tagging_2jet * 0.3 / np.sqrt(np.array(background2tag)) )).\
+            np.resize(eeHH_event()[n] * tagging_2jet * selection_2j / np.sqrt(np.array(background2tag)) ,\
+                  len(eeHH_event()[n] * tagging_2jet * selection_2j / np.sqrt(np.array(background2tag)) )).\
              reshape(len(e_blist),len(e_clist)),\
 #             levels = np.arange(0.0, 8.0,1.0), \
              colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
@@ -721,7 +722,7 @@ colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
      plt.savefig('sig4jetmhch_masscut.png')
      plt.show()
      plt.close()        
-         
+      
 ###################################################################
 ## PLOTS SECTION 
 print('e-b,e-c',e_b,e_c)

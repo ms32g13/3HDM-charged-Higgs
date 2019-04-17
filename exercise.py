@@ -36,7 +36,7 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tbe = random.uniform(1.0,61.0) #tanbeta (j in loop)
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
-the = np.arange(- PI / 2, PI/50 ,PI / 50)#theta (i in loop)
+the = np.arange(- PI / 2, PI/50 ,PI / 10)#theta (i in loop)
 tbe = np.arange(1.0,61.0,1.0) #tanbeta (j in loop)
 tga = np.arange(1.0,61.0,1.0) #tangamma (k in loop)
 delta = np.arange(0.0,2.1 * PI , PI /6)#delta (l in loop)  #delta fixed#
@@ -838,7 +838,7 @@ for n in np.arange(0,len(fl.mhch)):
     twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCSfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCSfinal,BRTNfinal) \
-                ) * 0.3 / np.sqrt(fl.backgroundtagging2())
+                ) * fl.selection_2j / np.sqrt(fl.backgroundtagging2())
 #### 4 jet 2b-tagged plot array
     fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
                    fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
@@ -1055,6 +1055,7 @@ def start4():#Scan-plot
                         list_a.append(var_i)
                         list_b.append(var_j)
                         list_c.append(var_k)
+                        
 #                    for counter in range(4):
 #                            my_tuple += (reference_array[counter],)
 #                    absolutexlist.append(abs(X2(*my_tuple))) # unpacked bracket of my_tuple by * sign
@@ -1069,7 +1070,7 @@ def start4():#Scan-plot
                         twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
-                ) * 0.3 / np.sqrt(fl.backgroundtagging2())
+                ) * fl.selection_2j  / np.sqrt(fl.backgroundtagging2())
                         fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
                    fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
                    fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
@@ -1114,6 +1115,7 @@ def start4():#Scan-plot
                    index = None, header=True)
             d8.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d4j1btag'+ str(mhch) +'.csv',\
                    index = None, header=True)
+            print('alpmb :',alpmb, ' alpmhch:',alpmhch)
         print('mhchfinal', mhch)
 #        xtbe,ytga = np.meshgrid(tbe,tga)
         #zzz = np.reshape(np.array(BRCBfinal),( len(the) , len(tbe) * len(tga) ))
@@ -1165,7 +1167,6 @@ def start4():#Scan-plot
 #        plt.show()
 
 #start4()
-#    pd.plotting.scatter_matrix(start4(),alpha=0.5)
 #####################################################
 #print('len',len(np.array(BRCBfinal_list).flatten()) ,np.array(BRCBfinal_list).flatten().ndim)
 #plt.figure

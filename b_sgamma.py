@@ -106,7 +106,7 @@ def c0_7sm(xx):
     chunk = - 8 * x**3 + 3 * x**2 + 12 * x - 7
     chunk1 = (18 * x**2 - 12 * x) * np.log(x)
     return x / 24 * ( (chunk + chunk1) / (x - 1)**4 )
-print(c0_7sm(xx))
+print('c0_7sm(xx)',c0_7sm(xx))
 def c0_8sm(xx):
     x = xx
     chunk = - x**3 + 6 * x**2 - 3 * x - 2 - 6 * x * np.log(x)
