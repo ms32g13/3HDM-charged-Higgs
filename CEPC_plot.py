@@ -28,7 +28,7 @@ A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 2.1 #theta
+i = - PI / 2.5 #theta
 j = 40.0    #tangentbeta
 k = 10.0 #tangamma
 l = 0.0 # set delta (phase shift) to 0
@@ -47,6 +47,7 @@ print('--------------------------------------------------')
 def lamtn (Z):
       couptn = Z**2
       return gf * mhch * (mtau**2) * couptn / fac
+#      return 0.0
 # Charged H - charm, strange quark
 def lamcs (X,Y):   
       coupc = Y**2
@@ -63,14 +64,13 @@ def lamcb (X,Y):
 ####################################################
 # BR : charged Higgs - tau , neutrino(tau)
 def brtn (X,Y,Z):
-       #return lamtn(Z)/(lamtn(Z)+lamcs(X,Y)+lamcb(X,Y)+lamaw)
-       return 0.0
+       return 0.0/(lamtn(Z)+lamcs(X,Y)+lamcb(X,Y)+lamaw)
 # BR : charged Higgs - charm , strange quark
 def brcs (X,Y,Z):
-       return lamcs(X,Y)/(lamtn(Z)+lamcs(X,Y)+lamcb(X,Y)+lamaw)
+       return lamcs(X,Y)/(0.0 +lamcs(X,Y)+lamcb(X,Y)+lamaw)
 # BR : charged Higgs - charm, bottom quark
 def brcb (X,Y,Z):
-       return lamcb(X,Y)/(lamtn(Z)+lamcs(X,Y)+lamcb(X,Y)+lamaw)
+       return lamcb(X,Y)/(0.0+lamcs(X,Y)+lamcb(X,Y)+lamaw)
 # BR : charged Higgs - A ,W
 #braw=LamAW/(LamTN+LamCS+LamCB+LamAW) 
 ############################################################################
@@ -297,6 +297,10 @@ def start3():
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                 BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
         print('lenbrcb',len(BRCBfinal))
+        BRCB_TN = np.array(BRCBfinal) * np.array(BRTNfinal)# product of BRCB and BRTN
+        BRCB_CS = np.array(BRCBfinal) * np.array(BRCSfinal)# product of BRCB and BRCS
+        BRCBPLUSCS = np.array(BRCBfinal) + np.array(BRCSfinal)# Sum of BRCB and BRCS
+        
         BRCBfinal_list.append(BRCBfinal)
         BRCSfinal_list.append(BRCSfinal)
         BRTNfinal_list.append(BRTNfinal)
@@ -310,27 +314,43 @@ def max_valueposition(xxx):# x has to be np.array ; The max value postion of lon
 start()
 start1()
 readlist = ("$\\theta$","tan$\\beta$","tan$\\gamma$","$\\delta$") 
-for n in np.arange(0,len(cepc.mhch_list_CEPC)):
-    mhch = cepc.mhch_list_CEPC[n]
-    print(mhch)
-    alpmhch = alpmz /(1.0 + (alpmz/(12.0 * PI)) * (33.0 - 2 * nf) * \
+###################################################################################
+# Produce brancing ratio results
+absolutexlist = []
+absoluteylist = []
+absolutezlist = []
+xyfun = []
+BRCSfinal = []
+BRCBfinal = []
+BRTNfinal = []
+BRCBfinal_list = []
+BRCSfinal_list = []
+BRTNfinal_list = []
+BRCB_TN = []
+BRCB_CS = []
+BRCBPLUSCS = []
+def runprogress():
+    for n in np.arange(0,len(cepc.mhch_list_CEPC)):
+        mhch = cepc.mhch_list_CEPC[n]
+        print(mhch)
+        alpmhch = alpmz /(1.0 + (alpmz/(12.0 * PI)) * (33.0 - 2 * nf) * \
                   math.log((mhch**2)/(mz**2))) 
 
-    alpmb= alpmz /(1.0 + (alpmz/(12.0 * PI))*(33.0 - 2 * nf) * \
+        alpmb= alpmz /(1.0 + (alpmz/(12.0 * PI))*(33.0 - 2 * nf) * \
                math.log(4.89**2/(mz**2)))
-    print('alpmb :',alpmb, ' alpmhch:',alpmhch)
+        print('alpmb :',alpmb, ' alpmhch:',alpmhch)
 
 # alpha_s at sale 2 GeV.Can read this off from Rev.Part.Properties
-    alp2gev = 0.117 /(1.0 + (0.117 /(12.0 * PI)) * (33.0 - 2 * nf) *\
+        alp2gev = 0.117 /(1.0 + (0.117 /(12.0 * PI)) * (33.0 - 2 * nf) *\
                   math.log(2.0**2 / mz**2))
 #####################################################
-    alp2gev = 0.310 # Take this value will have same figure as Andrew and Stefano' paper
+        alp2gev = 0.310 # Take this value will have same figure as Andrew and Stefano' paper
 #    [ PHYSICAL REVIEW D 85, 115002 (2012) ]
 #####################################################
 # for running of ms at 2 GeV to ms at 4.88 GeV (mb pole mass)                                                                                                                                                                                                                          
-    fc2gev=1.0 + 1.101 * alp2gev/PI + 1.39 * (alp2gev/PI)**2 + 1.09 * \
+        fc2gev=1.0 + 1.101 * alp2gev/PI + 1.39 * (alp2gev/PI)**2 + 1.09 * \
      (alp2gev/PI)**3
-    fcmb=1.0 + 1.101 * alpmb/PI + 1.39 * (alpmb/PI)**2 + 1.09 * \
+        fcmb=1.0 + 1.101 * alpmb/PI + 1.39 * (alpmb/PI)**2 + 1.09 * \
      (alp2gev/PI)**3
 
 
@@ -338,187 +358,171 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
 # Running quark masses at energy scale MHch as a function of running                                                                                                                                                   
 # alpha strong. Pole mass of b quark is 4.88 GeV                                                                                                                                                                                          
 # pole mass of c quark is 1.64 GeV. Lattice gives ms (2 GeV)=93 MeV.
-    fb = 1.0 + 1.17 * alpmhch/PI + 1.50 * (alpmhch/PI)**2 + 0.1725 *(alpmhch/PI)**3
-    fbmb = 1.0 + 1.17 * alpmb/PI + 1.50 * (alpmb/PI)**2 + 0.1725 *(alpmb/PI)**3
+        fb = 1.0 + 1.17 * alpmhch/PI + 1.50 * (alpmhch/PI)**2 + 0.1725 *(alpmhch/PI)**3
+        fbmb = 1.0 + 1.17 * alpmb/PI + 1.50 * (alpmb/PI)**2 + 0.1725 *(alpmb/PI)**3
 
 ######### mass of charm quark and strange quark 
-    mc = 0.9377 * (alpmhch/alpmb)**coeffmb * fb/fbmb
-    mb = 4.18 * (alpmhch/alpmb)**coeffmb * fb/fbmb
+        mc = 0.9377 * (alpmhch/alpmb)**coeffmb * fb/fbmb
+        mb = 4.18 * (alpmhch/alpmb)**coeffmb * fb/fbmb
 ##########################################################################
 # mass of strange at scale of b quark pole mass(4.88 GeV)
-    msatmb = 0.093 * (alpmb/alp2gev)**coeffmc * fc2gev/fcmb
+        msatmb = 0.093 * (alpmb/alp2gev)**coeffmc * fc2gev/fcmb
 
 ######### mass of s quark at scale of charged higgs mass
-    ms = msatmb * (alpmhch/alpmb)**coeffmb * fb/fbmb
-    print('ms_value',ms,mb)
+        ms = msatmb * (alpmhch/alpmb)**coeffmb * fb/fbmb
+        print('ms_value',ms,mb)
 #mb = 2.95# mass bottom quark
 #ms =0.055
-    print('MC MB MS',mc , mb, ms)
+        print('MC MB MS',mc , mb, ms)
 ###################################################################################                                                                                                                                                                                                  
-    if mhch > ma:
-      lamaw=9.0 * gf**2 * mw**4 * mhch * gaw /(16.0 * PI**3)
-    else:
-      lamaw=0.00
-###################################################################################
-# Produce brancing ratio results
-    absolutexlist = []
-    absoluteylist = []
-    absolutezlist = []
-    xyfun = []
-    BRCBfinal = []
-    BRCSfinal = []
-    BRTNfinal = []
-    BRCBfinal_list = []
-    BRCSfinal_list = []
-    BRTNfinal_list = []
-    start3()
-    BRCB_TN = np.array(BRCBfinal) * np.array(BRTNfinal)# product of BRCB and BRTN
-    BRCB_CS = np.array(BRCBfinal) * np.array(BRCSfinal)# product of BRCB and BRCS
-    BRCBPLUSCS = np.array(BRCBfinal) + np.array(BRCSfinal)# Sum of BRCB and BRCS
+        if mhch > ma:
+            lamaw=9.0 * gf**2 * mw**4 * mhch * gaw /(16.0 * PI**3)
+        else:
+            lamaw=0.00
+        start3()
+        
 #### 2 jet tagged plot array
-    twotagsig = cepc.CEPCevent[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
+twotagsig = cepc.CEPCevent[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCSfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCSfinal,BRTNfinal) \
                 ) * fl.selection_2j  / np.sqrt(fl.backgroundtagging2())
 #### 4 jet 2b-tagged plot array
-    fourtag2bsig = cepc.CEPCevent[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
+fourtag2bsig = cepc.CEPCevent[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
                    fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
                    fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
                    fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
                    fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
                               * fl.epsilon / np.sqrt(fl.backgroundtagging())
 #### 4 jet 1b-tagged plot array
-    fourtag1bsig = cepc.CEPCevent[n] * (fl.real_b_cbcb(BRCBfinal,BRCBfinal) +\
+fourtag1bsig = cepc.CEPCevent[n] * (fl.real_b_cbcb(BRCBfinal,BRCBfinal) +\
                    fl.fake_b_cbcb(BRCBfinal,BRCBfinal) + fl.real_b_cbcs(BRCBfinal,BRCSfinal) + \
                    fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
                    fl.fake_b_cscs(BRCSfinal,BRCSfinal)) \
                               * fl.epsilon / np.sqrt(fl.backgroundtagging())
-    ###############################################
-    #PLOT OF CONTOUR WITH RANGE OS 4 PARAMETERS INTO |X|,|Y|,|Z = 0.1| WITH CS,CB,TAUNV
+###############################################
+#PLOT OF CONTOUR WITH RANGE OS 4 PARAMETERS INTO |X|,|Y|,|Z = 0.1| WITH CS,CB,TAUNV
 # (4 parameters):A,B, BRCS contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.figure(1)
-    plt.subplot(221)
-    Contourbrcs = plt.contourf(A,B, \
+plt.figure(1)
+plt.subplot(221)
+Contourbrcs = plt.contourf(A,B, \
           np.resize(BRCSfinal,len(BRCSfinal)).reshape(len(B),len(A)),\
           colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
-    plt.axis([min(A), max(A),min(B), max(B)])
+plt.axis([min(A), max(A),min(B), max(B)])
 #plt.clabel(Contourbrcs, inline= 0.01, fontsize=10)# contour level show
-    plt.colorbar(Contourbrcs)
-    plt.title('BR($H^{\pm} \longrightarrow $ cs)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
+plt.colorbar(Contourbrcs)
+plt.title('BR($H^{\pm} \longrightarrow $ cs)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+plt.xlabel(readlist[int(read1)])# x-axis label
+plt.ylabel(readlist[int(read2)])# y-axis label
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cs.png')
 #    plt.show()
 #    plt.close()
 #    print('--------------------------------------------------')
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.subplot(222)
-    Contourbrcb = plt.contourf(A,B, \
+plt.subplot(222)
+Contourbrcb = plt.contourf(A,B, \
            np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
 #    plt.clabel(Contourbrcb, inline= 0.02, fontsize= 9)# contour level show
-    plt.colorbar(Contourbrcb)
-    plt.title('BR($H^{\pm} \longrightarrow $ cb)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+plt.colorbar(Contourbrcb)
+plt.title('BR($H^{\pm} \longrightarrow $ cb)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+plt.xlabel(readlist[int(read1)])# x-axis label
+plt.ylabel(readlist[int(read2)])# y-axis label
+plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.png')
 #    plt.show()
 #    plt.close()
 #    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.subplot(223)
-    Contourbrtn = plt.contourf(A,B, \
+plt.subplot(223)
+Contourbrtn = plt.contourf(A,B, \
            np.resize(BRTNfinal,len(BRTNfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
 #plt.clabel(Contourbrtn)# contour level show
-    plt.colorbar(Contourbrtn)
-    plt.title('BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+plt.colorbar(Contourbrtn)
+plt.title('BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+plt.xlabel(readlist[int(read1)])# x-axis label
+plt.ylabel(readlist[int(read2)])# y-axis label
+plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,TN.png')
 #    plt.show()
 #    plt.close()
 #    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB + BRCS contour plot 
-    plt.subplot(224)
-    ContourBRCBCS = plt.contourf(A,B, \
+plt.subplot(224)
+ContourBRCBCS = plt.contourf(A,B, \
            np.resize(BRCBPLUSCS ,len(BRCBPLUSCS )).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
 #    plt.clabel(ContourBRCBCS, inline= 0.02, fontsize= 9)# contour level show
-    plt.colorbar(ContourBRCBCS)
-    plt.title(' BR($H^{\pm} \longrightarrow $ cb) + BR($H^{\pm} \longrightarrow $ cs) ')#, $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
+plt.colorbar(ContourBRCBCS)
+plt.title(' BR($H^{\pm} \longrightarrow $ cb) + BR($H^{\pm} \longrightarrow $ cs) ')#, $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+plt.xlabel(readlist[int(read1)])# x-axis label
+plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('CharHCBplusCS_CEPC'+ str(mhch) +'.png')
-    plt.subplots_adjust(top=0.99, bottom=0.06, left=0.1, right=0.99, hspace= 0.6,
+plt.savefig('CharHCBplusCS_CEPC'+ str(mhch) +'.png')
+plt.subplots_adjust(top=0.99, bottom=0.06, left=0.1, right=0.99, hspace= 0.6,
                     wspace=0.3)
-    plt.show()
-    plt.close()
+plt.show()
+plt.close()
 # (4 parameters):A,B, 4jet tagged plots
-    plt.figure()
-    signal4jet = plt.contourf(A,B, \
+plt.figure()
+signal4jet = plt.contourf(A,B, \
         np.resize( fourtag2bsig ,\
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ tagging 4jet '+\
+plt.title('S/$\sqrt{B}$ of $H^{\pm}$ tagging 4jet '+\
              ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
+plt.xlabel(readlist[int(read1)])# x-axis label
+plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.colorbar(signal4jet)
-    plt.savefig('sig_4jet_CEPC'+ str(mhch) +'.png')
-    plt.show()
-    plt.close()
+plt.colorbar(signal4jet)
+plt.savefig('sig_4jet_CEPC'+ str(mhch) +'.png')
+plt.show()
+plt.close()
 ###############################################
 # (4 parameters):A,B, 4jet tagged plots 1-b
-    plt.figure()
-    signaloneb4jet = plt.contourf(A,B, \
+plt.figure()
+signaloneb4jet = plt.contourf(A,B, \
         np.resize( fourtag1bsig ,\
               len( fourtag1bsig)).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 1btagged 4jet '+\
+plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 1btagged 4jet '+\
              ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
+plt.xlabel(readlist[int(read1)])# x-axis label
+plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.colorbar(signaloneb4jet)
-    plt.savefig('sig_1b4jet_CEPC'+ str(mhch) +'.png')
-    plt.show()
-    plt.close()
+plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+plt.colorbar(signaloneb4jet)
+plt.savefig('sig_1b4jet_CEPC'+ str(mhch) +'.png')
+plt.close()
 ################################
 #(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \longrightarrow $ cb + cs))
-    plt.figure()
-    signalnotag4jet = plt.contourf(A,B, \
+plt.figure()
+signalnotag4jet = plt.contourf(A,B, \
         np.resize(cepc.CEPCevent[n] * (BRCBPLUSCS**2)\
                   * fl.epsilon / np.sqrt(fl.backgroundnotagging()) ,\
               len(cepc.CEPCevent[n] * (BRCBPLUSCS**2)\
                   * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).\
-        reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
-        levels = np.arange(0.0,4.0,0.5))
-    plt.colorbar(signalnotag4jet)
-    plt.title('S/$\sqrt{B}$ 4jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.xlabel(readlist[int(read1)])# x-axis label
-    plt.ylabel(readlist[int(read2)])# y-axis label
+        reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])
+plt.colorbar(signalnotag4jet)
+plt.title('S/$\sqrt{B}$ 4jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+plt.xlabel(readlist[int(read1)])# x-axis label
+plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_4jetnotag_CEPC'+ str(mhch) +'.png')
-    plt.show()
-    plt.close()
+plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+plt.savefig('sig_4jetnotag_CEPC'+ str(mhch) +'.png')
+plt.show()
+plt.close()
