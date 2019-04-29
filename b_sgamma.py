@@ -14,9 +14,9 @@ from scipy.integrate import quad
 from scipy import special as sp
 from invariant import *
 #import exercise as ex
-# I make two arrays to pretend solution of XY* and Y^2
+# I make two arrays to pretend solution of XY* and Y
 ll1 = np.array([1 + 8j,2 + 8j,3 + 8j,4 + 8j,5 + 8j,6 + 8j,7 + 8j,8 + 8j,9 + 8j]) #j = XY^*
-ll2 = np.array([1,2,3,4,5,6,7,8,9])#i = Y^2
+ll2 = np.array([1,2,3,4,5,6,7,8,9])#i = Y
 #
 delta_cp = 0.5 #delta_cp fraction of Energy cut in CP-asymmetry
 xx = mt**2 / mw**2 # mt^2 /mw^2
@@ -140,7 +140,7 @@ print('c0_7eff(xx,yy,i,j)',c0_7eff(xx,yy,ll2,ll1))
 def c0_8eff(xx,yy,i,j):# i = Y j = (XY^*) i,j are lists
     return c0_8sm(xx) + np.abs(i)**2 * c0_8yy(yy) + np.array(j) * \
 c0_8xy(yy)
-# LO Effective Wilson coefficient  # i = Y^2 j = (XY^*) 
+# LO Effective Wilson coefficient  # i = Y j = (XY^*) 
 def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0 
     c0_eff = []
     for n in np.arange(1.0,9.0,1.0):
@@ -309,8 +309,8 @@ def Mi_xy(yy):##m7,8_xy values as array at NLO
 def Ti_xy(yy):##t7,8_xy values as array at NLO
     return np.array([t7_xy(yy),t8_xy(yy)])
 ############
-# NLO Effective Wilson coefficient  # i = Y^2 j = (XY^*) 
-def c1_eff(s,i,j):#c1,eff,i,sm with Y^2 and XY*
+# NLO Effective Wilson coefficient  # i = Y j = (XY^*) 
+def c1_eff(s,i,j):#c1,eff,i,sm with Y and XY*
     ratio1 = np.log(mt**2 / s**2)
     ratio = np.log(s**2 / mw**2)
     list1 = []
@@ -486,7 +486,7 @@ c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate()* f_78
 c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_88
         summ_all = summ1 + summ2 + summ3 + summ4 + summ5 + summ6 + summ7 + summ17
         return LOalpha_s(run_quark_bar(mb)) / PI * summ_all.real
-print('Amp',Amp(0.2,0.5 + 1.0j))
+print('Amp',Amp(ll2,ll1))
 ###########Decay_width of b > s gamma gluon
 def decay_bspg(i,j):
         a1 = gf**2 / (32 * PI**4) * (vts * vtb)**2 * \
