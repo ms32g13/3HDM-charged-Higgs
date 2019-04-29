@@ -266,7 +266,7 @@ def eeHHcbcs_1bsignal(x,y):#1real b 1 fake b
 ######################################################################
 def eeHHcbcs_0bsignal(x,y):#0real b 2 fake b
     e_l = 0.01
-    chunk2 =  2 * e_c * e_l * (1 - e_b) * (1 - e_c) + e_c**2 * (1 - e_b) * (1 - e_l)
+    chunk2 =  2.0 * e_c * e_l * (1 - e_b) * (1 - e_c) + e_c**2 * (1 - e_b) * (1 - e_l)
     chunk1 =  2.0 * np.array(x) * np.array(y) * chunk2  # before compare with table  # 2.0 for cbcs and cscb 
     return np.array(chunk1) # * epsilon #* e_antiww # after 3 selections chosen
 #print('||||| Singal of char_H_cbcs after 0b-tagging:',eeHHcbcs_0bsignal())
@@ -274,7 +274,7 @@ def eeHHcbcs_0bsignal(x,y):#0real b 2 fake b
 ######################################################################
 def eeHHcscs_0bsignal(x,y): #0real b 2 fake b
     e_l = 0.01
-    chunk2 = 2 * e_c * e_l * (1 - e_c) * (1 - e_l) + e_c**2 * (1 - e_l)**2 + \
+    chunk2 = 2.0 * e_c * e_l * (1 - e_c) * (1 - e_l) + e_c**2 * (1 - e_l)**2 + \
     e_l**2 * (1 - e_c)**2
     chunk1 =  np.array(x) * np.array(y) * chunk2  # before compare with table 
     return np.array(chunk1) #* epsilon #* e_antiww  after 3 selections chosen
