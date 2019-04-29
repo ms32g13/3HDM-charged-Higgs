@@ -16,7 +16,8 @@ exercise.py : Code to produce BR( H+> cb, cs, taunv ) based on Yukawa couplings 
 
 b_sgamma.py : Code to produce Branching ratio of B_bar > Xs + gamma(photon) based on NLO Wilson coefficients from matching scale (mu_w) to lower scale (mu_b).
 > Functions are based on paper PHYSICAL REVIEW D 58 074004. 
->> It generates basic functions which requires to put i = Y^2 and j = XY^* for each function.
+>> It generates basic functions which requires to put i = Y and j = XY^* for each function.
+>> require Y and XY^* arrays from exercise.py, and load to A_cp(i,j) function to create final limitation.
 
 gammaeffective.py : anomalous dimension matrix. It includes LO and NLO together.
 >> Requires to put this with b>sgamma.py together.
