@@ -14,6 +14,7 @@ from scipy.integrate import quad
 from scipy import special as sp
 from invariant import *
 #import exercise as ex
+delta_cp = 0.5 #delta_cp fraction of Energy cut in CP-asymmetry
 xx = mt**2 / mw**2 # mt^2 /mw^2
 yy = mt**2 / mh**2 # mt^2 / mh^2
 zz = mc**2 / mb**2  # mc^2 / mb^2
@@ -327,6 +328,7 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y^2 and XY*
     c1_eff = []
     for n in np.arange(1.0,9.0,1.0):
         c1_eff.append(0.0)
+    print('list1[0]',type(list1[0]))
     c1_eff[0] = 15 + 6 * ratio #c1,eff,1,sm
     c1_eff[3] = E_0(s) + 2 / 3 * ratio + np.abs([i])**2 * E_H(s)
     c1_eff[6] = list1[0] + np.abs([i])**2 * list1[2] + np.array(j) * list1[4]
@@ -523,11 +525,10 @@ def g(i,y): # i will = zz, y will = delta_cp
             np.sqrt(y /(4 * i) + 1 ) ) 
     part2 = 3 * y * (y - 2 * i) / 4 * np.sqrt(stepfunction) 
     return  (part1 - part2)
-def b_cp(i,delta_cp):#delta_cp fraction of Energy cut
-    return g(i,1) - g(i, 1 - delta_cp)
+def b_cp(i,x):#delta_cp fraction of Energy cut
+    return g(i,1) - g(i, 1 - x)
 def A_cp(i,j): # CP asymmetry 
-    epsilon_s = 0.8 + 0.2j#e_s = V*_usV_ub / V*_tsV_tb
-    delta_cp = 0.5 #delta_cp fraction of Energy cut
+    epsilon_s = lanmda_ckm**2 * (- 0.135 +  0.349j)#e_s = V*_usV_ub / V*_tsV_tb
     c2 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
     c7 = c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) + \
         NLOalpha_s(run_quark_bar(mb)) / (4 * PI) * \
@@ -542,5 +543,5 @@ def A_cp(i,j): # CP asymmetry
         ( (1 + epsilon_s) * (c2 * c8.conjugate() ) ).imag
     return part1 * (part2 - part3  - part4 + part5)
 print('zz',zz,g(zz,0.1))
-print('b_cp(zz,delta)',b_cp(zz,0.5))
+print('b_cp(zz,delta)',b_cp(zz,delta_cp))
 print('A_cp',A_cp(0.5,0.4))

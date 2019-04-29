@@ -1119,7 +1119,7 @@ def start4():#Scan-plot
                         BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                         BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))) 
                         arrayhadron = np.array(BRCBfinal) + np.array(BRCSfinal)
-                        arrayhadrontn = arrayhadron * np.array(BRTNfinal)
+                        arrayhadrontn =  arrayhadron * np.array(BRTNfinal)
                         twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \

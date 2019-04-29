@@ -40,6 +40,8 @@ alpha_electroweak = 1.0 / 128.0 # alpha for EM coupling
 #https://indico.cern.ch/event/684284/contributions/2952455/attachments/1719296/2774804/Vale_Silva_3.pdf
 rho_bar_ckm = 0.1577
 eta_bar_ckm = 0.3493
+rho_ckm = 0.135
+eta_ckm = 0.349
 lanmda_ckm = 0.224747
 A_ckm = 0.8403
 lambda_t = vtb * vts # lambda_t = V_tb * (V_ts).conjugate  CKM products
