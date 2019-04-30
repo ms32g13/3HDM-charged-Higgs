@@ -526,7 +526,7 @@ def g(i,y): # i will = zz, y will = delta_cp
     part1 = (y**2 - 4 * y * i + 6 * i**2) * np.log(np.sqrt(y / (4 * i)) + \
             np.sqrt(y /(4 * i) + 1 ) ) 
     part2 = 3 * y * (y - 2 * i) / 4 * np.sqrt(stepfunction) 
-    return  (part1 - part2)
+    return  part1 - part2
 def b_cp(i,x):#delta_cp fraction of Energy cut
     return g(i,1) - g(i, 1 - x)
 def A_cp(i,j): # CP asymmetry 
