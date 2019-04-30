@@ -104,63 +104,63 @@ fac = 4.0 * np.sqrt(2.0) * PI
 ##########################################################################
 ### Wilson coefficient at matching scale(mu_w)
 ####################### LO
-def c0_7sm(xx):
+def c0_7sm():
     x = xx
     chunk = - 8 * x**3 + 3 * x**2 + 12 * x - 7
     chunk1 = (18 * x**2 - 12 * x) * np.log(x)
     return x / 24 * ( (chunk + chunk1) / (x - 1)**4 )
-print('c0_7sm(xx)',c0_7sm(xx))
-def c0_8sm(xx):
+print('c0_7sm(xx)',c0_7sm())
+def c0_8sm():
     x = xx
     chunk = - x**3 + 6 * x**2 - 3 * x - 2 - 6 * x * np.log(x)
     return x / 8 * ( chunk / (x - 1)**4 )
-def c0_7yy(yy):
+def c0_7yy():
     y = yy
     chunk = - 8 * y**3 + 3 * y**2 + 12 * y - 7
     chunk1 = (18 * y**2 - 12 * y) * np.log(y)
     return y / 24 * ( (chunk + chunk1) / (y - 1)**4 ) * 1 / 3
-def c0_8yy(yy):
+def c0_8yy():
     y = yy
     chunk = - y**3 + 6 * y**2 - 3 * y - 2 - 6 * y * np.log(y)
     return y / 8 * ( chunk / (y - 1)**4 ) * 1 / 3
-def c0_7xy(yy):
+def c0_7xy():
     y = yy
     chunk = - 5 * y**2 + 8 * y  - 3
     chunk1 = (6 * y - 4) * np.log(y)
     return y / 12 * ( (chunk + chunk1) / (y - 1)**3)
-def c0_8xy(yy):
+def c0_8xy():
     y = yy
     chunk = - y**2 + 4 * y - 3 - 2 * np.log(y)
     return y / 4 * ( chunk / (y - 1)**3 )
 ###
-def c0_7eff(xx,yy,i,j):# i = Y j = (XY^*)  i,j are lists
-    return c0_7sm(xx) + np.abs(i)**2 * c0_7yy(yy) + np.array(j) * \
-c0_7xy(yy)
-print('c0_7eff(xx,yy,i,j)',c0_7eff(xx,yy,ll2,ll1))
-def c0_8eff(xx,yy,i,j):# i = Y j = (XY^*) i,j are lists
-    return c0_8sm(xx) + np.abs(i)**2 * c0_8yy(yy) + np.array(j) * \
-c0_8xy(yy)
+def c0_7eff(i,j):# i = Y j = (XY^*)  i,j are lists
+    return c0_7sm() + np.abs(i)**2 * c0_7yy() + np.array(j) * \
+c0_7xy()
+print('c0_7eff(i,j)',c0_7eff(ll2,ll1))
+def c0_8eff(i,j):# i = Y j = (XY^*) i,j are lists
+    return c0_8sm() + np.abs(i)**2 * c0_8yy() + np.array(j) * \
+c0_8xy()
 # LO Effective Wilson coefficient  # i = Y j = (XY^*) 
 def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0 
     c0_eff = []
     for n in np.arange(1.0,9.0,1.0):
         c0_eff.append(np.array([0.0] * len(ll2) ) )
     c0_eff[1] =  np.array([1.0]  * len(ll2))  # c0_2eff
-    c0_eff[6] = c0_7eff(xx,yy,i,j) # c0_7eff
+    c0_eff[6] = c0_7eff(i,j) # c0_7eff
 #    print( 'type',type(c0_7eff(xx,yy,i,j)))
-    c0_eff[7] = c0_8eff(xx,yy,i,j) # c0_8eff
+    c0_eff[7] = c0_8eff(i,j) # c0_8eff
     return c0_eff
 print('c0_eff(mu_w,i,j)',c0_eff(LOalpha_s(mw),ll2,\
               ll1), type( c0_eff(LOalpha_s(mw),ll2,ll1)    ))
 ##########################
 ########################## NLO
-def E_0(xx):#NLO
+def E_0():#NLO
     x = xx
     chunk_1 = x * (x**2 + 11 * x - 18) / (12 * (x - 1)**3)
     chunk_2 = x**2 * (4 * x**2 - 16 * x + 15) * np.log(x) / (6 * (x - 1)**4)
     chunk_3 = - 2 / 3 * np.log(x) - 2 / 3
     return chunk_1 + chunk_2 + chunk_3
-def w7_sm(xx):#NLO
+def w7_sm():#NLO
     x = xx
     chunk_1 = (- 16 * x**4 - 122 * x**3 + 80 * x**2 - 8 * x) / (9 * (x - 1)**4)
     chunk_2 = sp.spence(1.0 - 1.0/x)
@@ -169,7 +169,7 @@ def w7_sm(xx):#NLO
     np.log(x) / (81 * (x - 1)**5)
     chunk_5 = (1646 * x**4 + 12205 * x**3 - 10740 * x**2 + 2509 * x - 436) / (486 * (x - 1)**4)
     return chunk_1 * chunk_2 + chunk_3 + chunk_4 + chunk_5
-def w8_sm(xx):#NLO
+def w8_sm():#NLO
     x = xx
     chunk_1 = (- 4 * x**4 + 40 * x**3 + 41 * x**2 + x)/(6 * (x - 1)**4)
     chunk_2 = sp.spence(1.0 - 1.0/x)
@@ -179,33 +179,33 @@ def w8_sm(xx):#NLO
     chunk_5 = (737 * x**4 - 14102 * x**3 - 28209 * x**2 + 610 * x - 508) \
     / (1296 * (x - 1)**4)
     return chunk_1 * chunk_2 + chunk_3 + chunk_4 + chunk_5
-def m7_sm(xx):#NLO
+def m7_sm():#NLO
     x = xx
     chunk_1 = 82 * x**5 + 301 * x**4 + 703 * x**3 - 2197 * x**2 + 1319 * x - 208
     chunk_2 = - (162 * x**4 + 1242 * x**3 + 756 * x**2) * np.log(x)
     return (chunk_1 + chunk_2) / (81 * (x - 1)**5)
-def m8_sm(xx):#NLO
+def m8_sm():#NLO
     x = xx
     chunk_1 = 77 * x**5 - 475 * x**4 - 1111 * x**3 + 607 * x**2 + 1042 * x - 140
     chunk_2 = ( 918 * x**3 + 1674 * x**2) * np.log(x)
     return (chunk_1 + chunk_2) / (108 * (x - 1)**5)
-def t7_sm(xx):#NLO
+def t7_sm():#NLO
     x = xx
     chunk_1 = 47 * x**3 - 63 * x**2 + 9 * x + 7 
     chunk_2 = - (18 * x**3 + 30 * x**2 - 24 * x) * np.log(x)
     return x / 3 * ( (chunk_1 + chunk_2) / (x - 1)**5 )
-def t8_sm(xx):#NLO
+def t8_sm():#NLO
     x = xx
     chunk_1 = - x**3 - 9 * x**2 + 9 * x + 1 + (6 * x**2 + 6 * x) * np.log(x)
     chunk_2 = (x - 1)**5
     return 2.0 * x * (chunk_1 / chunk_2)
 #coupling Y^2
-def E_H(yy):#NLO
+def E_H():#NLO
     y = yy
     chunk_1 = 7 * y**3 - 36 * y**2 + 45 * y - 16
     chunk_2 = (18 * y - 12) * np.log(y)
     return  y / 36 * ( (chunk_1 + chunk_2) / ((y - 1)**4) )
-def w7_yy(yy):#NLO
+def w7_yy():#NLO
     y = yy
     chunk_1 = (8 * y**3 - 37 * y**2 + 18 * y) / ((y - 1)**4)
     chunk_2 = sp.spence(1.0 - 1.0 / y)
@@ -214,8 +214,8 @@ def w7_yy(yy):#NLO
     * np.log(y) / (9 * (y - 1)**5)
     chunk_5 = (- 1202 * y**3 + 7569 * y**2 - 5436 * y + 797) / (108 * (y - 1)**4)
     return 2 * y / 9 * (chunk_1 * chunk_2 + chunk_3 + chunk_4 + chunk_5) - \
-4 / 9 * E_H(yy)
-def w8_yy(s):#NLO
+4 / 9 * E_H()
+def w8_yy():#NLO
     y = yy
     chunk_1 = (13 * y**3 - 17 * y**2 + 30 * y) / ((y - 1)**4)
     chunk_2 = sp.spence(1.0 - 1.0 / y)
@@ -224,32 +224,32 @@ def w8_yy(s):#NLO
 np.log(y) / (36 * (y - 1)**5)
     chunk_5 = (- 4451 * y**3 + 7650 * y**2 - 18153 * y + 1130) / (216 * (y - 1)**4)
     return 1 / 6 * y * (chunk_1 * chunk_2 + chunk_3 + chunk_4 + chunk_5) - \
-1 / 6 * E_H(yy)
-def m7_yy(yy):#NLO
+1 / 6 * E_H()
+def m7_yy():#NLO
     y = yy
     chunk_1 = - 14 * y**4 + 149 * y**3 - 153 * y**2 - 13 * y + 31
     chunk_2 = - (18 * y**3 + 138 * y**2 - 84 * y) * np.log(y)
     chunk_3 = (y - 1)**5
     return 1 / 27 * y * ( (chunk_1 + chunk_2) / chunk_3 )
-def m8_yy(yy):#NLO
+def m8_yy():#NLO
     y = yy
     chunk_1 = - 7 * y**4 + 25 * y**3 - 279 * y**2 + 223 * y + 38 
     chunk_2 = (102 * y**2 + 186 * y) * np.log(y)
     chunk_3 = (y - 1)**5
     return 1 / 36 * y * ( (chunk_1 + chunk_2) / chunk_3)
-def t7_yy(yy):#NLO
+def t7_yy():#NLO
     y = yy
     chunk_1 = 47 * y**3 - 63 * y**2 + 9 * y + 7 
     chunk_2 = - (18 * y**3 + 30 * y**2 - 24 * y) * np.log(y)
     return 1 / 3 * (y / 3 * ( (chunk_1 + chunk_2) / (y - 1)**5 ) )
-def t8_yy(yy):#NLO
+def t8_yy():#NLO
     y = yy
     chunk_1 = - y**3 - 9 * y**2 + 9 * y + 1 + (6 * y**2 + 6 * y) * np.log(y)
     chunk_2 = (y - 1)**5
     return 1 / 3 * ( 2 * y * (chunk_1 / chunk_2) )
 
 #Coupling (XY*)
-def w7_xy(yy):#NLO
+def w7_xy():#NLO
     y = yy
     chunk_1 = (8 * y**2 - 28 * y + 12) / (3 * (y - 1)**3)
     chunk_2 = sp.spence(1.0 - 1.0 / y)
@@ -257,7 +257,7 @@ def w7_xy(yy):#NLO
     chunk_4 = (4 * y**3 - 24 * y**2 + 2 * y + 6 ) * np.log(y) / (3 * (y - 1)**4)
     chunk_5 = (- 2 * y**2 + 13 * y  - 7) / ((y - 1)**3)
     return 4 / 3 * y * (chunk_1 * chunk_2 + chunk_3 + chunk_4 + chunk_5)
-def w8_xy (yy):#NLO
+def w8_xy():#NLO
     y = yy
     c1 = (17 * y**2 - 25 * y + 36) / (2 * (y - 1)**3)
     c2 = sp.spence(1.0 - 1.0 / y)
@@ -265,49 +265,49 @@ def w8_xy (yy):#NLO
     c4 = (14 * y**3 - 12 * y**2 + 187 * y + 3) * np.log(y) / (4 * (y - 1)**4)
     c5 = - (3 * (29 * y**2 - 44 * y + 143)) / (8 * (y - 1)**3)
     return 1 / 3 * y * (c1 * c2 + c3 + c4 + c5)
-def m7_xy(yy):#NLO
+def m7_xy():#NLO
     y = yy
     c1 = - 8 * y**3 + 55 * y**2 - 68 * y + 21 
     c2 = - (6 * y**2 + 28 * y - 16) * np.log(y)
     c3 = (y - 1)**4
     return  2 / 9 * y * ( (c1 + c2) / c3 )
-def m8_xy(yy):#NLO
+def m8_xy():#NLO
     y = yy
     c1 = - 7 * y**3 + 23 * y**2 - 97 * y  + 81
     c2 = (34 * y + 38) * np.log(y)
     c3 = (y - 1)**4
     return 1 / 6 * y * ( (c1 + c2) / c3 )
-def t7_xy(yy):#NLO
+def t7_xy():#NLO
     y = yy
     c1 = 13 * y**2 - 20 * y + 7 - (6 * y**2 + 4 * y - 4) * np.log(y)
     c2 = (y - 1)**4
     return 2 / 3 * y * (c1 / c2)
-def t8_xy(yy):#NLO
+def t8_xy():#NLO
     y = yy
     c1 = - y**2 - 4 * y + 5 + (4 * y + 2) * np.log(y)
     c2 = (y - 1)**4
     return 2 * y * (c1 / c2)
 
 ####
-def Wi_sm(xx):#w7,8_sm values as array at NLO
-    return np.array([w7_sm(xx),w8_sm(xx)])
-print('Wi_sm(s)',Wi_sm(xx))
-def Mi_sm(xx):#m7,8_sm values as array at NLO
-    return np.array([m7_sm(xx),m8_sm(xx)])
-def Ti_sm(xx):#t7,8_sm values as array at NLO
-    return np.array([t7_sm(xx),t8_sm(xx)])
-def Wi_yy(yy):##w7,8_yy values as array at NLO
-    return np.array([w7_yy(yy),w8_yy(yy)])
-def Mi_yy(yy):##m7,8_yy values as array at NLO
-    return np.array([m7_yy(yy),m8_yy(yy)])
-def Ti_yy(yy):##t7,8_yy values as array at NLO
-    return np.array([t7_yy(yy),t8_yy(yy)])
-def Wi_xy(yy):##w7,8_xy values as array at NLO
-    return np.array([w7_xy(yy),w8_xy(yy)])
-def Mi_xy(yy):##m7,8_xy values as array at NLO
-    return np.array([m7_xy(yy),m8_xy(yy)])
-def Ti_xy(yy):##t7,8_xy values as array at NLO
-    return np.array([t7_xy(yy),t8_xy(yy)])
+def Wi_sm():#w7,8_sm values as array at NLO
+    return np.array([w7_sm(),w8_sm()])
+print('Wi_sm()',Wi_sm())
+def Mi_sm():#m7,8_sm values as array at NLO
+    return np.array([m7_sm(),m8_sm()])
+def Ti_sm():#t7,8_sm values as array at NLO
+    return np.array([t7_sm(),t8_sm()])
+def Wi_yy():##w7,8_yy values as array at NLO
+    return np.array([w7_yy(),w8_yy()])
+def Mi_yy():##m7,8_yy values as array at NLO
+    return np.array([m7_yy(),m8_yy()])
+def Ti_yy():##t7,8_yy values as array at NLO
+    return np.array([t7_yy(),t8_yy()])
+def Wi_xy():##w7,8_xy values as array at NLO
+    return np.array([w7_xy(),w8_xy()])
+def Mi_xy():##m7,8_xy values as array at NLO
+    return np.array([m7_xy(),m8_xy()])
+def Ti_xy():##t7,8_xy values as array at NLO
+    return np.array([t7_xy(),t8_xy()])
 ############
 # NLO Effective Wilson coefficient  # i = Y j = (XY^*) 
 def c1_eff(s,i,j):#c1,eff,i,sm with Y and XY*
@@ -316,22 +316,22 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y and XY*
     list1 = []
     for n in np.arange(0.0,6.0,1.0):
         list1.append(0.0)
-    list1[0] = Wi_sm(xx)[0] + Mi_sm(xx)[0] * ratio + \
-        Ti_sm(xx)[0] * (ratio1  - 4 / 3)#7
-    list1[1] = Wi_sm(xx)[1] + Mi_sm(xx)[1] * ratio + \
-        Ti_sm(xx)[1] * (ratio1  - 4 / 3)#8
-    list1[2] = Wi_yy(yy)[0] + Mi_yy(yy)[0] * ratio + \
-        Ti_yy(yy)[0] * (ratio1  - 4 / 3)#7
-    list1[3] = Wi_yy(yy)[1] + Mi_yy(yy)[1] * ratio + \
-        Ti_yy(yy)[1] * (ratio1  - 4 / 3)#8
-    list1[4] = Wi_xy(yy)[0] + Mi_xy(yy)[0] * ratio + \
-        Ti_xy(yy)[0] * (ratio1  - 4 / 3)#7
-    list1[5] = Wi_xy(yy)[1] + Mi_xy(yy)[1] * ratio + \
-        Ti_xy(yy)[1] * (ratio1  - 4 / 3)#8
+    list1[0] = Wi_sm()[0] + Mi_sm()[0] * ratio + \
+        Ti_sm()[0] * (ratio1  - 4 / 3)#7
+    list1[1] = Wi_sm()[1] + Mi_sm()[1] * ratio + \
+        Ti_sm()[1] * (ratio1  - 4 / 3)#8
+    list1[2] = Wi_yy()[0] + Mi_yy()[0] * ratio + \
+        Ti_yy()[0] * (ratio1  - 4 / 3)#7
+    list1[3] = Wi_yy()[1] + Mi_yy()[1] * ratio + \
+        Ti_yy()[1] * (ratio1  - 4 / 3)#8
+    list1[4] = Wi_xy()[0] + Mi_xy()[0] * ratio + \
+        Ti_xy()[0] * (ratio1  - 4 / 3)#7
+    list1[5] = Wi_xy()[1] + Mi_xy()[1] * ratio + \
+        Ti_xy()[1] * (ratio1  - 4 / 3)#8
     c1_eff = []
     for n in np.arange(1.0,9.0,1.0):
         c1_eff.append(np.array([0.0] * len(ll2) ) )
-    c1_eff[3] = E_0(xx) + 2 / 3 * ratio + np.abs(i)**2 * E_H(yy)
+    c1_eff[3] = E_0() + 2 / 3 * ratio + np.abs(i)**2 * E_H()
     c1_eff[6] = list1[0] + np.abs(i)**2 * list1[2] + np.array(j) * list1[4]
     c1_eff[7] = list1[1] + np.abs(i)**2 * list1[3] + np.array(j) * list1[5]
     c1_eff[0] = np.array([15 + 6 * ratio] * len(ll2)) #c1,eff,1,sm
@@ -365,8 +365,8 @@ def c1_7_eff(s2,s1,i,j): #c1_7_eff(mu_b) NLO
     step1 = eta **(39 / 23) * c1_eff(s1,i,j)[6]
     step2 = 8 / 3 * (eta **(37 / 23) - eta **(39 / 23) ) * c1_eff(s1,i,j)[7]
     step3 = ((297664 / 14283) * eta **(16 / 23) - 7164416 / 357075 * eta **(14 / 23) +\
-256868/14283 * (eta **(37 / 23)) - 6698884 / 357075 * eta **(39 / 23)) * c0_8eff(xx,yy,i,j) 
-    step4 = 37208/4761 * (eta **(39 / 23) - eta **(16 / 23)) * c0_7eff(xx,yy,i,j) 
+256868/14283 * (eta **(37 / 23)) - 6698884 / 357075 * eta **(39 / 23)) * c0_8eff(i,j) 
+    step4 = 37208/4761 * (eta **(39 / 23) - eta **(16 / 23)) * c0_7eff(i,j) 
     result = 0.0
     for n in np.arange(0,8):
         step5 = e_i[n] * eta * c1_eff(s1,i,j)[3]
