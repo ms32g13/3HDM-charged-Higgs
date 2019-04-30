@@ -530,13 +530,13 @@ def g(i,y): # i will = zz, y will = delta_cp
 def b_cp(i,x):#delta_cp fraction of Energy cut
     return g(i,1) - g(i, 1 - x)
 def A_cp(i,j): # CP asymmetry 
-    epsilon_s = lanmda_ckm**2 * (- 0.135 +  0.349j)#e_s = V*_usV_ub / V*_tsV_tb
+    epsilon_s = lanmda_ckm**2 * complex(- rho_ckm ,eta_ckm)#e_s = V*_usV_ub / V*_tsV_tb
     c2 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
     c7 = c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) + \
         NLOalpha_s(run_quark_bar(mb)) / (4 * PI) * \
         c1_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
     c8 = c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
-    part1 = NLOalpha_s(mb) / (c1_7_eff(NLOalpha_s(mb),NLOalpha_s(mw),i,j))**2
+    part1 = NLOalpha_s(mb) / (np.abs(c7) )**2
     part2 = 40 / 81 * (c2 * c7.conjugate()).imag 
     part3 = 8 * zz / 9 * (v_cp(zz) + b_cp(zz, delta_cp)) *\
         ( (1 + epsilon_s) * (c2 * c7.conjugate() ) ).imag
