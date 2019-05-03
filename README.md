@@ -22,5 +22,8 @@ b_sgamma.py : Code to produce Branching ratio of B_bar > Xs + gamma(photon) base
 gammaeffective.py : anomalous dimension matrix. It includes LO and NLO together.
 >> Requires to put this with b>sgamma.py together.
 
+CEPCeehh.py: Codes for CEPC (more energy available range) to produce charged Higgs from eehh.py program.
+>> combine with CEPC_plot.py (produces graphs at CEPC centre of mass energy).
 
-
+CEPC_plot.py: Codes to produce graphs of branching ratios of charged Higgs decay (Leptonic and Hadronic).
+>> CEPCeehh.py produces charged Higgs events based on chosen luminoscities. Using the events that code produced can plot for parameter space against branching ratios and other stuffs.
