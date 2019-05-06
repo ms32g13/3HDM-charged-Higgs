@@ -13,10 +13,14 @@ import gammaeffective as gaeff
 from scipy.integrate import quad
 from scipy import special as sp
 from invariant import *
+from exercise import xyfun_list,yfun_list,xyfun,yfun
 #import exercise as ex
 # I make two arrays to pretend solution of XY* and Y
-ll1 = np.array([1 + 8j,2 + 8j,3 + 8j,4 + 8j,5 + 8j,6 + 8j,7 + 8j,8 + 8j,9 + 8j]) #j = XY^*
-ll2 = np.array([1,2,3,4,5,6,7,8,9])#i = Y
+ll1 = np.array(xyfun) #j = XY^*
+ll2 = np.array(yfun)#i = Y
+for n in np.arange(len(xyfun_list)):
+    print('-',xyfun_list[n])
+    print('=',yfun_list[n])
 #
 delta_cp = 0.5 #delta_cp fraction of Energy cut in CP-asymmetry
 xx = mt**2 / mw**2 # mt^2 /mw^2
@@ -152,6 +156,7 @@ def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0
     return c0_eff
 print('c0_eff(mu_w,i,j)',c0_eff(LOalpha_s(mw),ll2,\
               ll1), type( c0_eff(LOalpha_s(mw),ll2,ll1)    ))
+print('c0_eff(s1,i,j)[1]',c0_eff(LOalpha_s(mw),ll2,ll1)[1])
 ##########################
 ########################## NLO
 def E_0():#NLO
@@ -386,6 +391,7 @@ def c0_2_eff(s2,s1,i,j): #C0_2_eff(mu_b)
     eta = s1 / s2 # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = 2 /3 * eta**(6 / 23) + 1 /3 * eta**(- 12 / 23) 
     return c0_eff(s1,i,j)[1] * step1
+print('C0_2_eff(mu_b)',c0_2_eff(LOalpha_s(mb),LOalpha_s(mw),ll2,ll1)) #
 def c0_8_eff(s2,s1,i,j): #C0_8_eff(mu_b)
     eta = s1 / s2 # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta**(14 / 23) * c0_eff(s1,i,j)[7]
@@ -393,6 +399,7 @@ def c0_8_eff(s2,s1,i,j): #C0_8_eff(mu_b)
     for n in np.arange(0,5):
         result += h2_i[n] * eta**(a2_i[n]) * c0_eff(s1,i,j)[1]
     return step1 + result
+print('C0_8_eff(mu_b)',c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),ll2,ll1)) #
 ####################################################################
 ####################################################################
 def D_bar(i,j):#mu_b scale Reduced Amplitude
@@ -459,6 +466,10 @@ def decay_bsp(i,j):
 print('$decay_bsp$',decay_bsp(0.8,0.2),PI)
 ####################################################################
 def Amp(i,j):# A for Decay_width of b > s gamma gluon
+        c0_1 = c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
+        c0_2 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
+        c0_7 = c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
+        c0_8 = c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
         f_22 = 16 * zz / 27 * np.array( quad(grand1, 0, 1 - zz )[0] )
         f_27 = - 8 * zz**2 / 9 * np.array( quad(grand2, 0, 1 - zz )[0])
         f_11 = 1 /36 * f_22
@@ -468,23 +479,16 @@ def Amp(i,j):# A for Decay_width of b > s gamma gluon
         f_18 = - 1 /6 * f_28
         f_78 = 8 /9 * (25 /12 - PI**2 / 6)
         f_88 = 1 /27 * (16 /3 - 4 * PI**2 / 3 + 4 * np.log(mb / run_quark_bar(mb) ))
-        summ1 = c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
-c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_11
-        summ2 = c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
-c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_12
-        summ17 = c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
-c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_17
-        summ3 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
-c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_22
-        summ4 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
-c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_27
-        summ5 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
-c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_28
-        summ6 = c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
-c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate()* f_78
-        summ7 = c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) * \
-c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j).conjugate() * f_88
-        summ_all = summ1 + summ2 + summ3 + summ4 + summ5 + summ6 + summ7 + summ17
+        summ11 = c0_1 * c0_1.conjugate() * f_11
+        summ12 = c0_1 * c0_2.conjugate() * f_12
+        summ17 = c0_1 * c0_7.conjugate() * f_17
+        summ22 = c0_2 * c0_2.conjugate() * f_22
+        summ27 = c0_2 * c0_7.conjugate() * f_27
+        summ28 = c0_2 * c0_8.conjugate() * f_28
+        summ78 = c0_7 * c0_8.conjugate()* f_78
+        summ88 = c0_8 * c0_8.conjugate() * f_88
+        summ_all = summ11 + summ12 + summ17 + summ22 + summ27 + summ28\
+    + summ78 + summ88 
         return LOalpha_s(run_quark_bar(mb)) / PI * summ_all.real
 print('Amp',Amp(ll2,ll1))
 ###########Decay_width of b > s gamma gluon
@@ -531,11 +535,11 @@ def b_cp(i,x):#delta_cp fraction of Energy cut
     return g(i,1) - g(i, 1 - x)
 def A_cp(i,j): # CP asymmetry 
     epsilon_s = lanmda_ckm**2 * complex(- rho_ckm ,eta_ckm)#e_s = V*_usV_ub / V*_tsV_tb
-    c2 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
-    c7 = c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j) + \
+    c2 = c0_2_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
+    c7 = c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j) + \
         NLOalpha_s(run_quark_bar(mb)) / (4 * PI) * \
-        c1_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
-    c8 = c0_8_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)
+        c1_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
+    c8 = c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
     part1 = NLOalpha_s(mb) / (np.abs(c7) )**2
     part2 = 40 / 81 * (c2 * c7.conjugate()).imag 
     part3 = 8 * zz / 9 * (v_cp(zz) + b_cp(zz, delta_cp)) *\
@@ -546,4 +550,7 @@ def A_cp(i,j): # CP asymmetry
     return part1 * (part2 - part3  - part4 + part5)
 print('zz',zz,g(zz,0.1))
 print('b_cp(zz,delta)',b_cp(zz,delta_cp))
-print('A_cp',A_cp(ll2,ll1))
+print('A_cp',A_cp(ll2,ll1),len(A_cp(ll2,ll1)))
+for n in np.arange(len(xyfun_list)):
+        print(n)
+        print(A_cp(yfun_list[n],xyfun_list[n]))

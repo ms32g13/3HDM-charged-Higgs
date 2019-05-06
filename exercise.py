@@ -294,7 +294,7 @@ def start1():# choose model
         return 
 #############################################################################
 def complexyfunction(i,j,k,l):# (XY^*) function 
-        return (X2(i,j,k,l) * (np.conj(Y2(i,j,k,l))))
+        return X2(i,j,k,l) * (np.conjugate(Y2(i,j,k,l)))
 ###############################################################################
 def start3():
 #        global X2,Y2,Z2 #
@@ -316,6 +316,7 @@ def start3():
                 absoluteylist.append(abs(Y2(*my_tuple)))
                 absolutezlist.append(abs(Z2(*my_tuple)))
                 xyfun.append(complexyfunction(*my_tuple))
+                yfun.append(Y2(*my_tuple))
                 BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
 #                BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
@@ -324,6 +325,9 @@ def start3():
         BRCBfinal_list.append(BRCBfinal)
         BRCSfinal_list.append(BRCSfinal)
         BRTNfinal_list.append(BRTNfinal)
+        xyfun_list.append(xyfun)
+        yfun_list.append(yfun)
+        return
 def max_valueposition(xxx):# x has to be np.array ; The max value postion of long array
     yyy = np.where(xxx == max(xxx))[0]
     return int(yyy)
@@ -358,6 +362,8 @@ readlist = ("$\\theta$","tan$\\beta$","tan$\\gamma$","$\\delta$")
 BRCBfinal_list = []
 BRCSfinal_list = []
 BRTNfinal_list = []
+xyfun_list =[]
+yfun_list = []
 start()
 start1()
 for n in np.arange(0,len(fl.mhch)):
@@ -564,7 +570,8 @@ for n in np.arange(0,len(fl.mhch)):
     absolutexlist =[]
     absoluteylist =[]
     absolutezlist =[]
-    xyfun =[]
+    xyfun = []
+    yfun = []
 ##############################################################
 ################### d = 1 ,u = 2, l = 3 Democratic
 #abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #X2
@@ -626,8 +633,8 @@ for n in np.arange(0,len(fl.mhch)):
     BRCB_TN = np.array(BRCBfinal) * np.array(BRTNfinal)# product of BRCB and BRTN
     BRCB_CS = np.array(BRCBfinal) * np.array(BRCSfinal)# product of BRCB and BRCS
     BRCBPLUSCS = np.array(BRCBfinal) + np.array(BRCSfinal)# Sum of BRCB and BRCS
-    print('MAXCB + CS',max(BRCBPLUSCS),BRCBfinal[max_valueposition(BRCBPLUSCS)],\
-          BRCSfinal[max_valueposition(BRCBPLUSCS)])
+#    print('MAXCB + CS',max(BRCBPLUSCS),BRCBfinal[max_valueposition(BRCBPLUSCS)],\
+#          BRCSfinal[max_valueposition(BRCBPLUSCS)])
 #    print('MAXBRCBCS', len(BRCB_CS),max(BRCB_CS),max_valueposition(BRCB_CS),\
 #         BRCBfinal[max_valueposition(BRCB_CS)],BRCSfinal[max_valueposition(BRCB_CS)])#
 #    print('MAXBRCBTN',len(BRCB_TN),max(BRCB_TN), max_valueposition(BRCB_TN),\
