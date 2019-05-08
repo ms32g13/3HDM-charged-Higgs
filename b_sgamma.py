@@ -13,14 +13,12 @@ import gammaeffective as gaeff
 from scipy.integrate import quad
 from scipy import special as sp
 from invariant import *
+from eehh import mhch
 from exercise import xyfun_list,yfun_list,xyfun,yfun
 #import exercise as ex
 # I make two arrays to pretend solution of XY* and Y
 ll1 = np.array(xyfun) #j = XY^*
 ll2 = np.array(yfun)#i = Y
-for n in np.arange(len(xyfun_list)):
-    print('-',xyfun_list[n])
-    print('=',yfun_list[n])
 #
 delta_cp = 0.5 #delta_cp fraction of Energy cut in CP-asymmetry
 xx = mt**2 / mw**2 # mt^2 /mw^2
@@ -479,14 +477,14 @@ def Amp(i,j):# A for Decay_width of b > s gamma gluon
         f_18 = - 1 /6 * f_28
         f_78 = 8 /9 * (25 /12 - PI**2 / 6)
         f_88 = 1 /27 * (16 /3 - 4 * PI**2 / 3 + 4 * np.log(mb / run_quark_bar(mb) ))
-        summ11 = c0_1 * c0_1.conjugate() * f_11
-        summ12 = c0_1 * c0_2.conjugate() * f_12
-        summ17 = c0_1 * c0_7.conjugate() * f_17
-        summ22 = c0_2 * c0_2.conjugate() * f_22
-        summ27 = c0_2 * c0_7.conjugate() * f_27
-        summ28 = c0_2 * c0_8.conjugate() * f_28
-        summ78 = c0_7 * c0_8.conjugate()* f_78
-        summ88 = c0_8 * c0_8.conjugate() * f_88
+        summ11 = c0_1 * np.conjugate(c0_1) * f_11
+        summ12 = c0_1 * np.conjugate(c0_2) * f_12
+        summ17 = c0_1 * np.conjugate(c0_7) * f_17
+        summ22 = c0_2 * np.conjugate(c0_2) * f_22
+        summ27 = c0_2 * np.conjugate(c0_7) * f_27
+        summ28 = c0_2 * np.conjugate(c0_8) * f_28
+        summ78 = c0_7 * np.conjugate(c0_8)* f_78
+        summ88 = c0_8 * np.conjugate(c0_8) * f_88
         summ_all = summ11 + summ12 + summ17 + summ22 + summ27 + summ28\
     + summ78 + summ88 
         return LOalpha_s(run_quark_bar(mb)) / PI * summ_all.real
@@ -541,16 +539,16 @@ def A_cp(i,j): # CP asymmetry
         c1_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
     c8 = c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
     part1 = NLOalpha_s(mb) / (np.abs(c7) )**2
-    part2 = 40 / 81 * (c2 * c7.conjugate()).imag 
+    part2 = 40 / 81 * (c2 * np.conjugate(c7)).imag 
     part3 = 8 * zz / 9 * (v_cp(zz) + b_cp(zz, delta_cp)) *\
-        ( (1 + epsilon_s) * (c2 * c7.conjugate() ) ).imag
-    part4 = 4 / 9 * (c8 * c7.conjugate() ).imag
+        ( (1 + epsilon_s) * (c2 * np.conjugate(c7) ) ).imag
+    part4 = 4 / 9 * (c8 * np.conjugate(c7) ).imag
     part5 = 8 * zz / 27 * b_cp(zz, delta_cp) *\
-        ( (1 + epsilon_s) * (c2 * c8.conjugate() ) ).imag
+        ( (1 + epsilon_s) * (c2 * np.conjugate(c8) ) ).imag
     return part1 * (part2 - part3  - part4 + part5)
 print('zz',zz,g(zz,0.1))
 print('b_cp(zz,delta)',b_cp(zz,delta_cp))
 print('A_cp',A_cp(ll2,ll1),len(A_cp(ll2,ll1)))
 for n in np.arange(len(xyfun_list)):
         print(n)
-        print(A_cp(yfun_list[n],xyfun_list[n]))
+        print(np.sort(A_cp(yfun_list[n],xyfun_list[n])) ,len(np.sort(A_cp(yfun_list[n],xyfun_list[n]))))
