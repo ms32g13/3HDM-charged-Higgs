@@ -37,8 +37,8 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
 the = np.arange(- PI / 2, PI/50 ,PI / 20)#theta (i in loop)
-tbe = np.arange(1.0,61.0,1.0) #tanbeta (j in loop)
-tga = np.arange(1.0,61.0,1.0) #tangamma (k in loop)
+tbe = np.arange(1.0,21.0,1.0) #tanbeta (j in loop)
+tga = np.arange(1.0,21.0,1.0) #tangamma (k in loop)
 delta = np.arange(0.0,2.1 * PI , PI /6)#delta (l in loop)  #delta fixed#
 A = []
 B = []
@@ -322,6 +322,7 @@ def start3():
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                 BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
         print('lenbrcb',len(BRCBfinal))
+        print('BRCBfinal',BRCBfinal)
         BRCBfinal_list.append(BRCBfinal)
         BRCSfinal_list.append(BRCSfinal)
         BRTNfinal_list.append(BRTNfinal)
@@ -650,9 +651,10 @@ for n in np.arange(0,len(fl.mhch)):
 #################################
 #PLOT OF CONTOUR WITH RANGE OS 4 PARAMETERS INTO |X|,|Y|,|Z = 0.1| WITH CS,CB,TAUNV
 # (4 parameters):A,B, BRCS contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.figure(1)
-    plt.subplot(221)
-    Contourbrcs = plt.contourf(A,B, \
+    plt.figure()
+#    plt.figure(1)
+#    plt.subplot(221)
+    Contourbrcs = plt.contour(A,B, \
           np.resize(BRCSfinal,len(BRCSfinal)).reshape(len(B),len(A)),\
           colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
     plt.axis([min(A), max(A),min(B), max(B)])
@@ -664,12 +666,12 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cs.png')
-#    plt.show()
-#    plt.close()
+    plt.show()
+    plt.close()
 #    print('--------------------------------------------------')
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.subplot(222)
-    Contourbrcb = plt.contourf(A,B, \
+#    plt.subplot(222)
+    Contourbrcb = plt.contour(A,B, \
            np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
 #    plt.clabel(Contourbrcb, inline= 0.02, fontsize= 9)# contour level show
@@ -680,12 +682,12 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.png')
-#    plt.show()
-#    plt.close()
+    plt.show()
+    plt.close()
 #    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
-    plt.subplot(223)
-    Contourbrtn = plt.contourf(A,B, \
+#    plt.subplot(223)
+    Contourbrtn = plt.contour(A,B, \
            np.resize(BRTNfinal,len(BRTNfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
 #plt.clabel(Contourbrtn)# contour level show
@@ -696,11 +698,11 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,TN.png')
-#    plt.show()
-#    plt.close()
+    plt.show()
+    plt.close()
 #    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB + BRCS contour plot 
-    plt.subplot(224)
+#    plt.subplot(224)
     ContourBRCBCS = plt.contourf(A,B, \
            np.resize(BRCBPLUSCS ,len(BRCBPLUSCS )).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
@@ -713,11 +715,11 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('branchingratio'+ strmhch +'.png')
-    plt.subplots_adjust(top=0.99, bottom=0.06, left=0.1, right=0.99, hspace= 0.6,
-                    wspace=0.3)
-    plt.show()
-    plt.close()
+#    plt.savefig('branchingratio'+ strmhch +'.png')
+#    plt.subplots_adjust(top=0.99, bottom=0.06, left=0.1, right=0.99, hspace= 0.6,
+#                    wspace=0.3)
+#    plt.show()
+#    plt.close()
 #(4 parameters): A,B, BRTHBBRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
     ContourBRTHBBRCB1 = plt.contourf(A,B, \
@@ -792,6 +794,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.show()
 #   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.png')
     plt.close()
     print('--------------------------------------------------')
@@ -805,6 +808,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.show()
 #   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,imxy.png')
     plt.close()
     print('--------------------------------------------------')
