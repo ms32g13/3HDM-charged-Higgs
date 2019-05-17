@@ -21,7 +21,7 @@ ll1 = np.array(xyfun) #j = XY^*
 ll2 = np.array(yfun)#i = Y
 #############
 mu_b = 5.0 # scale of mu_b 
-delta_cp = 0.5 #delta_cp fraction of Energy cut in CP-asymmetry
+delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry
 xx = mt**2 / mw**2 # mt^2 /mw^2
 # mt^2 / mh^2
 def yy():
