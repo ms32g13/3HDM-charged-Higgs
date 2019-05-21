@@ -17,7 +17,7 @@ from invariant import *
 e_blist = np.arange(0.5,0.75,0.023) # b-tag efficiency 0.7
 #e_b = float(input('e_b value:')) #
 e_b = 0.7 # set b_tagg = 0.7
-e_clist = np.arange(0.005,0.05,0.0045) # c-tag efficiency
+e_clist = np.arange(0.005,0.065,0.0058) # c-tag efficiency
 
 while True: 
     inputec = input('e_c single or range (s or r)?:') 
@@ -44,7 +44,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,84.0 ,1.0)# charged Higgs ranged values
+mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -114,7 +114,7 @@ print('|ww background:',wwcscs_background())
 def backgroundtagging():# OPAL 4jets tagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
-    ww_cscs = ww / 4 * e_c**2
+    ww_cscs = ww / 4 * e_c**2 # 1/4 of ww is ww>cscs
     qq_bar = 1117.8 * 0.1 * 0.134 * e_b**2  #z>bb_bar fraction = range(0.134 to 0.15)
     return  ww_cscs + qq_bar
 #print('OPAL',backgroundtagging())
@@ -203,6 +203,7 @@ def cross_section_eeHH():
 #            print('Production cross section of e+e- > H+H- :',j,i, sigma_eeHH,'GeV**2')
             ListeechaHH.append(sigma_eeHH) #put same H+ mass, differ COM crosssection H+H- together
     return ListeechaHH
+print('cross_section_eeHH()',cross_section_eeHH(),len(cross_section_eeHH()))
 ########################################################
 #calcualte e+e- > H+H- signal events from cross-section
 def eeHH_event():
@@ -387,7 +388,7 @@ def massH_ec_planeone4jet(x,y):
                reshape(len(e_c),len(mhch)),\
 #                levels = np.arange(0.0, 8.0,1.0), \
                colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 1_b_4jet_tag ')
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 1b4jet_tag ')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('e_c')# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -603,13 +604,14 @@ def ec_eb_plane4jet1b(x,y):
         tagging_4jet1b =  np.array(totalcbcb_1sig) + np.array(totalcbcs_1sig) + \
         np.array(totalcbcb_0sig) + np.array(totalcbcs_0sig) + np.array(totalcscs_0sig)
 #        print(tagging_4jet,type(tagging_4jet),len(background4tag),len(tagging_4jet))
-        one = plt.contourf(e_clist,e_blist,\
+        one = plt.contour(e_blist,e_clist,\
             np.resize(eeHH_event()[n] * tagging_4jet1b * epsilon / np.sqrt(np.array(background4tag)) ,\
                   len(eeHH_event()[n] * tagging_4jet1b * epsilon / np.sqrt(np.array(background4tag)) )).\
                 reshape(len(e_blist),len(e_clist)),\
 #                 levels = np.arange(0.0, 8.0,1.0), \
                 colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
         plt.colorbar(one)
+        plt.clabel(one, inline= 10, fontsize= 10)#plot
         plt.title('S/$\sqrt{B}$ 1b4jet_tag Max BR with charH mass: '+ str('%.2g'% mhch[n]))#plot title
         plt.xlabel('e_c')# x-axis label
         plt.ylabel('e_b')# y-axis label
@@ -724,7 +726,7 @@ def invariantmsscut_ec(x,y):#2b-4jet case specific
          e_ix,e_cy = np.meshgrid(e_ibacklist,e_clist)
          tagging_4jet = np.array(totalcbcb_2sig) + np.array(totalcbcs_2sig) + np.array(totalcbcb_1sig) +\
 np.array(totalcbcs_1sig) + np.array(totalcbcb_0sig) + np.array(totalcbcs_0sig) + np.array(totalcscs_0sig)
-         s4jettagmasscut = plt.contourf(e_ibacklist,e_clist,\
+         s4jettagmasscut = plt.contourf(e_ix,e_cy,\
 np.resize(sig(eeHH_event()[n] * tagging_4jet, 1.0 / np.sqrt(backtag_invarmasscut() ) ),\
 len(sig(eeHH_event()[n] * tagging_4jet, 1.0 / np.sqrt(backtag_invarmasscut() ) ))).\
 reshape(len(e_clist),len(e_ibacklist)),\
