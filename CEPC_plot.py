@@ -380,7 +380,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
     twotagsig = cepc.CEPCevent[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCSfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCSfinal,BRTNfinal) \
-                ) * fl.selection_2j 
+                ) 
 #                              / np.sqrt(fl.backgroundtagging2())
 #### 4 jet 2b-tagged plot array
     fourtag2bsig = cepc.CEPCevent[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
@@ -519,5 +519,25 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('sig_4jetnotag_CEPC'+ str(mhch) +'.png')
+    plt.show()
+    plt.close()
+###############################################
+# (4 parameters):A,B, 2jet tagged plots 1-b
+    plt.figure()
+    signaloneb2jet = plt.contourf(A,B, \
+        np.resize( twotagsig ,\
+              len( twotagsig)).\
+        reshape(len(B),len(A)),\
+        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
+    plt.title('Signal of $H^{\pm}$ 2jet '+\
+             ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.colorbar(signaloneb4jet)
+    plt.savefig('sig_1b2jet_CEPC'+ str(mhch) +'.png')
     plt.show()
     plt.close()

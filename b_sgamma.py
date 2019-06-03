@@ -83,8 +83,6 @@ def run_quark_bar(q):#
     c1 = np.log(q**2 / mw**2)
     c2 = LOalpha_s(mw) / PI
     return q * (1 + c2 * c1 - 4 / 3 * c2 )
-print('LOalpha_s(mb)',LOalpha_s(mb), 'LO a_s(mw)/ a_s(mb)',LOalpha_s(mw) / LOalpha_s(mb) )
-print('NLOalpha_s(mb)',NLOalpha_s(mb), 'NLO a_s(mw)/ a_s(mb)',NLOalpha_s(mw) / NLOalpha_s(mb) )
 print('run-bquark-at-mw-scale',run_quark_bar(4.8))
 print('LOalpha_s(run_m_b)',LOalpha_s(run_quark_bar(mb)),\
       'LO a_s(mw) / LO a_s(run_mb)', LOalpha_s(mw) / LOalpha_s(run_quark_bar(mb)))
@@ -303,7 +301,7 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y and XY*
     ratio1 = np.log(mt**2 / s**2)
     ratio = np.log(s**2 / mw**2)
     ratio2 = np.log(s**2/(mhch[m])**2)
-    print('ratio1',ratio1,ratio2)
+#    print('ratio1',ratio1,ratio2)
     listsm7 = w7_sm() + m7_sm() * ratio + \
         t7_sm() * (ratio1  - 4 / 3)#7
     listsm8 = w8_sm() + m8_sm() * ratio + \
@@ -316,7 +314,7 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y and XY*
         t7_xy() * (ratio1  - 4 / 3)#7
     listxy8 = w8_xy() + m8_xy() * ratio2 + \
         t8_xy() * (ratio1  - 4 / 3)#8
-    print('listxy8',listxy8,listxy8[m])
+#    print('listxy8',listxy8,listxy8[m])
     c1_eff = []
     for n in np.arange(1.0,9.0,1.0):
         c1_eff.append(np.array([0.0] * len(ll2) ) )
@@ -531,28 +529,42 @@ for m in np.arange(0,len(mhch)):
   print('Ti_sm,xy,yy()',t7_sm(),'xy',t7_xy(),'yy',t7_yy())#
   print('wi_sm,xy,yy()',w7_sm(),'xy',w7_xy(),'yy',w7_yy())#
   print('c0_7xy()',c0_7xy())
-  print('ll2,ll1',ll2,ll1,len(ll2))
+#  print('ll2,ll1',ll2,ll1,len(ll2))
 #  print('xyfun-list',xyfun_list[m],yfun_list[m],len(xyfun_list[m]))
   print('c0_7eff(i,j)',c0_7eff(yfun_list[m],xyfun_list[m]),len(c0_7eff(yfun_list[m],xyfun_list[m])))
   print('c0_8eff(i,j)',c0_8eff(yfun_list[m],xyfun_list[m]),len(c0_8eff(yfun_list[m],xyfun_list[m])))
-  print('c0_eff(LOalpha_s(mw),ll2,ll1)',c0_eff(LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
-  print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),ll2,ll1), type( c1_eff(NLOalpha_s(mw),ll2,ll1)    ))
-  print('c1_eff(s1,i,j)[3]',c1_eff(NLOalpha_s(mw),ll2,ll1)[3])
+#  print('c0_eff(LOalpha_s(mw),i,j)',c0_eff(LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
+#  print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),ll2,ll1), type( c1_eff(NLOalpha_s(mw),ll2,ll1)    ))
+#  print('c1_eff(s1,i,j)[3]',c1_eff(NLOalpha_s(mw),ll2,ll1)[3])
 #print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(ll2,ll1 ))
 #################################################################
 ##################################################################
   print('C0_7_eff(mu_b)',c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m])) #
   print('C1_7_eff(mu_b)',c1_7_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
   print('C0_2_eff(mu_b)',c0_2_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m])) #
-  print('C0_8_eff(mu_b)',c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),ll2,ll1)) #
+#  print('C0_8_eff(mu_b)',c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),ll2,ll1)) #
 #print('D_bar',D_bar(0.8,0.2), type(D_bar(0.8,0.2)))
 #print('delta_D_bar',delta_D_bar(0.8,complex(0.2, 0.1)))
 ####################################################################
-  print('$decay_bsp$',decay_bsp(yfun_list[m],xyfun_list[m]),PI)
+#  print('$decay_bsp$',decay_bsp(yfun_list[m],xyfun_list[m]),PI)
   print('zz',zz,g(zz,0.1))
 #print('b_cp(zz,delta)',b_cp(zz,delta_cp))
 #print('A_cp',A_cp(ll2,ll1),len(A_cp(ll2,ll1)))
 #  for n in np.arange(len(xyfun_list)):
         #print(n)
-  print(np.sort(A_cp(yfun_list[m],xyfun_list[m])) ,\
-              len(np.sort(A_cp(yfun_list[m],xyfun_list[m]))))
+  print(np.sort(A_cp(yfun_list[m],xyfun_list[m])))
+print('---------------------------------------------------------')
+charHm_100 = np.array([100,110])
+def yy():
+    yy = []
+    for x in charHm_100:
+        yy.append(mt**2 / x**2)
+    return np.array(yy)
+print(yy())
+for m in np.arange(0,len(charHm_100)):
+    print(m)
+    print('Ti_sm,xy,yy()',t7_sm(),'xy',t7_xy(),'yy',t7_yy())#
+    print('wi_sm,xy,yy()',w7_sm(),'xy',w7_xy(),'yy',w7_yy())#
+    print('c0_7xy()',c0_7xy()[m])
+    print('c0_7yy()',c0_7yy()[m])
+    print('c0_7eff(i,j)',c0_7eff(0.2,0.0))
