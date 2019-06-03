@@ -603,8 +603,9 @@ def ec_eb_plane4jet1b(x,y):
                 background4tag.append(backgroundtagging())
         tagging_4jet1b =  np.array(totalcbcb_1sig) + np.array(totalcbcs_1sig) + \
         np.array(totalcbcb_0sig) + np.array(totalcbcs_0sig) + np.array(totalcscs_0sig)
+        print('background4tag',background4tag,len(background4tag))
 #        print(tagging_4jet,type(tagging_4jet),len(background4tag),len(tagging_4jet))
-        one = plt.contour(e_blist,e_clist,\
+        one = plt.contour(e_clist,e_blist,\
             np.resize(eeHH_event()[n] * tagging_4jet1b * epsilon / np.sqrt(np.array(background4tag)) ,\
                   len(eeHH_event()[n] * tagging_4jet1b * epsilon / np.sqrt(np.array(background4tag)) )).\
                 reshape(len(e_blist),len(e_clist)),\
@@ -786,7 +787,7 @@ def start_plot():
                  break
              else:
                  mhch_invariantmsscut(0.65,0.2)#0.65 ,0.2
-                 massH_soverb2jetnotag(1 - 0.425,0.425)#0.40,0.3325,1 - 0.425 - 0.3325 tn , cb, cs
+                 massH_soverb2jetnotag(1 - 0.425,0.425)#0.425,0.3325,1 - 0.425 - 0.3325 tn , cb, cs
                  massH_soverb2jetag(0.3325,0.425,1 - 0.425 - 0.3325)
                  massH_soverb4jetnotag(0.8246884230749657, 0.17525431678265752)
                  massH_soverb4jetag(0.8246884230749657, 0.17525431678265752)

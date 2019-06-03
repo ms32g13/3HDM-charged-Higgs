@@ -380,20 +380,21 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
     twotagsig = cepc.CEPCevent[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCSfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCSfinal,BRTNfinal) \
-                ) * fl.selection_2j  / np.sqrt(fl.backgroundtagging2())
+                ) * fl.selection_2j 
+#                              / np.sqrt(fl.backgroundtagging2())
 #### 4 jet 2b-tagged plot array
     fourtag2bsig = cepc.CEPCevent[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
                    fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
                    fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
                    fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
-                   fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
-                              * fl.epsilon / np.sqrt(fl.backgroundtagging())
+                   fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) 
+#                           \   * fl.epsilon / np.sqrt(fl.backgroundtagging())
 #### 4 jet 1b-tagged plot array
     fourtag1bsig = cepc.CEPCevent[n] * (fl.real_b_cbcb(BRCBfinal,BRCBfinal) +\
                    fl.fake_b_cbcb(BRCBfinal,BRCBfinal) + fl.real_b_cbcs(BRCBfinal,BRCSfinal) + \
                    fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
-                   fl.fake_b_cscs(BRCSfinal,BRCSfinal)) \
-                              * fl.epsilon / np.sqrt(fl.backgroundtagging())
+                   fl.fake_b_cscs(BRCSfinal,BRCSfinal)) 
+#                             \ * fl.epsilon / np.sqrt(fl.backgroundtagging())
     ###############################################
     #PLOT OF CONTOUR WITH RANGE OS 4 PARAMETERS INTO |X|,|Y|,|Z = 0.1| WITH CS,CB,TAUNV
 # (4 parameters):A,B, BRCS contour plot [in the :reshape(y,x) not reshape(x,y)]
@@ -470,7 +471,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ tagging 4jet '+\
+    plt.title('Signal of $H^{\pm}$ 2btagged 4jet '+\
              ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -490,7 +491,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
               len( fourtag1bsig)).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 1btagged 4jet '+\
+    plt.title('Signal of $H^{\pm}$ 1btagged 4jet '+\
              ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -506,14 +507,11 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
 #(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \longrightarrow $ cb + cs))
     plt.figure()
     signalnotag4jet = plt.contourf(A,B, \
-        np.resize(cepc.CEPCevent[n] * (BRCBPLUSCS**2)\
-                  * fl.epsilon / np.sqrt(fl.backgroundnotagging()) ,\
-              len(cepc.CEPCevent[n] * (BRCBPLUSCS**2)\
-                  * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).\
-        reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
-        levels = np.arange(0.0,4.0,0.5))
+        np.resize(cepc.CEPCevent[n] * (BRCBPLUSCS**2),\
+              len(cepc.CEPCevent[n] * (BRCBPLUSCS**2))).\
+        reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])
     plt.colorbar(signalnotag4jet)
-    plt.title('S/$\sqrt{B}$ 4jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('Signal 4jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
