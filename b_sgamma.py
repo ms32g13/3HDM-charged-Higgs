@@ -75,8 +75,9 @@ def NLOalpha_s(i): #alpha_s(mu) at NLO
     v = 1 - beta_0 * (alpmz / (2.0 * PI)) * np.log(mz / i)
     ratio1 = np.log(v) / v
     return alpmz / v * (1 - (beta_1 / beta_0) * (alpmz / (4 * PI)) * ratio1)
-print('mu_w scale at LO and NLO:',LOalpha_s(mw),NLOalpha_s(mw))
-print('mu_z scale at LO and NLO:',LOalpha_s(mz),NLOalpha_s(mz))
+print('mu_w scale at LO and NLO:',mw,LOalpha_s(mw),NLOalpha_s(mw))
+print('mu_z scale at LO and NLO:',mz,LOalpha_s(mz),NLOalpha_s(mz))
+print('mu_b scale at LO and NLO:',mb,LOalpha_s(mb),NLOalpha_s(mb))
 #################running quark mass at scale mu_w under minimal subtract scheme
 def run_quark_bar(q):# 
     c1 = np.log(q**2 / mw**2)
@@ -277,47 +278,17 @@ def t8_xy():#NLO
     c1 = - y**2 - 4 * y + 5 + (4 * y + 2) * np.log(y)
     c2 = (y - 1)**4
     return 2 * y * (c1 / c2)
-
-####
-def Wi_sm():#w7,8_sm values as array at NLO
-    return np.array([w7_sm(),w8_sm()])
-print('Wi_sm()',Wi_sm())
-def Mi_sm():#m7,8_sm values as array at NLO
-    return np.array([m7_sm(),m8_sm()])
-def Ti_sm():#t7,8_sm values as array at NLO
-    return np.array([t7_sm(),t8_sm()])
-def Wi_yy():##w7,8_yy values as array at NLO
-    return np.array([w7_yy(),w8_yy()])
-def Mi_yy():##m7,8_yy values as array at NLO
-    return np.array([m7_yy(),m8_yy()])
-def Ti_yy():##t7,8_yy values as array at NLO
-    return np.array([t7_yy(),t8_yy()])
-def Wi_xy():##w7,8_xy values as array at NLO
-    return np.array([w7_xy(),w8_xy()])
-def Mi_xy():##m7,8_xy values as array at NLO
-    return np.array([m7_xy(),m8_xy()])
-def Ti_xy():##t7,8_xy values as array at NLO
-    return np.array([t7_xy(),t8_xy()])
-############
-for m in np.arange(0,len(mhch)):
-  print('-----------------------',m,mhch[m])
-  print('Ti_xy()',Ti_xy()[0,m],Ti_xy()[1,m],Ti_xy())#0 = 7, 1 = 8
-  print('Wi_xy()',Wi_xy()[0,m],Wi_xy()[1,m],Wi_xy())#0 = 7, 1 = 8
-  print('c0_7xy()',c0_7xy())
-  print('ll2,ll1',ll2,ll1,len(ll2))
-  print('xyfun-list',xyfun_list[m],yfun_list[m],len(xyfun_list[m]))
+###########
 # LO Effective Wilson coefficient  # i = Y j = (XY^*) 
-  def c0_7eff(i,j):# i = Y j = (XY^*)  i,j are lists
+def c0_7eff(i,j):# i = Y j = (XY^*)  i,j are lists
         return c0_7sm() + np.abs(i)**2 * c0_7yy()[m] + np.array(j) * \
 c0_7xy()[m]
-  print('c0_7eff(i,j)',c0_7eff(yfun_list[m],xyfun_list[m]),len(c0_7eff(yfun_list[m],xyfun_list[m])))
 # LO
-  def c0_8eff(i,j):# i = Y j = (XY^*) i,j are lists
+def c0_8eff(i,j):# i = Y j = (XY^*) i,j are lists
         return c0_8sm() + np.abs(i)**2 * c0_8yy()[m] + np.array(j) * \
 c0_8xy()[m]
-  print('c0_8eff(i,j)',c0_8eff(yfun_list[m],xyfun_list[m]),len(c0_8eff(yfun_list[m],xyfun_list[m])))
 # LO  
-  def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0 
+def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0 
         c0_eff = []
         for n in np.arange(1.0,9.0,1.0):
             c0_eff.append(np.array([0.0] * len(yfun_list[m]) ) )
@@ -326,26 +297,26 @@ c0_8xy()[m]
 #    print( 'type',type(c0_7eff(xx,yy,i,j)))
         c0_eff[7] = c0_8eff(i,j) # c0_8eff
         return np.array(c0_eff)
-  print('c0_eff(LOalpha_s(mw),ll2,ll1)',c0_eff(LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
 ############
 # NLO Effective Wilson coefficient  # i = Y j = (XY^*) 
-  def c1_eff(s,i,j):#c1,eff,i,sm with Y and XY*
+def c1_eff(s,i,j):#c1,eff,i,sm with Y and XY*
     ratio1 = np.log(mt**2 / s**2)
     ratio = np.log(s**2 / mw**2)
     ratio2 = np.log(s**2/(mhch[m])**2)
-    listsm7 = Wi_sm()[0] + Mi_sm()[0] * ratio + \
-        Ti_sm()[0] * (ratio1  - 4 / 3)#7
-    listsm8 = Wi_sm()[1] + Mi_sm()[1] * ratio + \
-        Ti_sm()[1] * (ratio1  - 4 / 3)#8
-    listyy7 = Wi_yy()[0,m] + Mi_yy()[0,m] * ratio2 + \
-        Ti_yy()[0] * (ratio1  - 4 / 3)#7
-    listyy8 = Wi_yy()[1,m] + Mi_yy()[1,m] * ratio2 + \
-        Ti_yy()[1] * (ratio1  - 4 / 3)#8
-    listxy7 = Wi_xy()[0,m] + Mi_xy()[0,m] * ratio2 + \
-        Ti_xy()[0] * (ratio1  - 4 / 3)#7
-    listxy8 = Wi_xy()[1,m] + Mi_xy()[1,m] * ratio2 + \
-        Ti_xy()[1] * (ratio1  - 4 / 3)#8
-#    print('listxy8',listxy8,listxy8[m])
+    print('ratio1',ratio1,ratio2)
+    listsm7 = w7_sm() + m7_sm() * ratio + \
+        t7_sm() * (ratio1  - 4 / 3)#7
+    listsm8 = w8_sm() + m8_sm() * ratio + \
+        t8_sm() * (ratio1  - 4 / 3)#8
+    listyy7 = w7_yy() + m7_yy() * ratio2 + \
+        t7_yy() * (ratio1  - 4 / 3)#7
+    listyy8 = w8_yy() + m8_yy() * ratio2 + \
+        t8_yy() * (ratio1  - 4 / 3)#8
+    listxy7 = w7_xy() + m7_xy() * ratio2 + \
+        t7_xy() * (ratio1  - 4 / 3)#7
+    listxy8 = w8_xy() + m8_xy() * ratio2 + \
+        t8_xy() * (ratio1  - 4 / 3)#8
+    print('listxy8',listxy8,listxy8[m])
     c1_eff = []
     for n in np.arange(1.0,9.0,1.0):
         c1_eff.append(np.array([0.0] * len(ll2) ) )
@@ -354,33 +325,26 @@ c0_8xy()[m]
     c1_eff[7] = listsm8 + np.abs(i)**2 * listyy8[m] + np.array(j) * listxy8[m]
     c1_eff[0] = np.array([15 + 6 * ratio] * len(ll2)) #c1,eff,1,sm
     return np.array(c1_eff)
-  print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),ll2,ll1), type( c1_eff(NLOalpha_s(mw),ll2,ll1)    ))
-  print('c1_eff(s1,i,j)[3]',c1_eff(NLOalpha_s(mw),ll2,ll1)[3])
 #################################################################
 ######Total Ceffective_i (mu_w) at matching scale  
-  def c_i_eff_muw(i,j):
+def c_i_eff_muw(i,j):
     return np.array(c0_eff(LOalpha_s(mw),i,j)) + LOalpha_s(mw) / (4.0 * PI) *\
            np.array(c1_eff(NLOalpha_s(mw),i,j)[m])
-#print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(ll2,ll1 ))
-#################################################################
 ##################################################################
 ##################################################################
 #### Wilson coefficient at low scale(mu_b)
 ##############################LO
-  def c0_7_eff(s2,s1,i,j): #c0_7_eff(mu_b) LO
+def c0_7_eff(s2,s1,i,j): #c0_7_eff(mu_b) LO
     eta = s1 / s2 # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta **(16 / 23) * c0_eff(s1,i,j)[6]
-    print('c0_eff(LOalpha_s(mw),ll2,ll1)[6]',c0_eff(LOalpha_s(mw),yfun_list[m],xyfun_list[m])[6])
     step2 = (eta **(14 / 23) - eta **(16 / 23) ) * c0_eff(s1,i,j)[7]
     result1 = 0.0
     for n in np.arange(0,8):
 #        print('ai*hi*1.0',a_i[n] * h_i[n] * c0_eff(s1,i,j)[1])
         result1 += (eta)**(a_i[n]) * h_i[n] * c0_eff(s1,i,j)[1]
     return step1 + 8 /3 * (step2) + result1
-  print('C0_7_eff(mu_b)',c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m])) #
-    
 ###############################NLO
-  def c1_7_eff(s2,s1,i,j): #c1_7_eff(mu_b) NLO
+def c1_7_eff(s2,s1,i,j): #c1_7_eff(mu_b) NLO
     eta = s1 / s2 # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta **(39 / 23) * c1_eff(s1,i,j)[6]
 #    print('c1_eff(s1,i,j)[6,m]',c1_eff(NLOalpha_s(mw),ll2,ll1)[6])
@@ -398,30 +362,27 @@ c0_8xy()[m]
         step7 = l_i[n] * eta * c1_eff(s1,i,j)[0]
         result += (eta**(a_i[n])) * (step5 + step6 + step7)
     return step1 + step2 + step3 + step4 + result
-  print('C1_7_eff(mu_b)',c1_7_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
 #####################################################################
 ##################relavant to BR(B_bar > Xs gamma) LO
 ###################################################################
-  def c0_1_eff(s2,s1,i,j): #C0_1_eff(mu_b)
+def c0_1_eff(s2,s1,i,j): #C0_1_eff(mu_b)
     eta = s1 / s2 # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta**(6 / 23) - eta**(- 12 / 23)
     return c0_eff(s1,i,j)[1] * step1
-  def c0_2_eff(s2,s1,i,j): #C0_2_eff(mu_b)
+def c0_2_eff(s2,s1,i,j): #C0_2_eff(mu_b)
     eta = s1 / s2 # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = 2 /3 * eta**(6 / 23) + 1 /3 * eta**(- 12 / 23) 
     return c0_eff(s1,i,j)[1] * step1
-  print('C0_2_eff(mu_b)',c0_2_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m])) #
-  def c0_8_eff(s2,s1,i,j): #C0_8_eff(mu_b)
+def c0_8_eff(s2,s1,i,j): #C0_8_eff(mu_b)
     eta = s1 / s2 # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta**(14 / 23) * c0_eff(s1,i,j)[7]
     result = 0.0
     for n in np.arange(0,5):
         result += h2_i[n] * eta**(a2_i[n]) * c0_eff(s1,i,j)[1]
     return step1 + result
-#print('C0_8_eff(mu_b)',c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),ll2,ll1)) #
 ####################################################################
 ####################################################################
-  def D_bar(i,j):#mu_b scale Reduced Amplitude
+def D_bar(i,j):#mu_b scale Reduced Amplitude
     # Riemann Zeta func- tion zeta_3
     zeta_3 = 1.2021
     L = np.log(zz)
@@ -448,8 +409,8 @@ c0_8xy()[m]
 LOalpha_s(run_quark_bar(mb)) / (4 * PI) *  (\
 (c1_7_eff(NLOalpha_s(run_quark_bar(mb)),NLOalpha_s(mw),i,j) + \
  v_ub) )
-#print('D_bar',D_bar(0.8,0.2), type(D_bar(0.8,0.2)))
-  def delta_D_bar(i,j): #mu_b scale delta_Reduced_Amplitude
+#########################################################
+def delta_D_bar(i,j): #mu_b scale delta_Reduced_Amplitude
     # Riemann Zeta func- tion zeta_3
     zeta_3 = 1.2021
     L = np.log(zz)
@@ -475,16 +436,13 @@ LOalpha_s(run_quark_bar(mb)) / (4 * PI) *  (\
     return LOalpha_s(run_quark_bar(mb)) / (4 * PI) * \
 (c1_7_eff(NLOalpha_s(run_quark_bar(mb)),NLOalpha_s(mw),i,j) + v_ub) / \
 c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
-#print('delta_D_bar',delta_D_bar(0.8,complex(0.2, 0.1)))
-####################################################################
 ####################################################################
 ###########Decay_width of b > s gamma 
-  def decay_bsp(i,j):
+def decay_bsp(i,j):
     return gf**2 / (32 * PI**4) * (vts * vtb)**2 * \
     alpha_electroweak * mb**5 * np.abs(D_bar(i,j))**2
-  print('$decay_bsp$',decay_bsp(yfun_list[m],xyfun_list[m]),PI)
 ####################################################################
-  def Amp(i,j):# A for Decay_width of b > s gamma gluon
+def Amp(i,j):# A for Decay_width of b > s gamma gluon
         c0_1 = c0_1_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)[m]
         c0_2 = c0_2_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)[m]
         c0_7 = c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j)[m]
@@ -511,12 +469,12 @@ c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
         return LOalpha_s(run_quark_bar(mb)) / PI * summ_all.real
 #print('Amp',Amp(ll2,ll1))
 ###########Decay_width of b > s gamma gluon
-  def decay_bspg(i,j):
+def decay_bspg(i,j):
         a1 = gf**2 / (32 * PI**4) * (vts * vtb)**2 * \
         alpha_electroweak * mb**5 
         return a1 * Amp(i,j)   
 ###########Decay_width of semileptonic 
-  def decay_SL():
+def decay_SL():
     part1 = gf**2 /(192 * PI**3) * np.abs(vcb)**2 * mb**5 * g_z
     part2 = 1 - 2 * LOalpha_s(run_quark_bar(mb)) * f_z / (3 * PI) \
     + delta_NP_SL / mb**2
@@ -524,11 +482,11 @@ c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
 #print('Partial width of semileptonic decay', decay_SL() )
 #################################################################
 #Measured Semi- leptonic branching ratio B_SL
-  B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996
+B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996
 #################################################################
 ################################################################
 #################### Partial width of B_bar > X_s + gamma
-  def decay_B_bar_Xsg(i,j):
+def decay_B_bar_Xsg(i,j):
     a1 = gf**2 / (32 * PI**4) * (vts * vtb)**2 * alpha_electroweak * mb**5 
     chunk1 = np.abs(D_bar(i,j))**2 + Amp(i,j) + delta_NP_ga / (mb**2) * \
     np.abs(c0_7_eff(LOalpha_s(run_quark_bar(mb)),LOalpha_s(mw),i,j))**2 + \
@@ -541,24 +499,24 @@ c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
 ##################################################################
 ######### A_CP CP asymmetry  expression 
 ######### DOI: 10.1103/PhysRevD.58.094012 
-  def v_cp(i):
+def v_cp(i):
     return (5 + np.log(i) + np.log(i)**2 - PI**2 / 3) + \
  (np.log(i)**2 - PI**2 /3 ) * i + (28/ 9 - 4 /3 * np.log(i)) * i**2
-  def g(i,y): # i will = zz, y will = delta_cp
+def g(i,y): # i will = zz, y will = delta_cp
     stepfunction = np.heaviside(4 * i / y,1.0)
     part1 = (y**2 - 4 * y * i + 6 * i**2) * np.log(np.sqrt(y / (4 * i)) + \
             np.sqrt(y /(4 * i) + 1 ) ) 
     part2 = 3 * y * (y - 2 * i) / 4 * np.sqrt(stepfunction) 
     return  part1 - part2
-  def b_cp(i,x):#delta_cp fraction of Energy cut
+def b_cp(i,x):#delta_cp fraction of Energy cut
     return g(i,1) - g(i, 1 - x)
-  def A_cp(i,j): # CP asymmetry 
+def A_cp(i,j): # CP asymmetry 
     epsilon_s = lanmda_ckm**2 * complex(- rho_ckm ,eta_ckm)#e_s = V*_usV_ub / V*_tsV_tb
-    c2 = c0_2_eff(LOalpha_s(mb),mw,i,j)
-    c7 = c0_7_eff(LOalpha_s(mb),mw,i,j) + \
-        LOalpha_s(LOalpha_s(mb)) / (4 * PI) * \
-        c1_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
-    c8 = c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
+    c2 = c0_2_eff(mb,mw,i,j)
+    c7 = c0_7_eff(mb,mw,i,j) + \
+        LOalpha_s(mb) / (4 * PI) * \
+        c1_7_eff(mb,mw,i,j)
+    c8 = c0_8_eff(mb,mw,i,j)
     part1 = LOalpha_s(mb) / (np.abs(c7) )**2
     part2 = 40 / 81 * (c2 * np.conjugate(c7)).imag 
     part3 = 8 * zz / 9 * (v_cp(zz) + b_cp(zz, delta_cp)) *\
@@ -567,6 +525,30 @@ c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),i,j)
     part5 = 8 * zz / 27 * b_cp(zz, delta_cp) *\
         ( (1 + epsilon_s) * (c2 * np.conjugate(c8) ) ).imag
     return part1 * (part2 - part3  - part4 + part5)
+############
+for m in np.arange(0,len(mhch)):
+  print('-----------------------',m,mhch[m])
+  print('Ti_sm,xy,yy()',t7_sm(),'xy',t7_xy(),'yy',t7_yy())#
+  print('wi_sm,xy,yy()',w7_sm(),'xy',w7_xy(),'yy',w7_yy())#
+  print('c0_7xy()',c0_7xy())
+  print('ll2,ll1',ll2,ll1,len(ll2))
+#  print('xyfun-list',xyfun_list[m],yfun_list[m],len(xyfun_list[m]))
+  print('c0_7eff(i,j)',c0_7eff(yfun_list[m],xyfun_list[m]),len(c0_7eff(yfun_list[m],xyfun_list[m])))
+  print('c0_8eff(i,j)',c0_8eff(yfun_list[m],xyfun_list[m]),len(c0_8eff(yfun_list[m],xyfun_list[m])))
+  print('c0_eff(LOalpha_s(mw),ll2,ll1)',c0_eff(LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
+  print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),ll2,ll1), type( c1_eff(NLOalpha_s(mw),ll2,ll1)    ))
+  print('c1_eff(s1,i,j)[3]',c1_eff(NLOalpha_s(mw),ll2,ll1)[3])
+#print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(ll2,ll1 ))
+#################################################################
+##################################################################
+  print('C0_7_eff(mu_b)',c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m])) #
+  print('C1_7_eff(mu_b)',c1_7_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
+  print('C0_2_eff(mu_b)',c0_2_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m])) #
+  print('C0_8_eff(mu_b)',c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),ll2,ll1)) #
+#print('D_bar',D_bar(0.8,0.2), type(D_bar(0.8,0.2)))
+#print('delta_D_bar',delta_D_bar(0.8,complex(0.2, 0.1)))
+####################################################################
+  print('$decay_bsp$',decay_bsp(yfun_list[m],xyfun_list[m]),PI)
   print('zz',zz,g(zz,0.1))
 #print('b_cp(zz,delta)',b_cp(zz,delta_cp))
 #print('A_cp',A_cp(ll2,ll1),len(A_cp(ll2,ll1)))
