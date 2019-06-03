@@ -25,7 +25,7 @@ while True:
         e_c = e_clist
         break
     elif inputec =='s' or inputec == 'S':
-        e_c = 0.01
+        e_c = 0.05
 #        e_c = float(input('e_c value prefered:'))
         break
     else:
@@ -317,11 +317,12 @@ def fake_b_cbcb(x,y): # 1 fake b tag for 4jet case (Hadronic) cbcb
     return chunk1 * np.array(x) * np.array(y)
 def real_b_cbcs(x,y): # 1 real b tag for 4jet case (Hadronic) cbcs
     e_l = 0.01
-    chunk1 = e_b * e_c * (1 - e_c) * (1 - e_l)
+    chunk1 = e_b * (1 - e_c)**2 * (1 - e_l)
     return chunk1 * np.array(x) * np.array(y) * 2.0 # 2.0 permutation of cbcs,cscb
 def fake_b_cbcs(x,y): # 1 fake b tag for 4jet case (Hadronic) cbcs
     e_l = 0.01
-    chunk1 = 2.0 * (1 - e_b) * e_c * (1 - e_c) * (1 - e_l)
+    chunk1 = 2.0 * (1 - e_b) * e_c * (1 - e_c) * (1 - e_l) + e_l * (1 - e_b) *\
+    (1 - e_c)**2
     return chunk1 * np.array(x) * np.array(y) * 2.0 # 2.0 permutation of cbcs,cscb
 def real_b_cscs(x,y): # 1 real b tag for 4jet case (Hadronic) cscs
     return 0.0
