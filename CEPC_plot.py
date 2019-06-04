@@ -459,7 +459,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('CharHCBplusCS_CEPC'+ str(mhch) +'.png')
+    plt.savefig('CharHCBplusCSCEPC'+ str(mhch) +'.png')
     plt.subplots_adjust(top=0.99, bottom=0.06, left=0.1, right=0.99, hspace= 0.6,
                     wspace=0.3)
     plt.show()
@@ -471,7 +471,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('Signal of $H^{\pm}$ 2btagged 4jet '+\
+    plt.title('Signal of $H^{\pm}$ 4j2b '+\
              ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -480,7 +480,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet)
-    plt.savefig('sig_4jet_CEPC'+ str(mhch) +'.png')
+    plt.savefig('sig4j2bCEPC'+ str(mhch) +'.png')
     plt.show()
     plt.close()
 ###############################################
@@ -491,7 +491,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
               len( fourtag1bsig)).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('Signal of $H^{\pm}$ 1btagged 4jet '+\
+    plt.title('Signal of $H^{\pm}$ 4j1b '+\
              ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -500,7 +500,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signaloneb4jet)
-    plt.savefig('sig_1b4jet_CEPC'+ str(mhch) +'.png')
+    plt.savefig('sig4j1bCEPC'+ str(mhch) +'.png')
     plt.show()
     plt.close()
 ################################
@@ -511,14 +511,14 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
               len(cepc.CEPCevent[n] * (BRCBPLUSCS**2))).\
         reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])
     plt.colorbar(signalnotag4jet)
-    plt.title('Signal 4jet notag,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('Signal of $H^{\pm}$ 4j0b,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_4jetnotag_CEPC'+ str(mhch) +'.png')
+    plt.savefig('sig4j0bCEPC'+ str(mhch) +'.png')
     plt.show()
     plt.close()
 ###############################################
@@ -529,7 +529,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
               len( twotagsig)).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('Signal of $H^{\pm}$ 2jet '+\
+    plt.title('Signal of $H^{\pm}$ 2j1b '+\
              ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -538,6 +538,6 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signaloneb4jet)
-    plt.savefig('sig_1b2jet_CEPC'+ str(mhch) +'.png')
+    plt.savefig('sig2j1bCEPC'+ str(mhch) +'.png')
     plt.show()
     plt.close()
