@@ -25,7 +25,7 @@ while True:
         e_c = e_clist
         break
     elif inputec =='s' or inputec == 'S':
-        e_c = 0.05
+        e_c = 0.01
 #        e_c = float(input('e_c value prefered:'))
         break
     else:
@@ -44,7 +44,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(90.0,91.0 ,1.0)# charged Higgs ranged values
+mhch = np.arange(89.0,91.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -321,8 +321,8 @@ def real_b_cbcs(x,y): # 1 real b tag for 4jet case (Hadronic) cbcs
     return chunk1 * np.array(x) * np.array(y) * 2.0 # 2.0 permutation of cbcs,cscb
 def fake_b_cbcs(x,y): # 1 fake b tag for 4jet case (Hadronic) cbcs
     e_l = 0.01
-    chunk1 = 2.0 * (1 - e_b) * e_c * (1 - e_c) * (1 - e_l) + e_l * (1 - e_b) *\
-    (1 - e_c)**2
+    chunk1 = 2.0 * (1 - e_b) * e_c * (1 - e_c) * (1 - e_l) + \
+    e_l * (1 - e_b) * (1 - e_c)**2
     return chunk1 * np.array(x) * np.array(y) * 2.0 # 2.0 permutation of cbcs,cscb
 def real_b_cscs(x,y): # 1 real b tag for 4jet case (Hadronic) cscs
     return 0.0
@@ -604,9 +604,8 @@ def ec_eb_plane4jet1b(x,y):
                 background4tag.append(backgroundtagging())
         tagging_4jet1b =  np.array(totalcbcb_1sig) + np.array(totalcbcs_1sig) + \
         np.array(totalcbcb_0sig) + np.array(totalcbcs_0sig) + np.array(totalcscs_0sig)
-        print('background4tag',background4tag,len(background4tag))
 #        print(tagging_4jet,type(tagging_4jet),len(background4tag),len(tagging_4jet))
-        one = plt.contour(e_clist,e_blist,\
+        one = plt.contour(e_blist,e_clist,\
             np.resize(eeHH_event()[n] * tagging_4jet1b * epsilon / np.sqrt(np.array(background4tag)) ,\
                   len(eeHH_event()[n] * tagging_4jet1b * epsilon / np.sqrt(np.array(background4tag)) )).\
                 reshape(len(e_blist),len(e_clist)),\
@@ -788,7 +787,7 @@ def start_plot():
                  break
              else:
                  mhch_invariantmsscut(0.65,0.2)#0.65 ,0.2
-                 massH_soverb2jetnotag(1 - 0.425,0.425)#0.425,0.3325,1 - 0.425 - 0.3325 tn , cb, cs
+                 massH_soverb2jetnotag(1 - 0.425,0.425)#0.40,0.3325,1 - 0.425 - 0.3325 tn , cb, cs
                  massH_soverb2jetag(0.3325,0.425,1 - 0.425 - 0.3325)
                  massH_soverb4jetnotag(0.8246884230749657, 0.17525431678265752)
                  massH_soverb4jetag(0.8246884230749657, 0.17525431678265752)
