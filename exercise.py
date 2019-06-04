@@ -946,7 +946,7 @@ for n in np.arange(0,len(fl.mhch)):
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ tagging 4jet2b '+\
+    plt.title('S/$\sqrt{B}$ 4jet2b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -955,7 +955,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet)
-    plt.savefig('sig_2b4jet'+ strmhch +'.png')
+    plt.savefig('sig_4jet2b'+ strmhch +'.png')
     plt.show()
     plt.close()
 ###############################################
@@ -966,7 +966,7 @@ for n in np.arange(0,len(fl.mhch)):
               len( fourtag1bsig)).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet1b '+\
+    plt.title('S/$\sqrt{B}$ 4jet1b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -975,7 +975,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signaloneb4jet)
-    plt.savefig('sig_1b4jet'+ strmhch +'.png')
+    plt.savefig('sig_4jet1b'+ strmhch +'.png')
     plt.show()
     plt.close()
 ################################
@@ -989,14 +989,14 @@ for n in np.arange(0,len(fl.mhch)):
         reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
         levels = np.arange(0.0,4.0,0.5))
     plt.colorbar(signalnotag4jet)
-    plt.title('S/$\sqrt{B}$ 4jet notag,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
+    plt.title('S/$\sqrt{B}$ 4jet0b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_4jetnotag'+ strmhch +'.png')
+    plt.savefig('sig_4jet0b'+ strmhch +'.png')
     plt.show()
     plt.close()
 ####################################
@@ -1021,14 +1021,14 @@ for n in np.arange(0,len(fl.mhch)):
               len(twotagsig )).reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#,levels = np.arange(0.0,5.0,1.0))
     plt.colorbar(Contoursignal7)
-    plt.title('S/$\sqrt{B}$ 2jet tag,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
+    plt.title('S/$\sqrt{B}$ 2jet1b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_2jet'+ strmhch +'.png')
+    plt.savefig('sig_2jet1b'+ strmhch +'.png')
     plt.show()
     plt.close()
 #    BR($H^{\pm} \longrightarrow $ (cb+cs) * tn) with no-tagging efficiencies
@@ -1038,14 +1038,14 @@ for n in np.arange(0,len(fl.mhch)):
               len(fl.eeHH_event()[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) / np.sqrt(fl.backgroundnotagging2()))).\
                   reshape(len(B),len(A)),colors = ['black','royalblue','purple','orange','brown','red','gray','green'])
     plt.colorbar(Contoursignal8)
-    plt.title('S/$\sqrt{B}$ 2jet notag,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
+    plt.title('S/$\sqrt{B}$ 2jet0b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_2jetnotag'+ strmhch +'.png')
+    plt.savefig('sig_2jet0b'+ strmhch +'.png')
     plt.show()
     plt.close()
 ####################################

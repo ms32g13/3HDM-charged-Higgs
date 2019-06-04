@@ -44,7 +44,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(89.0,91.0 ,1.0)# charged Higgs ranged values
+mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -381,7 +381,7 @@ def sig(x,y):# Signal/sqrt(Background)
 def massH_ec_planeone4jet(x,y):
     tagging_one4jet = ( real_b_cbcb(x,x) + fake_b_cbcb(x,x) + \
                         real_b_cbcs(x,y) + fake_b_cbcs(x,y) + \
-                        real_b_cscs(x,y) + fake_b_cbcs(x,y) ) * epsilon
+                        real_b_cscs(y,y) + fake_b_cscs(y,y) ) * epsilon
     plt.figure()
     sig4jet_tag = plt.contourf(mhch,e_c,\
                    np.resize(sig(eeHH_event() ,  tagging_one4jet / np.sqrt(backgroundtagging() )),\
@@ -389,13 +389,13 @@ def massH_ec_planeone4jet(x,y):
                reshape(len(e_c),len(mhch)),\
 #                levels = np.arange(0.0, 8.0,1.0), \
                colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 1b4jet_tag ')
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet1b ')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('e_c')# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(sig4jet_tag)
-    plt.savefig('sig_1b4jetecmhch.png')
+    plt.savefig('sig4j1becmhch.png')
     plt.show()
     plt.close()
 ##############################################################
@@ -423,13 +423,13 @@ def massH_ec_plane4jet(x,y):
                reshape(len(e_c),len(mhch)),\
 #                levels = np.arange(0.0, 8.0,1.0), \
                colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 2b4jet_tag with max BR ')
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet2b with max BR ')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('e_c')# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet_tag)
-    plt.savefig('sig_2b4jetecmhch.png')
+    plt.savefig('sig4j2becmhch.png')
     plt.show()
     plt.close()
 ##########################################################################    
@@ -441,10 +441,10 @@ def massH_soverb4jetag(x,y):#Significance tagged with e_b and e_c
                    eeHHcscs_0bsignal(y,y)) * epsilon 
     
     plt.plot(mhch,eeHH_event() * fourjet / np.sqrt(backgroundtagging()) )
-    plt.title('Relation between mhch and S/$\sqrt{B}$ in 2b4jettag')
+    plt.title('Relation between $M_{H^{\pm}}$ and S/$\sqrt{B}$ in 4jet2b')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('S/$\sqrt{B}$')# y-axis label
-    plt.savefig('sig2b4jettag_mhch.png')
+    plt.savefig('sig4j2bmhch.png')
     plt.show()
     plt.close()
 ##########################################################################    
@@ -455,10 +455,10 @@ def massH_soverbone4jetag(x,y):#Significance tagged with e_b and e_c
                    fake_b_cscs(y,y)) * epsilon 
     
     plt.plot(mhch,eeHH_event() * fourjet / np.sqrt(backgroundtagging()) )
-    plt.title('Relation between mhch and S/$\sqrt{B}$ in 1b4jettag')
+    plt.title('Relation between $M_{H^{\pm}}$ and S/$\sqrt{B}$ in 4jet1b')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('S/$\sqrt{B}$')# y-axis label
-    plt.savefig('sig1b4jettag_mhch.png')
+    plt.savefig('sig4j1bmhch.png')
     plt.show()
     plt.close()
 ##########################################################################    
@@ -469,10 +469,23 @@ def signal_mhch_4jetag(x,y):#Signal tagged with e_b and e_c
                    eeHHcscs_0bsignal(y,y)) * epsilon 
     
     plt.plot(mhch,eeHH_event() * fourjet )
-    plt.title('Relation between mhch and Signal in 2b4jettag')
+    plt.title('Relation between $M_{H^{\pm}}$ and Signal in 4jet2b')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('Signal$')# y-axis label
-    plt.savefig('mhch_signal2b4jetag.png')
+    plt.savefig('mhchsignal4j2b.png')
+    plt.show()
+    plt.close()
+##########################################################################    
+def signal_mhch_4jet1b(x,y):#Signal tagged with e_b and e_c
+    fourjet = ( real_b_cbcb(x,x) + fake_b_cbcb(x,x) + \
+                        real_b_cbcs(x,y) + fake_b_cbcs(x,y) + \
+                        real_b_cscs(y,y) + fake_b_cscs(y,y) ) * epsilon
+    
+    plt.plot(mhch,eeHH_event() * fourjet )
+    plt.title('Relation between $M_{H^{\pm}}$ and Signal in 4jet1b')
+    plt.xlabel('mhch')# x-axis label
+    plt.ylabel('Signal$')# y-axis label
+    plt.savefig('mhchsignal4j1b.png')
     plt.show()
     plt.close()
 ##########################################################################
@@ -480,12 +493,12 @@ def signal_mhch_4jetnotag(x,y):#Signal not tagged with e_b and e_c
     fourjet = (np.array(x) + np.array(y))**2 * epsilon
     
     plt.plot(mhch,eeHH_event() * fourjet )
-    plt.title('Relation between mhch and Signal in 4jetnotag')
+    plt.title('Relation between $M_{H^{\pm}}$ and Signal in 4jet0b')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('Signal')# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('mhch_signal4jetnotag.png')
+    plt.savefig('mhchsignal4j0b.png')
     plt.show()
     plt.close()
 ##########################################################################
@@ -493,10 +506,10 @@ def massH_soverb4jetnotag(x,y):#background not tagged with e_b and e_c
     fourjet = (np.array(x) + np.array(y))**2 * epsilon
     
     plt.plot(mhch,eeHH_event() * fourjet / np.sqrt(backgroundnotagging()) )
-    plt.title('Relation between mhch and S/$\sqrt{B}$ in 4jetnotag')
+    plt.title('Relation between $M_{H^{\pm}}$ and S/$\sqrt{B}$ in 4jet0b')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('S/$\sqrt{B}$')# y-axis label
-    plt.savefig('sig4jetnotag_mhch.png')
+    plt.savefig('sig4j0bmhch.png')
     plt.show()
     plt.close()
 ##################################################################
@@ -511,12 +524,12 @@ def massH_ec_plane2jet(x,y,z):
               len(sig(eeHH_event() , tagging_2jet * selection_2j / np.sqrt(backgroundtagging2())) )).\
         reshape(len(e_c),len(mhch)),cmap = 'brg')# 0.3 signal selection efficiency
     plt.colorbar(signal2jet_tag)
-    plt.title('S/$\sqrt{B}$ 2jet_tag with max BR')#plot title
+    plt.title('S/$\sqrt{B}$ 2jet1b with max BR')#plot title
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('e_c')# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_2jetecmhch.png')
+    plt.savefig('sig2j1becmhch.png')
     plt.show()
     plt.close()
 ##################################################################
@@ -525,12 +538,12 @@ def massH_soverb2jetag(x,y,z):#Significance with background tagged with e_b and 
     twojet = (eeHHcbtn_1bsignal(x,y) + eeHHcbtn_0bsignal(x,y) + \
              eeHHcstn_1bsignal(y,z) + eeHHcstn_0bsignal(y,z) ) * selection_2j
     plt.plot(mhch,eeHH_event() * twojet / np.sqrt(backgroundtagging2()) )
-    plt.title('Relation between mhch and S/$\sqrt{B}$ in 2jettag')
+    plt.title('Relation between $M_{H^{\pm}}$ and S/$\sqrt{B}$ in 2jet1b')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('S/$\sqrt{B}$')# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig2jettag_mhch.png')
+    plt.savefig('sig2j1bmhch.png')
     plt.show()
     plt.close()
 ##################################################################
@@ -542,12 +555,12 @@ def massH_soverb2jetnotag(x,y): #Significance with background not tagged with e_
     plt.plot(mhch,eeHH_event() * \
                                twojet * selection_2j / np.sqrt(backgroundnotagging2()))# 0.3 signal selection efficiency
 #    plt.colorbar(signal2jetnotag)
-    plt.title('Relation between mhch and S/$\sqrt{B}$ in 2jetnotag')#plot title
+    plt.title('Relation between $M_{H^{\pm}}$ and S/$\sqrt{B}$ in 2jet0b')#plot title
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('S/$\sqrt{B}$')# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig2jetnotag_mhch.png')
+    plt.savefig('sig2j0bmhch.png')
     plt.show()
     plt.close()
 ###################################################################
@@ -559,12 +572,12 @@ def signal_mhch_2jetnotag(x,y): #signal not tagged with e_b and e_c
     plt.plot(mhch,eeHH_event()  * \
                                twojet)# 0.3 signal selection efficiency
 #    plt.colorbar(signal2jetnotag)
-    plt.title('Relation between mhch and Signal in 2jetnotag')#plot title
+    plt.title('Relation between $M_{H^{\pm}}$ and Signal in 2jet0b')#plot title
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('Siganl')# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('mhch_signal2jetnotag.png')
+    plt.savefig('mhchsignal2j0b.png')
     plt.show()
     plt.close()
 ###################################################################
@@ -573,12 +586,12 @@ def signal_mhch_2jetag(x,y,z): #signal tagged with e_b and e_c
              eeHHcstn_1bsignal(y,z) + eeHHcstn_0bsignal(y,z) )
     plt.plot(mhch,eeHH_event() * twojet )
 #    plt.plot(mhch,eeHH_event() * twojet)
-    plt.title('Relation between mhch and Signal in 2jettag')
+    plt.title('Relation between $M_{H^{\pm}}$ and Signal in 2jet1b')
     plt.xlabel('mhch')# x-axis label
     plt.ylabel('Signal')# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('mhch_signal2jetag.png')
+    plt.savefig('mhchsignal2j1b.png')
     plt.show()
     plt.close()
 ###################################################################
@@ -613,12 +626,12 @@ def ec_eb_plane4jet1b(x,y):
                 colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
         plt.colorbar(one)
         plt.clabel(one, inline= 10, fontsize= 10)#plot
-        plt.title('S/$\sqrt{B}$ 1b4jet_tag Max BR with charH mass: '+ str('%.2g'% mhch[n]))#plot title
-        plt.xlabel('e_c')# x-axis label
-        plt.ylabel('e_b')# y-axis label
+        plt.title('S/$\sqrt{B}$ 4jet1b Max BR with $M_{H^{\pm}}$: '+ str('%.2g'% mhch[n]) + 'GeV')#plot title
+        plt.xlabel('e_b')# x-axis label
+        plt.ylabel('e_c')# y-axis label
         plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
         plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-        plt.savefig('sig_1b4jetebec'+ str('%.2g'% mhch[n]) + 'GeV.png')
+        plt.savefig('sig4j1bebec'+ str('%.2g'% mhch[n]) + 'GeV.png')
         plt.show()
         plt.close()
 ########################################
@@ -656,12 +669,12 @@ def ec_eb_plane4jet2b(x,y):
 #                 levels = np.arange(0.0, 8.0,1.0), \
                 colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
         plt.colorbar(one)
-        plt.title('S/$\sqrt{B}$ 2b4jet_tag Max BR with charH mass: '+ str('%.2g'% mhch[n]))#plot title
+        plt.title('S/$\sqrt{B}$ 4jet2b Max BR with $M_{H^{\pm}}: $ '+ str('%.2g'% mhch[n]) + 'GeV')#plot title
         plt.xlabel('e_c')# x-axis label
         plt.ylabel('e_b')# y-axis label
         plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
         plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-        plt.savefig('sig_2b4jetebec'+ str('%.2g'% mhch[n]) + 'GeV.png')
+        plt.savefig('sig4j2bebec'+ str('%.2g'% mhch[n]) + 'GeV.png')
         plt.show()
         plt.close()
 ########################################
@@ -694,12 +707,12 @@ def ec_eb_plane2jet(x,y,z):
 #             levels = np.arange(0.0, 8.0,1.0), \
              colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
         plt.colorbar(one1)
-        plt.title('S/$\sqrt{B}$ 2jet_tag Max BR with charH mass: '+ str('%.2g'% mhch[n]))#plot title
+        plt.title('S/$\sqrt{B}$ 2jet1b Max BR with $M_{H^{\pm}}$: '+ str('%.2g'% mhch[n])+ 'GeV')#plot title
         plt.xlabel('e_c')# x-axis label
         plt.ylabel('e_b')# y-axis label
         plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
         plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-        plt.savefig('sig_2jetebec'+ str('%.2g'% mhch[n]) + 'GeV.png')
+        plt.savefig('sig2j1bebec'+ str('%.2g'% mhch[n]) + 'GeV.png')
         plt.show()
         plt.close()
 ###################################################################
@@ -733,13 +746,13 @@ len(sig(eeHH_event()[n] * tagging_4jet, 1.0 / np.sqrt(backtag_invarmasscut() ) )
 reshape(len(e_clist),len(e_ibacklist)),\
      # levels = np.arange(0.0, 8.0,1.0), 
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
-         plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet_tag under mass cut '+ str(mhch[n]))
+         plt.title('S/$\sqrt{B}$ of 4jet2b Max BR $M_{H^{\pm}}$: '+ str(mhch[n])+ 'GeV')
          plt.xlabel('invarmasscut')# x-axis label
          plt.ylabel('e_c')# y-axis label
          plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
          plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
          plt.colorbar(s4jettagmasscut)
-         plt.savefig('sig2b4jetecmasscut'+ str('%.2g'% mhch[n]) + 'GeV.png')
+         plt.savefig('sig4j2becmasscut'+ str('%.2g'% mhch[n]) + 'GeV.png')
          plt.show()
          plt.close()
 ###################################################################
@@ -755,13 +768,13 @@ len(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )))).\
 reshape(len(e_ibacklist),len(mhch)),\
                 levels = np.arange(0.0,31.0,5.0), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
-     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 2b4jet_tag with max BR ')
+     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet2b with max BR ')
      plt.xlabel('mhch')# x-axis label
      plt.ylabel('invarmasscut')# y-axis label
      plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
      plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
      plt.colorbar(s4jettagmasscut)
-     plt.savefig('sig2b4jetmhch_masscut.png')
+     plt.savefig('sig4j2bmhchmasscut.png')
      plt.show()
      plt.close()        
       
@@ -793,6 +806,7 @@ def start_plot():
                  massH_soverb4jetag(0.8246884230749657, 0.17525431678265752)
                  massH_soverbone4jetag(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetag(0.8246884230749657, 0.17525431678265752)
+                 signal_mhch_4jet1b(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetnotag(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_2jetag(0.3325,0.425,1 - 0.425 - 0.3325)
                  signal_mhch_2jetnotag(1 - 0.425 ,0.425)
