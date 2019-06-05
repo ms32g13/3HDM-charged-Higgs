@@ -815,6 +815,7 @@ def start_plot():
           else:
                  for n in np.arange(0,len(mhch)):
 # mhch[n] : the n th charH mass, eeHH_events()[n] : the n th charH events produced
+                     print('# charged Higgs mass range is less or equal to 1')
                      print('#',n,mhch[n],eeHH_event()[n])
                  break
       elif plotprint == 'n' or plotprint == 'N':

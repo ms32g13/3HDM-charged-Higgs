@@ -447,7 +447,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.figure()
     ContourBRCS = plt.contour(xarray,yarray,BRCS,levels = linecs,\
     colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
-    plt.title('BR($H^{\pm} \longrightarrow $ cs)')#plot title
+    plt.title('BR($H^{\pm} \\to $ cs)')#plot title
     plt.xlabel('|X|')
     plt.ylabel('|Y|')
     plt.text(12.0, 0.2, r'|Z|= '+ str(Z) +',$M_{H^{\pm}}$= '+ strmhch +' GeV')# text|Z|= fixed MH+= GeV 
@@ -463,7 +463,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.figure()
     ContourBRCB = plt.contour(xarray,yarray,BRCB,levels = linecs,\
      colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
-    plt.title('BR($H^{\pm} \longrightarrow $ cb) ') #plot title
+    plt.title('BR($H^{\pm} \\to $ cb) ') #plot title
     plt.xlabel('|X|')
     plt.ylabel('|Y|')
     plt.text(12.0, 0.2, r'|Z|= '+ str(Z) +',$M_{H^{\pm}}$= '+ strmhch +' GeV')# text|Z|= fixed MH+= GeV 
@@ -480,7 +480,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.figure()
     ContourBRTN = plt.contour(xarray,yarray,BRTN,levels = linecs,\
                 colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
-    plt.title('BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $)')#plot title
+    plt.title('BR($H^{\pm} \\to $ $\\tau \\nu_\\tau $)')#plot title
     plt.xlabel('|X|')
     plt.ylabel('|Y|')
     plt.text(4.0, 0.2, r'|Z|= '+ str(Z) +',$M_{H^{\pm}}$= '+ strmhch +' GeV')# text|Z|= fixed MH+= GeV 
@@ -503,7 +503,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.plot(x, 1.1 / x,color='red',label = '|XY$^*$| < 1.1', linestyle='dashed',linewidth = 1.0)
     plt.plot(x, 0.7 / x,color='blue',label = '|XY$^*$| < 0.7', linestyle='dotted',linewidth = 1.0)
     plt.legend(loc= 'center right',frameon=False,fontsize = 'small')
-    plt.title('BR($t \longrightarrow $ $H^{\pm}$b) X BR($H^{\pm} \longrightarrow $ cb)')#plot title
+    plt.title('BR($t \\to $ $H^{\pm}$b) X BR($H^{\pm} \\to$ cb)')#plot title
     plt.xlabel('|X|')
     plt.ylabel('|Y|')
     plt.text(25.0,0.4, r'|Z|='+ str(Z) +',\n $M_{H^+}$= '+ strmhch +' GeV')
@@ -519,7 +519,7 @@ for n in np.arange(0,len(fl.mhch)):
     BRTHBBRCS = csevents(xarray,yarray,0.1)
     plt.figure()
     plt.axis([0.0, 40.0, 0.0, 0.5]) 
-    plt.title('BR($t \longrightarrow $ $H^{\pm}$b) X BR($H^{\pm} \longrightarrow $ cs)')#plot title
+    plt.title('BR($t \\to $ $H^{\pm}$b) X BR($H^{\pm} \\to $ cs)')#plot title
     plt.xlabel('|X|')
     plt.ylabel('|Y|')
     plt.text(25.0,0.35, r'|Z|='+ str(Z) +',\n $M_{H^+}$= '+ str(mhch) +' GeV')
@@ -546,7 +546,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.axis([0.0, 0.3, 0.0, 5.0]) 
 #    ContourBRTHBBRTN = plt.contour(ynum,znum,BRTHBBRTN,\
 #                    levels = linecs5,colors = ['black','royalblue','purple','darkgreen','brown','red','black']) 
-#    plt.title('BR($t \longrightarrow $ $H^{\pm}$b) X BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $)')#plot title
+#    plt.title('BR($t \\to $ $H^{\pm}$b) X BR($H^{\pm} \\to $ $\\tau \\nu_\\tau $)')#plot title
 #    plt.plot(np.array([0.22] * len(z)),z,color='red',label = '|XY$^*$| < 1.1', linestyle='dashed',linewidth = 1.0)
 #    plt.plot(np.array([0.14] * len(z)),z,color='blue',label = '|XY$^*$| < 0.7', linestyle='dotted',linewidth = 1.0)
 #    plt.legend(loc= 'center right',frameon=False,fontsize = 'small')
@@ -653,13 +653,14 @@ for n in np.arange(0,len(fl.mhch)):
     plt.figure()
 #    plt.figure(1)
 #    plt.subplot(221)
-    Contourbrcs = plt.contour(A,B, \
+    Contourbrcs = plt.contourf(A,B, \
           np.resize(BRCSfinal,len(BRCSfinal)).reshape(len(B),len(A)),\
-          colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
+          colors = ['black','royalblue','purple','darkgreen','brown','red','black'],\
+           levels = np.arange(0.15,0.40,0.05))
     plt.axis([min(A), max(A),min(B), max(B)])
 #plt.clabel(Contourbrcs, inline= 0.01, fontsize=10)# contour level show
     plt.colorbar(Contourbrcs)
-    plt.title('BR($H^{\pm} \longrightarrow $ cs)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($H^{\pm} \\to $ cs), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -670,12 +671,13 @@ for n in np.arange(0,len(fl.mhch)):
 #    print('--------------------------------------------------')
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
 #    plt.subplot(222)
-    Contourbrcb = plt.contour(A,B, \
+    Contourbrcb = plt.contourf(A,B, \
            np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),\
-           colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
+           colors = ['black','royalblue','purple','darkgreen','brown','red','black'],\
+           levels = np.arange(0.0,1.2,0.2))
 #    plt.clabel(Contourbrcb, inline= 0.02, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcb)
-    plt.title('BR($H^{\pm} \longrightarrow $ cb)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($H^{\pm} \\to $ cb), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -686,12 +688,13 @@ for n in np.arange(0,len(fl.mhch)):
 #    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
 #    plt.subplot(223)
-    Contourbrtn = plt.contour(A,B, \
+    Contourbrtn = plt.contourf(A,B, \
            np.resize(BRTNfinal,len(BRTNfinal)).reshape(len(B),len(A)),\
-           colors = ['black','royalblue','purple','darkgreen','brown','red','black'],levels = linecs)
+           colors = ['black','royalblue','purple','darkgreen','brown','red','black'],\
+             levels = np.arange(0.0,0.8,0.1))
 #plt.clabel(Contourbrtn)# contour level show
     plt.colorbar(Contourbrtn)
-    plt.title('BR($H^{\pm} \longrightarrow $ $\\tau \\nu_\\tau $)')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($H^{\pm} \\to $ $\\tau \\nu_\\tau $), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -707,7 +710,7 @@ for n in np.arange(0,len(fl.mhch)):
            colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
 #    plt.clabel(ContourBRCBCS, inline= 0.02, fontsize= 9)# contour level show
     plt.colorbar(ContourBRCBCS)
-    plt.title(' BR($H^{\pm} \longrightarrow $ cb) + BR($H^{\pm} \longrightarrow $ cs) ')#, $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title(' BR($H^{\pm} \\to $ hadrons), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
@@ -724,7 +727,7 @@ for n in np.arange(0,len(fl.mhch)):
     ContourBRTHBBRCB1 = plt.contourf(A,B, \
            np.resize(BRTHBBRCB1,len(BRTHBBRCB1)).reshape(len(B),len(A)),\
            levels = linecs2,colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
-    plt.title('BR($t \longrightarrow $ $H^{\pm}$b) X BR($H^{\pm} \longrightarrow $ cb),\n $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.title('BR($t \\to $ $H^{\pm}$b) X BR($H^{\pm} \\to $ cb),\n $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.clabel(ContourBRTHBBRCB1, inline= 0.01, fontsize=10)# contour level show
     plt.colorbar(ContourBRTHBBRCB1)
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -736,7 +739,7 @@ for n in np.arange(0,len(fl.mhch)):
     print('--------------------------------------------------')
 #(4 parameters): A,B, BRTHBBRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
-    plt.title('BR($t \longrightarrow $ $H^{\pm}$b) X BR($H^{\pm} \longrightarrow $ cs),\n $M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
+    plt.title('BR($t \\to $ $H^{\pm}$b) X BR($H^{\pm} \\to $ cs),\n $M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     ContourBRTHBBRCS1 = plt.contourf(A,B, \
            np.resize(BRTHBBRCS1,len(BRTHBBRCS1)).reshape(len(B),len(A)),\
            levels = linecs2,colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
@@ -751,8 +754,8 @@ for n in np.arange(0,len(fl.mhch)):
     print('--------------------------------------------------')
 #(4 parameters): A,B, BRTHBBRCB + BRTHBBRCS contour plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
-    plt.title('BR($t \longrightarrow $ $H^{\pm}$b) X [BR($H^{\pm} \longrightarrow $ cb)\
-+ BR($H^{\pm} \longrightarrow $ cs)],\n $M_{H^{\pm}}}$= '+strmhch +' GeV')#plot title
+    plt.title('BR($t \\to $ $H^{\pm}$b) X [BR($H^{\pm} \\to $ cb)\
++ BR($H^{\pm} \\to $ cs)],\n $M_{H^{\pm}}}$= '+strmhch +' GeV')#plot title
     ContourTOTAL = plt.contourf(A,B, \
            np.resize(BRTHQUARK,len(BRTHQUARK)).reshape(len(B),len(A)),\
            levels = linecs2,colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
@@ -892,7 +895,7 @@ for n in np.arange(0,len(fl.mhch)):
            levels = np.arange(0.0, 0.8,0.1))
 #    plt.clabel(Contourbrcb_2)# contour level show
     plt.colorbar(Contourbrcb_2)
-    plt.title('BR($H^{\pm} \longrightarrow $ cb)^2,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
+    plt.title('BR($H^{\pm} \\to $ cb)^2,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
@@ -910,7 +913,7 @@ for n in np.arange(0,len(fl.mhch)):
            colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
 #    plt.clabel(Contourbrcbtn, inline= 0.02, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcbtn)
-    plt.title(' BR($H^{\pm} \longrightarrow $ cb + cs) * BR($H^{\pm} \longrightarrow $ tn) , $M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
+    plt.title(' BR($H^{\pm} \\to $ hadrons) X BR($H^{\pm} \\to $ $\\tau \\nu_\\tau $) , $M_{H^{\pm}}$: '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
@@ -928,7 +931,7 @@ for n in np.arange(0,len(fl.mhch)):
 #           colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#, levels = np.arange(0.06, 0.16,0.02))
 #    plt.clabel(Contourbrcbcs, inline= 0.02, fontsize= 9)# contour level show
 #    plt.colorbar(Contourbrcbcs)
-#    plt.title(' BR($H^{\pm} \longrightarrow $ cb) * BR($H^{\pm} \longrightarrow $ cs) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+#    plt.title(' BR($H^{\pm} \\to $ cb) * BR($H^{\pm} \\to $ cs) , $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
 #    plt.xlabel(readlist[int(read1)])# x-axis label
 #    plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
@@ -945,7 +948,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag2bsig ,\
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
+        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'] ,levels = np.arange(0.0,4.5,0.5))
     plt.title('S/$\sqrt{B}$ 4jet2b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -965,21 +968,21 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag1bsig ,\
               len( fourtag1bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
+        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'] ,levels = np.arange(0.0,3.0,0.5))
     plt.title('S/$\sqrt{B}$ 4jet1b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signaloneb4jet)
     plt.savefig('sig_4jet1b'+ strmhch +'.png')
     plt.show()
     plt.close()
 ################################
-#(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \longrightarrow $ cb + cs))
+#(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \\to $ cb + cs))
     plt.figure()
     signalnotag4jet = plt.contourf(A,B, \
         np.resize(fl.eeHH_event()[n] * (BRCBPLUSCS**2)\
@@ -987,15 +990,15 @@ for n in np.arange(0,len(fl.mhch)):
               len(fl.eeHH_event()[n] * (BRCBPLUSCS**2)\
                   * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).\
         reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],\
-        levels = np.arange(0.0,4.0,0.5))
+        levels = np.arange(0.0,2.5,0.5))
     plt.colorbar(signalnotag4jet)
     plt.title('S/$\sqrt{B}$ 4jet0b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('sig_4jet0b'+ strmhch +'.png')
     plt.show()
     plt.close()
@@ -1006,7 +1009,7 @@ for n in np.arange(0,len(fl.mhch)):
 #              len(np.array(BRCSfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
 #        cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
 #    plt.colorbar(Contourbrcstn)
-#    plt.title(' BR($H^{\pm} \longrightarrow $ cs) * BR($H^{\pm} \longrightarrow $ tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+#    plt.title(' BR($H^{\pm} \\to $ cs) * BR($H^{\pm} \\to $ tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
 #    plt.xlabel(readlist[int(read1)])# x-axis label
 #    plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -1014,29 +1017,30 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.savefig('CharHcstn'+ str(mhch) +'.png')
 #    plt.close()
 ###################################
-#    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
+#    BR($H^{\pm} \\to $ cb * $\\tau \\nu_\\tau$) with tagging efficiencies
     plt.figure()
     Contoursignal7 = plt.contourf(A,B, \
         np.resize(twotagsig ,\
               len(twotagsig )).reshape(len(B),len(A)),\
-        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])#,levels = np.arange(0.0,5.0,1.0))
+        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],levels = np.arange(0.0,3.0,0.5))
     plt.colorbar(Contoursignal7)
     plt.title('S/$\sqrt{B}$ 2jet1b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.xscale('log')
 #    plt.yscale('log')
-    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('sig_2jet1b'+ strmhch +'.png')
     plt.show()
     plt.close()
-#    BR($H^{\pm} \longrightarrow $ (cb+cs) * tn) with no-tagging efficiencies
+#    BR($H^{\pm} \\to  (cb+cs) * \\tau \\nu_\\tau $) with no-tagging efficiencies
     plt.figure()
     Contoursignal8 = plt.contourf(A,B, \
         np.resize(fl.eeHH_event()[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) / np.sqrt(fl.backgroundnotagging2()) ,\
               len(fl.eeHH_event()[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) / np.sqrt(fl.backgroundnotagging2()))).\
-                  reshape(len(B),len(A)),colors = ['black','royalblue','purple','orange','brown','red','gray','green'])
+                  reshape(len(B),len(A)),colors = ['black','royalblue','purple','orange','brown','red','gray','green'],\
+                  levels = np.arange(0.0,2.5,0.5))
     plt.colorbar(Contoursignal8)
     plt.title('S/$\sqrt{B}$ 2jet0b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
