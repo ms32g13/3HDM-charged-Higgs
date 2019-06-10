@@ -1022,7 +1022,7 @@ for n in np.arange(0,len(fl.mhch)):
     Contoursignal7 = plt.contourf(A,B, \
         np.resize(twotagsig ,\
               len(twotagsig )).reshape(len(B),len(A)),\
-        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],levels = np.arange(0.0,3.0,0.5))
+        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'],levels = np.arange(0.0,3.5,0.5))
     plt.colorbar(Contoursignal7)
     plt.title('S/$\sqrt{B}$ 2jet1b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label

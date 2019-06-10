@@ -20,6 +20,7 @@ from exercise import xyfun_list,yfun_list,xyfun,yfun
 ll1 = np.array(xyfun) #j = XY^*
 ll2 = np.array(yfun)#i = Y
 #############
+charHm_100 = np.array([100]) #for MH+ = 100GeV
 mu_b = 5.0 # scale of mu_b 
 delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry
 xx = mt**2 / mw**2 # mt^2 /mw^2
@@ -29,7 +30,7 @@ def yy():
     for x in mhch:
         yy.append(mt**2 / x**2)
     return np.array(yy)
-print(yy(),len(yy()))
+print(yy(),len(yy()),xx)
 zz = mc**2 / mb**2  # mc^2 / mb^2
 a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
 h_i = np.array([626126/272277 , - 56281/51730, - 3/7, - 1/14, - 0.6494, - 0.0380,\
@@ -151,9 +152,9 @@ def E_0():#NLO
 def w7_sm():#NLO
     x = xx
     chunk_1 = (- 16 * x**4 - 122 * x**3 + 80 * x**2 - 8 * x) / (9 * (x - 1)**4)
-    chunk_2 = sp.spence(1.0 - 1.0/x)
+    chunk_2 = sp.spence(1.0/x)
     chunk_3 = (6 * x**4 + 46 * x**3 - 28 * x**2) * (np.log(x))**2 / (3 * (x - 1)**5) 
-    chunk_4 = (- 102 * x**5 - 588 *x**4 - 2262 * x**3 + 3244 * x**2 - 1364 * x + 208 ) * \
+    chunk_4 = (- 102 * x**5 - 588 * x**4 - 2262 * x**3 + 3244 * x**2 - 1364 * x + 208 ) * \
     np.log(x) / (81 * (x - 1)**5)
     chunk_5 = (1646 * x**4 + 12205 * x**3 - 10740 * x**2 + 2509 * x - 436) / (486 * (x - 1)**4)
     return chunk_1 * chunk_2 + chunk_3 + chunk_4 + chunk_5
@@ -170,7 +171,7 @@ def w8_sm():#NLO
 def m7_sm():#NLO
     x = xx
     chunk_1 = 82 * x**5 + 301 * x**4 + 703 * x**3 - 2197 * x**2 + 1319 * x - 208
-    chunk_2 = - (162 * x**4 + 1242 * x**3 + 756 * x**2) * np.log(x)
+    chunk_2 = - (162 * x**4 + 1242 * x**3 - 756 * x**2) * np.log(x)
     return (chunk_1 + chunk_2) / (81 * (x - 1)**5)
 def m8_sm():#NLO
     x = xx
@@ -196,8 +197,9 @@ def E_H():#NLO
 print('E_H()',E_H())
 def w7_yy():#NLO
     y = yy()
+    
     chunk_1 = (8 * y**3 - 37 * y**2 + 18 * y) / ((y - 1)**4)
-    chunk_2 = sp.spence(1.0 - 1.0 / y)
+    chunk_2 = sp.spence( 1.0 / y)
     chunk_3 = (3 * y**3 + 23 * y**2 - 14 * y) * (np.log(y))**2 / ((y - 1)**5)
     chunk_4 = (21 * y**4 - 192 * y**3 - 174 * y**2 + 251 * y - 50) \
     * np.log(y) / (9 * (y - 1)**5)
@@ -241,7 +243,7 @@ def t8_yy():#NLO
 def w7_xy():#NLO
     y = yy()
     chunk_1 = (8 * y**2 - 28 * y + 12) / (3 * (y - 1)**3)
-    chunk_2 = sp.spence(1.0 - 1.0 / y)
+    chunk_2 = sp.spence(1.0 / y)
     chunk_3 = (3 * y**2 + 14 * y - 8) * (np.log(y))**2 / (3 * (y - 1)**4)
     chunk_4 = (4 * y**3 - 24 * y**2 + 2 * y + 6 ) * np.log(y) / (3 * (y - 1)**4)
     chunk_5 = (- 2 * y**2 + 13 * y  - 7) / ((y - 1)**3)
@@ -289,8 +291,8 @@ c0_8xy()[m]
 def c0_eff(s,i,j): # C0_2 effective = 1.0 C0_(1,3,4,5,6) = 0.0 
         c0_eff = []
         for n in np.arange(1.0,9.0,1.0):
-            c0_eff.append(np.array([0.0] * len(yfun_list[m]) ) )
-        c0_eff[1] =  np.array([1.0]  * len(yfun_list[m]))  # c0_2eff
+            c0_eff.append(np.array([0.0] * len(c0_7eff(i,j)) ) )
+        c0_eff[1] =  np.array([1.0]  * len(c0_7eff(i,j)))  # c0_2eff
         c0_eff[6] = c0_7eff(i,j) # c0_7eff
 #    print( 'type',type(c0_7eff(xx,yy,i,j)))
         c0_eff[7] = c0_8eff(i,j) # c0_8eff
@@ -317,17 +319,17 @@ def c1_eff(s,i,j):#c1,eff,i,sm with Y and XY*
 #    print('listxy8',listxy8,listxy8[m])
     c1_eff = []
     for n in np.arange(1.0,9.0,1.0):
-        c1_eff.append(np.array([0.0] * len(ll2) ) )
+        c1_eff.append(np.array([0.0] * len(c0_7eff(i,j)) ) )
     c1_eff[3] = E_0() + 2 / 3 * ratio + np.abs(i)**2 * E_H()[m]
     c1_eff[6] = listsm7 + np.abs(i)**2 * listyy7[m] + np.array(j) * listxy7[m]
     c1_eff[7] = listsm8 + np.abs(i)**2 * listyy8[m] + np.array(j) * listxy8[m]
-    c1_eff[0] = np.array([15 + 6 * ratio] * len(ll2)) #c1,eff,1,sm
+    c1_eff[0] = np.array([15 + 6 * ratio] * len(c0_7eff(i,j))) #c1,eff,1,sm
     return np.array(c1_eff)
 #################################################################
 ######Total Ceffective_i (mu_w) at matching scale  
 def c_i_eff_muw(i,j):
-    return np.array(c0_eff(LOalpha_s(mw),i,j)) + LOalpha_s(mw) / (4.0 * PI) *\
-           np.array(c1_eff(NLOalpha_s(mw),i,j)[m])
+    return np.array(c0_eff(mw,i,j)) + LOalpha_s(mw) / (4.0 * PI) *\
+           np.array(c1_eff(mw,i,j)[m])
 ##################################################################
 ##################################################################
 #### Wilson coefficient at low scale(mu_b)
@@ -531,17 +533,17 @@ for m in np.arange(0,len(mhch)):
   print('c0_7xy()',c0_7xy())
 #  print('ll2,ll1',ll2,ll1,len(ll2))
 #  print('xyfun-list',xyfun_list[m],yfun_list[m],len(xyfun_list[m]))
-  print('c0_7eff(i,j)',c0_7eff(yfun_list[m],xyfun_list[m]),len(c0_7eff(yfun_list[m],xyfun_list[m])))
-  print('c0_8eff(i,j)',c0_8eff(yfun_list[m],xyfun_list[m]),len(c0_8eff(yfun_list[m],xyfun_list[m])))
+#  print('c0_7eff(i,j)',c0_7eff(yfun_list[m],xyfun_list[m]),len(c0_7eff(yfun_list[m],xyfun_list[m])))
+#  print('c0_8eff(i,j)',c0_8eff(yfun_list[m],xyfun_list[m]),len(c0_8eff(yfun_list[m],xyfun_list[m])))
 #  print('c0_eff(LOalpha_s(mw),i,j)',c0_eff(LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
 #  print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),ll2,ll1), type( c1_eff(NLOalpha_s(mw),ll2,ll1)    ))
 #  print('c1_eff(s1,i,j)[3]',c1_eff(NLOalpha_s(mw),ll2,ll1)[3])
 #print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(ll2,ll1 ))
 #################################################################
 ##################################################################
-  print('C0_7_eff(mu_b)',c0_7_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m])) #
-  print('C1_7_eff(mu_b)',c1_7_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
-  print('C0_2_eff(mu_b)',c0_2_eff(LOalpha_s(mb),LOalpha_s(mw),yfun_list[m],xyfun_list[m])) #
+#  print('C0_7_eff(mu_b)',c0_7_eff(mb,mw,yfun_list[m],xyfun_list[m])) #
+#  print('C1_7_eff(mu_b)',c1_7_eff(mb,mw,yfun_list[m],xyfun_list[m]))
+#  print('C0_2_eff(mu_b)',c0_2_eff(mb,mw,yfun_list[m],xyfun_list[m])) #
 #  print('C0_8_eff(mu_b)',c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),ll2,ll1)) #
 #print('D_bar',D_bar(0.8,0.2), type(D_bar(0.8,0.2)))
 #print('delta_D_bar',delta_D_bar(0.8,complex(0.2, 0.1)))
@@ -553,18 +555,44 @@ for m in np.arange(0,len(mhch)):
 #  for n in np.arange(len(xyfun_list)):
         #print(n)
   print(np.sort(A_cp(yfun_list[m],xyfun_list[m])))
+  print(yy(),w7_yy(),E_H())
 print('---------------------------------------------------------')
-charHm_100 = np.array([100,110])
 def yy():
     yy = []
     for x in charHm_100:
         yy.append(mt**2 / x**2)
     return np.array(yy)
+###################################################
+#EQUATION 18
+def c1_mu_effective(s,mass):
+    ratio1 = np.log(mt**2 / s**2)
+    ratio = np.log(s**2 / mw**2)
+    ratio2 = np.log(s**2/(mass)**2)
+    ratio_muoverpi = LOalpha_s(mw) / (4 * PI) 
+    print('yy()',yy())
+    print('w7_sm',w7_sm(),t7_sm() * (ratio1  - 4 / 3))
+#    print(yy(),w7_yy(),E_H(),ratio,w7_sm(),ratio1,t7_sm() )
+    listsm7 = c0_7sm() + ratio_muoverpi * ( w7_sm() + m7_sm() * ratio + \
+        t7_sm() * (ratio1  - 4 / 3) )#7
+    listsm8 = c0_8sm() + ratio_muoverpi * ( w8_sm() + m8_sm() * ratio + \
+        t8_sm() * (ratio1  - 4 / 3) )#8
+    listyy7 = c0_7yy() + ratio_muoverpi * ( w7_yy() + m7_yy() * ratio2 + \
+        t7_yy() * (ratio1  - 4 / 3) )#7
+    listyy8 = c0_8yy() + ratio_muoverpi * ( w8_yy() + m8_yy() * ratio2 + \
+        t8_yy() * (ratio1  - 4 / 3) )#8
+    listxy7 = c0_7xy() + ratio_muoverpi * (w7_xy() + m7_xy() * ratio2 + \
+        t7_xy() * (ratio1  - 4 / 3) )#7
+    listxy8 = c0_8xy() + ratio_muoverpi * (w8_xy() + m8_xy() * ratio2 + \
+        t8_xy() * (ratio1  - 4 / 3) )#8
+    result = (listsm7,listxy7,listyy7)
+    return np.array(result)
 print(yy())
 for m in np.arange(0,len(charHm_100)):
     print(m)
     print('Ti_sm,xy,yy()',t7_sm(),'xy',t7_xy(),'yy',t7_yy())#
     print('wi_sm,xy,yy()',w7_sm(),'xy',w7_xy(),'yy',w7_yy())#
-    print('c0_7xy()',c0_7xy()[m])
-    print('c0_7yy()',c0_7yy()[m])
-    print('c0_7eff(i,j)',c0_7eff(0.2,0.0))
+    print('c0_7sm()',c0_7sm())
+    print('c0_7xy()',c0_7xy())
+    print('c0_7yy()',c0_7yy())
+    print('c1_mu_effective(scale,mhch),sm,xy,yy',c1_mu_effective(mw,charHm_100[m]))
+    print('c0_7eff(i,j),',c0_7eff(1.0,1.0))
