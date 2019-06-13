@@ -25,7 +25,7 @@ while True:
         e_c = e_clist
         break
     elif inputec =='s' or inputec == 'S':
-        e_c = 0.01
+        e_c = 0.06
 #        e_c = float(input('e_c value prefered:'))
         break
     else:
@@ -44,7 +44,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(88.0,91.0 ,1.0)# charged Higgs ranged values
+mhch = np.arange(80.0,90.0 ,9.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -537,7 +537,7 @@ def massH_ec_plane2jet(x,y,z):
 def massH_soverb2jetag(x,y,z):#Significance with background tagged with e_b and e_c
     twojet = (eeHHcbtn_1bsignal(x,y) + eeHHcbtn_0bsignal(x,y) + \
              eeHHcstn_1bsignal(y,z) + eeHHcstn_0bsignal(y,z) ) * selection_2j
-    plt.plot(mhch,eeHH_event() * twojet / np.sqrt(backgroundtagging2()) )
+    plt.plot(mhch,eeHH_event() * twojet * selection_2j / np.sqrt(backgroundtagging2()) )
     plt.title('Relation between $M_{H^{\pm}}$ and S/$\sqrt{B}$ in 2jet1b')
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('S/$\sqrt{B}$')# y-axis label
@@ -623,7 +623,7 @@ def ec_eb_plane4jet1b(x,y):
                   len(eeHH_event()[n] * tagging_4jet1b * epsilon / np.sqrt(np.array(background4tag)) )).\
                 reshape(len(e_blist),len(e_clist)),\
 #                 levels = np.arange(0.0, 8.0,1.0), \
-                colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+                colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
         plt.colorbar(one)
         plt.clabel(one, inline= 10, fontsize= 10)#plot
         plt.title('S/$\sqrt{B}$ 4jet1b Max BR with $M_{H^{\pm}}$: '+ str('%.2g'% mhch[n]) + 'GeV')#plot title
@@ -667,7 +667,7 @@ def ec_eb_plane4jet2b(x,y):
                   len(eeHH_event()[n] * tagging_4jet * epsilon / np.sqrt(np.array(background4tag)) )).\
                 reshape(len(e_blist),len(e_clist)),\
 #                 levels = np.arange(0.0, 8.0,1.0), \
-                colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+                colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
         plt.colorbar(one)
         plt.title('S/$\sqrt{B}$ 4jet2b Max BR with $M_{H^{\pm}}: $ '+ str('%.2g'% mhch[n]) + 'GeV')#plot title
         plt.xlabel('$e_c$')# x-axis label
@@ -705,7 +705,7 @@ def ec_eb_plane2jet(x,y,z):
                   len(eeHH_event()[n] * tagging_2jet * selection_2j / np.sqrt(np.array(background2tag)) )).\
              reshape(len(e_blist),len(e_clist)),\
 #             levels = np.arange(0.0, 8.0,1.0), \
-             colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+             colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
         plt.colorbar(one1)
         plt.title('S/$\sqrt{B}$ 2jet1b Max BR with $M_{H^{\pm}}$: '+ str('%.2g'% mhch[n])+ 'GeV')#plot title
         plt.xlabel('$e_c$')# x-axis label
@@ -736,7 +736,7 @@ def invariantmsscut_ec(x,y):#2b-4jet case specific
                 totalcbcb_0sig.append(np.array(eeHHcbcb_0bsignal(x,x)))
                 totalcbcs_0sig.append(np.array(eeHHcbcs_0bsignal(x,y)))
                 totalcscs_0sig.append(np.array(eeHHcscs_0bsignal(y,y)))
-                background4tag.append(backgroundtagging())
+                background4tag.append(backtag_invarmasscut())
          e_ix,e_cy = np.meshgrid(e_ibacklist,e_clist)
          tagging_4jet = np.array(totalcbcb_2sig) + np.array(totalcbcs_2sig) + np.array(totalcbcb_1sig) +\
 np.array(totalcbcs_1sig) + np.array(totalcbcb_0sig) + np.array(totalcbcs_0sig) + np.array(totalcscs_0sig)
@@ -744,8 +744,8 @@ np.array(totalcbcs_1sig) + np.array(totalcbcb_0sig) + np.array(totalcbcs_0sig) +
 np.resize(sig(eeHH_event()[n] * tagging_4jet, 1.0 / np.sqrt(backtag_invarmasscut() ) ),\
 len(sig(eeHH_event()[n] * tagging_4jet, 1.0 / np.sqrt(backtag_invarmasscut() ) ))).\
 reshape(len(e_clist),len(e_ibacklist)),\
-     # levels = np.arange(0.0, 8.0,1.0), 
-colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+      levels = np.arange(7.0, 20.0,1.5), \
+colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
          plt.title('S/$\sqrt{B}$ of 4jet2b Max BR $M_{H^{\pm}}$: '+ str(mhch[n])+ 'GeV')
          plt.xlabel('$\\epsilon_{mass}$')# x-axis label
          plt.ylabel('$e_c$')# y-axis label
@@ -767,7 +767,7 @@ np.resize(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )),\
 len(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )))).\
 reshape(len(e_ibacklist),len(mhch)),\
                 levels = np.arange(0.0,31.0,5.0), \
-colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
      plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet2b with max BR ')
      plt.xlabel('$M_{H^{\pm}}$')# x-axis label
      plt.ylabel('$\\epsilon_{mass}$')# y-axis label
@@ -815,7 +815,7 @@ def start_plot():
           else:
                  for n in np.arange(0,len(mhch)):
 # mhch[n] : the n th charH mass, eeHH_events()[n] : the n th charH events produced
-                     print('# charged Higgs mass range is less or equal to 1')
+                     print('# charged Higgs mass range is equal to', + len(mhch))
                      print('#',n,mhch[n],eeHH_event()[n])
                  break
       elif plotprint == 'n' or plotprint == 'N':

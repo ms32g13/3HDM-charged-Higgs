@@ -20,7 +20,7 @@ import itertools
 from invariant import *
 import eehh as fl
 
-mhch_list_CEPC = np.arange(100.0,120.0,5.0) # charged Higgs for CEPC search
+mhch_list_CEPC = np.arange(80.0,120.0,5.0) # charged Higgs for CEPC search
 #########################################################
 # CEPC with integrated Luminosity 5000 fb^-1 to 5000 fb^-1 with COM : sqrt(s) = 240 GeV
 def cross_section_eeHH_CEPC():# Total crosssection of e+e- > H+H- in COM = 240 GeV

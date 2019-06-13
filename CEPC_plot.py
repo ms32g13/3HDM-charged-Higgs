@@ -380,21 +380,21 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
     twotagsig = cepc.CEPCevent[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCSfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCSfinal,BRTNfinal) \
-                ) 
-#                              / np.sqrt(fl.backgroundtagging2())
+                ) \
+                              / np.sqrt(fl.backgroundtagging2() * 40)
 #### 4 jet 2b-tagged plot array
     fourtag2bsig = cepc.CEPCevent[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
                    fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
                    fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
                    fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
-                   fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) 
-#                           \   * fl.epsilon / np.sqrt(fl.backgroundtagging())
+                   fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
+                             * fl.epsilon / np.sqrt(fl.backgroundtagging() * 40)
 #### 4 jet 1b-tagged plot array
     fourtag1bsig = cepc.CEPCevent[n] * (fl.real_b_cbcb(BRCBfinal,BRCBfinal) +\
                    fl.fake_b_cbcb(BRCBfinal,BRCBfinal) + fl.real_b_cbcs(BRCBfinal,BRCSfinal) + \
                    fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
-                   fl.fake_b_cscs(BRCSfinal,BRCSfinal)) 
-#                             \ * fl.epsilon / np.sqrt(fl.backgroundtagging())
+                   fl.fake_b_cscs(BRCSfinal,BRCSfinal)) \
+                              * fl.epsilon / np.sqrt(fl.backgroundtagging() * 40)
     ###############################################
     #PLOT OF CONTOUR WITH RANGE OS 4 PARAMETERS INTO |X|,|Y|,|Z = 0.1| WITH CS,CB,TAUNV
 # (4 parameters):A,B, BRCS contour plot [in the :reshape(y,x) not reshape(x,y)]
@@ -507,8 +507,8 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
 #(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \longrightarrow $ cb + cs))
     plt.figure()
     signalnotag4jet = plt.contourf(A,B, \
-        np.resize(cepc.CEPCevent[n] * (BRCBPLUSCS**2),\
-              len(cepc.CEPCevent[n] * (BRCBPLUSCS**2))).\
+        np.resize(cepc.CEPCevent[n] * (BRCBPLUSCS**2) / (np.sqrt(fl.backgroundnotagging()) * 40 ),\
+              len(cepc.CEPCevent[n] * (BRCBPLUSCS**2) / (np.sqrt(fl.backgroundnotagging()) * 40 ))).\
         reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])
     plt.colorbar(signalnotag4jet)
     plt.title('Signal of $H^{\pm}$ 4j0b,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
@@ -538,6 +538,26 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signaloneb4jet)
+    plt.savefig('sig2j1bCEPC'+ str(mhch) +'.png')
+    plt.show()
+    plt.close()
+###############################################
+# (4 parameters):A,B, 2jet tagged plots 1-b
+    plt.figure()
+    signalnob2jet = plt.contourf(A,B, \
+        np.resize( cepc.CEPCevent[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) / (np.sqrt(fl.backgroundnotagging2() ) * 40),\
+              len( cepc.CEPCevent[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) / (np.sqrt(fl.backgroundnotagging2() ) * 40))).\
+        reshape(len(B),len(A)),\
+        colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
+    plt.title('Signal of $H^{\pm}$ 2j0b '+\
+             ', $M_{H^{\pm}}$= '+ str(mhch) +' GeV')
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
+#    plt.xscale('log')
+#    plt.yscale('log')
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.colorbar(signalnob2jet)
     plt.savefig('sig2j1bCEPC'+ str(mhch) +'.png')
     plt.show()
     plt.close()
