@@ -20,14 +20,14 @@ from exercise import xyfun_list,yfun_list,xyfun,yfun
 ll1 = np.array(xyfun) #j = XY^*
 ll2 = np.array(yfun)#i = Y
 #############
-charHm_100 = np.array([100]) #for MH+ = 100GeV
+charHm_100 = np.array([100,300,500,1000]) #for MH+ = 100GeV
 mu_b = 5.0 # scale of mu_b 
 delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry
 xx = mt**2 / mw**2 # mt^2 /mw^2
 # mt^2 / mh^2
 def yy():
     yy = []
-    for x in mhch:
+    for x in charHm_100:
         yy.append(mt**2 / x**2)
     return np.array(yy)
 print(yy(),len(yy()),xx)
@@ -207,7 +207,7 @@ def w7_yy():#NLO
 def w8_yy():#NLO
     y = yy()
     chunk_1 = (13 * y**3 - 17 * y**2 + 30 * y) / ((y - 1)**4)
-    chunk_2 = sp.spence(1.0 - 1.0 / y)
+    chunk_2 = sp.spence(1.0 / y)
     chunk_3 = - (17 * y**2 + 31 * y) / ((y - 1)**5) * (np.log(y))**2
     chunk_4 = (42 * y**4 + 318 * y**3 + 1353 * y**2 + 817 * y - 226) * \
 np.log(y) / (36 * (y - 1)**5)
@@ -249,7 +249,7 @@ def w7_xy():#NLO
 def w8_xy():#NLO
     y = yy()
     c1 = (17 * y**2 - 25 * y + 36) / (2 * (y - 1)**3)
-    c2 = sp.spence(1.0 - 1.0 / y)
+    c2 = sp.spence(1.0 / y)
     c3 = - (17 * y + 19) * (np.log(y))**2 / ((y - 1)**4)
     c4 = (14 * y**3 - 12 * y**2 + 187 * y + 3) * np.log(y) / (4 * (y - 1)**4)
     c5 = - (3 * (29 * y**2 - 44 * y + 143)) / (8 * (y - 1)**3)
@@ -441,11 +441,6 @@ for m in np.arange(0,len(mhch)):
 #print('D_bar',D_bar(0.8,0.2), type(D_bar(0.8,0.2)))
 #print('delta_D_bar',delta_D_bar(0.8,complex(0.2, 0.1)))
 print('---------------------------------------------------------')
-def yy():
-    yy = []
-    for x in charHm_100:
-        yy.append(mt**2 / x**2)
-    return np.array(yy)
 ###################################################
 #EQUATION 18
 def c1_mu_effective(s,mass,i,j):
@@ -455,7 +450,7 @@ def c1_mu_effective(s,mass,i,j):
     ratio_muoverpi = LOalpha_s(mw) / (4 * PI) 
 #    print('yy()',yy())
 #    print('w7_sm',w7_sm(),t7_sm() * (ratio1  - 4 / 3))
-#    print(yy(),w7_yy(),E_H(),ratio,w7_sm(),ratio1,t7_sm() )
+#    print(yy(),w8_yy(),E_H(),ratio,w8_sm(),ratio1,t8_sm() )
     listsm7 =  w7_sm() + m7_sm() * ratio + \
         t7_sm() * (ratio1  - 4 / 3) #7
     listsm8 =  w8_sm() + m8_sm() * ratio + \
@@ -480,6 +475,7 @@ def c1_mu_effective(s,mass,i,j):
     result_LO7 = c0_7sm() + np.abs(i)**2 * c0_7yy() + np.array(j) * c0_7xy()
     result_NLO8 = listsm8 + np.abs(i)**2 * listyy8 + np.array(j) * listxy8
     result_LO8 = c0_8sm() + np.abs(i)**2 * c0_8yy() + np.array(j) * c0_8xy()
+#    print('result_LO8',result_LO8,result_NLO8,listsm8,listyy8,listxy8)
     result2 = result_LO2 + result_NLO2 
     result7 = result_LO7 + ratio_muoverpi * result_NLO7
     result8 = result_LO8 + ratio_muoverpi * result_NLO8
@@ -571,5 +567,5 @@ for m in np.arange(0,len(charHm_100)):
     print('wi_sm,xy,yy()',w7_sm(),'xy',w7_xy(),'yy',w7_yy())#
     print('c1_mu_effective(scale,mhch),sm,xy,yy',c1_mu_effective(mw,charHm_100[m],[1.0],[-1.0]))
     print('C0_7_eff(s2,s1,i,j)',C0_7_eff(mb,mw,[1.0],[-1.0]))
-    print('A_CP',np.sort(A_cp(mb,mw,[1.0],[-1.0])) )
-    print('BR(X_bar>Xs+gamma)',decay_B_bar_Xsg(mw,charHm_100[m],[1],[-1.0]) / decay_SL() * B_SL  )
+    print('A_CP',np.sort(A_cp(mb,mw,[1.0],[-1.0]))[m] )
+    print('BR(X_bar>Xs+gamma)',decay_B_bar_Xsg(mb,mw,[1.0/30.0],[-1.0 /900.0])[m] / decay_SL() * B_SL  )
