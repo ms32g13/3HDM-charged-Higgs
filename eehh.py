@@ -44,7 +44,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,90.0 ,9.0)# charged Higgs ranged values
+mhch = np.arange(80.0,81.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -537,7 +537,7 @@ def massH_ec_plane2jet(x,y,z):
 def massH_soverb2jetag(x,y,z):#Significance with background tagged with e_b and e_c
     twojet = (eeHHcbtn_1bsignal(x,y) + eeHHcbtn_0bsignal(x,y) + \
              eeHHcstn_1bsignal(y,z) + eeHHcstn_0bsignal(y,z) ) * selection_2j
-    plt.plot(mhch,eeHH_event() * twojet * selection_2j / np.sqrt(backgroundtagging2()) )
+    plt.plot(mhch,eeHH_event() * twojet / np.sqrt(backgroundtagging2()) )
     plt.title('Relation between $M_{H^{\pm}}$ and S/$\sqrt{B}$ in 2jet1b')
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('S/$\sqrt{B}$')# y-axis label
@@ -570,7 +570,7 @@ def signal_mhch_2jetnotag(x,y): #signal not tagged with e_b and e_c
                                  
     plt.figure()
     plt.plot(mhch,eeHH_event()  * \
-                               twojet)# 0.3 signal selection efficiency
+                               twojet * selection_2j)# 0.3 signal selection efficiency
 #    plt.colorbar(signal2jetnotag)
     plt.title('Relation between $M_{H^{\pm}}$ and Signal in 2jet0b')#plot title
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
@@ -584,7 +584,7 @@ def signal_mhch_2jetnotag(x,y): #signal not tagged with e_b and e_c
 def signal_mhch_2jetag(x,y,z): #signal tagged with e_b and e_c
     twojet = (eeHHcbtn_1bsignal(x,y) + eeHHcbtn_0bsignal(x,y) + \
              eeHHcstn_1bsignal(y,z) + eeHHcstn_0bsignal(y,z) )
-    plt.plot(mhch,eeHH_event() * twojet )
+    plt.plot(mhch,eeHH_event() * twojet * selection_2j )
 #    plt.plot(mhch,eeHH_event() * twojet)
     plt.title('Relation between $M_{H^{\pm}}$ and Signal in 2jet1b')
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
@@ -766,7 +766,7 @@ def mhch_invariantmsscut(x,y):#2b-4jet case specific
 np.resize(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )),\
 len(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )))).\
 reshape(len(e_ibacklist),len(mhch)),\
-                levels = np.arange(0.0,31.0,5.0), \
+                levels = np.arange(2.0,20.0,2.0), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
      plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet2b with max BR ')
      plt.xlabel('$M_{H^{\pm}}$')# x-axis label
@@ -774,10 +774,29 @@ colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'
      plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
      plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
      plt.colorbar(s4jettagmasscut)
-     plt.savefig('sig4j2bmhchmasscut.png')
+#     plt.savefig('sig4j2bmhchmasscut.png')
      plt.show()
      plt.close()        
-      
+###########################################################################  
+def mhch_invariantmsscut1b(x,y):#1b-4jet case specific  
+     tagging_4jet1b = (real_b_cbcs(x,y)+ fake_b_cbcb(x,x) + \
+                   fake_b_cbcs(x,y) + fake_b_cscs(x,y)) * epsilon    
+#     print('wwwwwwwwwwww',sig(eeHH_event() ,tagging_4jet / np.sqrt(backtag_invarmasscut() ) ) )
+     s4jettagmasscut = plt.contourf(mhch,e_ibacklist,\
+np.resize(sig(eeHH_event() , tagging_4jet1b / np.sqrt(backtag_invarmasscut() )),\
+len(sig(eeHH_event() , tagging_4jet1b / np.sqrt(backtag_invarmasscut() )))).\
+reshape(len(e_ibacklist),len(mhch)),\
+                levels = np.arange(0.0,14.0,2.0), \
+colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
+     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet1b with max BR ')
+     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
+     plt.ylabel('$\\epsilon_{mass}$')# y-axis label
+     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+     plt.colorbar(s4jettagmasscut)
+#     plt.savefig('sig4j1bmhchmasscut.png')
+     plt.show()
+     plt.close()      
 ###################################################################
 ## PLOTS SECTION 
 print('e-b,e-c',e_b,e_c)
@@ -791,25 +810,26 @@ def start_plot():
              if type(e_c) == type(e_clist) :
                  massH_ec_plane4jet(0.8246884230749657, 0.17525431678265752)
                  massH_ec_planeone4jet(0.8246884230749657, 0.17525431678265752)
-                 massH_ec_plane2jet(0.3325,0.425,1 - 0.425 - 0.3325)
+                 massH_ec_plane2jet(0.5,0.35,1 - 0.5 - 0.35)
                  ec_eb_plane4jet2b(0.8246884230749657, 0.17525431678265752)
                  ec_eb_plane4jet1b(0.8246884230749657, 0.17525431678265752)
-                 ec_eb_plane2jet(0.3325,0.425,1 - 0.425 - 0.3325)
+                 ec_eb_plane2jet(0.5,0.35,1 - 0.5 - 0.35)
 #    ec_eb_plane2jetnotag(0.40,0.33)
-                 invariantmsscut_ec(0.65,0.2)
+                 invariantmsscut_ec(0.8246884230749657, 0.17525431678265752)
                  break
              else:
-                 mhch_invariantmsscut(0.65,0.2)#0.65 ,0.2
-                 massH_soverb2jetnotag(1 - 0.425,0.425)#0.40,0.3325,1 - 0.425 - 0.3325 tn , cb, cs
-                 massH_soverb2jetag(0.3325,0.425,1 - 0.425 - 0.3325)
+                 mhch_invariantmsscut(0.8246884230749657, 0.17525431678265752)#0.65 ,0.2
+                 mhch_invariantmsscut1b(0.8246884230749657, 0.17525431678265752)
+                 massH_soverb2jetnotag(1 - 0.35,0.35)#0.40,0.3325,1 - 0.425 - 0.3325 tn , cb, cs
+                 massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)
                  massH_soverb4jetnotag(0.8246884230749657, 0.17525431678265752)
                  massH_soverb4jetag(0.8246884230749657, 0.17525431678265752)
                  massH_soverbone4jetag(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetag(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jet1b(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetnotag(0.8246884230749657, 0.17525431678265752)
-                 signal_mhch_2jetag(0.3325,0.425,1 - 0.425 - 0.3325)
-                 signal_mhch_2jetnotag(1 - 0.425 ,0.425)
+                 signal_mhch_2jetag(0.5,0.35,1 - 0.5 - 0.35)
+                 signal_mhch_2jetnotag(1 - 0.35 ,0.35)
                  #0.8246884230749657, 0.17525431678265752 cb,cs
                  break
           else:
