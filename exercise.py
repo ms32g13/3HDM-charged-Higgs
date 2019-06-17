@@ -24,8 +24,6 @@ import matplotlib.ticker as ticker
 #import vegas
 import eehh as fl
 import pandas as pd
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import cm
 from invariant import *
 
 ##########################################################################
@@ -869,7 +867,7 @@ for n in np.arange(0,len(fl.mhch)):
                    fl.fake_b_cbcb(BRCBfinal,BRCBfinal) + fl.real_b_cbcs(BRCBfinal,BRCSfinal) + \
                    fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
                    fl.fake_b_cscs(BRCSfinal,BRCSfinal)) \
-                              * fl.epsilon / np.sqrt(fl.backgroundtagging())
+                              * fl.epsilon / np.sqrt(fl.backgroundtag4j1b())
 #########################################################################
 #    plt.figure()
 #    Contoursignal0 = plt.contourf(A,B, \
@@ -1148,11 +1146,11 @@ def start4():#Scan-plot
                    fl.fake_b_cbcb(BRCBfinal,BRCBfinal) + fl.real_b_cbcs(BRCBfinal,BRCSfinal) + \
                    fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
                    fl.fake_b_cscs(BRCSfinal,BRCSfinal))  * \
-                   fl.epsilon / np.sqrt(fl.backgroundtagging())\
-                   * fl.epsilon / np.sqrt(fl.backgroundtagging())
+                   fl.epsilon / np.sqrt(fl.backgroundtag4j1b())
                         fourjnontag = fl.eeHH_event()[n] *  (arrayhadron**2)\
                   * fl.epsilon / np.sqrt(fl.backgroundnotagging() )
-                        twojnontag = fl.eeHH_event()[n] * 2.0 * arrayhadrontn  / np.sqrt(fl.backgroundnotagging2())
+                        twojnontag = fl.eeHH_event()[n] * 2.0 * arrayhadrontn \
+                                 * fl.selection_2j  / np.sqrt(fl.backgroundnotagging2())
             d1 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRCB': [*BRCBfinal]})
             d2 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
@@ -1160,19 +1158,19 @@ def start4():#Scan-plot
             d3 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            'BRTN': [*BRTNfinal]})
             d4 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           'BRCB+CS': [*fourjnontag]})    
+                           '4tag0bsig': [*fourjnontag]})    
             d5 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           'BRCBTN': [*twojnontag]})      
+                           '2tag0bsig': [*twojnontag]})      
             d6 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           '2tagsig': [*twotagsig]}) 
+                           '2tag1bsig': [*twotagsig]}) 
             d7 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            '4tag2bsig': [*fourtag2bsig]}) 
             d8 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
                            '4tag1bsig': [*fourtag1bsig]}) 
             d9 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           '4tag1bsig': [*arrayhadrontn]})  
+                           'BRHADMTN': [*arrayhadrontn]})  
             d10 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           '4tag1bsig': [*arrayhadron]})  
+                           'BRCBPCS': [*arrayhadron]})  
 
             d1.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcb'+ strmhch +'.csv',\
                    index = None, header=True) 

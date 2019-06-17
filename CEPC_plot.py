@@ -380,7 +380,7 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
     twotagsig = cepc.CEPCevent[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCSfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCSfinal,BRTNfinal) \
-                ) \
+                ) * fl.selection_2j \
                               / np.sqrt(fl.backgroundtagging2() * 40)
 #### 4 jet 2b-tagged plot array
     fourtag2bsig = cepc.CEPCevent[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
@@ -507,8 +507,8 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
 #(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \longrightarrow $ cb + cs))
     plt.figure()
     signalnotag4jet = plt.contourf(A,B, \
-        np.resize(cepc.CEPCevent[n] * (BRCBPLUSCS**2) / (np.sqrt(fl.backgroundnotagging()) * 40 ),\
-              len(cepc.CEPCevent[n] * (BRCBPLUSCS**2) / (np.sqrt(fl.backgroundnotagging()) * 40 ))).\
+        np.resize(cepc.CEPCevent[n] * (BRCBPLUSCS**2) * fl.epsilon / (np.sqrt(fl.backgroundnotagging()) * 40 ),\
+              len(cepc.CEPCevent[n] * (BRCBPLUSCS**2) * fl.epsilon / (np.sqrt(fl.backgroundnotagging()) * 40 ))).\
         reshape(len(B),len(A)),colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])
     plt.colorbar(signalnotag4jet)
     plt.title('Signal of $H^{\pm}$ 4j0b,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
@@ -545,8 +545,8 @@ for n in np.arange(0,len(cepc.mhch_list_CEPC)):
 # (4 parameters):A,B, 2jet tagged plots 1-b
     plt.figure()
     signalnob2jet = plt.contourf(A,B, \
-        np.resize( cepc.CEPCevent[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) / (np.sqrt(fl.backgroundnotagging2() ) * 40),\
-              len( cepc.CEPCevent[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) / (np.sqrt(fl.backgroundnotagging2() ) * 40))).\
+        np.resize( cepc.CEPCevent[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) * fl.selection_2j / (np.sqrt(fl.backgroundnotagging2() ) * 40),\
+              len( cepc.CEPCevent[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) * fl.selection_2j / (np.sqrt(fl.backgroundnotagging2() ) * 40))).\
         reshape(len(B),len(A)),\
         colors = ['black','royalblue','purple','yellow','brown','red','gray','green'])# ,levels = np.arange(1.0,6.0,1.0))
     plt.title('Signal of $H^{\pm}$ 2j0b '+\
