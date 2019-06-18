@@ -366,7 +366,8 @@ start()
 start1()
 for n in np.arange(0,len(fl.mhch)):
     mhch = fl.mhch[n]
-    strmhch = '%.2g'% mhch
+#    strmhch = '%.2g'% mhch
+    strmhch = str(mhch)
 #    mhch = np.array(np.arange(120,131.0,10.0)[n])
     alpmhch = alpmz /(1.0 + (alpmz/(12.0 * PI)) * (33.0 - 2 * nf) * \
                   math.log((mhch**2)/(mz**2))) 
@@ -900,15 +901,15 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('CharHcbsquared'+ strmhch +'.png')
-    plt.show()
+#    plt.savefig('CharHcbsquared'+ strmhch +'.png')
+#    plt.show()
     plt.close()
 #######################################################
 # (4 parameters):A,B,plot (BR(H+> cb + cs)  * BR(H+> tn) )
     plt.figure()
     Contourbrcbtn = plt.contourf(A,B, \
            np.resize(BRCBPLUSCS * BRTNfinal,len(BRCBPLUSCS * BRTNfinal)).reshape(len(B),len(A)),\
-           colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])#, levels = np.arange(0.06, 0.16,0.02))
+           colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'], levels = np.arange(0.0, 0.30,0.05))
 #    plt.clabel(Contourbrcbtn, inline= 0.02, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcbtn)
     plt.title(' BR($H^{\pm} \\to $ hadrons) X BR($H^{\pm} \\to $ $\\tau \\nu_\\tau $) , $M_{H^{\pm}}$: '+ strmhch +' GeV')#plot title
@@ -946,7 +947,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag2bsig ,\
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,5.0,1.0))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,10.0,1.0))
     plt.title('S/$\sqrt{B}$ 4jet2b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -966,7 +967,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag1bsig ,\
               len( fourtag1bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,3.0,0.5))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,7.0,1.0))
     plt.title('S/$\sqrt{B}$ 4jet1b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -988,7 +989,7 @@ for n in np.arange(0,len(fl.mhch)):
               len(fl.eeHH_event()[n] * (BRCBPLUSCS**2)\
                   * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).\
         reshape(len(B),len(A)),colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],\
-        levels = np.arange(0.0,2.5,0.5))
+        levels = np.arange(0.0,6.0,1.0))
     plt.colorbar(signalnotag4jet)
     plt.title('S/$\sqrt{B}$ 4jet0b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label

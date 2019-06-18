@@ -111,53 +111,66 @@ print('|ww background:',wwcscs_background())
     # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback = 0.1 invariant mass cut
 #    qqbar = 964.6 * 0.15 * e_b**2 * e_iback
 #    return result + qqbar
-def backgroundtagging():# OPAL 4jets tagged background
-    # total 1117.8 events. 90% is ww.
-    ww = 1117.8 * 0.9
-    ww_cscs = ww / 4 * e_c**2 # 1/4 of ww is ww>cscs
-    qq_bar = 1117.8 * 0.1 * 0.134 * e_b**2  #z>bb_bar fraction = range(0.134 to 0.15)
-    return  ww_cscs + qq_bar
-def backgroundtag4j1b():# OPAL 4jets1b tagged background
-    # total 1117.8 events. 90% is ww.
-    ww = 1117.8 * 0.9
-    ww_cscs = ww / 4 * e_c # 1/4 of ww is ww>cscs
-    qq_bar = 1117.8 * 0.1 * 0.134 * e_b**2  #z>bb_bar fraction = range(0.134 to 0.15)
-    return  ww_cscs + qq_bar
-#print('OPAL',backgroundtagging())
-def backtag_invarmasscut1b():
-    # OPAL 4jets tagged background with invariant mass cut
-    # total 1117.8 events. 90% is ww.
-    ww = 1117.8 * 0.9
-    ww_cscs = ww / 4 * e_c
-    qq_bar = 1117.8 * 0.1 * 0.15 * e_b**2 * e_ibacklist  #z>bb_bar
-    return  ww_cscs + qq_bar
-def backtag_invarmasscut():# OPAL 4jets tagged background with invariant mass cut
-    # total 1117.8 events. 90% is ww.
-    ww = 1117.8 * 0.9
-    ww_cscs = ww / 4 * e_c**2
-    qq_bar = 1117.8 * 0.1 * 0.15 * e_b**2 * e_ibacklist  #z>bb_bar
-    return  ww_cscs + qq_bar
-#print('invariantmass cut 4jet tag',backtag_invarmasscut(),len(backtag_invarmasscut()))
-def backgroundtagging2():# 2jet tagged
-    e_l = 0.01
-    background = 316.9 / 2.0  * (e_c * (1 - e_l) + e_l * (1 - e_c))
-    return background
-def backgroundnotagging2():# 2jet untagged
-    background = 316.9 / 2.0   
-    return background
-#def backgroundnotagging():# ww>4jet no specific
-    #wwcscs with e_c , or 3389.6
-#    result_1 = 3389.6 * 1855.5 / 2506.2 
-    # Z>b b-bar after b-tag .0.15 from z>bbbar oit of Z-decay ; e_iback : 0.1 invariant mass cut
-#    qqbar_1 = 964.6 * e_iback
-#    return result_1 + qqbar_1
 def backgroundnotagging():# OPAL 4jets untagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
     ww_cscs = ww / 4 
     qq_bar = 1117.8 * 0.1 * 0.134    #z>bb_bar fraction = range(0.134 to 0.15)
     return  ww_cscs + qq_bar
-#print('WW>cscs and qq_bar background:',backgroundtagging())
+def backgroundtagging():# OPAL 4jets tagged background
+    # total 1117.8 events. 90% is ww.
+    ww = 1117.8 * 0.9
+    # 1/4 of ww is ww>cscs
+    ww_cscs = 2 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_c)**2 \
+            + e_l**2 * (1 - e_c)**2
+    ww_csud = 3 * e_c * e_l * (1 - e_l)**2 + 2 * e_l**2 * (1 - e_l) * (1 - e_c)
+    ww_udud = 2 * e_l**2 * (1 - e_l)**2 
+    ww_back = ww * (1/4 * ww_cscs + 1/2 * ww_csud + 1/4 * ww_udud)
+    qq_bar = 1117.8 * 0.1 * 0.134 * e_b**2  #z>bb_bar fraction = range(0.134 to 0.15)
+    return  ww_back + qq_bar
+def backgroundtag4j1b():# OPAL 4jets1b tagged background
+    # total 1117.8 events. 90% is ww.
+    ww = 1117.8 * 0.9
+    # 1/4 of ww is ww>cscs
+    ww_cscs = 2 * (1 - e_c)**2 * e_l * (1 - e_l) + 2 * e_c * (1 - e_c) * (1 - e_l)**2  
+    ww_csud = 3 * e_l * (1 - e_c)* (1 - e_l)**2 + e_c * (1 - e_l)**3  
+    ww_udud = 4 * e_l * (1 - e_l)**3
+    ww_back = ww * (1/4 * ww_cscs + 1/2 * ww_csud + 1/4 * ww_udud)
+    # 2 is permutation. z>bb_bar fraction = range(0.134 to 0.15)
+    qq_bar = 1117.8 * 0.1 * 0.134 * 2 * (1 - e_b) * e_b
+#print('OPAL',backgroundtagging())
+    return  ww_back + qq_bar
+def backtag_invarmasscut1b():
+    # OPAL 4jets tagged background with invariant mass cut
+    # total 1117.8 events. 90% is ww.
+    # total 1117.8 events. 90% is ww.
+    ww = 1117.8 * 0.9
+    # 1/4 of ww is ww>cscs
+    ww_cscs = 2 * (1 - e_c)**2 * e_l * (1 - e_l) + 2 * e_c * (1 - e_c) * (1 - e_l)**2  
+    ww_csud = 3 * e_l * (1 - e_c)* (1 - e_l)**2 + e_c * (1 - e_l)**3  
+    ww_udud = 4 * e_l * (1 - e_l)**3
+    ww_back = ww * (1/4 * ww_cscs + 1/2 * ww_csud + 1/4 * ww_udud)
+    qq_bar = 1117.8 * 0.1 * 0.134 * 2 * (1 - e_b) * e_b * e_ibacklist  #z>bb_bar
+    return  ww_back + qq_bar
+def backtag_invarmasscut():# OPAL 4jets tagged background with invariant mass cut
+    ww = 1117.8 * 0.9
+    # 1/4 of ww is ww>cscs
+    ww_cscs = 2 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_c)**2 \
+            + e_l**2 * (1 - e_c)**2
+    ww_csud = 3 * e_c * e_l * (1 - e_l)**2 + 2 * e_l**2 * (1 - e_l) * (1 - e_c)
+    ww_udud = 2 * e_l**2 * (1 - e_l)**2 
+    ww_back = ww * (1/4 * ww_cscs + 1/2 * ww_csud + 1/4 * ww_udud)
+    qq_bar = 1117.8 * 0.1 * 0.134 * e_b**2 * e_ibacklist  #z>bb_bar
+    return  ww_back + qq_bar
+#print('invariantmass cut 4jet tag',backtag_invarmasscut(),len(backtag_invarmasscut()))
+def backgroundtagging2():# 2jet tagged
+    e_l = 0.01
+    background = 316.9 / 2.0  * (e_c * (1 - e_l) + e_l * (1 - e_c) \
+                + 2 * e_l * (1 - e_l))
+    return background
+def backgroundnotagging2():# 2jet untagged
+    background = 316.9 / 2.0   
+    return background
 def eewwcscs_2bsignal():
     brcs = 0.8
     return wwcscs_background() * brcs**2 * 0.0
@@ -789,7 +802,7 @@ def mhch_invariantmsscut(x,y):#2b-4jet case specific
 np.resize(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )),\
 len(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )))).\
 reshape(len(e_ibacklist),len(mhch)),\
-                levels = np.arange(2.0,20.0,2.0), \
+                levels = np.arange(2.0,15.0,2.0), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
      plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet2b with max BR ')
      plt.xlabel('$M_{H^{\pm}}$')# x-axis label
@@ -810,7 +823,7 @@ def mhch_invariantmsscut1b(x,y):#2b-4jet case specific
 np.resize(sig(eeHH_event() , tagging_4jet1b / np.sqrt(backtag_invarmasscut1b() )),\
 len(sig(eeHH_event() , tagging_4jet1b / np.sqrt(backtag_invarmasscut1b() )))).\
 reshape(len(e_ibacklist),len(mhch)),\
-                levels = np.arange(0.0,14.0,2.0), \
+                levels = np.arange(0.0,3.0,0.5), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
      plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet1b with max BR ')
      plt.xlabel('$M_{H^{\pm}}$')# x-axis label
@@ -838,23 +851,28 @@ def start_plot():
                  ec_eb_plane4jet2b(0.8246884230749657, 0.17525431678265752)
                  ec_eb_plane4jet1b(0.8246884230749657, 0.17525431678265752)
                  ec_eb_plane2jet(0.5,0.35,1 - 0.5 - 0.35)
-#    ec_eb_plane2jetnotag(0.40,0.33)
+# 0.5,0.35,1 - 0.5 - 0.35 cb,tn,cs
                  invariantmsscut_ec(0.8246884230749657, 0.17525431678265752)
                  break
              else:
-                 mhch_invariantmsscut(0.8246884230749657, 0.17525431678265752)#0.65 ,0.2
-                 mhch_invariantmsscut1b(0.8246884230749657, 0.17525431678265752)
-                 massH_soverb2jetnotag(1 - 0.35,0.35)#0.40,0.3325,1 - 0.425 - 0.3325 tn , cb, cs
-                 massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)
-                 massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)
-                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)
-                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)
+                 mhch_invariantmsscut(0.8, 0.2)#0.65 ,0.2
+                 mhch_invariantmsscut1b(0.8, 0.2)
+                 #massH_soverb2jetnotag(1 - 0.35,0.35)#0.40,0.3325,1 - 0.425 - 0.3325 tn , cb, cs
+                 #massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)
+                 #massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)
+                 #massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)
+                 #massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)
+                 #########################
+                 massH_soverb2jetnotag(0.5,0.5)
+                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
+                 massH_soverb4jetnotag(0.8, 1 - 0.8)
+                 massH_soverb4jetag(0.8, 1 - 0.8)
+                 massH_soverbone4jetag(0.8, 1 - 0.8)
                  signal_mhch_4jetag(0.5, 1 - 0.5 - 0.35)
                  signal_mhch_4jet1b(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetnotag(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_2jetag(0.5,0.35,1 - 0.5 - 0.35)
                  signal_mhch_2jetnotag(1 - 0.35 ,0.35)
-                 #0.8246884230749657, 0.17525431678265752 cb,cs
                  break
           else:
                  for n in np.arange(0,len(mhch)):
