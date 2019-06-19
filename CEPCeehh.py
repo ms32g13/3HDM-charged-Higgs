@@ -59,7 +59,7 @@ def massH_ec_plane4jet(x,y):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet_tag)
-    plt.savefig('cepc4j2becmhch'+':cb:'+ str(x) +'.png')
+    plt.savefig('cepc4j2becmhchcb'+ str(x) +'.png')
     plt.show()
     plt.close()
 #############################################
@@ -81,7 +81,7 @@ def massH_ec_planeone4jet(x,y):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(sig4jet1tag)
-    plt.savefig('cepc4j1becmhch'+':cb:'+ str(x) +'.png')
+    plt.savefig('cepc4j1becmhchcb'+ str(x) +'.png')
     plt.show()
     plt.close()
 ####################################################
@@ -95,18 +95,21 @@ def massH_ec_plane2jetag(x,y,z): #2jtagged
                reshape(len(fl.e_c),len(mhch_list_CEPC)),\
 #                levels = np.arange(0.0, 8.0,1.0), \
                colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$2jet1b'+ ':cb = '+ str(x) )
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$2jet1b'+':cb = '+ str(x) )
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('$e_c$')# y-axis label
     plt.colorbar(sig2jet1tag)
-    plt.savefig('cepc2j1becmhch'+':cb:'+ str(x) +'.png')
+    plt.savefig('cepc2j1becmhchcb'+ str(x) +'.png')
     plt.show()
     plt.close()
 #######################################
 CEPCevent = eeHH_event_CEPC(float(input('Luminoscity required (1000 * 10^3 pb^-1):')))#  pb^-1 values
 if type(fl.e_c) == type(fl.e_clist):
-    massH_ec_plane4jet(0.02,0.5)#
-    massH_ec_planeone4jet(0.02,0.5)
-    massH_ec_plane2jetag(0.02,0.5,1 - 0.02 - 0.5)
+    massH_ec_plane4jet(0.05,0.95)#
+    massH_ec_planeone4jet(0.05,0.95)
+#    massH_ec_plane2jetag(0.05,0.0,1 - 0.05)
+    massH_ec_plane4jet(0.01,0.50)#
+    massH_ec_planeone4jet(0.01,0.49)
+    massH_ec_plane2jetag(0.01,0.49,1 - 0.01 - 0.49)
 else:
     print('CEPCevent',CEPCevent, mhch_list_CEPC)

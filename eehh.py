@@ -114,9 +114,8 @@ print('|ww background:',wwcscs_background())
 def backgroundnotagging():# OPAL 4jets untagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
-    ww_cscs = ww / 4 
     qq_bar = 1117.8 * 0.1 * 0.134    #z>bb_bar fraction = range(0.134 to 0.15)
-    return  ww_cscs + qq_bar
+    return  ww + qq_bar
 def backgroundtagging():# OPAL 4jets tagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
@@ -823,7 +822,7 @@ def mhch_invariantmsscut1b(x,y):#2b-4jet case specific
 np.resize(sig(eeHH_event() , tagging_4jet1b / np.sqrt(backtag_invarmasscut1b() )),\
 len(sig(eeHH_event() , tagging_4jet1b / np.sqrt(backtag_invarmasscut1b() )))).\
 reshape(len(e_ibacklist),len(mhch)),\
-                levels = np.arange(0.0,3.0,0.5), \
+                levels = np.arange(0.6,2.0,0.2), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
      plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet1b with max BR ')
      plt.xlabel('$M_{H^{\pm}}$')# x-axis label
