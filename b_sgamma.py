@@ -513,4 +513,4 @@ for m in np.arange(0,len(charHm_100)):
     print('C0_7_eff(s2,s1,i,j)',C0_7_eff(mb,mw,charHm_100[m],[1.0],[-1.0]))
     print('C0_8_eff(s2,s1,i,j)',C0_8_eff(mb,mw,charHm_100[m],[1.0],[-1.0]))
     print('A_CP',np.sort(A_cp(mb,mw,charHm_100[m],[1.0],[-1.0]))[m])
-    print('BR(X_bar>Xs+gamma)',decay_B_bar_Xsg(mb,mw,charHm_100[m],[1/2],[1/4])[m] / decay_SL() * B_SL  )
+    print('BR(X_bar>Xs+gamma)',decay_B_bar_Xsg(mb,mw,charHm_100[m],[1.0],[1.0])[m] / decay_SL() * B_SL  )

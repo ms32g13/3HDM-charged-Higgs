@@ -670,11 +670,11 @@ for n in np.arange(0,len(fl.mhch)):
 #    print('--------------------------------------------------')
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
 #    plt.subplot(222)
-    Contourbrcb = plt.contourf(A,B, \
+    Contourbrcb = plt.contour(A,B, \
            np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'],\
-           levels = np.arange(0.0,1.2,0.2))
-#    plt.clabel(Contourbrcb, inline= 0.02, fontsize= 9)# contour level show
+           levels = np.arange(0.0,1.0,0.2))
+    plt.clabel(Contourbrcb, inline= 0.2, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcb)
     plt.title('BR($H^{\pm} \\to $ cb), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -795,7 +795,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.show()
+    plt.show()
 #   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.png')
     plt.close()
     print('--------------------------------------------------')
@@ -809,7 +809,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.show()
+    plt.show()
 #   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,imxy.png')
     plt.close()
     print('--------------------------------------------------')

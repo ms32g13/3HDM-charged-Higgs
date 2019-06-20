@@ -112,10 +112,8 @@ print('|ww background:',wwcscs_background())
 #    qqbar = 964.6 * 0.15 * e_b**2 * e_iback
 #    return result + qqbar
 def backgroundnotagging():# OPAL 4jets untagged background
-    # total 1117.8 events. 90% is ww.
-    ww = 1117.8 * 0.9
-    qq_bar = 1117.8 * 0.1 * 0.134    #z>bb_bar fraction = range(0.134 to 0.15)
-    return  ww + qq_bar
+    # total 1117.8 events. 
+    return 1117.8
 def backgroundtagging():# OPAL 4jets tagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
@@ -168,7 +166,7 @@ def backgroundtagging2():# 2jet tagged
                 + 2 * e_l * (1 - e_l))
     return background
 def backgroundnotagging2():# 2jet untagged
-    background = 316.9 / 2.0   
+    background = 316.9   
     return background
 def eewwcscs_2bsignal():
     brcs = 0.8
@@ -856,17 +854,17 @@ def start_plot():
              else:
                  mhch_invariantmsscut(0.8, 0.2)#0.65 ,0.2
                  mhch_invariantmsscut1b(0.8, 0.2)
-                 #massH_soverb2jetnotag(1 - 0.35,0.35)#0.40,0.3325,1 - 0.425 - 0.3325 tn , cb, cs
-                 #massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)
-                 #massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)
-                 #massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)
-                 #massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)
+                 massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
+                 massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
+                 massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  #########################
-                 massH_soverb2jetnotag(0.5,0.5)
-                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
-                 massH_soverb4jetnotag(0.8, 1 - 0.8)
-                 massH_soverb4jetag(0.8, 1 - 0.8)
-                 massH_soverbone4jetag(0.8, 1 - 0.8)
+                 #massH_soverb2jetnotag(0.5,0.5)
+                 #massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
+                 #massH_soverb4jetnotag(0.8, 1 - 0.8)
+                 #massH_soverb4jetag(0.8, 1 - 0.8)
+                 #massH_soverbone4jetag(0.8, 1 - 0.8)
                  signal_mhch_4jetag(0.5, 1 - 0.5 - 0.35)
                  signal_mhch_4jet1b(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetnotag(0.8246884230749657, 0.17525431678265752)
