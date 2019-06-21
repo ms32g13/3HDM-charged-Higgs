@@ -59,7 +59,7 @@ def massH_ec_plane4jet(x,y):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet_tag)
-    plt.savefig('cepc4j2becmhchcb'+ str(x) +'.png')
+    plt.savefig('cepc4j2becmhchcb'+  "%03d" % (x * 100) +'.png')
     plt.show()
     plt.close()
 #############################################
@@ -81,7 +81,7 @@ def massH_ec_planeone4jet(x,y):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(sig4jet1tag)
-    plt.savefig('cepc4j1becmhchcb'+ str(x) +'.png')
+    plt.savefig('cepc4j1becmhchcb'+  "%03d" % (x * 100) +'.png')
     plt.show()
     plt.close()
 ####################################################
@@ -99,7 +99,7 @@ def massH_ec_plane2jetag(x,y,z): #2jtagged
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('$e_c$')# y-axis label
     plt.colorbar(sig2jet1tag)
-    plt.savefig('cepc2j1becmhchcb'+ str(x) +'.png')
+    plt.savefig('cepc2j1becmhchcb'+ "%03d" % (x * 100) +'.png')
     plt.show()
     plt.close()
 #######################################

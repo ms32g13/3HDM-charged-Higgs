@@ -581,7 +581,7 @@ def massH_soverb2jetag(x,y,z):#Significance with background tagged with e_b and 
 ##################################################################
 def massH_soverb2jetnotag(x,y): #Significance with background not tagged with e_b and e_c
 #    BR($H^{\pm} \longrightarrow $ cb * tn) with no tag
-    twojet = np.array(x) * np.array(y)
+    twojet = np.array(x) * np.array(y) * 2.0
     event20b = eeHH_event() * twojet * selection_2j  
     background20b =  backgroundnotagging2()          
     print('event20b', event20b,background20b,event20b / np.sqrt(background20b))                 
@@ -599,7 +599,7 @@ def massH_soverb2jetnotag(x,y): #Significance with background not tagged with e_
 ###################################################################
 def signal_mhch_2jetnotag(x,y): #signal not tagged with e_b and e_c
 #    BR($H^{\pm} \longrightarrow $ cb * tn) with tagging efficiencies
-    twojet = np.array(x) * np.array(y)
+    twojet = np.array(x) * np.array(y) * 2.0
                                  
     plt.figure()
     plt.plot(mhch,eeHH_event()  * \
@@ -801,7 +801,7 @@ len(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )))).\
 reshape(len(e_ibacklist),len(mhch)),\
                 levels = np.arange(2.0,15.0,2.0), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
-     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet2b with max BR ')
+     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet2b')
      plt.xlabel('$M_{H^{\pm}}$')# x-axis label
      plt.ylabel('$\\epsilon_{mass}$')# y-axis label
      plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -822,7 +822,7 @@ len(sig(eeHH_event() , tagging_4jet1b / np.sqrt(backtag_invarmasscut1b() )))).\
 reshape(len(e_ibacklist),len(mhch)),\
                 levels = np.arange(0.6,2.0,0.2), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
-     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet1b with max BR ')
+     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet1b')
      plt.xlabel('$M_{H^{\pm}}$')# x-axis label
      plt.ylabel('$\\epsilon_{mass}$')# y-axis label
      plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -854,17 +854,17 @@ def start_plot():
              else:
                  mhch_invariantmsscut(0.8, 0.2)#0.65 ,0.2
                  mhch_invariantmsscut1b(0.8, 0.2)
-                 massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
-                 massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
-                 massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
-                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
-                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 #massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
+                 #massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
+                 #massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 #massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 #massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  #########################
-                 #massH_soverb2jetnotag(0.5,0.5)
-                 #massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
-                 #massH_soverb4jetnotag(0.8, 1 - 0.8)
-                 #massH_soverb4jetag(0.8, 1 - 0.8)
-                 #massH_soverbone4jetag(0.8, 1 - 0.8)
+                 massH_soverb2jetnotag(0.5,0.5)
+                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
+                 massH_soverb4jetnotag(0.8, 1 - 0.8)
+                 massH_soverb4jetag(0.8, 1 - 0.8)
+                 massH_soverbone4jetag(0.8, 1 - 0.8)
                  signal_mhch_4jetag(0.5, 1 - 0.5 - 0.35)
                  signal_mhch_4jet1b(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetnotag(0.8246884230749657, 0.17525431678265752)

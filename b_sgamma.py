@@ -459,7 +459,7 @@ def decay_SL():
 #print('Partial width of semileptonic decay', decay_SL() )
 #################################################################
 #Measured Semi- leptonic branching ratio B_SL
-B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
+B_SL = 0.1065 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
 #################################################################
 ################################################################
 #################### Partial width of B_bar > X_s + gamma
@@ -533,6 +533,7 @@ for m in np.arange(0,len(charHm_100)):
           C0_7_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
     print('C0_8_eff(s2,s1,i,j)',\
           C0_8_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
-    print('A_CP',np.sort(A_cp(mb,mw,charHm_100[m],charHm_100[m]+ 20 ,[1.0],[-1.0],[0],[0])))
+    print('A_CP',np.sort(A_cp(mb,mw,charHm_100[m],charHm_100[m]+ 20 ,[1.0],[1.0],[0],[0])))
     print('BR(X_bar>Xs+gamma)',\
-          decay_B_bar_Xsg(mb,mw,charHm_100[m],charHm_100[m]+ 20,[1.0/2.0],[1.0],[0],[0])/ decay_SL() * B_SL  )
+          decay_B_bar_Xsg(mb,mw,charHm_100[m],charHm_100[m]+ 20,[1.0],[1.0],[0],[0]) \
+          / decay_SL() * B_SL  )

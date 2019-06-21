@@ -670,10 +670,10 @@ for n in np.arange(0,len(fl.mhch)):
 #    print('--------------------------------------------------')
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
 #    plt.subplot(222)
-    Contourbrcb = plt.contour(A,B, \
+    Contourbrcb = plt.contourf(A,B, \
            np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'],\
-           levels = np.arange(0.0,1.0,0.2))
+           levels = np.arange(0.0,1.2,0.2))
     plt.clabel(Contourbrcb, inline= 0.2, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcb)
     plt.title('BR($H^{\pm} \\to $ cb), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
@@ -947,7 +947,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag2bsig ,\
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,5.0,1.0))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,9.0,1.0))
     plt.title('S/$\sqrt{B}$ 4jet2b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -967,7 +967,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag1bsig ,\
               len( fourtag1bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,1.2,0.2))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,2.5,0.5))
     plt.title('S/$\sqrt{B}$ 4jet1b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -989,7 +989,7 @@ for n in np.arange(0,len(fl.mhch)):
               len(fl.eeHH_event()[n] * (BRCBPLUSCS**2)\
                   * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).\
         reshape(len(B),len(A)),colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],\
-        levels = np.arange(0.0,1.2,0.2))
+        levels = np.arange(0.0,3.0,0.5))
     plt.colorbar(signalnotag4jet)
     plt.title('S/$\sqrt{B}$ 4jet0b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -1021,7 +1021,7 @@ for n in np.arange(0,len(fl.mhch)):
     Contoursignal7 = plt.contourf(A,B, \
         np.resize(twotagsig ,\
               len(twotagsig )).reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],levels = np.arange(0.0,2.0,0.5))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],levels = np.arange(0.0,3.5,0.5))
     plt.colorbar(Contoursignal7)
     plt.title('S/$\sqrt{B}$ 2jet1b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -1039,7 +1039,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize(fl.eeHH_event()[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) * fl.selection_2j / np.sqrt(fl.backgroundnotagging2()) ,\
               len(fl.eeHH_event()[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) * fl.selection_2j / np.sqrt(fl.backgroundnotagging2()))).\
                   reshape(len(B),len(A)),colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],\
-                  levels = np.arange(0.0,1.2,0.2))
+                  levels = np.arange(0.0,2.5,0.5))
     plt.colorbar(Contoursignal8)
     plt.title('S/$\sqrt{B}$ 2jet0b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
