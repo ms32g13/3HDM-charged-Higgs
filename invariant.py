@@ -10,7 +10,7 @@ import math
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
 mt = 171.2  # mass of top quark  171.2
 mc = 1.29    # mass of charm quark 1.29
-mb = 4.18     # mass of bottom quark 4.18
+mb = 4.8     # mass of bottom quark 4.18
 nf = 5.0      # origin 5
 PI = math.pi  # pi number 
 mw = 80.33  # mass of w boson 80.33
