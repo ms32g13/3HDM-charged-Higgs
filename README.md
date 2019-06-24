@@ -19,9 +19,9 @@ b_sgamma.py : Code to produce Branching ratio of B > Xs + gamma(photon) based on
 >> It generates basic functions which requires to put i_{1,2} = Y and j_{1,2} = XY^* for each function.
 >> require Y and XY^* arrays from exercise.py if possible, and load to A_cp(s2,s1,mass1,mass2,i1,j1,i2,i2) function to create final CP-asymmetry limitation.
 > The final function produces BR(B > Xs + gamma(photon)) and CP-asymmetry. Both functions require 8 input parameters:
->> s2: low scale. (ie. mb); s1: high scale.(ie. mw); mass1: first MH+ range; mass2: second MH+ range.
->> i1,j1: i1 = Y array , j1 = XY^* array for the first MH+ contribution.
->> i2,j2: i2 = Y array , j2 = XY^* array for the second MH+ contribution.
+> s2: low scale. (ie. mb); s1: high scale.(ie. mw); mass1: first MH+ range; mass2: second MH+ range.
+> i1,j1: i1 = Y array , j1 = XY^* array for the first MH+ contribution.
+> i2,j2: i2 = Y array , j2 = XY^* array for the second MH+ contribution.
 
 gammaeffective.py : anomalous dimension matrix. It includes LO and NLO together.
 >> Requires to put this with b>sgamma.py together.
