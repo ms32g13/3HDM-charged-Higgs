@@ -282,7 +282,7 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
     ratio1 = np.log(mt**2 / s**2)
     ratio = np.log(s**2 / mw**2)
     ratio2 = np.log(s**2/(mass1)**2)
-    if mass2 == 0.0:
+    if np.any(mass2) == 0.0:
         ratio22 = 0.0
     else:
         ratio22 = np.log(s**2/(mass2)**2)
@@ -473,6 +473,9 @@ def decay_B_bar_Xsg(s2,s1,mass1,mass2,i1,j1,i2,j2):
      (C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) - \
       C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * 1 / 6)).real
     return a1 * chunk1
+def BR_B_Xs_gamma(s2,s1,mass1,mass2,i1,j1,i2,j2):
+    return decay_B_bar_Xsg(s2,s1,mass1,mass2,i1,j1,i2,j2) \
+          / decay_SL() * B_SL 
 ############
 #  print('ll2,ll1',ll2,ll1,len(ll2))
 #  print('xyfun-list',xyfun_list[m],yfun_list[m],len(xyfun_list[m]))
@@ -522,6 +525,10 @@ def A_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # CP asymmetry
     return part1 * (part2 - part3  - part4 + part5)
 print(yy(charHm_100))
 print('---------------------------------------------------------')
+print('BR(X_bar>Xs+gamma)',\
+          decay_B_bar_Xsg(mb,mw,charHm_100,charHm_100 + 20,[1.0],[1.0],[0],[0]) \
+          / decay_SL() * B_SL  )
+print('A_CP',np.sort(A_cp(mb,mw,charHm_100,charHm_100 + 20 ,[1.0],[1.0],[0],[0])))
 for m in np.arange(0,len(charHm_100)):
     print(m,'---------------------')
     print('charHm_100[m]',charHm_100[m],charHm_100[m]+ 20,m)
@@ -533,7 +540,26 @@ for m in np.arange(0,len(charHm_100)):
           C0_7_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
     print('C0_8_eff(s2,s1,i,j)',\
           C0_8_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
-    print('A_CP',np.sort(A_cp(mb,mw,charHm_100[m],charHm_100[m]+ 20 ,[1.0],[1.0],[0],[0])))
-    print('BR(X_bar>Xs+gamma)',\
-          decay_B_bar_Xsg(mb,mw,charHm_100[m],charHm_100[m]+ 20,[1.0],[1.0],[0],[0]) \
-          / decay_SL() * B_SL  )
+
+x_axis = np.array([ i for i in np.arange(100,1010,10)] )
+print(x_axis,type(x_axis),x_axis.shape)
+y11_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[-1.0],[0],[0]) )
+y12_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[-1.0/4.0],[0],[0]) )
+y130_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[-1.0/900],[0],[0]) )
+y21_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[1.0],[0],[0]) )
+y22_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[1.0],[0],[0]) )
+y230_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[1.0],[0],[0]) )
+plt.plot(x_axis,y11_axis)
+plt.plot(x_axis,y12_axis)
+plt.plot(x_axis,y130_axis)
+plt.plot(x_axis,y21_axis)
+plt.plot(x_axis,y22_axis)
+plt.plot(x_axis,y230_axis)
+ax = plt.subplot(111)
+ax.set_yscale('log')
+plt.xlabel('$M_{H^{\pm}}$')
+plt.ylabel('BR($B \\to X_{s} \gamma$)')
+plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\beta =$ 30',\
+            'Type II tan$\\beta =$ 1', 'Type II tan$\\beta =$ 2', 'Type II tan$\\beta =$ 30'),
+           loc='upper right', shadow=True,prop={'size': 7.7})
+plt.show()
