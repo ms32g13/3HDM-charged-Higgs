@@ -297,6 +297,9 @@ def complexyfunction(i,j,k,l):# (XY^*) function
 def start3():
 #        global X2,Y2,Z2 #
 #        print('x2',X2)
+        list_a =[]
+        list_b =[]
+#        BRHAD = []
         reference_array = [i,j,k,l]
         read1_int = int(read1)
         read2_int = int(read2)
@@ -310,6 +313,8 @@ def start3():
                         my_tuple += (var_b,)
                     else:
                         my_tuple += (reference_array[counter],)
+                list_a.append(var_a)
+                list_b.append(var_b)
                 absolutexlist.append(abs(X2(*my_tuple))) # unpacked bracket of my_tuple by * sign
                 absoluteylist.append(abs(Y2(*my_tuple)))
                 absolutezlist.append(abs(Z2(*my_tuple)))
@@ -319,7 +324,19 @@ def start3():
 #                BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                 BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-        print('lenbrcb',len(BRCBfinal))
+                
+                
+#                twotag0bsig = fl.eeHH_event()[n] * 2.0 * (np.array(BRCBfinal) + np.array(BRCSfinal)) * np.array(BRTNfinal) * fl.selection_2j /\
+#                              np.sqrt(fl.backgroundnotagging2())
+#        BRHAD = BRCBfinal + BRCSfinal
+#        d5 = pd.DataFrame({'tangamma': [*list_a],'tanbeta': [*list_b],\
+#                                   'BRCB': [*BRCBfinal], 'BRCS': [*BRCSfinal],
+#                           'BRHAD': [np.array(BRCBfinal) + np.array(BRCSfinal)],\
+#                           'BRTN': [*BRTNfinal],\
+#                           '2tag0bsig':[*twotag0bsig]}) 
+#        d5.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d2j0b'+ strmhch +'.csv',\
+#                           index = None, header=True)
+        print('lenbrcb',len(BRCBfinal),len(twotag0bsig))
         BRCBfinal_list.append(BRCBfinal)
         BRCSfinal_list.append(BRCSfinal)
         BRTNfinal_list.append(BRTNfinal)
@@ -674,7 +691,7 @@ for n in np.arange(0,len(fl.mhch)):
            np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'],\
            levels = np.arange(0.0,1.2,0.2))
-    plt.clabel(Contourbrcb, inline= 0.2, fontsize= 9)# contour level show
+#    plt.clabel(Contourbrcb, inline= 0.2, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcb)
     plt.title('BR($H^{\pm} \\to $ cb), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -785,12 +802,12 @@ for n in np.arange(0,len(fl.mhch)):
     print('--------------------------------------------------')
 #(4 parameters): A,B, REAL(XY^{*}) plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
-    plt.title('REAL(XY^*) in '+ readlist[int(read1)] +','+ readlist[int(read2)] +' plane,$M_{H^+}$= '+ str(strmhch) +' GeV')#plot title
-    contourxy = plt.contour(A,B,\
+    plt.title('REAL(XY^*) in ['+ readlist[int(read1)] +','+ readlist[int(read2)] +'],$M_{H^+}$= '+ str(strmhch) +' GeV')#plot title
+    contourxy = plt.contourf(A,B,\
             np.resize(np.array(np.real(xyfun)),len(np.array(np.real(xyfun)))).reshape(len(B),len(A)),\
             levels = np.arange(-1.1,0.9,0.2),cmap = 'brg')#,levels = linecs3)#
-    plt.clabel(contourxy, inline= 0.01, fontsize=10)# contour level show
-#   plt.colorbar(contourxy)
+#    plt.clabel(contourxy, inline= 0.01, fontsize=10)# contour level show
+    plt.colorbar(contourxy)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -856,6 +873,7 @@ for n in np.arange(0,len(fl.mhch)):
                 fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
                 fl.eeHHcstn_1bsignal(BRCSfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCSfinal,BRTNfinal) \
                 ) * fl.selection_2j / np.sqrt(fl.backgroundtagging2())
+   
 #### 4 jet 2b-tagged plot array
     fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
                    fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
@@ -869,6 +887,10 @@ for n in np.arange(0,len(fl.mhch)):
                    fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
                    fl.fake_b_cscs(BRCSfinal,BRCSfinal)) \
                               * fl.epsilon / np.sqrt(fl.backgroundtag4j1b())
+    twotag0bsig = fl.eeHH_event()[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) * fl.selection_2j /\
+                              np.sqrt(fl.backgroundnotagging2())
+    fourtag0bsig = fl.eeHH_event()[n] * (BRCBPLUSCS**2)\
+                  * fl.epsilon / np.sqrt(fl.backgroundnotagging()) 
 #########################################################################
 #    plt.figure()
 #    Contoursignal0 = plt.contourf(A,B, \
@@ -984,10 +1006,8 @@ for n in np.arange(0,len(fl.mhch)):
 #(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \\to $ cb + cs))
     plt.figure()
     signalnotag4jet = plt.contourf(A,B, \
-        np.resize(fl.eeHH_event()[n] * (BRCBPLUSCS**2)\
-                  * fl.epsilon / np.sqrt(fl.backgroundnotagging()) ,\
-              len(fl.eeHH_event()[n] * (BRCBPLUSCS**2)\
-                  * fl.epsilon / np.sqrt(fl.backgroundnotagging()))).\
+        np.resize(fourtag0bsig ,\
+              len(fourtag0bsig )).\
         reshape(len(B),len(A)),colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],\
         levels = np.arange(0.0,3.0,0.5))
     plt.colorbar(signalnotag4jet)
@@ -1033,13 +1053,14 @@ for n in np.arange(0,len(fl.mhch)):
     plt.savefig('sig_2jet1b'+ strmhch +'.png')
     plt.show()
     plt.close()
+    
 #    BR($H^{\pm} \\to  (cb+cs) * \\tau \\nu_\\tau $) with no-tagging efficiencies
     plt.figure()
     Contoursignal8 = plt.contourf(A,B, \
-        np.resize(fl.eeHH_event()[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) * fl.selection_2j / np.sqrt(fl.backgroundnotagging2()) ,\
-              len(fl.eeHH_event()[n] * 2.0 * BRCBPLUSCS * np.array(BRTNfinal) * fl.selection_2j / np.sqrt(fl.backgroundnotagging2()))).\
+        np.resize( twotag0bsig ,\
+              len( twotag0bsig )).\
                   reshape(len(B),len(A)),colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],\
-                  levels = np.arange(0.0,2.5,0.5))
+                  levels = np.arange(0.0,2.0,0.4))
     plt.colorbar(Contoursignal8)
     plt.title('S/$\sqrt{B}$ 2jet0b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label

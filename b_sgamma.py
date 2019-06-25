@@ -50,7 +50,7 @@ g_z = 1 - 8 * zz + 8 * zz**3 - zz**4 - 12 * zz**2 * np.log(zz)
 f_z = (PI**2 - 31 / 4) * (1 - np.sqrt(zz))**2 + 3 / 2
 #NON-Perturbative kronc-delta (GeV^2)
 delta_NP_ga = - 0.5 / 2 - 9 * (- 0.12) / 2
-delta_NP_c = 0.12 / 2
+delta_NP_c = - (- 0.12) / 2
 delta_NP_SL = - 0.5 /2 + 3 * (- 0.12) / 2 * (1 - 4 * (1 - zz)**4 / g_z) 
 #########################################################
 print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
@@ -349,7 +349,7 @@ def C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c0_7_eff(mu_b) LO
     return step1 + 8 /3 * (step2) + result1
 ###############################NLO
 def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b) NLO
     step1 = eta **(39 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[4]
 #    print('c1_eff(s1,i,j)[6,m]',c1_eff(NLOalpha_s(mw),ll2,ll1)[6])
     step2 = 8 / 3 * (eta **(37 / 23) - eta **(39 / 23) ) *\
@@ -443,7 +443,7 @@ def Amp(s2,s1,mass1,mass2,i1,j1,i2,j2):# A for Decay_width of b > s gamma gluon
         summ88 = c0_8 * np.conjugate(c0_8) * f_88
         summ_all = summ11 + summ12 + summ17 + summ22 + summ27 + summ28\
     + summ78 + summ88 + summ18
-        return LOalpha_s(s2) / PI * summ_all.real
+        return NLOalpha_s(s2) / PI * summ_all.real
 #print('Amp',Amp(ll2,ll1))
 ###########Decay_width of b > s gamma gluon
 def decay_bspg(s2,s1,mass1,mass2,i1,j1,i2,j2):
@@ -459,7 +459,7 @@ def decay_SL():
 #print('Partial width of semileptonic decay', decay_SL() )
 #################################################################
 #Measured Semi- leptonic branching ratio B_SL
-B_SL = 0.1065 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
+B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
 #################################################################
 ################################################################
 #################### Partial width of B_bar > X_s + gamma
@@ -526,8 +526,8 @@ def A_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # CP asymmetry
 print(yy(charHm_100))
 print('---------------------------------------------------------')
 print('BR(X_bar>Xs+gamma)',\
-          decay_B_bar_Xsg(mb,mw,charHm_100,charHm_100 + 20,[1.0],[1.0],[0],[0]) \
-          / decay_SL() * B_SL  )
+          BR_B_Xs_gamma(mb,100,100,100 + 20,\
+                        [1.0],1j * np.array(np.arange(-5,6,1.0)),[0],[0]) )
 print('A_CP',np.sort(A_cp(mb,mw,charHm_100,charHm_100 + 20 ,[1.0],[1.0],[0],[0])))
 for m in np.arange(0,len(charHm_100)):
     print(m,'---------------------')
@@ -541,7 +541,7 @@ for m in np.arange(0,len(charHm_100)):
     print('C0_8_eff(s2,s1,i,j)',\
           C0_8_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
 
-x_axis = np.array([ i for i in np.arange(100,1010,10)] )
+x_axis = np.array([ i for i in np.arange(100,1020,20)] )
 print(x_axis,type(x_axis),x_axis.shape)
 y11_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[-1.0],[0],[0]) )
 y12_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[-1.0/4.0],[0],[0]) )
@@ -549,17 +549,34 @@ y130_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[-1.0/900
 y21_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[1.0],[0],[0]) )
 y22_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[1.0],[0],[0]) )
 y230_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[1.0],[0],[0]) )
-plt.plot(x_axis,y11_axis)
-plt.plot(x_axis,y12_axis)
-plt.plot(x_axis,y130_axis)
-plt.plot(x_axis,y21_axis)
-plt.plot(x_axis,y22_axis)
-plt.plot(x_axis,y230_axis)
-ax = plt.subplot(111)
-ax.set_yscale('log')
+plt.plot(x_axis,y11_axis / (1e-4))
+plt.plot(x_axis,y12_axis / (1e-4))
+plt.plot(x_axis,y130_axis / (1e-4))
+plt.plot(x_axis,y21_axis / (1e-4))
+plt.plot(x_axis,y22_axis / (1e-4) )
+plt.plot(x_axis,y230_axis / (1e-4))
+#ax = plt.subplot(111)
+#ax.set_yscale('log')
 plt.xlabel('$M_{H^{\pm}}$')
-plt.ylabel('BR($B \\to X_{s} \gamma$)')
+plt.ylabel('BR($B \\to X_{s} \gamma$) $\\times$ 1e-4')
 plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\beta =$ 30',\
             'Type II tan$\\beta =$ 1', 'Type II tan$\\beta =$ 2', 'Type II tan$\\beta =$ 30'),
-           loc='upper right', shadow=True,prop={'size': 7.7})
+           loc='upper right', shadow=True,prop={'size': 7.8})
 plt.show()
+plt.close
+xim_axis = np.arange(-10.0,2.5,0.2)
+y48im_axis = BR_B_Xs_gamma(4.8,100,100,100 + 20,\
+                        [1.0],xim_axis * 1.0,[0],[0])
+y24im_axis = BR_B_Xs_gamma(2.4,100,100,100 + 20,\
+                        [1.0],xim_axis * 1.0,[0],[0])
+y96im_axis = BR_B_Xs_gamma(9.6,100,100,100 + 20,\
+                        [1.0],xim_axis * 1.0,[0],[0])
+plt.ylim(-5, 10)
+plt.plot(xim_axis,y48im_axis / (1e-4))
+plt.plot(xim_axis,y24im_axis / (1e-4))
+plt.plot(xim_axis,y96im_axis / (1e-4))
+#M = np.ones((3, 2))
+#a = np.arange(3)
+#print(M,a)
+#print(a[:,np.newaxis])
+#print(M * a[:,np.newaxis])
