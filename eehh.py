@@ -44,7 +44,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,91.0 ,11.0)# charged Higgs ranged values
+mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -158,6 +158,7 @@ def backtag_invarmasscut():# OPAL 4jets tagged background with invariant mass cu
     ww_udud = 2 * e_l**2 * (1 - e_l)**2 
     ww_back = ww * (1/4 * ww_cscs + 1/2 * ww_csud + 1/4 * ww_udud)
     qq_bar = 1117.8 * 0.1 * 0.134 * e_b**2 * e_ibacklist  #z>bb_bar
+    print(ww_back, qq_bar)
     return  ww_back + qq_bar
 #print('invariantmass cut 4jet tag',backtag_invarmasscut(),len(backtag_invarmasscut()))
 def backgroundtagging2():# 2jet tagged
@@ -793,11 +794,15 @@ def mhch_invariantmsscut(x,y):#2b-4jet case specific
      tagging_4jet = (eeHHcbcb_2bsignal(x,x) + eeHHcbcb_1bsignal(x,x) + \
                    eeHHcbcs_2bsignal(x,y) + eeHHcbcs_1bsignal(x,y) + \
                    eeHHcbcb_0bsignal(x,x) + eeHHcbcs_0bsignal(x,y) + \
-                   eeHHcscs_0bsignal(y,y)) * epsilon    
-#     print('wwwwwwwwwwww',sig(eeHH_event() ,tagging_4jet / np.sqrt(backtag_invarmasscut() ) ) )
+                   eeHHcscs_0bsignal(y,y)) * epsilon  
+     print('event',eeHH_event())
+     print('www',tagging_4jet,np.sqrt(backtag_invarmasscut() ) )     
+     print('--', tagging_4jet/np.sqrt(backtag_invarmasscut() ))      
+     print('---', *np.outer(eeHH_event(),tagging_4jet/np.sqrt(backtag_invarmasscut() ) ).shape )     
+     print('wwwwwwwwwwww',sig(eeHH_event() ,tagging_4jet / np.sqrt(backtag_invarmasscut() ) ) )
      s4jettagmasscut = plt.contourf(mhch,e_ibacklist,\
-np.resize(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )),\
-len(sig(eeHH_event() , tagging_4jet / np.sqrt(backtag_invarmasscut() )))).\
+np.resize( sig(1 /  np.sqrt(backtag_invarmasscut() ), eeHH_event() * tagging_4jet   ),\
+len( sig(1 /  np.sqrt(backtag_invarmasscut() ), eeHH_event() * tagging_4jet   )   )  ).\
 reshape(len(e_ibacklist),len(mhch)),\
                 levels = np.arange(2.0,15.0,2.0), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
@@ -817,8 +822,8 @@ def mhch_invariantmsscut1b(x,y):#2b-4jet case specific
                         real_b_cscs(y,y) + fake_b_cscs(y,y) )  * epsilon    
 #     print('wwwwwwwwwwww',sig(eeHH_event() ,tagging_4jet / np.sqrt(backtag_invarmasscut() ) ) )
      s4jettagmasscut = plt.contourf(mhch,e_ibacklist,\
-np.resize(sig(eeHH_event() , tagging_4jet1b / np.sqrt(backtag_invarmasscut1b() )),\
-len(sig(eeHH_event() , tagging_4jet1b / np.sqrt(backtag_invarmasscut1b() )))).\
+np.resize(sig( 1.0 / np.sqrt(backtag_invarmasscut1b() ), eeHH_event() * tagging_4jet1b    ),\
+      len(sig( 1.0 / np.sqrt(backtag_invarmasscut1b() ), eeHH_event() * tagging_4jet1b       ))).\
 reshape(len(e_ibacklist),len(mhch)),\
                 levels = np.arange(0.6,2.0,0.2), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
@@ -852,8 +857,8 @@ def start_plot():
                  invariantmsscut_ec(0.8246884230749657, 0.17525431678265752)
                  break
              else:
-                 mhch_invariantmsscut(0.8, 0.2)#0.65 ,0.2
-                 mhch_invariantmsscut1b(0.8, 0.2)
+                 mhch_invariantmsscut(0.8,1 - 0.8)#0.65 ,0.2
+                 mhch_invariantmsscut1b(0.8, 1 - 0.8)
                  #massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
                  #massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
                  #massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs

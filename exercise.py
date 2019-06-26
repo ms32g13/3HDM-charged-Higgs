@@ -336,7 +336,7 @@ def start3():
 #                           '2tag0bsig':[*twotag0bsig]}) 
 #        d5.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d2j0b'+ strmhch +'.csv',\
 #                           index = None, header=True)
-        print('lenbrcb',len(BRCBfinal),len(twotag0bsig))
+#        print('lenbrcb',len(BRCBfinal),len(twotag0bsig))
         BRCBfinal_list.append(BRCBfinal)
         BRCSfinal_list.append(BRCSfinal)
         BRTNfinal_list.append(BRTNfinal)
@@ -965,11 +965,11 @@ for n in np.arange(0,len(fl.mhch)):
 ###############################################
 # (4 parameters):A,B, 4jet tagged plots
     plt.figure()
-    signal4jet = plt.contourf(A,B, \
+    signal4jet = plt.contour(A,B, \
         np.resize( fourtag2bsig ,\
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,9.0,1.0))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.4,4.0,0.4))
     plt.title('S/$\sqrt{B}$ 4jet2b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -1022,26 +1022,27 @@ for n in np.arange(0,len(fl.mhch)):
     plt.show()
     plt.close()
 ####################################
-#    plt.figure()
-#    Contourbrcstn = plt.contour(A,B, \
-#        np.resize(np.array(BRCSfinal) * np.array(BRTNfinal),\
-#              len(np.array(BRCSfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
-#        cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
-#    plt.colorbar(Contourbrcstn)
-#    plt.title(' BR($H^{\pm} \\to $ cs) * BR($H^{\pm} \\to $ tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-#    plt.xlabel(readlist[int(read1)])# x-axis label
-#    plt.ylabel(readlist[int(read2)])# y-axis label
+    plt.figure()
+    Contourbrcbtn = plt.contourf(A,B, \
+        np.resize(np.array(BRCBfinal) * np.array(BRTNfinal),\
+              len(np.array(BRCBfinal) * np.array(BRTNfinal))).reshape(len(B),len(A)),\
+        cmap = 'brg')#,levels = np.arange(0.0,5.0,1.0))
+    plt.colorbar(Contourbrcbtn)
+    plt.title(' BR($H^{\pm} \\to $ cb) * BR($H^{\pm} \\to $ tn),$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
+    plt.xlabel(readlist[int(read1)])# x-axis label
+    plt.ylabel(readlist[int(read2)])# y-axis label
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.savefig('CharHcstn'+ str(mhch) +'.png')
-#    plt.close()
+#    plt.savefig('CharHcbtn'+ str(mhch) +'.png')
+    plt.show()
+    plt.close()
 ###################################
 #    BR($H^{\pm} \\to $ cb * $\\tau \\nu_\\tau$) with tagging efficiencies
     plt.figure()
     Contoursignal7 = plt.contourf(A,B, \
         np.resize(twotagsig ,\
               len(twotagsig )).reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],levels = np.arange(0.0,3.5,0.5))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],levels = np.arange(0.0,3.4,0.4))
     plt.colorbar(Contoursignal7)
     plt.title('S/$\sqrt{B}$ 2jet1b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label

@@ -24,7 +24,7 @@ mh = 125.0 #  mass of higgs
 ma = 130.00 # mass of Pseudoscalar 
 # CKM elements
 vcs = 0.97
-vcb = 0.04
+vcb = 0.0409
 vts = 0.0404
 vtb = 0.999146
 ############

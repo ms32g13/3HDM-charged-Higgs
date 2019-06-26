@@ -459,7 +459,7 @@ def decay_SL():
 #print('Partial width of semileptonic decay', decay_SL() )
 #################################################################
 #Measured Semi- leptonic branching ratio B_SL
-B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
+B_SL = 0.1065 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
 #################################################################
 ################################################################
 #################### Partial width of B_bar > X_s + gamma
@@ -555,6 +555,7 @@ plt.plot(x_axis,y130_axis / (1e-4))
 plt.plot(x_axis,y21_axis / (1e-4))
 plt.plot(x_axis,y22_axis / (1e-4) )
 plt.plot(x_axis,y230_axis / (1e-4))
+print('type I tanbeta = 2',y22_axis / (1e-4))
 #ax = plt.subplot(111)
 #ax.set_yscale('log')
 plt.xlabel('$M_{H^{\pm}}$')
@@ -580,3 +581,4 @@ plt.plot(xim_axis,y96im_axis / (1e-4))
 #print(M,a)
 #print(a[:,np.newaxis])
 #print(M * a[:,np.newaxis])
+print(np.arange(0.8,4.0,0.8))
