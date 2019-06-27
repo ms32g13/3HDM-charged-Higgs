@@ -5,8 +5,6 @@ Created on Thu Jan 17 14:58:53 2019
 @author: muyuansong0419
 """
 
-import math
-import random
 import numpy as np
 import matplotlib.pyplot as plt
 import gammaeffective as gaeff
@@ -25,11 +23,13 @@ charHm_large = np.array([300,500,1000,1200]) #for MH+3 > 100GeV
 mu_b = 5.0 # scale of mu_b 
 delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry
 xx = mt**2 / mw**2 # mt^2 /mw^2
+PI = np.pi
 # mt^2 / mh^2
 def yy(mass):
     return mt**2 / mass**2
 print(yy(charHm_100),yy(charHm_large),len(yy(charHm_100)))
 zz = mc**2 / mb**2  # mc^2 / mb^2
+print(1.0/zz)
 a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
 h_i = np.array([626126/272277 , - 56281/51730, - 3/7, - 1/14, - 0.6494, - 0.0380,\
                 - 0.0186, - 0.0057])#{h_i}
@@ -92,14 +92,16 @@ def G_(t):# t < 4 and t > 4
        return - 2 * np.arctan(np.sqrt(t /(4 - t) ) )**2
     else:
        log = np.log((np.sqrt(t) + np.sqrt(t - 4))/2)
-       return complex(- PI**2 / 2 + 2 * log**2,\
-                      -2 * PI * log)
+       repart = - PI**2 / 2 + 2 * log**2
+       impart =  - 2 * PI * log
+       return complex(repart , impart)
 def grand1(t): # f_22 integrand
-#    print('t',t,1 - zz)
     return (1 - zz * t)**2 * np.abs(G_(t) / t + 1 / 2)**2
 def grand2(t): # f_27 integrand
-    return (1 - zz * t) * (G_(t)  + 1 / 2)
-print('quad1',zz,quad(grand1, 0, 1 - zz )[0], type(quad(grand1, 0, 1 - zz )))        
+    return (1 - zz * t) * (G_(t).real  + 1 / 2)
+def grand3(t): # f_27 integrand imaginary
+    return (1 - zz * t) * (G_(t).imag)
+print('quad3',G_(1.0 / zz), zz,quad(grand3, 0, 1.0 / zz ), type(quad(grand3, 0, 1.0/ zz )))        
 ##########################################################################
 #4*pi*SQRT(2); factor appears in partial width of 2 fermions
 fac = 4.0 * np.sqrt(2.0) * PI 
@@ -340,8 +342,8 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
 ##############################LO
 def C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c0_7_eff(mu_b) LO
     eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
-    step1 = eta **(16 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[3]
-    step2 = (eta **(14 / 23) - eta **(16 / 23) ) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
+    step1 = eta**(16 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[3]
+    step2 = (eta**(14 / 23) - eta**(16 / 23) ) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
     result1 = 0.0
     for n in np.arange(0,8):
 #        print('ai*hi*1.0',a_i[n] * h_i[n] * c0_eff(s1,i,j)[1])
@@ -355,9 +357,9 @@ def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
     step2 = 8 / 3 * (eta **(37 / 23) - eta **(39 / 23) ) *\
             c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[7]
     step3 = ((297664 / 14283) * eta **(16 / 23) - 7164416 / 357075 * eta **(14 / 23) +\
-256868/14283 * (eta **(37 / 23)) - 6698884 / 357075 * eta **(39 / 23)) * \
+256868/14283 * (eta**(37 / 23)) - 6698884 / 357075 * eta**(39 / 23)) * \
              c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
-    step4 = 37208/4761 * (eta **(39 / 23) - eta **(16 / 23)) * \
+    step4 = 37208/4761 * (eta**(39 / 23) - eta **(16 / 23)) * \
             c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[3]
     result = 0.0
     c1_4effmw = E_0() + 2 / 3 * np.log(s1**2 / mw**2) + np.abs(i1)**2 * E_H(mass1) + \
@@ -387,7 +389,7 @@ def C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
 #####################################################################
 ####################################################################
 ####################################################################
-def D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude
+def D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude LO
     # Riemann Zeta func- tion zeta_3
     zeta_3 = 1.2021
     L = np.log(zz)
@@ -399,7 +401,7 @@ def D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude
         (- 3 * PI**2 + 9 * L**2) * zz**2 + (28 - 12 * L) * zz**3))
     r1 = - 1 / 6 * r2
     r7 = 32 / 9 - 8 / 9 * PI**2
-    r8 = - 4 / 27 * complex(- 33 + 2 * PI**2, - 6 *PI )
+    r8 = - 4 / 27 * complex(- 33 + 2 * PI**2, - 6 * PI )
     ans1 = C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * \
     (r1 + 1 / 2.0 * gaeff.gamma0eff()[0][6] * np.log(mb**2 / s2**2 ))
     ans2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * \
@@ -413,6 +415,31 @@ def D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude
     return C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + \
 LOalpha_s(s2) / (4 * PI) *  ((C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) +  v_ub) )
 ####################################################################
+def NLOD_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude NLO
+    zeta_3 = 1.2021
+    L = np.log(zz)
+    r2 = complex(2/243 * (-833 + 144 * PI**2 * zz**(3/2) + (1728 - 180 * PI**2 - 1296 * zeta_3 + \
+       (1296 - 324 * PI**2) * L + 108 * L**2 + 36 * L**3 ) * zz + \
+       (648 + 72 * PI**2 + (432 - 216 * PI**2) * L + 36 * L**3 ) * zz**2 + \
+       (- 54 - 84 * PI**2 + 1092 * L - 756 * L**2) * zz**3) ,\
+        16 * PI / 81 * (- 5 + (45 - 3 * PI**2 + 9 * L + 9 * L**2) * zz + \
+        (- 3 * PI**2 + 9 * L**2) * zz**2 + (28 - 12 * L) * zz**3))
+    r1 = - 1 / 6 * r2
+    r7 = 32 / 9 - 8 / 9 * PI**2
+    r8 = - 4 / 27 * complex(- 33 + 2 * PI**2, - 6 * PI )
+    ans1 = C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * \
+    (r1 + 1 / 2.0 * gaeff.gamma0eff()[0][6] * np.log(mb**2 / s2**2 ))
+    ans2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * \
+    (r2 + 1 / 2.0 * gaeff.gamma0eff()[1][6] * np.log(mb**2 / s2**2 ))
+    ans7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * \
+    (r7 + 1 / 2.0 * gaeff.gamma0eff()[6][6] * np.log(mb**2 / s2**2 ))
+    ans8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * \
+    (r8 + 1 / 2.0 * gaeff.gamma0eff()[7][6] * np.log(mb**2 / s2**2 ))
+    v_ub = ans1 + ans2 + ans7 + ans8 - 16 / 3.0 * \
+    C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    chunk1 = (C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + v_ub )
+    return NLOalpha_s(s2) * chunk1 / (4 * PI * C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2))
+####################################################################
 ###########Decay_width of b > s gamma 
 def decay_bsp(s2,s1,mass1,mass2,i1,j1,i2,j2):
     return gf**2 / (32 * PI**4) * (vts * vtb)**2 * \
@@ -423,8 +450,10 @@ def Amp(s2,s1,mass1,mass2,i1,j1,i2,j2):# A for Decay_width of b > s gamma gluon
         c0_2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
         c0_7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
         c0_8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-        f_22 = 16 * zz / 27 * np.array( quad(grand1, 0, 1 - zz )[0] )
-        f_27 = - 8 * zz**2 / 9 * np.array( quad(grand2, 0, 1 - zz )[0])
+        f_22 = 16 * zz / 27 * quad(grand1, 0, 1.0 / zz  )[0] 
+        print('f_22',f_22)
+        f_27 = - 8 * zz**2 / 9 * complex(quad(grand2, 0, 1.0 / zz )[0], quad(grand3, 0, 1.0 / zz )[0] ) 
+        print('f_27',f_27)
         f_11 = 1 /36 * f_22
         f_12 = - 1 /3 * f_22
         f_17 = - 1 /6 * f_27
@@ -512,7 +541,7 @@ def b_cp(i,x):#delta_cp fraction of Energy cut
 def A_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # CP asymmetry 
     epsilon_s = lanmda_ckm**2 * complex(- rho_ckm ,eta_ckm)#e_s = V*_usV_ub / V*_tsV_tb
     c2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + LOalpha_s(s2) / \
+    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + NLOalpha_s(s2) / \
          (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     c8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     part1 = LOalpha_s(s2) / (np.abs(c7) )**2
@@ -549,13 +578,14 @@ y130_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[-1.0/900
 y21_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[1.0],[0],[0]) )
 y22_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[1.0],[0],[0]) )
 y230_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[1.0],[0],[0]) )
+plt.axis([100.0, 1000.0, 1.0, 8.0])
 plt.plot(x_axis,y11_axis / (1e-4))
 plt.plot(x_axis,y12_axis / (1e-4))
 plt.plot(x_axis,y130_axis / (1e-4))
 plt.plot(x_axis,y21_axis / (1e-4))
 plt.plot(x_axis,y22_axis / (1e-4) )
 plt.plot(x_axis,y230_axis / (1e-4))
-print('type I tanbeta = 2',y22_axis / (1e-4))
+print('type II tanbeta = 1',y11_axis / (1e-4))
 #ax = plt.subplot(111)
 #ax.set_yscale('log')
 plt.xlabel('$M_{H^{\pm}}$')
@@ -565,17 +595,21 @@ plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\be
            loc='upper right', shadow=True,prop={'size': 7.8})
 plt.show()
 plt.close
-xim_axis = np.arange(-10.0,2.5,0.2)
-y48im_axis = BR_B_Xs_gamma(4.8,100,100,100 + 20,\
+xim_axis = np.arange(-10.0,2.2,0.2)
+y48im_axis = BR_B_Xs_gamma(4.8,mw,100,100 + 20,\
                         [1.0],xim_axis * 1.0,[0],[0])
-y24im_axis = BR_B_Xs_gamma(2.4,100,100,100 + 20,\
+y24im_axis = BR_B_Xs_gamma(2.4,mw,100,100 + 20,\
                         [1.0],xim_axis * 1.0,[0],[0])
-y96im_axis = BR_B_Xs_gamma(9.6,100,100,100 + 20,\
+y96im_axis = BR_B_Xs_gamma(9.6,mw,100,100 + 20,\
                         [1.0],xim_axis * 1.0,[0],[0])
 plt.ylim(-5, 10)
 plt.plot(xim_axis,y48im_axis / (1e-4))
 plt.plot(xim_axis,y24im_axis / (1e-4))
 plt.plot(xim_axis,y96im_axis / (1e-4))
+plt.xlabel('X')
+plt.ylabel('BR($B \\to X_{s} \gamma$) $\\times$ 1e-4')
+plt.show()
+plt.close
 #M = np.ones((3, 2))
 #a = np.arange(3)
 #print(M,a)

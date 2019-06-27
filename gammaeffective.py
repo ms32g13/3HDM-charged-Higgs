@@ -31,8 +31,8 @@ def gamma0eff():#gamma_0_eff_ji matrix values
     gamma[3][7] = - 587/162
     gamma[4][3] = - 256/3
     gamma[4][5] = 20
-    gamma[4][6] = 4624/243
-    gamma[4][7] = 4772/81
+    gamma[4][6] = - 6272/81
+    gamma[4][7] = 6596/27
     gamma[5][2] = - 256 /9
     gamma[5][3] = 56/9
     gamma[5][4] = 40/9

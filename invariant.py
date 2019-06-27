@@ -8,9 +8,9 @@ Created on Tue Feb 26 14:41:45 2019
 import math
 ###Invariant parameters 
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
-mt = 171.2  # mass of top quark  171.2
-mc = 1.29    # mass of charm quark 1.29
-mb = 4.8     # mass of bottom quark 4.18
+mt = 175 # mass of top quark  171.2
+mc = 1.279    # mass of charm quark 1.29 / 1.279
+mb = 4.18    # mass of bottom quark 4.18
 nf = 5.0      # origin 5
 PI = math.pi  # pi number 
 mw = 80.33  # mass of w boson 80.33
@@ -19,7 +19,7 @@ pwz = 2.4952  # partial width of z boson
 pww = 2.085  #  partial width of w boson 
 mtau = 1.7771 # mass of tau lepton
 gf = 0.0000116639 # fermi constant
-#mhch = 130.00  # mass of charged higgs
+mhch = 100.00  # mass of charged higgs
 mh = 125.0 #  mass of higgs
 ma = 130.00 # mass of Pseudoscalar 
 # CKM elements
