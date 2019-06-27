@@ -28,7 +28,6 @@ PI = np.pi
 def yy(mass):
     return mt**2 / mass**2
 print(yy(charHm_100),yy(charHm_large),len(yy(charHm_100)))
-zz = mc**2 / mb**2  # mc^2 / mb^2
 print(1.0/zz)
 a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
 h_i = np.array([626126/272277 , - 56281/51730, - 3/7, - 1/14, - 0.6494, - 0.0380,\
@@ -82,9 +81,10 @@ def run_quark_bar(q):#
     c1 = np.log(q**2 / mw**2)
     c2 = LOalpha_s(mw) / PI
     return q * (1 + c2 * c1 - 4 / 3 * c2 )
-print('run-bquark-at-mw-scale',run_quark_bar(4.8))
+print('run-bquark-at-mw-scale',run_quark_bar(4.18))
 print('LOalpha_s(run_m_b)',LOalpha_s(run_quark_bar(mb)),\
       'LO a_s(mw) / LO a_s(run_mb)', LOalpha_s(mw) / LOalpha_s(run_quark_bar(mb)))
+zz = (run_quark_bar(mc) / run_quark_bar(mb) ) **2  # mc^2 / mb^2
 #########################################################################
 # Function G(t) in E2 of PHYSICAL REVIEW D, Vol58, 074004-19
 def G_(t):# t < 4 and t > 4
@@ -482,7 +482,7 @@ def decay_bspg(s2,s1,mass1,mass2,i1,j1,i2,j2):
 ###########Decay_width of semileptonic 
 def decay_SL():
     part1 = gf**2 /(192 * PI**3) * np.abs(vcb)**2 * mb**5 * g_z
-    part2 = 1 - 2 * LOalpha_s(run_quark_bar(mb)) * f_z / (3 * PI) \
+    part2 = 1 - 2 * NLOalpha_s(run_quark_bar(mb)) * f_z / (3 * PI) \
     + delta_NP_SL / mb**2
     return part1 * part2
 #print('Partial width of semileptonic decay', decay_SL() )
@@ -497,7 +497,7 @@ def decay_B_bar_Xsg(s2,s1,mass1,mass2,i1,j1,i2,j2):
     chunk1 = np.abs(D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \
              Amp(s2,s1,mass1,mass2,i1,j1,i2,j2) + delta_NP_ga / (mb**2) * \
              np.abs(C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \
-             delta_NP_c / (mc**2) * \
+             (delta_NP_c / mc**2) * \
     (C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2).conjugate() *\
      (C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) - \
       C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * 1 / 6)).real
@@ -585,7 +585,7 @@ plt.plot(x_axis,y130_axis / (1e-4))
 plt.plot(x_axis,y21_axis / (1e-4))
 plt.plot(x_axis,y22_axis / (1e-4) )
 plt.plot(x_axis,y230_axis / (1e-4))
-print('type II tanbeta = 1',y11_axis / (1e-4))
+print('type II tanbeta = 1',y21_axis / (1e-4))
 #ax = plt.subplot(111)
 #ax.set_yscale('log')
 plt.xlabel('$M_{H^{\pm}}$')
