@@ -351,7 +351,7 @@ def C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c0_7_eff(mu_b) LO
     return step1 + 8 /3 * (step2) + result1
 ###############################NLO
 def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
-    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b) NLO
+    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b) NLO
     step1 = eta **(39 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[4]
 #    print('c1_eff(s1,i,j)[6,m]',c1_eff(NLOalpha_s(mw),ll2,ll1)[6])
     step2 = 8 / 3 * (eta **(37 / 23) - eta **(39 / 23) ) *\
@@ -589,18 +589,18 @@ print('type II tanbeta = 1',y21_axis / (1e-4))
 #ax = plt.subplot(111)
 #ax.set_yscale('log')
 plt.xlabel('$M_{H^{\pm}}$')
-plt.ylabel('BR($B \\to X_{s} \gamma$) $\\times$ 1e-4')
+plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{-4}$')
 plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\beta =$ 30',\
             'Type II tan$\\beta =$ 1', 'Type II tan$\\beta =$ 2', 'Type II tan$\\beta =$ 30'),
            loc='upper right', shadow=True,prop={'size': 7.8})
 plt.show()
 plt.close
 xim_axis = np.arange(-10.0,2.2,0.2)
-y48im_axis = BR_B_Xs_gamma(4.8,mw,100,100 + 20,\
+y48im_axis = BR_B_Xs_gamma(4.8,100,100,100 + 20,\
                         [1.0],xim_axis * 1.0,[0],[0])
-y24im_axis = BR_B_Xs_gamma(2.4,mw,100,100 + 20,\
+y24im_axis = BR_B_Xs_gamma(2.4,100,100,100 + 20,\
                         [1.0],xim_axis * 1.0,[0],[0])
-y96im_axis = BR_B_Xs_gamma(9.6,mw,100,100 + 20,\
+y96im_axis = BR_B_Xs_gamma(9.6,100,100,100 + 20,\
                         [1.0],xim_axis * 1.0,[0],[0])
 plt.ylim(-5, 10)
 plt.plot(xim_axis,y48im_axis / (1e-4))
