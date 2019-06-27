@@ -18,42 +18,6 @@ from invariant import *
 #ll1 = np.array(xyfun) #j = XY^*
 #ll2 = np.array(yfun)#i = Y
 #############
-charHm_100 = np.array([100,300,500,1000]) #for MH+2 = 100GeV
-charHm_large = np.array([300,500,1000,1200]) #for MH+3 > 100GeV
-mu_b = 5.0 # scale of mu_b 
-delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry
-xx = mt**2 / mw**2 # mt^2 /mw^2
-PI = np.pi
-# mt^2 / mh^2
-def yy(mass):
-    return mt**2 / mass**2
-print(yy(charHm_100),yy(charHm_large),len(yy(charHm_100)))
-print(1.0/zz)
-a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
-h_i = np.array([626126/272277 , - 56281/51730, - 3/7, - 1/14, - 0.6494, - 0.0380,\
-                - 0.0186, - 0.0057])#{h_i}
-a2_i = np.array([14/23, 0.4086, - 0.4230, - 0.8994, 0.1456])#{a'_i}
-h2_i = np.array([313063/363036, - 0.9135, 0.0873, - 0.0571, 0.0209])#{h'_i}
-e_i = np.array([4661194/816831, - 8516/2217, 0.0,0.0,- 1.9043, - 0.1008,\
-                0.1216,0.0183])#{e_i}
-f_i = np.array([- 17.3023, 8.5027, 4.5508, 0.7519, 2.0040, 0.7476, - 0.5385, 0.0914])#{f_i}
-k_i = np.array([9.9372, - 7.4878, 1.2688, - 0.2925, -2.2923, - 0.1461, 0.1239, 0.0812])#{k_i}
-l_i = np.array([0.5784, - 0.3921, -0.1429, 0.0476, - 0.1275, 0.0317, 0.0078, - 0.0031])#{l_i}
-y_i = np.array([0.0,0.0,- 1/3.0,- 4/9.0,- 20/3.0, - 80/9.0])# {y_i} 
-z_i = np.array([0,0,1.0,- 1/6.0, 20, - 10/3.0])#{z_i}
-##########################################################
-# PHYSICAL REVIEW D, VOLUME 58,074004-7 EQUATION (36,39)
-# PHASE- SPACE FUNCTION g(z)
-g_z = 1 - 8 * zz + 8 * zz**3 - zz**4 - 12 * zz**2 * np.log(zz)
-# QCD-RADIATION FUNCTION f(z)
-f_z = (PI**2 - 31 / 4) * (1 - np.sqrt(zz))**2 + 3 / 2
-#NON-Perturbative kronc-delta (GeV^2)
-delta_NP_ga = - 0.5 / 2 - 9 * (- 0.12) / 2
-delta_NP_c = - (- 0.12) / 2
-delta_NP_SL = - 0.5 /2 + 3 * (- 0.12) / 2 * (1 - 4 * (1 - zz)**4 / g_z) 
-#########################################################
-print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
-print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
 ############
 #QCD running coupling constant (alp) at energy scale MH. Relevant                                                                                                                                                                        
 #for QCD corrections to Higgs decay widths.
@@ -81,10 +45,45 @@ def run_quark_bar(q):#
     c1 = np.log(q**2 / mw**2)
     c2 = LOalpha_s(mw) / PI
     return q * (1 + c2 * c1 - 4 / 3 * c2 )
+#############
+charHm_100 = np.array([100,300,500,1000]) #for MH+2 = 100GeV
+charHm_large = np.array([300,500,1000,1200]) #for MH+3 > 100GeV
+zz = (run_quark_bar(mc) / run_quark_bar(mb) ) **2  # mc^2 / mb^2
+delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry
+xx = mt**2 / mw**2 # mt^2 /mw^2
+PI = np.pi
+# mt^2 / mh^2
+def yy(mass):
+    return mt**2 / mass**2
+print('zz',zz,1/zz)
+a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
+h_i = np.array([626126/272277 , - 56281/51730, - 3/7, - 1/14, - 0.6494, - 0.0380,\
+                - 0.0186, - 0.0057])#{h_i}
+a2_i = np.array([14/23, 0.4086, - 0.4230, - 0.8994, 0.1456])#{a'_i}
+h2_i = np.array([313063/363036, - 0.9135, 0.0873, - 0.0571, 0.0209])#{h'_i}
+e_i = np.array([4661194/816831, - 8516/2217, 0.0,0.0,- 1.9043, - 0.1008,\
+                0.1216,0.0183])#{e_i}
+f_i = np.array([- 17.3023, 8.5027, 4.5508, 0.7519, 2.0040, 0.7476, - 0.5385, 0.0914])#{f_i}
+k_i = np.array([9.9372, - 7.4878, 1.2688, - 0.2925, -2.2923, - 0.1461, 0.1239, 0.0812])#{k_i}
+l_i = np.array([0.5784, - 0.3921, -0.1429, 0.0476, - 0.1275, 0.0317, 0.0078, - 0.0031])#{l_i}
+y_i = np.array([0.0,0.0,- 1/3.0,- 4/9.0,- 20/3.0, - 80/9.0])# {y_i} 
+z_i = np.array([0,0,1.0,- 1/6.0, 20, - 10/3.0])#{z_i}
+##########################################################
+# PHYSICAL REVIEW D, VOLUME 58,074004-7 EQUATION (36,39)
+# PHASE- SPACE FUNCTION g(z)
+g_z = 1 - 8 * zz + 8 * zz**3 - zz**4 - 12 * zz**2 * np.log(zz)
+# QCD-RADIATION FUNCTION f(z)
+f_z = (PI**2 - 31 / 4) * (1 - np.sqrt(zz))**2 + 3 / 2
+#NON-Perturbative kronc-delta (GeV^2)
+delta_NP_ga = - 0.5 / 2 - 9 * (- 0.12) / 2
+delta_NP_c = - (- 0.12) / 2
+delta_NP_SL = - 0.5 /2 + 3 * (- 0.12) / 2 * (1 - 4 * (1 - zz)**4 / g_z) 
+#########################################################
+print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
+print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
 print('run-bquark-at-mw-scale',run_quark_bar(4.18))
 print('LOalpha_s(run_m_b)',LOalpha_s(run_quark_bar(mb)),\
       'LO a_s(mw) / LO a_s(run_mb)', LOalpha_s(mw) / LOalpha_s(run_quark_bar(mb)))
-zz = (run_quark_bar(mc) / run_quark_bar(mb) ) **2  # mc^2 / mb^2
 #########################################################################
 # Function G(t) in E2 of PHYSICAL REVIEW D, Vol58, 074004-19
 def G_(t):# t < 4 and t > 4
