@@ -588,18 +588,18 @@ print('type II tanbeta = 1',y21_axis / (1e-4))
 #ax = plt.subplot(111)
 #ax.set_yscale('log')
 plt.xlabel('$M_{H^{\pm}}$')
-plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{-4}$')
+plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
 plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\beta =$ 30',\
             'Type II tan$\\beta =$ 1', 'Type II tan$\\beta =$ 2', 'Type II tan$\\beta =$ 30'),
            loc='upper right', shadow=True,prop={'size': 7.8})
 plt.show()
 plt.close
 xim_axis = np.arange(-10.0,2.2,0.2)
-y48im_axis = BR_B_Xs_gamma(4.8,100,100,100 + 20,\
+y48im_axis = BR_B_Xs_gamma(run_quark_bar(4.8),100,100,100 + 20,\
                         [1.0],xim_axis * 1.0,[0],[0])
-y24im_axis = BR_B_Xs_gamma(2.4,100,100,100 + 20,\
+y24im_axis = BR_B_Xs_gamma(run_quark_bar(2.4),100,100,100 + 20,\
                         [1.0],xim_axis * 1.0,[0],[0])
-y96im_axis = BR_B_Xs_gamma(9.6,100,100,100 + 20,\
+y96im_axis = BR_B_Xs_gamma(run_quark_bar(9.6),100,100,100 + 20,\
                         [1.0],xim_axis * 1.0,[0],[0])
 plt.ylim(-5, 10)
 plt.plot(xim_axis,y48im_axis / (1e-4))
