@@ -49,9 +49,11 @@ def run_quark_bar(q):#
 #############
 charHm_100 = np.array([100,300,500,1000]) #for MH+2 = 100GeV
 charHm_large = np.array([300,500,1000,1200]) #for MH+3 > 100GeV
-zz = (run_quark_bar(mc) / run_quark_bar(mb) ) **2  # mc^2 / mb^2
-delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry
+delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry 
+zz = (run_quark_bar(mc) / run_quark_bar(mb) )**2  # mc^2 / mb^2
+LOzz = (mc / mb)**2
 xx = mt**2 / mw**2 # mt^2 /mw^2
+NLOxx = mt**2 / mw**2
 PI = np.pi
 # mt^2 / mh^2
 def yy(mass):
