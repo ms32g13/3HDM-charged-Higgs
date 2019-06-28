@@ -11,6 +11,7 @@ import gammaeffective as gaeff
 from scipy.integrate import quad
 from scipy import special as sp
 from invariant import *
+from matplotlib.ticker import MultipleLocator
 #from eehh import mhch
 #from exercise import xyfun_list,yfun_list,xyfun,yfun
 #import exercise as ex
@@ -319,12 +320,13 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
 #    print('NLO7_yy',listyy7 * ratio_muoverpi + c0_7yy())
 #    print('w8_xy()', w8_xy(),m8_xy(),t8_xy(),ratio2)
 #    print('listxy8',listxy8,listsm8,c0_8yy())
-    result_LO2 = np.ones(len(i1))
-    result_NLO2 = np.zeros(len(i1))
+    
     result_NLO7 = listsm7 + np.abs(i1)**2 * listyy7 + np.abs(i2)**2 * listyy72 + \
                   np.array(j1) * listxy7 + np.array(j2) * listxy72
     result_LO7 = c0_7sm() + np.abs(i1)**2 * c0_7yy(mass1) + np.array(j1) * c0_7xy(mass1) +\
                   np.abs(i2)**2 * c0_7yy(mass2) + np.array(j2) * c0_7xy(mass2)
+    result_LO2 = np.ones(len(result_LO7))
+    result_NLO2 = np.zeros(len(result_NLO7))
     result_NLO8 = listsm8 + np.abs(i1)**2 * listyy8 + np.abs(i2)**2 * listyy82 + \
                   np.array(j1) * listxy8 + np.array(j2) * listxy82
     result_LO8 = c0_8sm() + np.abs(i1)**2 * c0_8yy(mass1) + np.array(j1) * c0_8xy(mass1) +\
@@ -577,7 +579,7 @@ y130_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[-1.0/900
 y21_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[1.0],[0],[0]) )
 y22_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[1.0],[0],[0]) )
 y230_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[1.0],[0],[0]) )
-plt.axis([100.0, 1000.0, 1.0, 8.0])
+plt.axis([100.0, 1000.0, 1.0, 7.0])
 plt.plot(x_axis,y11_axis / (1e-4))
 plt.plot(x_axis,y12_axis / (1e-4))
 plt.plot(x_axis,y130_axis / (1e-4))
@@ -585,8 +587,6 @@ plt.plot(x_axis,y21_axis / (1e-4))
 plt.plot(x_axis,y22_axis / (1e-4) )
 plt.plot(x_axis,y230_axis / (1e-4))
 print('type II tanbeta = 1',y21_axis / (1e-4))
-#ax = plt.subplot(111)
-#ax.set_yscale('log')
 plt.xlabel('$M_{H^{\pm}}$')
 plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
 plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\beta =$ 30',\
@@ -594,19 +594,26 @@ plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\be
            loc='upper right', shadow=True,prop={'size': 7.8})
 plt.show()
 plt.close
-xim_axis = np.arange(-10.0,2.2,0.2)
-y48im_axis = BR_B_Xs_gamma(run_quark_bar(4.8),100,100,100 + 20,\
-                        [1.0],xim_axis * 1.0,[0],[0])
-y24im_axis = BR_B_Xs_gamma(run_quark_bar(2.4),100,100,100 + 20,\
-                        [1.0],xim_axis * 1.0,[0],[0])
-y96im_axis = BR_B_Xs_gamma(run_quark_bar(9.6),100,100,100 + 20,\
-                        [1.0],xim_axis * 1.0,[0],[0])
-plt.ylim(-5, 10)
+###################################
+xim_axis = np.arange(-5.0,5.2,0.1)
+print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis])
+ml = MultipleLocator(1)
+y48im_axis = BR_B_Xs_gamma(4.8,100,100,100 + 20,\
+                        [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
+y24im_axis = BR_B_Xs_gamma(2.4,100,100,100 + 20,\
+                        [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
+y96im_axis = BR_B_Xs_gamma(9.6,100,100,100 + 20,\
+                        [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
+plt.axes().xaxis.set_minor_locator(ml)
+plt.xlim(-7, 7)
+plt.ylim(-2, 6.5)
 plt.plot(xim_axis,y48im_axis / (1e-4))
 plt.plot(xim_axis,y24im_axis / (1e-4))
 plt.plot(xim_axis,y96im_axis / (1e-4))
 plt.xlabel('X')
-plt.ylabel('BR($B \\to X_{s} \gamma$) $\\times$ 1e-4')
+plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
+plt.legend(('$\mu = 4.8$ ', '$\mu = 2.4$ ', '$\mu = 9.6$ '),
+           loc='upper right', shadow=True,prop={'size': 7.8})
 plt.show()
 plt.close
 #M = np.ones((3, 2))
@@ -614,4 +621,4 @@ plt.close
 #print(M,a)
 #print(a[:,np.newaxis])
 #print(M * a[:,np.newaxis])
-print(np.arange(0.8,4.0,0.8))
+
