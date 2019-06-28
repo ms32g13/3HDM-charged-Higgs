@@ -288,7 +288,7 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
         ratio22 = 0.0
     else:
         ratio22 = np.log(s**2/(mass2)**2)
-    ratio_muoverpi = LOalpha_s(mw) / (4 * PI) 
+    ratio_muoverpi = NLOalpha_s(mw) / (4 * PI) 
 #    print('yy()',yy())
 #    print('w7_sm',w7_sm(),t7_sm() * (ratio1  - 4 / 3))
 #    print('===',w8_yy(),w8_xy(),t8_xy(),t8_yy(),m8_xy())
@@ -332,7 +332,7 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
     result_LO8 = c0_8sm() + np.abs(i1)**2 * c0_8yy(mass1) + np.array(j1) * c0_8xy(mass1) +\
                   np.abs(i2)**2 * c0_8yy(mass2) + np.array(j2) * c0_8xy(mass2)
 #    print('result_LO8',result_LO8,result_NLO8,listsm8,listyy8,listxy8)
-    result2 = result_LO2 + result_NLO2 
+    result2 = result_LO2 + ratio_muoverpi * result_NLO2 
     result7 = result_LO7 + ratio_muoverpi * result_NLO7
     result8 = result_LO8 + ratio_muoverpi * result_NLO8
     return np.array([result_LO2,result_NLO2,result2,result_LO7,result_NLO7,result7,\
@@ -595,25 +595,28 @@ plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\be
 plt.show()
 plt.close
 ###################################
-xim_axis = np.arange(-5.0,5.2,0.1)
+xim_axis = np.arange(-5,5.2,0.1)
+print(xim_axis)
 print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis])
-ml = MultipleLocator(1)
+mlx = MultipleLocator(1)
+mly = MultipleLocator(0.25)
 y48im_axis = BR_B_Xs_gamma(4.8,100,100,100 + 20,\
                         [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
 y24im_axis = BR_B_Xs_gamma(2.4,100,100,100 + 20,\
                         [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
 y96im_axis = BR_B_Xs_gamma(9.6,100,100,100 + 20,\
                         [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
-plt.axes().xaxis.set_minor_locator(ml)
+plt.axes().xaxis.set_minor_locator(mlx)
+plt.axes().yaxis.set_minor_locator(mly)
 plt.xlim(-7, 7)
 plt.ylim(-2, 6.5)
 plt.plot(xim_axis,y48im_axis / (1e-4))
 plt.plot(xim_axis,y24im_axis / (1e-4))
 plt.plot(xim_axis,y96im_axis / (1e-4))
-plt.xlabel('X')
+plt.xlabel('Im(X)')
 plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
-plt.legend(('$\mu = 4.8$ ', '$\mu = 2.4$ ', '$\mu = 9.6$ '),
-           loc='upper right', shadow=True,prop={'size': 7.8})
+plt.legend(('$\mu = 4.8$ GeV', '$\mu = 2.4$ GeV', '$\mu = 9.6$ GeV '),
+           loc='upper right', shadow=True,prop={'size': 8})
 plt.show()
 plt.close
 #M = np.ones((3, 2))
