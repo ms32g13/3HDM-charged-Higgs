@@ -41,6 +41,7 @@ def NLOalpha_s(i): #alpha_s(mu) at NLO
 print('mu_w scale at LO and NLO:',mw,LOalpha_s(mw),NLOalpha_s(mw))
 print('mu_z scale at LO and NLO:',mz,LOalpha_s(mz),NLOalpha_s(mz))
 print('mu_b scale at LO and NLO:',mb,LOalpha_s(mb),NLOalpha_s(mb))
+print('mu_t scale at LO and NLO:',mt,LOalpha_s(mt),NLOalpha_s(mt))
 #################running quark mass at scale mu_w under minimal subtract scheme
 def run_quark_bar(q):# 
     c1 = np.log(q**2 / mw**2)
@@ -599,7 +600,7 @@ plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\be
 plt.show()
 plt.close
 ###################################
-xim_axis = np.arange(-5,5.2,0.1)
+xim_axis = np.arange(-5.0,5.2,0.1)
 print(xim_axis)
 print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis])
 mlx = MultipleLocator(1)
@@ -610,10 +611,11 @@ y24im_axis = BR_B_Xs_gamma(2.4,100,100,100 + 20,\
                         [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
 y96im_axis = BR_B_Xs_gamma(9.6,100,100,100 + 20,\
                         [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
-plt.axes().xaxis.set_minor_locator(mlx)
-plt.axes().yaxis.set_minor_locator(mly)
+
 plt.xlim(-7, 7)
 plt.ylim(-2, 6.5)
+plt.axes().xaxis.set_minor_locator(mlx)
+plt.axes().yaxis.set_minor_locator(mly)
 plt.plot(xim_axis,y48im_axis / (1e-4))
 plt.plot(xim_axis,y24im_axis / (1e-4))
 plt.plot(xim_axis,y96im_axis / (1e-4))
