@@ -74,6 +74,7 @@ def lamtn (Z):
 def lamcs (X,Y):   
       coupc = Y**2
       coups = X**2 
+      print('ms_value',ms,mb)
       return (3 * gf * mhch * (vcs**2)) * (mc**2 * coupc + ms**2 * coups) * \
            (1.0 + 17.0 * alpmz/(3.0 * PI)) / fac
 
@@ -81,6 +82,7 @@ def lamcs (X,Y):
 def lamcb (X,Y):
       coupc = Y**2
       coupb = X**2
+      print('ms_value',ms,mb)
       return (3 * gf * mhch * (vcb**2)) * (mc**2 * coupc + mb**2 * coupb) * \
            (1.0 + 17.0 * alpmz/(3.0 * PI)) / fac
 ####################################################
@@ -1268,11 +1270,3 @@ def start4():#Scan-plot
 
 #start4()
 #####################################################
-#print('len',len(np.array(BRCBfinal_list).flatten()) ,np.array(BRCBfinal_list).flatten().ndim)
-#plt.figure
-#plt.plot(fl.mhch,np.array(mhch_sig4jtag(list(np.array(BRCBfinal_list).flatten()),\
-#    list(np.array(BRCSfinal_list).flatten()) )).reshape((len(fl.mhch),\
-#         len(np.array(mhch_sig4jtag(list(np.array(BRCBfinal_list).flatten()),\
-#    list(np.array(BRCSfinal_list).flatten()) )) )) )  )
-#plt.show()
-#plt.close

@@ -96,14 +96,14 @@ def G_(t):# t < 4 and t > 4
     if t < 4:
        return - 2 * np.arctan(np.sqrt(t /(4 - t) ) )**2
     else:
-       log = np.log((np.sqrt(t) + np.sqrt(t - 4))/2)
-       repart = - PI**2 / 2 + 2 * log**2
-       impart =  - 2 * PI * log
+       log_value = np.log((np.sqrt(t) + np.sqrt(t - 4))/2)
+       repart = - PI**2 / 2 + 2 * log_value**2
+       impart =  - 2 * PI * log_value
        return complex(repart , impart)
 def grand1(t): # f_22 integrand
     return (1 - zz * t)**2 * np.abs(G_(t) / t + 1 / 2)**2
 def grand2(t): # f_27 integrand
-    return (1 - zz * t) * (G_(t).real  + 1 / 2)
+    return (1 - zz * t) * (G_(t).real  + t / 2)
 def grand3(t): # f_27 integrand imaginary
     return (1 - zz * t) * (G_(t).imag)
 print('quad3',G_(1.0 / zz), zz,quad(grand3, 0, 1.0 / zz ), type(quad(grand3, 0, 1.0/ zz )))        
@@ -347,7 +347,7 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
 #### Wilson coefficient at low scale(mu_b)
 ##############################LO
 def C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c0_7_eff(mu_b) LO
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta**(16 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[3]
     step2 = (eta**(14 / 23) - eta**(16 / 23) ) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
     result1 = 0.0
@@ -357,15 +357,15 @@ def C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c0_7_eff(mu_b) LO
     return step1 + 8 /3 * (step2) + result1
 ###############################NLO
 def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b) NLO
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b) NLO
     step1 = eta **(39 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[4]
 #    print('c1_eff(s1,i,j)[6,m]',c1_eff(NLOalpha_s(mw),ll2,ll1)[6])
-    step2 = 8 / 3 * (eta **(37 / 23) - eta **(39 / 23) ) *\
+    step2 = 8 / 3 * (eta**(37 / 23) - eta**(39 / 23) ) *\
             c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[7]
-    step3 = ((297664 / 14283) * eta **(16 / 23) - 7164416 / 357075 * eta **(14 / 23) +\
+    step3 = ((297664 / 14283) * eta**(16 / 23) - 7164416 / 357075 * eta**(14 / 23) +\
 256868/14283 * (eta**(37 / 23)) - 6698884 / 357075 * eta**(39 / 23)) * \
              c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
-    step4 = 37208/4761 * (eta**(39 / 23) - eta **(16 / 23)) * \
+    step4 = 37208/4761 * (eta**(39 / 23) - eta**(16 / 23)) * \
             c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[3]
     result = 0.0
     c1_4effmw = E_0() + 2 / 3 * np.log(s1**2 / mw**2) + np.abs(i1)**2 * E_H(mass1) + \
@@ -378,15 +378,15 @@ def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
         result += (eta**(a_i[n])) * (step5 + step6 + step7)
     return step1 + step2 + step3 + step4 + result
 def C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 =  eta**(6 / 23) - eta**(- 12 / 23) 
     return step1 * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[0]
 def C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = 2 /3 * eta**(6 / 23) + 1 /3 * eta**(- 12 / 23) 
     return step1 * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[0]
 def C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta**(14 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
     result = 0.0
     for n in np.arange(0,5):
@@ -419,7 +419,7 @@ def D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude LO
     v_ub = ans1 + ans2 + ans7 + ans8 - 16 / 3.0 * \
     C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     return C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + \
-LOalpha_s(s2) / (4 * PI) *  ((C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) +  v_ub) )
+NLOalpha_s(s2) / (4 * PI) *  ((C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) +  v_ub) )
 ####################################################################
 def NLOD_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude NLO
     zeta_3 = 1.2021
@@ -494,12 +494,12 @@ def decay_SL():
 #print('Partial width of semileptonic decay', decay_SL() )
 #################################################################
 #Measured Semi- leptonic branching ratio B_SL
-B_SL = 0.1065 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
+B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
 #################################################################
 ################################################################
 #################### Partial width of B_bar > X_s + gamma
 def decay_B_bar_Xsg(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    a1 = gf**2 / (32 * PI**4) * (vts * vtb)**2 * alpha_electroweak * mb**5 
+    a1 = gf**2 / (32 * PI**4) * np.abs(vts * vtb)**2 * alpha_electroweak * mb**5 
     chunk1 = np.abs(D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \
              Amp(s2,s1,mass1,mass2,i1,j1,i2,j2) + delta_NP_ga / (mb**2) * \
              np.abs(C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \
@@ -550,7 +550,7 @@ def A_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # CP asymmetry
     c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + NLOalpha_s(s2) / \
          (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     c8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    part1 = LOalpha_s(s2) / (np.abs(c7) )**2
+    part1 = NLOalpha_s(s2) / (np.abs(c7) )**2
     part2 = 40 / 81 * (c2 * np.conjugate(c7)).imag 
     part3 = 8 * zz / 9 * (v_cp(zz) + b_cp(zz, delta_cp)) *\
         ( (1 + epsilon_s) * (c2 * np.conjugate(c7) ) ).imag
@@ -575,56 +575,81 @@ for m in np.arange(0,len(charHm_100)):
           C0_7_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
     print('C0_8_eff(s2,s1,i,j)',\
           C0_8_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
-
-x_axis = np.array([ i for i in np.arange(100,1020,20)] )
-print(x_axis,type(x_axis),x_axis.shape)
-y11_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[-1.0],[0],[0]) )
-y12_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[-1.0/4.0],[0],[0]) )
-y130_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[-1.0/900],[0],[0]) )
-y21_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[1.0],[0],[0]) )
-y22_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[1.0],[0],[0]) )
-y230_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[1.0],[0],[0]) )
-plt.axis([100.0, 1000.0, 1.0, 7.0])
-plt.plot(x_axis,y11_axis / (1e-4))
-plt.plot(x_axis,y12_axis / (1e-4))
-plt.plot(x_axis,y130_axis / (1e-4))
-plt.plot(x_axis,y21_axis / (1e-4))
-plt.plot(x_axis,y22_axis / (1e-4) )
-plt.plot(x_axis,y230_axis / (1e-4))
-print('type II tanbeta = 1',y21_axis / (1e-4))
-plt.xlabel('$M_{H^{\pm}}$')
-plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
-plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\beta =$ 30',\
+def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
+    x_axis = np.array([ i for i in np.arange(100,1020,20)] )
+    print(x_axis,type(x_axis),x_axis.shape)
+    y11_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[-1.0],[0],[0]) )
+    y12_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[-1.0/4.0],[0],[0]) )
+    y130_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[-1.0/900],[0],[0]) )
+    y21_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0],[1.0],[0],[0]) )
+    y22_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/2.0],[1.0],[0],[0]) )
+    y230_axis = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,[1.0/30.0],[1.0],[0],[0]) )
+    plt.axis([100.0, 1000.0, 1.0, 7.0])
+    plt.plot(x_axis,y11_axis / (1e-4))
+    plt.plot(x_axis,y12_axis / (1e-4))
+    plt.plot(x_axis,y130_axis / (1e-4))
+    plt.plot(x_axis,y21_axis / (1e-4))
+    plt.plot(x_axis,y22_axis / (1e-4) )
+    plt.plot(x_axis,y230_axis / (1e-4))
+    print('type I tanbeta = 1',y11_axis / (1e-4))
+    plt.xlabel('$M_{H^{\pm}}$')
+    plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
+    plt.legend(('Type I tan$\\beta =$ 1', 'Type I tan$\\beta =$ 2', 'Type I tan$\\beta =$ 30',\
             'Type II tan$\\beta =$ 1', 'Type II tan$\\beta =$ 2', 'Type II tan$\\beta =$ 30'),
            loc='upper right', shadow=True,prop={'size': 7.8})
-plt.show()
-plt.close
+    plt.show()
+    plt.close
 ###################################
-xim_axis = np.arange(-5.0,5.2,0.1)
-print(xim_axis)
-print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis])
-mlx = MultipleLocator(1)
-mly = MultipleLocator(0.25)
-y48im_axis = BR_B_Xs_gamma(4.8,100,100,100 + 20,\
-                        [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
-y24im_axis = BR_B_Xs_gamma(2.4,100,100,100 + 20,\
-                        [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
-y96im_axis = BR_B_Xs_gamma(9.6,100,100,100 + 20,\
-                        [1.0],[np.complex(-2,i)*1.0 for i in xim_axis],[0.0],[0.0])
+def Plot_8_9():
+    xim_axis = np.arange(-5.0,5.2,0.1)# figure 8
+    XYimx_axis = [np.complex(-2,i)*1.0 for i in xim_axis]
+    rangephi = np.arange(0,190,10) # figure 9
+    print('rangephi', rangephi,len(rangephi))
+    XYexpim_axis = [2 * complex(np.cos(i),np.sin(i)) * 0.5 for i in rangephi] 
+    print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis])
+    print('X = 2exp(i phi)',XYexpim_axis,len(XYexpim_axis))
+   #mlx = MultipleLocator(1)
+   #mly = MultipleLocator(0.25)
+    y48imx_axis = BR_B_Xs_gamma(4.8,mhch,mhch,100 ,\
+                        [1.0],XYimx_axis,[0.0],[0.0])
+    y24imx_axis = BR_B_Xs_gamma(2.4,mhch,mhch,100,\
+                        [1.0],XYimx_axis,[0.0],[0.0])
+    y96imx_axis = BR_B_Xs_gamma(9.6,mhch,mhch,100,\
+                        [1.0],XYimx_axis,[0.0],[0.0])
+    y48phi_axis = BR_B_Xs_gamma(4.8,mhch,mhch,100 ,\
+                        [0.5],XYexpim_axis,[0.0],[0.0])
+    y24phi_axis = BR_B_Xs_gamma(2.4,mhch,mhch,100,\
+                        [0.5],XYexpim_axis,[0.0],[0.0])
+    y96phi_axis = BR_B_Xs_gamma(9.6,mhch,mhch,100,\
+                        [0.5],XYexpim_axis,[0.0],[0.0])
 
-plt.xlim(-7, 7)
-plt.ylim(-2, 6.5)
-plt.axes().xaxis.set_minor_locator(mlx)
-plt.axes().yaxis.set_minor_locator(mly)
-plt.plot(xim_axis,y48im_axis / (1e-4))
-plt.plot(xim_axis,y24im_axis / (1e-4))
-plt.plot(xim_axis,y96im_axis / (1e-4))
-plt.xlabel('Im(X)')
-plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
-plt.legend(('$\mu = 4.8$ GeV', '$\mu = 2.4$ GeV', '$\mu = 9.6$ GeV '),
+    plt.xlim(-7, 7)
+    plt.ylim(-2, 6.5)
+#plt.axes().xaxis.set_minor_locator(mlx)
+#plt.axes().yaxis.set_minor_locator(mly)
+    plt.plot(xim_axis,y48imx_axis / (1e-4))
+    plt.plot(xim_axis,y24imx_axis / (1e-4))
+    plt.plot(xim_axis,y96imx_axis / (1e-4))
+#plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.xlabel('Im(X)')
+    plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
+    plt.legend(('$\mu = 4.8$ GeV', '$\mu = 2.4$ GeV', '$\mu = 9.6$ GeV '),
            loc='upper right', shadow=True,prop={'size': 8})
-plt.show()
-plt.close
+    plt.show()
+    plt.close
+    plt.plot(rangephi,y48phi_axis / (1e-4))
+    plt.plot(rangephi,y24phi_axis / (1e-4))
+    plt.plot(rangephi,y96phi_axis / (1e-4))
+    plt.xlabel('$\\phi$')
+    plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
+    plt.legend(('$\mu = 4.8$ GeV', '$\mu = 2.4$ GeV', '$\mu = 9.6$ GeV '),
+           loc='upper right', shadow=True,prop={'size': 8})
+    plt.show()
+    plt.close
+########################################################
+Plot_3()
+Plot_8_9()
 #M = np.ones((3, 2))
 #a = np.arange(3)
 #print(M,a)

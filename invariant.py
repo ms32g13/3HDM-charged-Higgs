@@ -23,10 +23,22 @@ mhch = 100.00  # mass of charged higgs
 mh = 125.0 #  mass of higgs
 ma = 130.00 # mass of Pseudoscalar 
 # CKM elements
-vcs = 0.97
-vcb = 0.0409
-vts = 0.0404
-vtb = 0.999146
+s12_ckm = 0.2229  
+s23_ckm = 0.0412 
+s13_ckm = 0.0036 
+c12_ckm = math.sqrt(1.0 - s12_ckm**2) 
+c23_ckm = math.sqrt(1.0 - s23_ckm**2) 
+c13_ckm = math.sqrt(1.0 - s13_ckm**2) 
+Vud = c12_ckm * c13_ckm 	     
+Vus = s12_ckm * c13_ckm
+vub = s13_ckm
+vud = -s12_ckm * c23_ckm - c12_ckm * s23_ckm * s13_ckm
+vcs = c12_ckm * c23_ckm - s12_ckm * s23_ckm * s13_ckm
+vcb = s23_ckm * c13_ckm
+vtd = s12_ckm * s23_ckm - c12_ckm * c23_ckm * s13_ckm
+vts = -c12_ckm * s23_ckm - s12_ckm * c23_ckm * s13_ckm
+vtb = c23_ckm * c13_ckm
+
 ############
 #QCD running coupling constant (alp) at energy scale MH. Relevant                                                                                                                                                                        
 #for QCD corrections to Higgs decay widths.
