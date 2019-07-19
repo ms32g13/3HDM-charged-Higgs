@@ -52,7 +52,7 @@ def massH_ec_plane4jet(x,y):
                           len(sig42b )).\
                reshape(len(fl.e_c),len(mhch_list_CEPC)),\
 #                levels = np.arange(0.0, 8.0,1.0), \
-               colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+               colors = ['black','royalblue','purple','darkgreen','brown','red','gray','yellow'])
     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet2b'+ ':cb = '+ str(x))
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('$e_c$')# y-axis label
@@ -74,7 +74,7 @@ def massH_ec_planeone4jet(x,y):
                           len(sig41b )).\
                reshape(len(fl.e_c),len(mhch_list_CEPC)),\
 #                levels = np.arange(0.0, 8.0,1.0), \
-               colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+               colors = ['black','royalblue','purple','darkgreen','brown','red','gray','yellow'])
     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet1b'+ ':cb = '+ str(x))
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('$e_c$')# y-axis label
@@ -94,7 +94,7 @@ def massH_ec_plane2jetag(x,y,z): #2jtagged
                           len(sig21b )).\
                reshape(len(fl.e_c),len(mhch_list_CEPC)),\
 #                levels = np.arange(0.0, 8.0,1.0), \
-               colors = ['black','royalblue','purple','darkgreen','brown','red','gray'])
+               colors = ['black','royalblue','purple','darkgreen','brown','red','gray','yellow'])
     plt.title('S/$\sqrt{B}$ of $H^{\pm}$2jet1b'+':cb = '+ str(x) )
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('$e_c$')# y-axis label

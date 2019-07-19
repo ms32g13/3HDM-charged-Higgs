@@ -118,10 +118,10 @@ def backgroundtagging():# OPAL 4jets tagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
     # 1/4 of ww is ww>cscs
-    ww_cscs = 2 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_c)**2 \
+    ww_cscs = 4 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_c)**2 \
             + e_l**2 * (1 - e_c)**2
-    ww_csud = 3 * e_c * e_l * (1 - e_l)**2 + 2 * e_l**2 * (1 - e_l) * (1 - e_c)
-    ww_udud = 2 * e_l**2 * (1 - e_l)**2 
+    ww_csud = 3 * e_c * e_l * (1 - e_l)**2 + 3 * e_l**2 * (1 - e_l) * (1 - e_c)
+    ww_udud = 4 * e_l**2 * (1 - e_l)**2 
     ww_back = ww * (1/4 * ww_cscs + 1/2 * ww_csud + 1/4 * ww_udud)
     qq_bar = 1117.8 * 0.1 * 0.134 * e_b**2  #z>bb_bar fraction = range(0.134 to 0.15)
     return  ww_back + qq_bar
@@ -152,10 +152,10 @@ def backtag_invarmasscut1b():
 def backtag_invarmasscut():# OPAL 4jets tagged background with invariant mass cut
     ww = 1117.8 * 0.9
     # 1/4 of ww is ww>cscs
-    ww_cscs = 2 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_c)**2 \
+    ww_cscs = 4 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_c)**2 \
             + e_l**2 * (1 - e_c)**2
-    ww_csud = 3 * e_c * e_l * (1 - e_l)**2 + 2 * e_l**2 * (1 - e_l) * (1 - e_c)
-    ww_udud = 2 * e_l**2 * (1 - e_l)**2 
+    ww_csud = 3 * e_c * e_l * (1 - e_l)**2 + 3 * e_l**2 * (1 - e_l) * (1 - e_c)
+    ww_udud = 4 * e_l**2 * (1 - e_l)**2 
     ww_back = ww * (1/4 * ww_cscs + 1/2 * ww_csud + 1/4 * ww_udud)
     qq_bar = 1117.8 * 0.1 * 0.134 * e_b**2 * e_ibacklist  #z>bb_bar
     print(ww_back, qq_bar)
@@ -299,7 +299,7 @@ def eeHHcbcs_0bsignal(x,y):#0real b 2 fake b
 ######################################################################
 def eeHHcscs_0bsignal(x,y): #0real b 2 fake b
     e_l = 0.01
-    chunk2 = 2.0 * e_c * e_l * (1 - e_c) * (1 - e_l) + e_c**2 * (1 - e_l)**2 + \
+    chunk2 = 4.0 * e_c * e_l * (1 - e_c) * (1 - e_l) + e_c**2 * (1 - e_l)**2 + \
     e_l**2 * (1 - e_c)**2
     chunk1 =  np.array(x) * np.array(y) * chunk2  # before compare with table 
     return np.array(chunk1) #* epsilon #* e_antiww  after 3 selections chosen
@@ -334,7 +334,7 @@ def eeHHcstn_0bsignal(x,y):
     return np.array(chunk1) #* epsilon# * e_antiww  after 3 selections chosen 
 ######################################################################
 def real_b_cbcb(x,y): # 1 real b tag for 4jet case (Hadronic) cbcb
-    chunk1 = 2.0 * e_b * e_c * (1 - e_b) * (1 - e_c)
+    chunk1 = 2.0 * e_b * (1 - e_c) * (1 - e_b) * (1 - e_c)
     return chunk1 * np.array(x) * np.array(y)
 def fake_b_cbcb(x,y): # 1 fake b tag for 4jet case (Hadronic) cbcb
     chunk1 = 2.0 * (1 - e_b)**2 * (1 - e_c) * e_c
@@ -825,7 +825,7 @@ def mhch_invariantmsscut1b(x,y):#2b-4jet case specific
 np.resize(sig( 1.0 / np.sqrt(backtag_invarmasscut1b() ), eeHH_event() * tagging_4jet1b    ),\
       len(sig( 1.0 / np.sqrt(backtag_invarmasscut1b() ), eeHH_event() * tagging_4jet1b       ))).\
 reshape(len(e_ibacklist),len(mhch)),\
-                levels = np.arange(0.6,2.0,0.2), \
+                levels = np.arange(1.0,4.0,0.5), \
 colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
      plt.title('S/$\sqrt{B}$ of $H^{\pm}$ 4jet1b')
      plt.xlabel('$M_{H^{\pm}}$')# x-axis label
@@ -862,8 +862,8 @@ def start_plot():
                  #massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
                  #massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
                  #massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
-                 #massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
-                 #massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+#                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+#                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  #########################
                  massH_soverb2jetnotag(0.5,0.5)
                  massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)

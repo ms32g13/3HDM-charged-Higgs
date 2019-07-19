@@ -13,8 +13,19 @@ from scipy import special as sp
 from invariant import *
 from matplotlib.ticker import MultipleLocator
 #from eehh import mhch
-#from exercise import xyfun_list,yfun_list,xyfun,yfun
+from exercise import xyfun,xyfun3,yfun,yfun3,U,X2,X3,Y2,Y3,Z2,Z3,complexyfunction,complexyfunction3
 #import exercise as ex
+print('xyfun',np.array(xyfun))
+print('U',U(- PI/2.1,2,20,0.0)[0][2] / U(- PI/2.1,2,20,0.0)[0][0])
+print('X3',X3(- PI/2.1,2,20,0.0),Y3(- PI/2.1,2,20,0.0))
+axs = np.arange(1, 40, 1)
+def array4():
+    tuple_array = []
+    for i in axs:
+        my_tuple = ( - PI/4,2,i,0.0)
+#        print(my_tuple)
+        tuple_array.append(my_tuple)
+    return tuple_array
 # I make two arrays to pretend solution of XY* and Y
 #ll1 = np.array(xyfun) #j = XY^*
 #ll2 = np.array(yfun)#i = Y
@@ -85,8 +96,8 @@ delta_NP_ga = - 0.5 / 2 - 9 * (- 0.12) / 2
 delta_NP_c = - (- 0.12) / 2
 delta_NP_SL = - 0.5 /2 + 3 * (- 0.12) / 2 * (1 - 4 * (1 - zz)**4 / g_z) 
 #########################################################
-print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
-print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
+#print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
+#print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
 print('run-bquark-at-mw-scale',run_quark_bar(4.18))
 print('LOalpha_s(run_m_b)',LOalpha_s(run_quark_bar(mb)),\
       'LO a_s(mw) / LO a_s(run_mb)', LOalpha_s(mw) / LOalpha_s(run_quark_bar(mb)))
@@ -347,7 +358,7 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
 #### Wilson coefficient at low scale(mu_b)
 ##############################LO
 def C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c0_7_eff(mu_b) LO
-    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta**(16 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[3]
     step2 = (eta**(14 / 23) - eta**(16 / 23) ) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
     result1 = 0.0
@@ -378,15 +389,15 @@ def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
         result += (eta**(a_i[n])) * (step5 + step6 + step7)
     return step1 + step2 + step3 + step4 + result
 def C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 =  eta**(6 / 23) - eta**(- 12 / 23) 
     return step1 * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[0]
 def C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = 2 /3 * eta**(6 / 23) + 1 /3 * eta**(- 12 / 23) 
     return step1 * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[0]
 def C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta**(14 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
     result = 0.0
     for n in np.arange(0,5):
@@ -457,9 +468,9 @@ def Amp(s2,s1,mass1,mass2,i1,j1,i2,j2):# A for Decay_width of b > s gamma gluon
         c0_7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
         c0_8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
         f_22 = 16 * zz / 27 * quad(grand1, 0, 1.0 / zz  )[0] 
-        print('f_22',f_22)
+#        print('f_22',f_22)
         f_27 = - 8 * zz**2 / 9 * complex(quad(grand2, 0, 1.0 / zz )[0], quad(grand3, 0, 1.0 / zz )[0] ) 
-        print('f_27',f_27)
+#        print('f_27',f_27)
         f_11 = 1 /36 * f_22
         f_12 = - 1 /3 * f_22
         f_17 = - 1 /6 * f_27
@@ -647,9 +658,68 @@ def Plot_8_9():
            loc='upper right', shadow=True,prop={'size': 8})
     plt.show()
     plt.close
+def Plot_4() :
+    x_axis = np.array([ i for i in np.arange(100,1020,20)] )
+#    print('II 2HDM tanbeta = 2',BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,\
+#                                              [1.0/2.0],[1.0],[0],[0])\
+#            )
+    Y1_array = - 1.0/2.0 * np.cos(PI/4.0)
+    X1_array =  1.0/ 2.0  * np.cos(PI/4.0) 
+    X2_array = - 1.0/2.0 * np.sin(PI/4.0)
+    Y2_array = 1.0/2.0 * np.sin(PI/4.0)
+    y12_2hdm = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 80,[1.0/2.0],[-1.0/4.0],[0],[0]) )
+    y12_3hdm = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 80,\
+                     [Y1_array],[X1_array * Y1_array],\
+                     [Y2_array],[X2_array * Y2_array]) )
+    plt.plot(x_axis,y12_2hdm / (1e-4))
+    plt.plot(x_axis,y12_3hdm / (1e-4))
+    plt.xlabel('$M_{H^{\pm}}$')
+    plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
+    plt.legend(('Type I tan$\\beta =$ 2 2HDM', 'Type I tan$\\beta =$ 2 3HDM '))
+#    for n in np.arange(0,len(axs)):
+        
+#        y22_axis3hdm= BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,\
+#                        Y2(*array4()[n]),complexyfunction(*array4()[n]),\
+#                        Y3(*array4()[n]),complexyfunction3(*array4()[n])) 
+#        plt.plot(x_axis,y22_axis3hdm / (1e-4))
+    plt.axis([100.0, 1000.0, 2.0, 4.0])
+    plt.show()
+    plt.close()
+    return
+def Plot_5() :
+    x_axis = np.array([ i for i in np.arange(100,1020,20)] )
+#    print('II 2HDM tanbeta = 2',BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,\
+#                                              [1.0/2.0],[1.0],[0],[0])\
+#            )
+    for n in np.array([2,4,7,10,20]):
+        
+        X1_array =  - 2.0  * np.cos(- PI/4.0) - n / (1/np.sqrt(5)) * np.sin(- PI/4.0)
+        Y1_array = - 1.0/2.0 * np.cos(-PI/4.0)
+        X2_array =  2.0  * np.sin(- PI/4.0) - n / (1/np.sqrt(5)) * np.cos(- PI/4.0)
+        Y2_array = 1.0/2.0 * np.sin(-PI/4.0)
+        
+        y22_2hdm = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 50,[1.0/2.0],[1.0],[0],[0]) )
+        y12_3hdm = np.array(BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 50,\
+                     [Y1_array],[X1_array * Y1_array],\
+                     [Y2_array],[X2_array * Y2_array]) )
+        plt.plot(x_axis,y22_2hdm / (1e-4))
+        plt.plot(x_axis,y12_3hdm / (1e-4))
+        plt.xlabel('$M_{H^{\pm}}$')
+        plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
+        
+#    for n in np.arange(0,len(axs)):
+        
+#        y22_axis3hdm= BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,\
+#                        Y2(*array4()[n]),complexyfunction(*array4()[n]),\
+#                        Y3(*array4()[n]),complexyfunction3(*array4()[n])) 
+#        plt.plot(x_axis,y22_axis3hdm / (1e-4))
+        plt.axis([100.0, 1000.0, 1.0, 6.0])
+    return
 ########################################################
 Plot_3()
-Plot_8_9()
+Plot_4()
+Plot_5()
+#Plot_8_9()
 #M = np.ones((3, 2))
 #a = np.arange(3)
 #print(M,a)

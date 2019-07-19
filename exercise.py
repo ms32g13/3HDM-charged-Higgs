@@ -74,7 +74,7 @@ def lamtn (Z):
 def lamcs (X,Y):   
       coupc = Y**2
       coups = X**2 
-      print('ms_value',ms,mb)
+#      print('ms_value',ms,mb)
       return (3 * gf * mhch * (vcs**2)) * (mc**2 * coupc + ms**2 * coups) * \
            (1.0 + 17.0 * alpmz/(3.0 * PI)) / fac
 
@@ -82,7 +82,7 @@ def lamcs (X,Y):
 def lamcb (X,Y):
       coupc = Y**2
       coupb = X**2
-      print('ms_value',ms,mb)
+#      print('ms_value',ms,mb)
       return (3 * gf * mhch * (vcb**2)) * (mc**2 * coupc + mb**2 * coupb) * \
            (1.0 + 17.0 * alpmz/(3.0 * PI)) / fac
 ####################################################
@@ -238,7 +238,7 @@ def start():#choose what 2 parameters in total 4 parameters (theta,tanbeta,tanga
 
 #############################################################################
 def start1():# choose model
-        global X2,Y2,Z2
+        global X2,Y2,Z2,X3,Y3,Z3
         while True:
             read0 = input('Choose type of3HDM (1 for I, 2 for II ,\
 3 for Leptonic-specific, 4 for flipped,5 for Democratic):')
@@ -249,6 +249,12 @@ def start1():# choose model
                      return - U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0] #Y2
                  def Z2(i,j,k,l) :
                      return U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0] #Z2
+                 def X3(i,j,k,l):
+                     return U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0] #X3
+                 def Y3(i,j,k,l):
+                     return - U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]#Y3
+                 def Z3(i,j,k,l):
+                     return U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0] #Z3
                  print('Model:',read0)
                  break
             elif read0 == str(2):
@@ -258,6 +264,12 @@ def start1():# choose model
                      return - U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0] #Y2
                  def Z2(i,j,k,l) :
                      return U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0] #Z2
+                 def X3(i,j,k,l):
+                     return U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0] #X3
+                 def Y3(i,j,k,l):
+                     return - U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]#Y3
+                 def Z3(i,j,k,l):
+                     return U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0] #Z3
                  print('Model:',read0)
                  break
             elif read0 == str(3):
@@ -267,6 +279,12 @@ def start1():# choose model
                      return - U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0] #Y2
                  def Z2(i,j,k,l) :
                      return U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0] #Z2
+                 def X3(i,j,k,l):
+                     return U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0] #X3
+                 def Y3(i,j,k,l):
+                     return - U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]#Y3
+                 def Z3(i,j,k,l):
+                     return U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0] #Z3
                  print('Model:',read0)
                  break
             elif read0 == str(4):
@@ -276,6 +294,12 @@ def start1():# choose model
                      return - U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0] #Y2
                  def Z2(i,j,k,l) :
                      return U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0] #Z2
+                 def X3(i,j,k,l):
+                     return U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0] #X3
+                 def Y3(i,j,k,l):
+                     return - U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]#Y3
+                 def Z3(i,j,k,l):
+                     return U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0] #Z3
                  print('Model:',read0)
                  break   
             elif read0 == str(5):
@@ -285,6 +309,12 @@ def start1():# choose model
                      return - U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0] #Y2
                  def Z2(i,j,k,l) :
                      return U(i,j,k,l)[2][1] / U(i,j,k,l)[2][0] #Z2
+                 def X3(i,j,k,l):
+                     return U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0] #X3
+                 def Y3(i,j,k,l):
+                     return - U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]#Y3
+                 def Z3(i,j,k,l):
+                     return U(i,j,k,l)[2][2] / U(i,j,k,l)[2][0] #Z3
                  print('Model:',read0)
                  break 
               
@@ -292,9 +322,47 @@ def start1():# choose model
                  print("Not correct type 3HDM")
             print('Model:',read0)
         return 
+##############################################################
+################### d = 1 ,u = 2, l = 3 Democratic
+#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #X2
+#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Y2
+#abs(U(i,j,k,l)[2][1] / U(i,j,k,l)[2][0]) #Z2
+#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0]) #X3
+#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0])#Y3
+#abs(U(i,j,k,l)[2][2] / U(i,j,k,l)[2][0]) #Z3
+################### d = 1 ,u = 2, l = 2 Flipped
+#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #X2
+#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Y2
+#abs(U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Z2
+#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0])#X3
+#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Y3
+#abs(U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Z3
+################### d = 2 ,u = 2, l = 1 Type III (Lepton-specific)
+#abs(U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #X2
+#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Y2
+#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #Z2
+#abs(U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #X3
+#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Y3
+#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0]) #Z3
+################### d = 2 ,u = 2, l = 2 Type I
+#abs(U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #X2
+#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0])#Y2
+#abs(U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Z2
+#abs(U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #X3
+#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Y3
+#abs(U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Z3
+################### d = 1 ,u = 2 , l = 1 Type II
+#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #X2
+#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Y2
+#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #Z2
+#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0]) #X3
+#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Y3
+#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0]) #Z3
 #############################################################################
 def complexyfunction(i,j,k,l):# (XY^*) function 
         return X2(i,j,k,l) * (np.conjugate(Y2(i,j,k,l)))
+def complexyfunction3(i,j,k,l):# (XY^*) function of additional physical mass
+        return X3(i,j,k,l) * (np.conjugate(Y3(i,j,k,l)))
 ###############################################################################
 def start3():
 #        global X2,Y2,Z2 #
@@ -322,6 +390,8 @@ def start3():
                 absolutezlist.append(abs(Z2(*my_tuple)))
                 xyfun.append(complexyfunction(*my_tuple))
                 yfun.append(Y2(*my_tuple))
+                xyfun3.append(complexyfunction3(*my_tuple))
+                yfun3.append(Y3(*my_tuple))
                 BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
 #                BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
@@ -339,11 +409,13 @@ def start3():
 #        d5.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d2j0b'+ strmhch +'.csv',\
 #                           index = None, header=True)
 #        print('lenbrcb',len(BRCBfinal),len(twotag0bsig))
+        print('xyfun',len(xyfun),type(xyfun))
         BRCBfinal_list.append(BRCBfinal)
         BRCSfinal_list.append(BRCSfinal)
         BRTNfinal_list.append(BRTNfinal)
-        xyfun_list.append(xyfun)
-        yfun_list.append(yfun)
+#        xyfun_list.append(xyfun)
+#        yfun_list.append(yfun)
+#        print('xyfun_list',len(xyfun_list))
         return
 def max_valueposition(xxx):# x has to be np.array ; The max value postion of long array
     yyy = np.where(xxx == max(xxx))[0]
@@ -590,42 +662,8 @@ for n in np.arange(0,len(fl.mhch)):
     absolutezlist =[]
     xyfun = []
     yfun = []
-##############################################################
-################### d = 1 ,u = 2, l = 3 Democratic
-#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #X2
-#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Y2
-#abs(U(i,j,k,l)[2][1] / U(i,j,k,l)[2][0]) #Z2
-#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0]) #X3
-#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0])#Y3
-#abs(U(i,j,k,l)[2][2] / U(i,j,k,l)[2][0]) #Z3
-################### d = 1 ,u = 2, l = 2 Flipped
-#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #X2
-#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Y2
-#abs(U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Z2
-#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0])#X3
-#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Y3
-#abs(U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Z3
-################### d = 2 ,u = 2, l = 1 Type III (Lepton-specific)
-#abs(U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #X2
-#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Y2
-#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #Z2
-#abs(U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #X3
-#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Y3
-#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0]) #Z3
-################### d = 2 ,u = 2, l = 2 Type I
-#abs(U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #X2
-#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0])#Y2
-#abs(U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Z2
-#abs(U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #X3
-#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Y3
-#abs(U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Z3
-################### d = 1 ,u = 2 , l = 1 Type II
-#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #X2
-#abs(- U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0]) #Y2
-#abs(U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0]) #Z2
-#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0]) #X3
-#abs(- U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]) #Y3
-#abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0]) #Z3
+    xyfun3 = []
+    yfun3 = []
 ##############################################################
 #def X2(i,j,k,l):
 #    return U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0] #X2
@@ -648,6 +686,7 @@ for n in np.arange(0,len(fl.mhch)):
 #############################################################################  
 # paste here
     start3()
+    print('xyfun',np.array(xyfun) )
     BRCB_TN = np.array(BRCBfinal) * np.array(BRTNfinal)# product of BRCB and BRTN
     BRCB_CS = np.array(BRCBfinal) * np.array(BRCSfinal)# product of BRCB and BRCS
     BRCBPLUSCS = np.array(BRCBfinal) + np.array(BRCSfinal)# Sum of BRCB and BRCS
@@ -684,7 +723,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cs.png')
-    plt.show()
+#    plt.show()
     plt.close()
 #    print('--------------------------------------------------')
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
@@ -701,7 +740,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.png')
-    plt.show()
+#    plt.show()
     plt.close()
 #    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
@@ -718,7 +757,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,TN.png')
-    plt.show()
+#    plt.show()
     plt.close()
 #    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB + BRCS contour plot 
@@ -739,7 +778,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.subplots_adjust(top=0.99, bottom=0.06, left=0.1, right=0.99, hspace= 0.6,
 #                    wspace=0.3)
 #    plt.show()
-#    plt.close()
+    plt.close()
 #(4 parameters): A,B, BRTHBBRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
     ContourBRTHBBRCB1 = plt.contourf(A,B, \
@@ -814,7 +853,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.show()
+#    plt.show()
 #   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.png')
     plt.close()
     print('--------------------------------------------------')
@@ -828,7 +867,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.show()
+#    plt.show()
 #   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,imxy.png')
     plt.close()
     print('--------------------------------------------------')
@@ -943,8 +982,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('CharHcbpcsmtn'+ strmhch +'.png')
-    plt.show()
+#    plt.savefig('CharHcbpcsmtn'+ strmhch +'.png')
+#    plt.show()
     plt.close()
 #######################################################
 # (4 parameters):A,B,plot (BR(H+> cb)  * BR(H+> cs) )
@@ -967,11 +1006,11 @@ for n in np.arange(0,len(fl.mhch)):
 ###############################################
 # (4 parameters):A,B, 4jet tagged plots
     plt.figure()
-    signal4jet = plt.contour(A,B, \
+    signal4jet = plt.contourf(A,B, \
         np.resize( fourtag2bsig ,\
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.4,4.0,0.4))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,4.0,0.5))
     plt.title('S/$\sqrt{B}$ 4jet2b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -981,8 +1020,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet)
-    plt.savefig('sig_4jet2b'+ strmhch +'.png')
-    plt.show()
+    plt.savefig('sig4j2b'+ "%02d" % (mhch) +'.png')
+#    plt.show()
     plt.close()
 ###############################################
 # (4 parameters):A,B, 4jet tagged plots 1-b
@@ -991,7 +1030,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag1bsig ,\
               len( fourtag1bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,2.5,0.5))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,2.0,0.5))
     plt.title('S/$\sqrt{B}$ 4jet1b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -1001,8 +1040,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signaloneb4jet)
-    plt.savefig('sig_4jet1b'+ strmhch +'.png')
-    plt.show()
+#    plt.savefig('sig4j1b'+ "%02d" % (mhch) +'.png')
+#    plt.show()
     plt.close()
 ################################
 #(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \\to $ cb + cs))
@@ -1020,8 +1059,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_4jet0b'+ strmhch +'.png')
-    plt.show()
+#    plt.savefig('sig4j0b'+ "%02d" % (strmhch)  +'.png')
+#    plt.show()
     plt.close()
 ####################################
     plt.figure()
@@ -1036,7 +1075,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #    plt.savefig('CharHcbtn'+ str(mhch) +'.png')
-    plt.show()
+#    plt.show()
     plt.close()
 ###################################
 #    BR($H^{\pm} \\to $ cb * $\\tau \\nu_\\tau$) with tagging efficiencies
@@ -1053,8 +1092,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_2jet1b'+ strmhch +'.png')
-    plt.show()
+#    plt.savefig('sig2j1b'+ "%02d" % (mhch)  +'.png')
+#    plt.show()
     plt.close()
     
 #    BR($H^{\pm} \\to  (cb+cs) * \\tau \\nu_\\tau $) with no-tagging efficiencies
@@ -1072,8 +1111,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig_2jet0b'+ strmhch +'.png')
-    plt.show()
+#    plt.savefig('sig2j0b'+ "%02d" % (mhch)  +'.png')
+#    plt.show()
     plt.close()
 ####################################
 #    print(len(twotagsig),A)
