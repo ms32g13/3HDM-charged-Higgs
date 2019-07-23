@@ -1010,7 +1010,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag2bsig ,\
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,4.0,0.5))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,9.0,1.0))
     plt.title('S/$\sqrt{B}$ 4jet2b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -1021,7 +1021,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet)
     plt.savefig('sig4j2b'+ "%02d" % (mhch) +'.png')
-#    plt.show()
+    plt.show()
     plt.close()
 ###############################################
 # (4 parameters):A,B, 4jet tagged plots 1-b
@@ -1030,7 +1030,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag1bsig ,\
               len( fourtag1bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,2.0,0.5))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,4.0,0.5))
     plt.title('S/$\sqrt{B}$ 4jet1b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -1040,8 +1040,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signaloneb4jet)
-#    plt.savefig('sig4j1b'+ "%02d" % (mhch) +'.png')
-#    plt.show()
+    plt.savefig('sig4j1b'+ "%02d" % (mhch) +'.png')
+    plt.show()
     plt.close()
 ################################
 #(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \\to $ cb + cs))
@@ -1059,8 +1059,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.savefig('sig4j0b'+ "%02d" % (strmhch)  +'.png')
-#    plt.show()
+    plt.savefig('sig4j0b'+ "%02d" % (mhch)  +'.png')
+    plt.show()
     plt.close()
 ####################################
     plt.figure()
@@ -1083,7 +1083,7 @@ for n in np.arange(0,len(fl.mhch)):
     Contoursignal7 = plt.contourf(A,B, \
         np.resize(twotagsig ,\
               len(twotagsig )).reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],levels = np.arange(0.0,3.4,0.4))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],levels = np.arange(0.0,3.6,0.4))
     plt.colorbar(Contoursignal7)
     plt.title('S/$\sqrt{B}$ 2jet1b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -1092,8 +1092,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.savefig('sig2j1b'+ "%02d" % (mhch)  +'.png')
-#    plt.show()
+    plt.savefig('sig2j1b'+ "%02d" % (mhch)  +'.png')
+    plt.show()
     plt.close()
     
 #    BR($H^{\pm} \\to  (cb+cs) * \\tau \\nu_\\tau $) with no-tagging efficiencies
@@ -1102,7 +1102,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( twotag0bsig ,\
               len( twotag0bsig )).\
                   reshape(len(B),len(A)),colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'],\
-                  levels = np.arange(0.0,2.0,0.4))
+                  levels = np.arange(0.0,1.8,0.2))
     plt.colorbar(Contoursignal8)
     plt.title('S/$\sqrt{B}$ 2jet0b,$M_{H^{\pm}}$= '+ strmhch +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -1111,8 +1111,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.savefig('sig2j0b'+ "%02d" % (mhch)  +'.png')
-#    plt.show()
+    plt.savefig('sig2j0b'+ "%02d" % (mhch)  +'.png')
+    plt.show()
     plt.close()
 ####################################
 #    print(len(twotagsig),A)

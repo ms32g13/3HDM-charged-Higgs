@@ -44,7 +44,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,91.0 ,11.0)# charged Higgs ranged values
+mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -118,7 +118,7 @@ def backgroundtagging():# OPAL 4jets tagged background
     # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
     # 1/4 of ww is ww>cscs
-    ww_cscs = 4 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_c)**2 \
+    ww_cscs = 4 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_l)**2 \
             + e_l**2 * (1 - e_c)**2
     ww_csud = 3 * e_c * e_l * (1 - e_l)**2 + 3 * e_l**2 * (1 - e_l) * (1 - e_c)
     ww_udud = 4 * e_l**2 * (1 - e_l)**2 
@@ -130,7 +130,7 @@ def backgroundtag4j1b():# OPAL 4jets1b tagged background
     ww = 1117.8 * 0.9
     # 1/4 of ww is ww>cscs
     ww_cscs = 2 * (1 - e_c)**2 * e_l * (1 - e_l) + 2 * e_c * (1 - e_c) * (1 - e_l)**2  
-    ww_csud = 3 * e_l * (1 - e_c)* (1 - e_l)**2 + e_c * (1 - e_l)**3  
+    ww_csud = 3 * e_l * (1 - e_c) * (1 - e_l)**2 + e_c * (1 - e_l)**3  
     ww_udud = 4 * e_l * (1 - e_l)**3
     ww_back = ww * (1/4 * ww_cscs + 1/2 * ww_csud + 1/4 * ww_udud)
     # 2 is permutation. z>bb_bar fraction = range(0.134 to 0.15)
@@ -150,9 +150,10 @@ def backtag_invarmasscut1b():
     qq_bar = 1117.8 * 0.1 * 0.134 * 2 * (1 - e_b) * e_b * e_ibacklist  #z>bb_bar
     return  ww_back + qq_bar
 def backtag_invarmasscut():# OPAL 4jets tagged background with invariant mass cut
+    # total 1117.8 events. 90% is ww.
     ww = 1117.8 * 0.9
     # 1/4 of ww is ww>cscs
-    ww_cscs = 4 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_c)**2 \
+    ww_cscs = 4 * e_c * e_l * (1 - e_c)* (1 - e_l) + e_c**2 * (1 - e_l)**2 \
             + e_l**2 * (1 - e_c)**2
     ww_csud = 3 * e_c * e_l * (1 - e_l)**2 + 3 * e_l**2 * (1 - e_l) * (1 - e_c)
     ww_udud = 4 * e_l**2 * (1 - e_l)**2 
@@ -319,9 +320,9 @@ def eeHHcbtn_0bsignal(x,y):
 #print('||||| Singal of char_H_cbtn after 0b-tagging:',eeHHcbtn_0bsignal())
 ######################################################################
 def eeHHcstn_1bsignal(x,y):
-#    brcs = 0.8
-#    brtn = 0.2
-    chunk1 = 2.0 * np.array(x) * np.array(y) * 0.0  # before compare with table # 2.0 for cstn and tncs permutations
+    e_l = 0.01
+    chunk1 = 2.0 * np.array(x) * np.array(y) * (e_c * (1 - e_l) +\
+             e_l * (1 - e_c) )# before compare with table # 2.0 for cstn and tncs permutations
     return np.array(chunk1)#* epsilon# * e_antiww  after 3 selections chosen 
 #print('||||| Singal of char_H_cstn after 1b-tagging:',eeHHcstn_1bsignal())
 ######################################################################
@@ -859,17 +860,17 @@ def start_plot():
              else:
                  mhch_invariantmsscut(0.8,1 - 0.8)#0.65 ,0.2
                  mhch_invariantmsscut1b(0.8, 1 - 0.8)
-                 #massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
-                 #massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
-                 #massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
-#                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
-#                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
+                 massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
+                 massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  #########################
-                 massH_soverb2jetnotag(0.5,0.5)
-                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
-                 massH_soverb4jetnotag(0.8, 1 - 0.8)
-                 massH_soverb4jetag(0.8, 1 - 0.8)
-                 massH_soverbone4jetag(0.8, 1 - 0.8)
+#                 massH_soverb2jetnotag(0.5,0.5)
+#                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
+#                 massH_soverb4jetnotag(0.8, 1 - 0.8)
+#                 massH_soverb4jetag(0.8, 1 - 0.8)
+#                 massH_soverbone4jetag(0.8, 1 - 0.8)
                  signal_mhch_4jetag(0.5, 1 - 0.5 - 0.35)
                  signal_mhch_4jet1b(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetnotag(0.8246884230749657, 0.17525431678265752)
