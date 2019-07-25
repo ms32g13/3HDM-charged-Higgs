@@ -27,7 +27,7 @@ b_sgamma.py : Code to produce Branching ratio of B > Xs + gamma(photon) based on
 b_sgammaplot.py : Plot functions or codes to show dependence between input parameters of H1+,H2+ masses, scale values(mu_i, i = mw/mb/mhch), mixing matrix parameters (theta, tanbeta,tangamma,delta) against BR(B_bar > X_s + gamma(photon)) results.
 > several plots based on papers: arXiv:hep-ph/9803368 and arXiv:1605.05881.
 > read b_sgamma.py functions and import exercise.py to plot dependence between (theta, tanbeta,tangamma,delta) and BR(B_bar > X_s + gamma(photon)).
->> Do same procedure in exercise.py first, and input specific type-3HDM needed, then b_sgammaplot.py will read through exercise.py to get X,Y,Z_{2,3}, complexfunction (X_2Y_2^*), complex3function (X_3Y_3^*) arrays. Using array4() function to obtain input (theta, tanbeta,tangamma,delta) to get result of BR(B_bar > X_s + gamma(photon)) in function called: 
+>> Do same procedure in exercise.py first, and input specific type-3HDM needed, then b_sgammaplot.py will read through exercise.py to get X,Y,Z_{2,3}, complexfunction (X_2Y_2^* ), complex3function (X_3Y_3^* ) arrays. Using array4() function to obtain input (theta, tanbeta,tangamma,delta) to get result of BR(B_bar > X_s + gamma(photon)) in function called: 
 plot_under_Heatherbasis().
 
 gammaeffective.py : anomalous dimension matrix. It includes LO and NLO together.
