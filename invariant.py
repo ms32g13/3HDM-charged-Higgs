@@ -46,7 +46,7 @@ vtb = c23_ckm * c13_ckm
 ######################################################
 coeffmc = 12.0/25.0
 coeffmb = 12.0/23.0
-alpmz = 0.1185 #coupling of z 
+alpmz = 0.119 #coupling of z 
 alpha_electroweak = 1.0 / 128.0 # alpha for EM coupling
 # CKM matrix elements observables from CKMfitter
 #https://indico.cern.ch/event/684284/contributions/2952455/attachments/1719296/2774804/Vale_Silva_3.pdf

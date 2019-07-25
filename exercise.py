@@ -1019,9 +1019,9 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.colorbar(signal4jet)
-    plt.savefig('sig4j2b'+ "%02d" % (mhch) +'.png')
-    plt.show()
+#    plt.colorbar(signal4jet)
+#    plt.savefig('sig4j2b'+ "%02d" % (mhch) +'.png')
+#    plt.show()
     plt.close()
 ###############################################
 # (4 parameters):A,B, 4jet tagged plots 1-b
@@ -1039,9 +1039,9 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.colorbar(signaloneb4jet)
-    plt.savefig('sig4j1b'+ "%02d" % (mhch) +'.png')
-    plt.show()
+#    plt.colorbar(signaloneb4jet)
+#    plt.savefig('sig4j1b'+ "%02d" % (mhch) +'.png')
+#    plt.show()
     plt.close()
 ################################
 #(4 parameters):A,B,4jet notagging plot (BR($H^{\pm} \\to $ cb + cs))
@@ -1059,8 +1059,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig4j0b'+ "%02d" % (mhch)  +'.png')
-    plt.show()
+#    plt.savefig('sig4j0b'+ "%02d" % (mhch)  +'.png')
+#    plt.show()
     plt.close()
 ####################################
     plt.figure()
@@ -1092,8 +1092,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig2j1b'+ "%02d" % (mhch)  +'.png')
-    plt.show()
+#    plt.savefig('sig2j1b'+ "%02d" % (mhch)  +'.png')
+#    plt.show()
     plt.close()
     
 #    BR($H^{\pm} \\to  (cb+cs) * \\tau \\nu_\\tau $) with no-tagging efficiencies
@@ -1111,8 +1111,8 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('sig2j0b'+ "%02d" % (mhch)  +'.png')
-    plt.show()
+#    plt.savefig('sig2j0b'+ "%02d" % (mhch)  +'.png')
+#    plt.show()
     plt.close()
 ####################################
 #    print(len(twotagsig),A)
