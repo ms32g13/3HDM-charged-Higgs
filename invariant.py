@@ -9,11 +9,11 @@ import math
 ###Invariant parameters 
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
 mt = 175 # mass of top quark  171.2
-mc = 1.279    # mass of charm quark 1.29 / 1.279
-mb = 4.18    # mass of bottom quark 4.18
+mc = 1.275    # mass of charm quark 1.29 / 1.279
+mb = 4.18   # mass of bottom quark 4.18
 nf = 5.0      # origin 5
 PI = math.pi  # pi number 
-mw = 80.33  # mass of w boson 80.33
+mw = 80.385  # mass of w boson 80.33
 mz = 91.18 # 95.0 #98.14954576223639# 101.59443179342345  #91.18    # mass of z boson
 pwz = 2.4952  # partial width of z boson
 pww = 2.085  #  partial width of w boson 
@@ -38,7 +38,6 @@ vcb = s23_ckm * c13_ckm
 vtd = s12_ckm * s23_ckm - c12_ckm * c23_ckm * s13_ckm
 vts = -c12_ckm * s23_ckm - s12_ckm * c23_ckm * s13_ckm
 vtb = c23_ckm * c13_ckm
-
 ############
 #QCD running coupling constant (alp) at energy scale MH. Relevant                                                                                                                                                                        
 #for QCD corrections to Higgs decay widths.

@@ -44,7 +44,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,91.0 ,11.0)# charged Higgs ranged values
+mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -837,6 +837,34 @@ colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'
 #     plt.savefig('sig4j1bmhchmasscut.png')
      plt.show()
      plt.close()      
+def soverb4j2b_charHm_brcb():#4j2b
+    x = np.arange(0,1.1,0.1)
+    y = 1 - np.arange(0,1.1,0.1)
+    tagging_4jet = (eeHHcbcb_2bsignal(x,x) + eeHHcbcb_1bsignal(x,x) + \
+                   eeHHcbcs_2bsignal(x,y) + eeHHcbcs_1bsignal(x,y) + \
+                   eeHHcbcb_0bsignal(x,x) + eeHHcbcs_0bsignal(x,y) + \
+                   eeHHcscs_0bsignal(y,y)) * epsilon  
+    print(eeHH_event(),backgroundtagging())
+    print(eeHHcbcb_2bsignal(x,x),eeHHcbcb_1bsignal(x,x),eeHHcbcs_2bsignal(x,y),\
+          eeHHcbcs_1bsignal(x,y),eeHHcbcb_0bsignal(x,x),eeHHcbcs_0bsignal(x,y),\
+          eeHHcscs_0bsignal(y,y),epsilon)
+    print(len(tagging_4jet),tagging_4jet)
+    signal4jet_tag = plt.contourf(mhch,x,\
+                   np.resize(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )),\
+                         len(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )) )).\
+               reshape(len(x),len(mhch)),\
+                levels = np.arange(0.0, 14.0,2.0), \
+               colors = ['black','royalblue','purple','darkgreen','brown','red','gray','yellow'])
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ in 4jet2b with BR($H^{\pm} \\to$ cb)')
+    plt.xlabel('$M_{H^{\pm}}$')# x-axis label
+    plt.ylabel('BR($H^{\pm} \\to$ cb)')# y-axis label
+#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.colorbar(signal4jet_tag)
+#    plt.savefig('soverb4j2bcharHmbrcb.png')
+    plt.show()
+    plt.close()               
+    return
 ###################################################################
 ## PLOTS SECTION 
 print('e-b,e-c',e_b,e_c)
@@ -865,6 +893,7 @@ def start_plot():
                  massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 soverb4j2b_charHm_brcb()
                  #########################
 #                 massH_soverb2jetnotag(0.5,0.5)
 #                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)

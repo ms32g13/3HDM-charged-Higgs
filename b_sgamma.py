@@ -18,7 +18,7 @@ from matplotlib.ticker import MultipleLocator
 #print('xyfun',np.array(xyfun))
 #print('U',U(- PI/2.1,2,20,0.0)[0][2] / U(- PI/2.1,2,20,0.0)[0][0])
 #print('X3',X3(- PI/2.1,2,20,0.0),Y3(- PI/2.1,2,20,0.0))
-mass_differ  = 80   # charged Higgs mass diference
+mass_differ  = 20   # charged Higgs mass diference
 axs = np.arange(1, 41, 1)
 def array4():
     tuple_array = []
@@ -63,8 +63,8 @@ def run_quark_bar(q):#
 charHm_100 = np.array([100,300,500,1000]) #for MH+2 = 100GeV
 charHm_large = np.array([300,500,1000,1200]) #for MH+3 > 100GeV
 delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry 
-zz = (run_quark_bar(mc) / run_quark_bar(mb) )**2  # mc^2 / mb^2
-LOzz = (mc / mb)**2
+zz = (run_quark_bar(mc) / run_quark_bar (mb) )**2  # mc^2 / mb^2
+#zz = (mc / mb)**2
 xx = mt**2 / mw**2 # mt^2 /mw^2
 NLOxx = run_quark_bar(mt)**2 / mw**2
 PI = np.pi
@@ -94,12 +94,12 @@ g_z = 1 - 8 * zz + 8 * zz**3 - zz**4 - 12 * zz**2 * np.log(zz)
 f_z = (PI**2 - 31 / 4) * (1 - np.sqrt(zz))**2 + 3 / 2
 #NON-Perturbative kronc-delta (GeV^2)
 delta_NP_ga = - 0.5 / 2 - 9 * (- 0.12) / 2
-delta_NP_c = - (- 0.12) / 2
+delta_NP_c = - (- 0.12) / 9
 delta_NP_SL = - 0.5 /2 + 3 * (- 0.12) / 2 * (1 - 4 * (1 - zz)**4 / g_z) 
 #########################################################
 #print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
 #print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
-print('run-bquark-at-mw-scale',run_quark_bar(4.18))
+print('run-bquark-at-mw-scale',run_quark_bar(1.275))
 print('LOalpha_s(run_m_b)',LOalpha_s(run_quark_bar(mb)),\
       'LO a_s(mw) / LO a_s(run_mb)', LOalpha_s(mw) / LOalpha_s(run_quark_bar(mb)))
 #########################################################################
@@ -342,8 +342,10 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
                   np.array(j1) * listxy7 + np.array(j2) * listxy72
     result_LO7 = c0_7sm() + np.abs(i1)**2 * c0_7yy(mass1) + np.array(j1) * c0_7xy(mass1) +\
                   np.abs(i2)**2 * c0_7yy(mass2) + np.array(j2) * c0_7xy(mass2)
-    result_LO2 = np.ones(len(result_LO7))
-    result_NLO2 = np.zeros(len(result_NLO7))
+###########                  
+    result_LO2 = np.array([1.0])
+    result_NLO2 = np.array([0.0])
+###########
     result_NLO8 = listsm8 + np.abs(i1)**2 * listyy8 + np.abs(i2)**2 * listyy82 + \
                   np.array(j1) * listxy8 + np.array(j2) * listxy82
     result_LO8 = c0_8sm() + np.abs(i1)**2 * c0_8yy(mass1) + np.array(j1) * c0_8xy(mass1) +\
@@ -459,7 +461,7 @@ def NLOD_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude NLO
     return NLOalpha_s(s2) * chunk1 / (4 * PI * C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2))
 ####################################################################
 ###########Decay_width of b > s gamma 
-def decay_bsp(s2,s1,mass1,mass2,i1,j1,i2,j2):
+def decay_bsp(s2,s1,mass1,mass2,i1,j1,i2,j2):    
     return gf**2 / (32 * PI**4) * (vts * vtb)**2 * \
     alpha_electroweak * mb**5 * np.abs(D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2))**2
 ####################################################################
@@ -499,24 +501,24 @@ def decay_bspg(s2,s1,mass1,mass2,i1,j1,i2,j2):
         return a1 * Amp(s2,s1,mass1,mass2,i1,j1,i2,j2)  
 ###########Decay_width of semileptonic 
 def decay_SL():
-    part1 = gf**2 /(192 * PI**3) * np.abs(vcb)**2 * mb**5 * g_z
+    part1 = gf**2 /(192 * PI**3) * np.abs(vcb)**2 * run_quark_bar(mb)**5 * g_z
     part2 = 1 - 2 * NLOalpha_s(run_quark_bar(mb)) * f_z / (3 * PI) \
     + delta_NP_SL / mb**2
     return part1 * part2
 #print('Partial width of semileptonic decay', decay_SL() )
 #################################################################
 #Measured Semi- leptonic branching ratio B_SL
-B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
+B_SL = 0.1065 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
 #################################################################
 ################################################################
 #################### Partial width of B_bar > X_s + gamma
 def decay_B_bar_Xsg(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    a1 = gf**2 / (32 * PI**4) * np.abs(vts * vtb)**2 * alpha_electroweak * mb**5 
+    a1 = gf**2 / (32 * PI**4) * np.abs(vts * vtb)**2 * alpha_electroweak * run_quark_bar(mb)**5 
     chunk1 = np.abs(D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \
-             Amp(s2,s1,mass1,mass2,i1,j1,i2,j2) + delta_NP_ga / (mb**2) * \
+             Amp(s2,s1,mass1,mass2,i1,j1,i2,j2) + delta_NP_ga / (run_quark_bar(mb)**2) * \
              np.abs(C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \
-             (delta_NP_c / mc**2) * \
-    (C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2).conjugate() *\
+             (delta_NP_c / run_quark_bar(mc)**2) * \
+    (np.conjugate(C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)) *\
      (C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) - \
       C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * 1 / 6)).real
     return a1 * chunk1
@@ -570,23 +572,23 @@ def A_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # CP asymmetry
     part5 = 8 * zz / 27 * b_cp(zz, delta_cp) *\
         ( (1 + epsilon_s) * (c2 * np.conjugate(c8) ) ).imag
     return part1 * (part2 - part3  - part4 + part5)
-print(yy(charHm_100))
-print('---------------------------------------------------------')
-print('BR(X_bar>Xs+gamma)',\
-          BR_B_Xs_gamma(mb,100,100,100 + 20,\
-                        [1.0],1j * np.array(np.arange(-5,6,1.0)),[0],[0]) )
-print('A_CP',np.sort(A_cp(mb,mw,charHm_100,charHm_100 + 20 ,[1.0],[1.0],[0],[0])))
-for m in np.arange(0,len(charHm_100)):
-    print(m,'---------------------')
-    print('charHm_100[m]',charHm_100[m],charHm_100[m]+ 20,m)
-    print('Ti_sm,xy,yy()',t7_sm(),'xy',t7_xy(charHm_100[m]),'yy',t7_yy(charHm_100[m]))#
-    print('wi_sm,xy,yy()',w7_sm(),'xy',w7_xy(charHm_100[m]),'yy',w7_yy(charHm_100[m]))#
-    print('c1_mu_effective(scale,mhch),sm,xy,yy',\
-          c1_mu_effective(mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0] ))
-    print('C0_7_eff(s2,s1,i,j)',\
-          C0_7_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
-    print('C0_8_eff(s2,s1,i,j)',\
-          C0_8_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
+#print(yy(charHm_100))
+#print('---------------------------------------------------------')
+#print('BR(X_bar>Xs+gamma)',\
+#          BR_B_Xs_gamma(mb,100,100,100 + 20,\
+#                        [1.0],1j * np.array(np.arange(-5,6,1.0)),[0],[0]) )
+#print('A_CP',np.sort(A_cp(mb,mw,charHm_100,charHm_100 + 20 ,[1.0],[1.0],[0],[0])))
+#for m in np.arange(0,len(charHm_100)):
+#    print(m,'---------------------')
+#    print('charHm_100[m]',charHm_100[m],charHm_100[m]+ 20,m)
+#    print('Ti_sm,xy,yy()',t7_sm(),'xy',t7_xy(charHm_100[m]),'yy',t7_yy(charHm_100[m]))#
+#    print('wi_sm,xy,yy()',w7_sm(),'xy',w7_xy(charHm_100[m]),'yy',w7_yy(charHm_100[m]))#
+#    print('c1_mu_effective(scale,mhch),sm,xy,yy',\
+#          c1_mu_effective(mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0] ))
+#    print('C0_7_eff(s2,s1,i,j)',\
+#          C0_7_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
+#    print('C0_8_eff(s2,s1,i,j)',\
+#          C0_8_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
 
 #M = np.ones((3, 2))
 #a = np.arange(3)
