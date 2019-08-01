@@ -8,7 +8,7 @@ Created on Tue Feb 26 14:41:45 2019
 import math
 ###Invariant parameters 
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
-mt = 175 # mass of top quark  171.2
+mt = 174.6 # mass of top quark  171.2
 mc = 1.275    # mass of charm quark 1.29 / 1.279
 mb = 4.18   # mass of bottom quark 4.18
 nf = 5.0      # origin 5
@@ -18,7 +18,7 @@ mz = 91.18 # 95.0 #98.14954576223639# 101.59443179342345  #91.18    # mass of z 
 pwz = 2.4952  # partial width of z boson
 pww = 2.085  #  partial width of w boson 
 mtau = 1.7771 # mass of tau lepton
-gf = 0.0000116639 # fermi constant
+gf = 0.000011663787 # fermi constant
 mhch = 100.00  # mass of charged higgs
 mh = 125.0 #  mass of higgs
 ma = 130.00 # mass of Pseudoscalar 
@@ -45,7 +45,7 @@ vtb = c23_ckm * c13_ckm
 ######################################################
 coeffmc = 12.0/25.0
 coeffmb = 12.0/23.0
-alpmz = 0.119 #coupling of z 
+alpmz = 0.1185 #coupling of z 
 alpha_electroweak = 1.0 / 128.0 # alpha for EM coupling
 # CKM matrix elements observables from CKMfitter
 #https://indico.cern.ch/event/684284/contributions/2952455/attachments/1719296/2774804/Vale_Silva_3.pdf

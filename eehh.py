@@ -44,7 +44,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,91.0 ,1.0)# charged Higgs ranged values
+mhch = np.arange(80.0,91.0,11.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -858,12 +858,50 @@ def soverb4j2b_charHm_brcb():#4j2b
     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ in 4jet2b with BR($H^{\pm} \\to$ cb)')
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('BR($H^{\pm} \\to$ cb)')# y-axis label
-#    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
-#    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.colorbar(signal4jet_tag)
 #    plt.savefig('soverb4j2bcharHmbrcb.png')
     plt.show()
     plt.close()               
+    return
+def soverb4j1b_charHm_brcb():#4j1b
+    x = np.arange(0,1.1,0.1)
+    y = 1 - np.arange(0,1.1,0.1)
+    expression = ( real_b_cbcb(x,x) + fake_b_cbcb(x,x) + \
+                        real_b_cbcs(x,y) + fake_b_cbcs(x,y) + \
+                        real_b_cscs(y,y) + fake_b_cscs(y,y) )  * epsilon  
+    signal4j1btag = plt.contourf(mhch,x,\
+      np.resize(sig(eeHH_event() , expression / np.sqrt(backgroundtag4j1b() )),\
+            len(sig(eeHH_event() , expression / np.sqrt(backgroundtag4j1b() )) )).\
+            reshape(len(x),len(mhch)),\
+            levels = np.arange(0.0, 4.0,0.5), \
+            colors = ['black','royalblue','purple','darkgreen','brown','red','gray','yellow'])
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ in 4jet1b with BR($H^{\pm} \\to$ cb)')
+    plt.xlabel('$M_{H^{\pm}}$')# x-axis label
+    plt.ylabel('BR($H^{\pm} \\to$ cb)')# y-axis label
+    plt.colorbar(signal4j1btag)
+#    plt.savefig('soverb4j1bcharHmbrcb.png')
+    plt.show()
+    plt.close()
+    return
+def soverb2j1b_charHm_brcb():#2j1b
+    x = 1 - np.arange(0,1.1,0.1) # cb
+    y = np.arange(0,1.1,0.1)  # tn
+    z = 0.0 # cs
+    twojet = (eeHHcbtn_1bsignal(x,y) + eeHHcbtn_0bsignal(x,y) + \
+             eeHHcstn_1bsignal(y,z) + eeHHcstn_0bsignal(y,z) ) * selection_2j
+    sig2j1btag = plt.contourf(mhch,y,\
+      np.resize(sig(eeHH_event() , twojet / np.sqrt(backgroundtagging2() )),\
+            len(sig(eeHH_event() , twojet / np.sqrt(backgroundtagging2() )) )).\
+            reshape(len(y),len(mhch)),\
+#            levels = np.arange(0.0, 4.0,0.5), \
+            colors = ['black','royalblue','purple','darkgreen','brown','red','gray','yellow'])
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ in 2jet1b with BR($H^{\pm} \\to \\tau\\nu_{\\tau}$)')
+    plt.xlabel('$M_{H^{\pm}}$')# x-axis label
+    plt.ylabel('BR($H^{\pm} \\to \\tau\\nu_{\\tau}$)')# y-axis label
+    plt.colorbar(sig2j1btag)
+#    plt.savefig('soverb2j1bcharHmbrcb.png')
+    plt.show()
+    plt.close()
     return
 ###################################################################
 ## PLOTS SECTION 
@@ -893,7 +931,9 @@ def start_plot():
                  massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
-                 soverb4j2b_charHm_brcb()
+                 soverb4j2b_charHm_brcb()#4j2b
+                 soverb4j1b_charHm_brcb()#4j1b
+                 soverb2j1b_charHm_brcb()#2j1b
                  #########################
 #                 massH_soverb2jetnotag(0.5,0.5)
 #                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)

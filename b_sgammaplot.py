@@ -66,6 +66,7 @@ def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
     plt.plot(x_axis,y22_axis / (1e-4) )
     plt.plot(x_axis,y230_axis / (1e-4))
     print('type I tanbeta = 1',y11_axis / (1e-4))
+    print('type I tanbeta = 30',y130_axis / (1e-4))
     plt.xlabel('$M_{H^{\pm}}$')
     plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
     plt.title('Figure 3: BR($\\bar{B} \\to X_{s} \gamma$) VS. $M_{H^{\pm}_{1}}$ ' )
@@ -77,12 +78,12 @@ def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
 ###################################
 def Plot_8_9():
     xim_axis = np.arange(-5,5.2,0.1)# figure 8
-    XYimx_axis = [np.complex(-2,i)*1.0 for i in xim_axis]
-    rangephi = np.arange(0,190,1) # figure 9
-    print('rangephi', rangephi,len(rangephi))
-    XYexpim_axis = [ complex(np.cos(i),np.sin(i))  for i in rangephi] 
-    print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis])
-    print('X = 2exp(i phi)',XYexpim_axis,len(XYexpim_axis))
+    XYimx_axis = [complex(-2,i)*1.0 for i in xim_axis]
+    rangephi = np.arange(0,3.14,0.01) # figure 9
+#    print('rangephi', rangephi,len(rangephi))
+    XYexpim_axis = [ np.exp(complex(0,j)) for j in rangephi] 
+#    print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis])
+#    print('X = 2exp(i phi)',XYexpim_axis,len(XYexpim_axis))
    #mlx = MultipleLocator(1)
    #mly = MultipleLocator(0.25)
     y48imx_axis = bsg.BR_B_Xs_gamma(4.8,mhch,mhch,mhch + bsg.mass_differ ,\
@@ -122,6 +123,8 @@ def Plot_8_9():
     plt.title('Figure9' )
     plt.legend(('$\mu = 4.8$ GeV', '$\mu = 2.4$ GeV', '$\mu = 9.6$ GeV '),
            loc='upper right', shadow=True,prop={'size': 8})
+    plt.xlim(0, 3)
+    plt.ylim(0, 8.0)
     plt.show()
     plt.close
 def Plot_4() :
@@ -160,14 +163,17 @@ def Plot_5() :
 #    print('II 2HDM tanbeta = 2',BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,\
 #                                              [1.0/2.0],[1.0],[0],[0])\
 #            )
+    cpphase = np.exp(complex(0,PI))
     y22_2hdm = np.array(bsg.BR_B_Xs_gamma(mb,mw,x_axis,x_axis + bsg.mass_differ,\
                                       [1.0/2.0],[1.0],[0],[0]) )
     plt.plot(x_axis,y22_2hdm / (1e-4))
     for n in np.array([2,4,7,10,20]):
         
-        X1_array =  - 2.0  * np.cos(- bsg.PI/4.0) - n / (1/np.sqrt(5)) * np.sin(- bsg.PI/4.0)
+        X1_array =  - 2.0  * np.cos(- bsg.PI/4.0) - n / (1/np.sqrt(5)) * np.sin(- bsg.PI/4.0) \
+                        * cpphase
         Y1_array = - 1.0/2.0 * np.cos(- bsg.PI/4.0)
-        X2_array =  2.0  * np.sin(- bsg.PI/4.0) - n / (1/np.sqrt(5)) * np.cos(- bsg.PI/4.0)
+        X2_array =  2.0  * np.sin(- bsg.PI/4.0) - n / (1/np.sqrt(5)) * np.cos(- bsg.PI/4.0) \
+                        * cpphase
         Y2_array = 1.0/2.0 * np.sin(- bsg.PI/4.0)
         
         y12_3hdm = np.array(bsg.BR_B_Xs_gamma(mb,mw,x_axis,x_axis + bsg.mass_differ,\
@@ -205,7 +211,7 @@ def plot_under_Heatherbasis():
     plt.axis([80,200, 3.0, 10.0])
     return
 def plot_Hp1_Hp2():# [mH+1,mH+2] for fixed B_bar > X_s + gamma
-    fixedarray = (- bsg.PI/2.1,10,60,0.0) #mixing matrix parameters
+#    fixedarray = (- bsg.PI/2.1,10,60,0.0) #mixing matrix parameters
     n = 5 #tangamma
     X1_array =  - 2.0  * np.cos(- bsg.PI/4.0) - n / (1.0/np.sqrt(5)) * np.sin(- bsg.PI/4.0)
     Y1_array = - 1.0/2.0 * np.cos(- bsg.PI/4.0)
@@ -253,7 +259,7 @@ def plt_A_B_bsg():
     plt.close
     return
 def numerical():
-    mass_axis = (80.0,100.0)
+    mass_axis = (80.0,250.0)
     result = []
     for n in np.arange(0,len(ABarray4()) ):
         y3hdm= bsg.BR_B_Xs_gamma(mb,mw,mass_axis[0],mass_axis[1],\
@@ -261,13 +267,14 @@ def numerical():
                         Y3(*ABarray4()[n] ),complexyfunction3(*ABarray4()[n] )) 
 #        print(y3hdm / (1e-4),n)
         result.append(y3hdm / (1e-4) )
-    return np.array(result).flatten() 
+    return np.concatenate(result).ravel()
 ######################################################################
-Plot_3()
-Plot_4()
-Plot_5()
-Plot_8_9()
+#numerical()
+#Plot_3()
+#Plot_4()
+#Plot_5()
+#Plot_8_9()
 #plot_Hp1_Hp2()
 #plot_under_Heatherbasis()
-#plt_A_B_bsg()
+plt_A_B_bsg()
 #print(numerical())
