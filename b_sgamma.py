@@ -18,7 +18,7 @@ from matplotlib.ticker import MultipleLocator
 #print('xyfun',np.array(xyfun))
 #print('U',U(- PI/2.1,2,20,0.0)[0][2] / U(- PI/2.1,2,20,0.0)[0][0])
 #print('X3',X3(- PI/2.1,2,20,0.0),Y3(- PI/2.1,2,20,0.0))
-mass_differ  = 80   # charged Higgs mass diference
+mass_differ  = 20   # charged Higgs mass diference
 axs = np.arange(1, 41, 1)
 def array4():
     tuple_array = []
@@ -72,7 +72,7 @@ PI = np.pi
 def yy(mass):
     return mt**2 / mass**2
 def NLOyy(mass):
-    return run_quark_bar(mt)**2 / mass**2
+    return mt**2 / mass**2
 print('zz',zz,1/zz)
 a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
 h_i = np.array([626126/272277 , - 56281/51730, - 3/7, - 1/14, - 0.6494, - 0.0380,\
@@ -506,8 +506,8 @@ def decay_bspg(s2,s1,mass1,mass2,i1,j1,i2,j2):
 ###########Decay_width of semileptonic 
 def decay_SL():
     part1 = gf**2 /(192 * PI**3) * mb**5 * g_z
-    part2 = 1 - 2 * LOalpha_s(mb) * f_z / (3 * PI) \
-    + delta_NP_SL / mb**2
+    part2 = 1 - 2 * NLOalpha_s(mb) * f_z / (3 * PI) \
+    + delta_NP_SL / run_quark_bar(mb)**2
     return part1 * part2
 #print('Partial width of semileptonic decay', decay_SL() )
 #################################################################

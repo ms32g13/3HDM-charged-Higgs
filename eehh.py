@@ -838,8 +838,8 @@ colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'
      plt.show()
      plt.close()      
 def soverb4j2b_charHm_brcb():#4j2b
-    x = np.arange(0,1.1,0.1)
-    y = 1 - np.arange(0,1.1,0.1)
+    x = np.arange(0,0.8,0.072)#cb
+    y = 1 - np.arange(0,0.8,0.072)#cs
     tagging_4jet = (eeHHcbcb_2bsignal(x,x) + eeHHcbcb_1bsignal(x,x) + \
                    eeHHcbcs_2bsignal(x,y) + eeHHcbcs_1bsignal(x,y) + \
                    eeHHcbcb_0bsignal(x,x) + eeHHcbcs_0bsignal(x,y) + \
@@ -850,16 +850,17 @@ def soverb4j2b_charHm_brcb():#4j2b
           eeHHcscs_0bsignal(y,y),epsilon)
     print(len(tagging_4jet),tagging_4jet)
     signal4jet_tag = plt.contourf(mhch,x,\
-                   np.resize(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )),\
-                         len(sig(eeHH_event() , tagging_4jet / np.sqrt(backgroundtagging() )) )).\
+                   np.resize(sig(tagging_4jet / np.sqrt(backgroundtagging()), eeHH_event() ),\
+                         len(sig(tagging_4jet / np.sqrt(backgroundtagging()), eeHH_event() ) )).\
                reshape(len(x),len(mhch)),\
-                levels = np.arange(0.0, 14.0,2.0), \
+                levels = np.arange(0.0, 9.0,2.0), \
                colors = ['black','royalblue','purple','darkgreen','brown','red','gray','yellow'])
     plt.title('S/$\sqrt{B}$ of $H^{\pm}$ in 4jet2b with BR($H^{\pm} \\to$ cb)')
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('BR($H^{\pm} \\to$ cb)')# y-axis label
+    plt.axis([80,90, 0.0, 0.8])
     plt.colorbar(signal4jet_tag)
-#    plt.savefig('soverb4j2bcharHmbrcb.png')
+    plt.savefig('soverb4j2bcharHmbrcb.png')
     plt.show()
     plt.close()               
     return
@@ -870,8 +871,8 @@ def soverb4j1b_charHm_brcb():#4j1b
                         real_b_cbcs(x,y) + fake_b_cbcs(x,y) + \
                         real_b_cscs(y,y) + fake_b_cscs(y,y) )  * epsilon  
     signal4j1btag = plt.contourf(mhch,x,\
-      np.resize(sig(eeHH_event() , expression / np.sqrt(backgroundtag4j1b() )),\
-            len(sig(eeHH_event() , expression / np.sqrt(backgroundtag4j1b() )) )).\
+      np.resize(sig(expression / np.sqrt(backgroundtag4j1b()),eeHH_event() ),\
+            len(sig(expression / np.sqrt(backgroundtag4j1b()),eeHH_event()  ) )).\
             reshape(len(x),len(mhch)),\
             levels = np.arange(0.0, 4.0,0.5), \
             colors = ['black','royalblue','purple','darkgreen','brown','red','gray','yellow'])
@@ -879,27 +880,28 @@ def soverb4j1b_charHm_brcb():#4j1b
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
     plt.ylabel('BR($H^{\pm} \\to$ cb)')# y-axis label
     plt.colorbar(signal4j1btag)
-#    plt.savefig('soverb4j1bcharHmbrcb.png')
+    plt.savefig('soverb4j1bcharHmbrcb.png')
     plt.show()
     plt.close()
     return
 def soverb2j1b_charHm_brcb():#2j1b
-    x = 1 - np.arange(0,1.1,0.1) # cb
-    y = np.arange(0,1.1,0.1)  # tn
-    z = 0.0 # cs
+    x = np.arange(0,0.55,0.05)  # cb
+    y = 0.5  # tn
+    z = 0.5 - np.arange(0,0.55,0.05) # cs
     twojet = (eeHHcbtn_1bsignal(x,y) + eeHHcbtn_0bsignal(x,y) + \
              eeHHcstn_1bsignal(y,z) + eeHHcstn_0bsignal(y,z) ) * selection_2j
-    sig2j1btag = plt.contourf(mhch,y,\
-      np.resize(sig(eeHH_event() , twojet / np.sqrt(backgroundtagging2() )),\
-            len(sig(eeHH_event() , twojet / np.sqrt(backgroundtagging2() )) )).\
-            reshape(len(y),len(mhch)),\
-#            levels = np.arange(0.0, 4.0,0.5), \
+    sig2j1btag = plt.contourf(mhch,x,\
+      np.resize(sig(twojet / np.sqrt(backgroundtagging2() ),eeHH_event()),\
+            len(sig(twojet / np.sqrt(backgroundtagging2() ),eeHH_event()) )).\
+            reshape(len(x),len(mhch)),\
+            levels = np.arange(0.0, 6.0,1.0), \
             colors = ['black','royalblue','purple','darkgreen','brown','red','gray','yellow'])
-    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ in 2jet1b with BR($H^{\pm} \\to \\tau\\nu_{\\tau}$)')
+    plt.title('S/$\sqrt{B}$ of $H^{\pm}$ in 2jet1b with BR($H^{\pm} \\to \\tau\\nu_{\\tau} ) $ = 0.5')
     plt.xlabel('$M_{H^{\pm}}$')# x-axis label
-    plt.ylabel('BR($H^{\pm} \\to \\tau\\nu_{\\tau}$)')# y-axis label
+    plt.ylabel('BR($H^{\pm} \\to$ cb)')# y-axis label
+    plt.axis([80,90, 0.0, 0.4])
     plt.colorbar(sig2j1btag)
-#    plt.savefig('soverb2j1bcharHmbrcb.png')
+    plt.savefig('soverb2j1bcharHmbrcb.png')
     plt.show()
     plt.close()
     return
@@ -926,20 +928,20 @@ def start_plot():
              else:
                  mhch_invariantmsscut(0.8,1 - 0.8)#0.65 ,0.2
                  mhch_invariantmsscut1b(0.8, 1 - 0.8)
-                 massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
-                 massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
-                 massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
-                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
-                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+#                 massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
+#                 massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
+#                 massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
+#                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+#                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  soverb4j2b_charHm_brcb()#4j2b
                  soverb4j1b_charHm_brcb()#4j1b
                  soverb2j1b_charHm_brcb()#2j1b
                  #########################
-#                 massH_soverb2jetnotag(0.5,0.5)
-#                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
-#                 massH_soverb4jetnotag(0.8, 1 - 0.8)
-#                 massH_soverb4jetag(0.8, 1 - 0.8)
-#                 massH_soverbone4jetag(0.8, 1 - 0.8)
+                 massH_soverb2jetnotag(0.5,0.5)
+                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
+                 massH_soverb4jetnotag(0.8, 1 - 0.8)
+                 massH_soverb4jetag(0.8, 1 - 0.8)
+                 massH_soverbone4jetag(0.8, 1 - 0.8)
                  signal_mhch_4jetag(0.5, 1 - 0.5 - 0.35)
                  signal_mhch_4jet1b(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetnotag(0.8246884230749657, 0.17525431678265752)
