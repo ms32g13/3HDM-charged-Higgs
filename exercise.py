@@ -43,8 +43,8 @@ B = []
 read1 = str('')
 read2 = str('')
 i = - PI / 2.1 #theta
-j = 40.0    #tangentbeta
-k = 40.0 #tangamma
+j = 30.0    #tangentbeta
+k = 30.0 #tangamma
 l = 0.0 # set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
 y = np.arange(0.0,0.62,0.02) # y range
@@ -54,7 +54,7 @@ linecs = np.arange(0.0,1.2,0.2) # percentage limit
 linecs1 = (0.001,0.002,0.003,0.004,0.005,0.006,0.007,0.008,0.009,0.01)   
 linecs2 = (0.001,0.005,0.01,0.02,0.05,0.10) 
 linecs3 = np.arange(-1.1,1.1,0.4) # REALXY Limit
-linecs4 = np.arange(-0.1,0.11,0.01)#IMXY Limit
+linecs4 = np.arange(-0.1,0.15,0.05)#IMXY Limit
 linecs5 = (0.0001,0.0005,0.001 ,0.002 ,0.005 ,0.01 )
 print('--------------------------------------------------')   
 #######################################################################
@@ -740,7 +740,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.png')
-#    plt.show()
+    plt.show()
     plt.close()
 #    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
@@ -860,9 +860,10 @@ for n in np.arange(0,len(fl.mhch)):
 #(4 parameters): A,B, IM(XY^{*}) plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
     plt.title('IM(XY^*) in '+ readlist[int(read1)] +','+ readlist[int(read2)] +' plane,$M_{H^+}$= '+ strmhch +' GeV')#plot title
-    contourxy2 = plt.contour(A,B,np.resize(np.array(np.imag(xyfun)),len(np.array(np.imag(xyfun)))).reshape(len(B),len(A)),\
+    contourxy2 = plt.contourf(A,B,np.resize(np.array(np.imag(xyfun)),len(np.array(np.imag(xyfun)))).reshape(len(B),len(A)),\
                             levels = linecs4,cmap = 'brg')
 #   plt.clabel(contourxy2, inline= 0.01, fontsize=10)# contour level show
+    plt.colorbar(contourxy2)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -983,7 +984,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #    plt.savefig('CharHcbpcsmtn'+ strmhch +'.png')
-#    plt.show()
+    plt.show()
     plt.close()
 #######################################################
 # (4 parameters):A,B,plot (BR(H+> cb)  * BR(H+> cs) )
