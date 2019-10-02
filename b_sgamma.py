@@ -18,7 +18,7 @@ from matplotlib.ticker import MultipleLocator
 #print('xyfun',np.array(xyfun))
 #print('U',U(- PI/2.1,2,20,0.0)[0][2] / U(- PI/2.1,2,20,0.0)[0][0])
 #print('X3',X3(- PI/2.1,2,20,0.0),Y3(- PI/2.1,2,20,0.0))
-mass_differ  = 20   # charged Higgs mass diference
+mass_differ  = 80   # charged Higgs mass diference
 axs = np.arange(1, 41, 1)
 def array4():
     tuple_array = []
@@ -99,7 +99,7 @@ delta_NP_SL = - 0.5 /2 + 3 * (- 0.12) / 2 * (1 - 4 * (1 - zz)**4 / g_z)
 #########################################################
 #print(gaeff.gamma0eff())#gamma_0_eff_ji matrix values
 #print(gaeff.gamma1eff())#gamma_1_eff_ji matrix values
-print('run-bquark-at-mw-scale',run_quark_bar(1.275))
+print('run-bquark-at-mw-scale',run_quark_bar(mb))
 print('LOalpha_s(run_m_b)',LOalpha_s(run_quark_bar(mb)),\
       'LO a_s(mw) / LO a_s(run_mb)', LOalpha_s(mw) / LOalpha_s(run_quark_bar(mb)))
 #########################################################################
@@ -484,7 +484,7 @@ def Amp(s2,s1,mass1,mass2,i1,j1,i2,j2):# A for Decay_width of b > s gamma gluon
         f_28 = - 1 /3 * f_27
         f_18 = - 1 /6 * f_28
         f_78 = 8 /9 * (25 /12 - PI**2 / 6)
-        f_88 = 1 /27 * (16 /3 - 4 * PI**2 / 3 + 4 * np.log(run_quark_bar(mb) / s2 ))
+        f_88 = 1 /27 * (16 /3 - 4 * PI**2 / 3 + 4 * np.log(mb / s2 ))
         summ11 = np.real(c0_1 * np.conjugate(c0_1) * f_11)
         summ12 = np.real(c0_1 * np.conjugate(c0_2) * f_12)
         summ17 = np.real(c0_1 * np.conjugate(c0_7) * f_17)
@@ -517,7 +517,7 @@ B_SL = 0.1065 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
 ################################################################
 #################### Partial width of B_bar > X_s + gamma
 def decay_B_bar_Xsg(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    a1 = gf**2 / (32 * PI**4) * 0.9626 * alpha_electroweak * mb**5 
+    a1 = gf**2 / (32 * PI**4) * squared_vtsvtbovervcb * alpha_electroweak * mb**5 
     chunk1 = np.abs(D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \
              Amp(s2,s1,mass1,mass2,i1,j1,i2,j2) + delta_NP_ga / (mb**2) * \
              np.abs(C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \

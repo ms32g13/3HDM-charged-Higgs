@@ -10,11 +10,13 @@ from invariant import *
 import b_sgamma as bsg
 import numpy as np
 import matplotlib.pyplot as plt
-from exercise import xyfun,xyfun3,yfun,yfun3,U,X2,X3,Y2,Y3,Z2,Z3,\
-        complexyfunction,complexyfunction3,read1,read2,A,B,readlist
+import exercise as exe
+from neutronedm import dC_btH
+#from exe import xyfun,xyfun3,yfun,yfun3,U,X2,X3,Y2,Y3,Z2,Z3,\
+#        complexyfunction,complexyfunction3,read1,read2,A,B,readlist
 ########################
 axs = np.arange(1, 61, 1)
-print('A,B',A,B,read1,read2,len(B),type(read1))
+print('A,B',exe.A,exe.B,exe.read1,exe.read2,len(exe.B),type(exe.read1))
 #Plot Functions
 def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
     x_axis = np.array([ i for i in np.arange(100,1020,20)] )
@@ -81,6 +83,7 @@ def Plot_8_9():
     plt.plot(xim_axis,y96imx_axis / (1e-4))
 #plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.grid(axis='y', linestyle='-', color='0.75') # show x-axis grid line
     plt.xlabel('Im(X)')
     plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
     plt.title('Figure8' )
@@ -91,6 +94,8 @@ def Plot_8_9():
     plt.plot(rangephi,y48phi_axis / (1e-4))
     plt.plot(rangephi,y24phi_axis / (1e-4))
     plt.plot(rangephi,y96phi_axis / (1e-4))
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.grid(axis='y', linestyle='-', color='0.75') # show x-axis grid line
     plt.xlabel('$\\phi$')
     plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
     plt.title('Figure9' )
@@ -168,29 +173,48 @@ def Plot_5() :
 #                        Y2(*array4()[n]),complexyfunction(*array4()[n]),\
 #                        Y3(*array4()[n]),complexyfunction3(*array4()[n])) 
 #        plt.plot(x_axis,y22_axis3hdm / (1e-4))
-    plt.axis([100.0, 1000.0, 1.0, 6.0])
+    plt.axis([50.0, 1000.0, 1.0, 6.0])
     plt.show()
     plt.close()
     return
 ######################################################################
-def plot_under_Heatherbasis():
-    x_axis = np.array([ i for i in np.arange(80,220,20)] )
-    for n in np.arange(0,len(axs)):
-        
-        y_axis3hdm= bsg.BR_B_Xs_gamma(mb,mw,x_axis,x_axis + bsg.mass_differ,\
-                        Y2(*array4()[n]),complexyfunction(*array4()[n]),\
-                        Y3(*array4()[n]),complexyfunction3(*array4()[n])) 
-        plt.plot(x_axis,y_axis3hdm / (1e-4))
-    plt.axis([80,200, 3.0, 10.0])
+def plot_under_Heatherbasis(i,j,k,l):
+    m1_axis = np.array([ i for i in np.arange(1,550,10)] )
+    m2_axis = np.array([ i for i in np.arange(1,1050,10)] )
+    m2 = m2_axis[0]
+    m1 = m1_axis[0]
+#    xx, yy = np.meshgrid(m1_axis, m2_axis)
+    empty = []
+    for m2 in m2_axis:
+        for m1 in m1_axis:
+            threehdm = bsg.BR_B_Xs_gamma(mb,mw,m1,m2,\
+                        [exe.Y2(i,j,k,l)],[exe.complexyfunction(i,j,k,l)],\
+                        [exe.Y3(i,j,k,l)],[exe.complexyfunction3(i,j,k,l)])
+            empty.append(threehdm)
+    result = plt.contourf(m1_axis, m2_axis, \
+           np.resize(np.array(empty) / (1e-4),len(np.array(empty) / (1e-4))).\
+           reshape(len(m2_axis),len(m1_axis)), \
+           colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'],\
+           levels = np.array([2.99,3.30,3.65,3.80])      
+           )
+    plt.colorbar(result)
+    plt.xlabel('$M_{H^{\pm}_{1}}$')
+    plt.ylabel('$M_{H^{\pm}_{2}}$')
+    plt.title('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.axis([1,500, 1.0, 1000.0])
+    plt.show()
+    plt.close
     return
 def plot_Hp1_Hp2():# [mH+1,mH+2] for fixed B_bar > X_s + gamma
 #    fixedarray = (- bsg.PI/2.1,10,60,0.0) #mixing matrix parameters
-    n = 5 #tangamma
+    n = 30 #tangamma
     X1_array =  - 2.0  * np.cos(- bsg.PI/4.0) - n / (1.0/np.sqrt(5)) * np.sin(- bsg.PI/4.0)
     Y1_array = - 1.0/2.0 * np.cos(- bsg.PI/4.0)
     X2_array =  2.0  * np.sin(- bsg.PI/4.0) - n / (1.0/np.sqrt(5)) * np.cos(- bsg.PI/4.0)
     Y2_array = 1.0/2.0 * np.sin(- bsg.PI/4.0)
-    m1_axis = np.array([ i for i in np.arange(80,220,7.5)] )
+    m1_axis = np.array([ i for i in np.arange(50,1050,50)] )
     m2_axis = np.array([ i for i in np.arange(100,1050,50)] )
     empty =[]
     m2 = m2_axis[0]
@@ -205,35 +229,35 @@ def plot_Hp1_Hp2():# [mH+1,mH+2] for fixed B_bar > X_s + gamma
     result = plt.contourf(m1_axis, m2_axis, \
            np.resize(np.array(empty) / (1e-4),len(np.array(empty) / (1e-4))).\
            reshape(len(m2_axis),len(m1_axis)), \
-           colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])#,\
-#           levels = np.array([2.99,3.85])         )
+           colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'],\
+#           levels = np.array([2.99,3.5,3.85])         )
+         )
     plt.colorbar(result)
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([80,200, 100.0, 300.0])
+    plt.axis([50,1000, 100.0, 1000.0])
     plt.show()
     plt.close
     return
 def ABarray4(): # using [A,B] to plot BR(B_bar > X_s +gamma)
-    i = - bsg.PI / 2.1
-    j = 30.0  # tanbeta
-    k = 30.0 #tangamma
-    l = 0.0 #delta
+    i = exe.i # theta
+    j = exe.j  # tanbeta
+    k = exe.k #tangamma
+    l = exe.l #delta
     longlist = []
     reference_array = [i,j,k,l]
-    for var_b in B:
-            for var_a in A:
+    for var_b in exe.B:
+            for var_a in exe.A:
                 my_tuple = ()
                 for counter in range(4):
-                    if int(read1) == counter:
+                    if int(exe.read1) == counter:
                         my_tuple += (var_a,)
-                    elif int(read2) == counter:
+                    elif int(exe.read2) == counter:
                         my_tuple += (var_b,)
                     else:
                         my_tuple += (reference_array[counter],)
                 longlist.append(my_tuple)
     return longlist
-print(ABarray4()[0],len(ABarray4()))
 def array4():
     tuple_array = []
     for i in axs:
@@ -242,34 +266,61 @@ def array4():
         tuple_array.append(my_tuple)
     return tuple_array
 def plt_A_B_bsg():
-    mass_axis = np.array([880.0,1080.0])
+    mass_axis = np.array([85.0,200.0])
+    print(ABarray4()[0],mass_axis,len(ABarray4()))
+    print(ABarray4()[1],mass_axis,len(ABarray4()))
     result = []
+#    result1 = []
     for n in np.arange(0,len(ABarray4()) ):
         y3hdm= bsg.BR_B_Xs_gamma(mb,mw,mass_axis[0],mass_axis[1],\
-                        Y2(*ABarray4()[n] ),complexyfunction(*ABarray4()[n] ),\
+                        exe.Y2(*ABarray4()[n] ),exe.complexyfunction(*ABarray4()[n] ),\
 #                        [0.0],[0.0])
-                        Y3(*ABarray4()[n] ),complexyfunction3(*ABarray4()[n] )) 
+                        exe.Y3(*ABarray4()[n] ),exe.complexyfunction3(*ABarray4()[n] )) 
         result.append(y3hdm / (1e-4) )
-    y = plt.contourf(A, B, \
+    y = plt.contourf(exe.A, exe.B, \
            np.resize(np.array(result).flatten()  ,len(np.array(result).flatten() ) ).\
-           reshape(len(B),len(A)) ,\
-           levels = np.arange(3.0,3.6,0.1),\
-           colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
+          reshape(len(exe.B),len(exe.A)) ,\
+          levels = np.arange(3.0,4.0,0.2),\
+#           levels = np.arange(3.0,4.2,0.2),\
+          colors = ['black','royalblue','purple','darkgreen',\
+                    'brown','red','gray','orange','pink'])
     plt.colorbar(y)
-    plt.title('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$ in ['\
-                    + readlist[int(read1)] +','+ readlist[int(read2)] +']')
-    plt.xlabel(readlist[int(read1)])
-    plt.ylabel(readlist[int(read2)])
+    plt.title('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$ in '\
+                    + str("%02d" % mass_axis[0]) +', ' + str("%02d"% mass_axis[1]) )
+    plt.xlabel(exe.readlist[int(exe.read1)])
+    plt.ylabel(exe.readlist[int(exe.read2)])
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#    plt.axis([0,2.0 * bsg.PI, - 1.4, - 0.2])
     plt.show()
     plt.close
+#Neutron EDM PLOT SECTION
+#    for m in np.arange(0,len(ABarray4()) ):
+#        nedm3hdm= dC_btH(mb,mass_axis[0],mass_axis[1],\
+#                        complexyfunction(*ABarray4()[m] ),\
+#                        complexyfunction3(*ABarray4()[m] )) 
+#        result1.append(nedm3hdm / (1e-4) )
+#    nedm = plt.contourf(A, B, \
+#           np.resize(np.array(result1).flatten()  ,len(np.array(result1).flatten() ) ).\
+#          reshape(len(B),len(A)) ,\
+#           levels = np.arange(2.0,7.0,1.0),\
+#          colors = ['black','royalblue','purple','darkgreen',\
+#                    'brown','red','gray','orange','pink'])
+#    plt.colorbar(nedm)
+#    plt.title('Neutron EDM in ['\
+#                    + readlist[int(read1)] +','+ readlist[int(read2)] +']')
+#    plt.xlabel(readlist[int(read1)])
+#    plt.ylabel(readlist[int(read2)])
+#    plt.show()
+#    plt.close
     return
 def numerical():
     mass_axis = (80.0,250.0)
     result = []
     for n in np.arange(0,len(ABarray4()) ):
         y3hdm= bsg.BR_B_Xs_gamma(mb,mw,mass_axis[0],mass_axis[1],\
-                        Y2(*ABarray4()[n] ),complexyfunction(*ABarray4()[n] ),\
-                        Y3(*ABarray4()[n] ),complexyfunction3(*ABarray4()[n] )) 
+                        exe.Y2(*ABarray4()[n] ),exe.complexyfunction(*ABarray4()[n] ),\
+                        exe.Y3(*ABarray4()[n] ),exe.complexyfunction3(*ABarray4()[n] )) 
 #        print(y3hdm / (1e-4),n)
         result.append(y3hdm / (1e-4) )
     return np.concatenate(result).ravel()
@@ -280,6 +331,6 @@ def numerical():
 #Plot_5()
 #Plot_8_9()
 #plot_Hp1_Hp2()
-#plot_under_Heatherbasis()
-plt_A_B_bsg()
+plot_under_Heatherbasis(exe.i,exe.j,exe.k,exe.l)
+#plt_A_B_bsg()
 #print(numerical())

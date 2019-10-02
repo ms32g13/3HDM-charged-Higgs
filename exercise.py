@@ -34,17 +34,17 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tbe = random.uniform(1.0,61.0) #tanbeta (j in loop)
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
-the = np.arange(- PI / 2, PI/50 ,PI / 20)#theta (i in loop)
-tbe = np.arange(1.0,31.0,1.0) #tanbeta (j in loop)
-tga = np.arange(1.0,31.0,1.0) #tangamma (k in loop)
+the = np.arange(- PI/2.1,  0.0,PI / 20)#theta (i in loop)
+tbe = np.arange(1.0,61.0,1.0) #tanbeta (j in loop)
+tga = np.arange(1.0,61.0,1.0) #tangamma (k in loop)
 delta = np.arange(0.0,2.1 * PI , PI /6)#delta (l in loop)  #delta fixed#
 A = []
 B = []
 read1 = str('')
 read2 = str('')
 i = - PI / 2.1 #theta
-j = 30.0    #tangentbeta
-k = 30.0 #tangamma
+j = 1   #tangentbeta
+k = 10#tangamma
 l = 0.0 # set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
 y = np.arange(0.0,0.62,0.02) # y range
@@ -170,7 +170,7 @@ def U(i,j,k,l):
         cbe = 1.0 / math.sqrt(1.0 + j**2)# cosbeta
         sbe = j / math.sqrt(j**2 + 1.0) # sinebeta
         ud1 = sga * cbe
-        ud2 = complex(- cthe * sbe * cde  - sthe * cga * cbe, cthe * sbe *sde)
+        ud2 = complex(- cthe * sbe * cde  - sthe * cga * cbe, - cthe * sbe *sde)
         ud3 = complex(sthe * sbe * cde - cthe * cga * cbe, sthe * sbe * sde)
         uu1 = sga * sbe
         uu2 = complex(cthe * cbe * cde - sthe * cga * sbe, cthe * cbe * sde)
@@ -318,6 +318,21 @@ def start1():# choose model
                  print('Model:',read0)
                  break 
               
+            elif read0 == str(6):
+                 def X2(i,j,k,l):
+                     return U(i,j,k,l)[2][1] / U(i,j,k,l)[2][0] #X2
+                 def Y2(i,j,k,l):
+                     return - U(i,j,k,l)[1][1] / U(i,j,k,l)[1][0] #Y2
+                 def Z2(i,j,k,l) :
+                     return U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0] #Z2
+                 def X3(i,j,k,l):
+                     return U(i,j,k,l)[2][2] / U(i,j,k,l)[2][0] #X3
+                 def Y3(i,j,k,l):
+                     return - U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0]#Y3
+                 def Z3(i,j,k,l):
+                     return U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0] #Z3
+                 print('Model:',read0)
+                 break 
             else :
                  print("Not correct type 3HDM")
             print('Model:',read0)
@@ -519,7 +534,6 @@ for n in np.arange(0,len(fl.mhch)):
 #          for Z in z:          
 #                 print(X,Y,Z,brtn(X,Y,Z),brcs(X,Y,Z),brcb(X,Y,Z),\
 #                       brtn(X,Y,Z) + brcs(X,Y,Z) + brcb(X,Y,Z))
-
 ############################################################
 ######   PLOTS               
 ##############!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
@@ -602,7 +616,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,thbhcbXY.png')
-#    plt.show()
+    plt.show()
     plt.close()
     print('--------------------------------------------------')
 # Contour of Branching ratio for t >H+b - H+ > cs in X,Y plane
@@ -728,10 +742,10 @@ for n in np.arange(0,len(fl.mhch)):
 #    print('--------------------------------------------------')
 # (4 parameters):A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
 #    plt.subplot(222)
-    Contourbrcb = plt.contourf(A,B, \
+    Contourbrcb = plt.contour(A,B, \
            np.resize(BRCBfinal,len(BRCBfinal)).reshape(len(B),len(A)),\
            colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'],\
-           levels = np.arange(0.0,1.2,0.2))
+           levels = np.arange(0.0,1.0,0.2))
 #    plt.clabel(Contourbrcb, inline= 0.2, fontsize= 9)# contour level show
     plt.colorbar(Contourbrcb)
     plt.title('BR($H^{\pm} \\to $ cb), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
@@ -739,7 +753,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.png')
+    plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.eps', format='eps')
     plt.show()
     plt.close()
 #    print('--------------------------------------------------')
@@ -781,17 +795,18 @@ for n in np.arange(0,len(fl.mhch)):
     plt.close()
 #(4 parameters): A,B, BRTHBBRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
-    ContourBRTHBBRCB1 = plt.contourf(A,B, \
+    ContourBRTHBBRCB1 = plt.contour(A,B, \
            np.resize(BRTHBBRCB1,len(BRTHBBRCB1)).reshape(len(B),len(A)),\
            levels = linecs2,colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
     plt.title('BR($t \\to $ $H^{\pm}$b) X BR($H^{\pm} \\to $ cb),\n $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
-    plt.clabel(ContourBRTHBBRCB1, inline= 0.01, fontsize=10)# contour level show
+#    plt.clabel(ContourBRTHBBRCB1, inline= 0.01, fontsize=10)# contour level show
     plt.colorbar(ContourBRTHBBRCB1)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#   plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,thbhcb.png')
+    plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,thbhcb.eps', format='eps')
+    plt.show()
     plt.close()
     print('--------------------------------------------------')
 #(4 parameters): A,B, BRTHBBRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
@@ -813,16 +828,17 @@ for n in np.arange(0,len(fl.mhch)):
     plt.figure()
     plt.title('BR($t \\to $ $H^{\pm}$b) X [BR($H^{\pm} \\to $ cb)\
 + BR($H^{\pm} \\to $ cs)],\n $M_{H^{\pm}}}$= '+strmhch +' GeV')#plot title
-    ContourTOTAL = plt.contourf(A,B, \
+    ContourTOTAL = plt.contour(A,B, \
            np.resize(BRTHQUARK,len(BRTHQUARK)).reshape(len(B),len(A)),\
            levels = linecs2,colors = ['black','royalblue','purple','darkgreen','brown','red','black'])
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.clabel(ContourTOTAL, inline= 0.01, fontsize=10)# contour level show
+#    plt.clabel(ContourTOTAL, inline= 0.01, fontsize=10)# contour level show
     plt.colorbar(ContourTOTAL)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
-#   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,thbtotal.png')
+    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,thbtotal.eps', format='eps')
+    plt.show()
     plt.close()
     print('--------------------------------------------------')
 #(4 parameters): A,B, |X| plot [in the :reshape(y,x) not reshape(x,y)]
@@ -844,9 +860,9 @@ for n in np.arange(0,len(fl.mhch)):
 #(4 parameters): A,B, REAL(XY^{*}) plot [in the :reshape(y,x) not reshape(x,y)]
     plt.figure()
     plt.title('REAL(XY^*) in ['+ readlist[int(read1)] +','+ readlist[int(read2)] +'],$M_{H^+}$= '+ str(strmhch) +' GeV')#plot title
-    contourxy = plt.contourf(A,B,\
+    contourxy = plt.contour(A,B,\
             np.resize(np.array(np.real(xyfun)),len(np.array(np.real(xyfun)))).reshape(len(B),len(A)),\
-            levels = np.arange(-1.1,0.9,0.2),cmap = 'brg')#,levels = linecs3)#
+            levels = np.arange(-1.1,0.9,0.2),colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])#,levels = linecs3)#
 #    plt.clabel(contourxy, inline= 0.01, fontsize=10)# contour level show
     plt.colorbar(contourxy)
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -854,7 +870,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.show()
-#   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.png')
+    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.eps')
     plt.close()
     print('--------------------------------------------------')
 #(4 parameters): A,B, IM(XY^{*}) plot [in the :reshape(y,x) not reshape(x,y)]
@@ -869,7 +885,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.show()
-#   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,imxy.png')
+    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,imxy.eps')
     plt.close()
     print('--------------------------------------------------')
 #(4 parameters): A,B, |Y| plot [in the :reshape(y,x) not reshape(x,y)]
@@ -898,7 +914,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#   plt.savefig('z.png')
+    plt.savefig('z.eps')
 #   plt.show()
     plt.close()
     print('--------------------------------------------------')
@@ -984,7 +1000,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #    plt.savefig('CharHcbpcsmtn'+ strmhch +'.png')
-    plt.show()
+#    plt.show()
     plt.close()
 #######################################################
 # (4 parameters):A,B,plot (BR(H+> cb)  * BR(H+> cs) )

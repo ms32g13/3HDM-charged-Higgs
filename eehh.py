@@ -38,13 +38,14 @@ e_isignal = 0.9  # invariant mass cut on signal
 e_iback = 0.1 # invariant mass cut on background
 e_ibacklist = np.arange(0.1,1.08,0.09)
 epsilon = e_mass * e_4jet * e_isignal # total epsilon
+print('eps',epsilon)
 selection_2j = 0.5 # 2j charH signal selection efficiency
 ############
 # CKM elements
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,91.0,11.0)# charged Higgs ranged values
+mhch = np.arange(85.0,91.0,11.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
