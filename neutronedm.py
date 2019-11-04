@@ -102,5 +102,7 @@ def dgmma_dBZ(mass1,mass2,j1,j2):# EQ 4.24 charged Higgs contribution
     part4 = np.array(j2).imag * (2 /3 * (tt(zx(mass2)) - tt(zx(mw)))/ (zx(mass2) - zx(mw)) - \
               1/3 * 2 /3 * (tb(zx(mass2)) - tb(zx(mw)))/ (zx(mass2) - zx(mw)))
     return part1 * part2 * (part3 + part4)
-#print(C_wmuh(mb,np.arange(100,1000,10),100,[complex(1.0,0.1)],[0.0]))
+#print('C_wmuh(s2,mass1,mass2,j1,j2)',\
+#      C_wmuh(mb,np.arange(100,500,50),600,[complex(0.0,0.1)],[complex(0.0,0.1)]))
+
 

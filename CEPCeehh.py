@@ -41,10 +41,10 @@ def massH_ec_plane4jet(x,y):
                    fl.eeHHcbcs_2bsignal(x,y) + fl.eeHHcbcs_1bsignal(x,y) + \
                    fl.eeHHcbcb_0bsignal(x,x) + fl.eeHHcbcs_0bsignal(x,y) + \
                    fl.eeHHcscs_0bsignal(y,y)) * fl.epsilon
-    sig42b = fl.sig(CEPCevent, tagging_4jet/ np.sqrt(fl.backgroundtagging() * 1600 ) ) 
+    sig42b = fl.sig(CEPCevent, tagging_4jet/ np.sqrt(fl.backgroundtagging() * 1670 ) ) 
     print('tagging_4jet',tagging_4jet,len(tagging_4jet))
     print('CEPCevent',CEPCevent,len(mhch_list_CEPC), )
-    print('backgroundtagging()',fl.backgroundtagging() * 1600,len(fl.backgroundtagging()))
+    print('backgroundtagging()',fl.backgroundtagging() * 1670,len(fl.backgroundtagging()))
     print('sig',sig42b,len(sig42b),len(fl.e_c),len(mhch_list_CEPC),len(fl.e_c) )
     plt.figure()
     signal4jet_tag = plt.contourf(mhch_list_CEPC,fl.e_c,\
@@ -67,7 +67,7 @@ def massH_ec_planeone4jet(x,y):
     tagging_one4jet = ( fl.real_b_cbcb(x,x) + fl.fake_b_cbcb(x,x) + \
                         fl.real_b_cbcs(x,y) + fl.fake_b_cbcs(x,y) + \
                         fl.real_b_cscs(y,y) + fl.fake_b_cscs(y,y) ) * fl.epsilon
-    sig41b = fl.sig(CEPCevent,tagging_one4jet/ np.sqrt(fl.backgroundtag4j1b() * 1600 ) )        
+    sig41b = fl.sig(CEPCevent,tagging_one4jet/ np.sqrt(fl.backgroundtag4j1b() * 1670 ) )        
     plt.figure()
     sig4jet1tag = plt.contourf(mhch_list_CEPC,fl.e_c,\
                    np.resize(sig41b ,\
@@ -88,7 +88,7 @@ def massH_ec_planeone4jet(x,y):
 def massH_ec_plane2jetag(x,y,z): #2jtagged
     twojet = (fl.eeHHcbtn_1bsignal(x,y) + fl.eeHHcbtn_0bsignal(x,y) + \
              fl.eeHHcstn_1bsignal(y,z) + fl.eeHHcstn_0bsignal(y,z) ) * fl.selection_2j
-    sig21b = fl.sig(CEPCevent,twojet/ np.sqrt(fl.backgroundtagging2() * 1600 ) )   
+    sig21b = fl.sig(CEPCevent,twojet/ np.sqrt(fl.backgroundtagging2() * 1670 ) )   
     sig2jet1tag = plt.contourf(mhch_list_CEPC,fl.e_c,\
                    np.resize(sig21b ,\
                           len(sig21b )).\

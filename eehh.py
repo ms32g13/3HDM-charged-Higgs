@@ -45,7 +45,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(85.0,91.0,11.0)# charged Higgs ranged values
+mhch = np.arange(80.0,91.0,11.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -286,7 +286,7 @@ def eeHHcbcs_2bsignal(x,y):#2real b 0 fake b
 ######################################################################
 def eeHHcbcs_1bsignal(x,y):#1real b 1 fake b
     e_l = 0.01
-    chunk2 = e_b * e_c * (1 - e_c) * (1 - e_l) + e_b * e_l * (1 - e_c)**2
+    chunk2 = 2.0 * e_b * e_c * (1 - e_c) * (1 - e_l) + e_b * e_l * (1 - e_c)**2
     chunk1 =  2.0 * np.array(x) * np.array(y) * chunk2  # before compare with table  # 2.0 for cbcs and cscb 
     return np.array(chunk1) #* epsilon #* e_antiww # after 3 selections chosen
 #print('||||| Singal of char_H_cbcs after 1b-tagging:',eeHHcbcs_1bsignal())
@@ -929,20 +929,20 @@ def start_plot():
              else:
                  mhch_invariantmsscut(0.8,1 - 0.8)#0.65 ,0.2
                  mhch_invariantmsscut1b(0.8, 1 - 0.8)
-#                 massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
-#                 massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
-#                 massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
-#                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
-#                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 massH_soverb2jetnotag(1 - 0.35,0.35)#cb+cs, tn
+                 massH_soverb2jetag(0.5,0.35,1 - 0.5 - 0.35)# cb,tn,cs
+                 massH_soverb4jetnotag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 massH_soverb4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
+                 massH_soverbone4jetag(0.5, 1 - 0.5 - 0.35)#cb,cs
                  soverb4j2b_charHm_brcb()#4j2b
                  soverb4j1b_charHm_brcb()#4j1b
                  soverb2j1b_charHm_brcb()#2j1b
                  #########################
-                 massH_soverb2jetnotag(0.5,0.5)
-                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
-                 massH_soverb4jetnotag(0.8, 1 - 0.8)
-                 massH_soverb4jetag(0.8, 1 - 0.8)
-                 massH_soverbone4jetag(0.8, 1 - 0.8)
+#                 massH_soverb2jetnotag(0.5,0.5)
+#                 massH_soverb2jetag(0.4,0.5,1 - 0.5 - 0.4)
+#                 massH_soverb4jetnotag(0.8, 1 - 0.8)
+#                 massH_soverb4jetag(0.8, 1 - 0.8)
+#                 massH_soverbone4jetag(0.8, 1 - 0.8)
                  signal_mhch_4jetag(0.5, 1 - 0.5 - 0.35)
                  signal_mhch_4jet1b(0.8246884230749657, 0.17525431678265752)
                  signal_mhch_4jetnotag(0.8246884230749657, 0.17525431678265752)
@@ -959,6 +959,6 @@ def start_plot():
           break
       else:
           plotprint = plotprint
-start_plot()
+#start_plot()
 ########################
 #ms32g13@soton.ac.uk

@@ -21,7 +21,7 @@ mtau = 1.7771 # mass of tau lepton
 gf = 0.000011663787 # fermi constant
 mhch = 100.00  # mass of charged higgs
 mh = 125.0 #  mass of higgs
-ma = 130.00 # mass of Pseudoscalar 
+ma = 300.00 # mass of Pseudoscalar 
 # CKM elements
 s12_ckm = 0.2229  
 s23_ckm = 0.0412 

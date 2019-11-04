@@ -576,6 +576,25 @@ def A_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # CP asymmetry
     part5 = 8 * zz / 27 * b_cp(zz, delta_cp) *\
         ( (1 + epsilon_s) * (c2 * np.conjugate(c8) ) ).imag
     return part1 * (part2 - part3  - part4 + part5)
+def newa_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # New CP asymmetry 
+    lamda_delat_c17 = - 0.009 #0.011 # -0.033
+    lamda_delat_78 = 0.19  # - 0.017
+    lamda_delat_u17 = 0.525 # 0.017
+    lamda_c = 0.38
+    espec = 1/6
+    c2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + NLOalpha_s(s2) / \
+         (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    c8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    epsilon_s = lanmda_ckm**2 * complex(- rho_ckm ,eta_ckm)#e_s = V*_usV_ub / V*_tsV_tb
+    part1 = ((40 /81 - 40/9 * lamda_c/mb) * LOalpha_s(s2) / PI + lamda_delat_c17/mb) * \
+    (c2 / c7).imag
+    part2 = ( 4 * LOalpha_s(s2) / (9 * PI )  -  4* PI * LOalpha_s(s2) * espec * lamda_delat_78 / mb)* \
+    (c8 / c7).imag
+    part3 = ((lamda_delat_u17 - lamda_delat_c17)/mb + 40/9 * lamda_c/mb * LOalpha_s(s2) / PI) * \
+    (epsilon_s * c2 / c7).imag
+    return (part1 - part2 - part3) * PI
+#print('Newcp-asymmetry',newa_cp(mb,mw,80,170,[0.1],[0.1],[0.1],[0.1]))
 #print(yy(charHm_100))
 #print('---------------------------------------------------------')
 #print('BR(X_bar>Xs+gamma)',\

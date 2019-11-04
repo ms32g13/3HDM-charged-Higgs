@@ -37,15 +37,15 @@ fac = 4.0 * np.sqrt(2.0) * PI
 the = np.arange(- PI/2.1,  0.0,PI / 20)#theta (i in loop)
 tbe = np.arange(1.0,61.0,1.0) #tanbeta (j in loop)
 tga = np.arange(1.0,61.0,1.0) #tangamma (k in loop)
-delta = np.arange(0.0,2.1 * PI , PI /6)#delta (l in loop)  #delta fixed#
+delta = np.arange(0.0,2.1 * PI , PI /10)#delta (l in loop)  #delta fixed#
 A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 2.1 #theta
-j = 1   #tangentbeta
-k = 10#tangamma
-l = 0.0 # set delta (phase shift) to 0
+i = - PI / 2.1#theta
+j = 3.0 #tangentbeta
+k = 0.45#tangamma
+l = PI # set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
 y = np.arange(0.0,0.62,0.02) # y range
 z = np.arange(0.0,5.02,0.02) # z range
@@ -424,7 +424,7 @@ def start3():
 #        d5.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d2j0b'+ strmhch +'.csv',\
 #                           index = None, header=True)
 #        print('lenbrcb',len(BRCBfinal),len(twotag0bsig))
-        print('xyfun',len(xyfun),type(xyfun))
+        print('xyfun',len(xyfun),type(xyfun),my_tuple,Y2(*my_tuple))
         BRCBfinal_list.append(BRCBfinal)
         BRCSfinal_list.append(BRCSfinal)
         BRTNfinal_list.append(BRTNfinal)
@@ -447,6 +447,35 @@ def mhch_sig4jtag(x,y):
         y_value.append(fl.eeHH_event() * fourjet)
     print('y_value',len(y_value))
     return y_value
+def x_y_zbrthbcb():
+    listx = []
+    listy = []
+    listz = []
+    cbeventlist =[]
+    mhchlist = []
+    f = open('dthbhcb'+ str(mhch) +'.txt','w')
+    f.write('%s %s %s %s %s\n' % ("MH+", "      X", "    Y", "     Z","     BR(t>H+B)XBR(H+>CB)") )
+ #   f.write( "MH+" )
+    #("MH+", "X", "Y", "Z","BR(t>H+B)XBR(H+>CB)") 
+    for X in np.array([1.0,5.0,10.0,15.0,20.0]):
+        for Y in np.array([1/20.0, 0.066, 1/10.0, 1/5.0, 1.0]):
+            for Z in np.array([1.0,5.0,10.0,15.0,20.0]):
+                listx.append(X)
+                listy.append(Y)
+                listz.append(Z)
+                cbeventlist.append(cbevents(X,Y,Z))
+                mhchlist.append(mhch)
+    for i in range(len(listx)):
+        f.write( "%5.1f %5.1f %5.3f %5.1f %10.7e\n" % (mhchlist[i],listx[i],\
+                                                   listy[i], listz[i], cbeventlist[i]) )
+    f.close()
+    d1 = pd.DataFrame({'mhch': [*mhchlist], ' X': [*listx],
+                       ' Y': [*listy], ' Z': [*listz],
+                       ' BRTH+BBRH+CB': [*cbeventlist]})
+    d1.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/dthbhcb'+ str(mhch) +'.csv',\
+                   index = None, header=True) 
+    
+    return  
 #######################################################################
 #######################################################################
 #####################################################
@@ -470,15 +499,17 @@ xyfun_list =[]
 yfun_list = []
 start()
 start1()
+mhch_80_160 = np.arange(80.0,165.0,5.0)
 for n in np.arange(0,len(fl.mhch)):
-    mhch = fl.mhch[n]
+#    mhch = fl.mhch[n]
+    mhch = 90.0
 #    strmhch = '%.2g'% mhch
     strmhch = str(mhch)
 #    mhch = np.array(np.arange(120,131.0,10.0)[n])
     alpmhch = alpmz /(1.0 + (alpmz/(12.0 * PI)) * (33.0 - 2 * nf) * \
                   math.log((mhch**2)/(mz**2))) 
 
-    alpmb= alpmz /(1.0 + (alpmz/(12.0 * PI))*(33.0 - 2 * nf) * \
+    alpmb = alpmz /(1.0 + (alpmz/(12.0 * PI))*(33.0 - 2 * nf) * \
                math.log(4.89**2/(mz**2)))
     print('alpmb :',alpmb, ' alpmhch:',alpmhch)
 
@@ -522,8 +553,11 @@ for n in np.arange(0,len(fl.mhch)):
     else:
       lamaw=0.00
 ###########################################################
+# Printout BRT>H+b * BRH+>CB events
+    x_y_zbrthbcb()
+############################################          
 ### LOOP CALCULATION and  X, Y, Z dependence
-
+    
     z_x = np.array([0.1] * len(x)) # create same length of z array for x array
     z_y = np.array([0.1] * len(y)) # create same length of z array for y array
     for Y in y:
@@ -616,7 +650,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,thbhcbXY.png')
-    plt.show()
+#    plt.show()
     plt.close()
     print('--------------------------------------------------')
 # Contour of Branching ratio for t >H+b - H+ > cs in X,Y plane
@@ -690,7 +724,6 @@ for n in np.arange(0,len(fl.mhch)):
 #print(xyfun)
 # (4 parameters),for BRCS result
     BRCSfinal = []
-
 # (4 parameters),for BRCB result
     BRCBfinal = []
 # (4 parameters),for BRCB^2 result
@@ -754,7 +787,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.eps', format='eps')
-    plt.show()
+#    plt.show()
     plt.close()
 #    print('--------------------------------------------------')
 #(4 parameters): A,B, BRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
@@ -806,7 +839,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,thbhcb.eps', format='eps')
-    plt.show()
+#    plt.show()
     plt.close()
     print('--------------------------------------------------')
 #(4 parameters): A,B, BRTHBBRCB contour plot [in the :reshape(y,x) not reshape(x,y)]
@@ -838,7 +871,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,thbtotal.eps', format='eps')
-    plt.show()
+#    plt.show()
     plt.close()
     print('--------------------------------------------------')
 #(4 parameters): A,B, |X| plot [in the :reshape(y,x) not reshape(x,y)]
@@ -869,7 +902,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.show()
+#    plt.show()
     plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.eps')
     plt.close()
     print('--------------------------------------------------')
@@ -884,7 +917,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.show()
+#    plt.show()
     plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,imxy.eps')
     plt.close()
     print('--------------------------------------------------')
@@ -1027,7 +1060,7 @@ for n in np.arange(0,len(fl.mhch)):
         np.resize( fourtag2bsig ,\
               len( fourtag2bsig)).\
         reshape(len(B),len(A)),\
-        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,9.0,1.0))
+        colors = ['black','purple','red','darkgreen','brown','royalblue','gray','orange','cyan'] ,levels = np.arange(0.0,4.0,0.5))
     plt.title('S/$\sqrt{B}$ 4jet2b '+\
              ', $M_{H^{\pm}}$= '+ strmhch +' GeV')
     plt.xlabel(readlist[int(read1)])# x-axis label
@@ -1036,7 +1069,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.colorbar(signal4jet)
+    plt.colorbar(signal4jet)
 #    plt.savefig('sig4j2b'+ "%02d" % (mhch) +'.png')
 #    plt.show()
     plt.close()
@@ -1056,7 +1089,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    plt.yscale('log')
 #    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
 #    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.colorbar(signaloneb4jet)
+    plt.colorbar(signaloneb4jet)
 #    plt.savefig('sig4j1b'+ "%02d" % (mhch) +'.png')
 #    plt.show()
     plt.close()
