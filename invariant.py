@@ -11,7 +11,10 @@ import math
 mt = 174.6 # mass of top quark  174.6
 mc = 1.275    # mass of charm quark 1.29 / 1.279
 mb = 4.18   # mass of bottom quark 4.18
-nf = 5.0      # origin 5
+md = 0.0048 # mass of down quark
+mu = 0.0023 # mass of up quark
+nf = 5.0      # num of active flavours
+nc = 3        # repesentation of SU(3)
 PI = math.pi  # pi number 
 mw = 80.38  # mass of w boson 80.33
 mz = 91.1876 # 95.0 #98.14954576223639# 101.59443179342345  #91.18    # mass of z boson

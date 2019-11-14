@@ -45,7 +45,7 @@ selection_2j = 0.5 # 2j charH signal selection efficiency
 vcs = 0.97
 vcb = 0.04
 ###########
-mhch = np.arange(80.0,91.0,11.0)# charged Higgs ranged values
+mhch = np.arange(80.0,82.0,11.0)# charged Higgs ranged values
 print('charH_mass:',mhch)
 costhetaw = mw / mz    # cos (weinberg angle : thetaw)
 print(costhetaw,mw,mz)               
@@ -202,6 +202,7 @@ def eewwcstn_0bsignal():
 #################################################################
 #e+e- > H+H- Cross-section     
 #A.G.Akeroyd Nuclear Physics B447(1995)3-17  EQUATIONS(15 - 17)
+#DOI: 10.1016/0550-3213(95)00173-P
 #F_HIGGS(s, mz,partialwidth_z,weinberg angle) function
 def F_HIGGS(i): #i = sqrt(s)^2 or COM^2
     C_A = - 1.0 / (4 * sinthetaw * costhetaw)  # C_A function

@@ -17,7 +17,6 @@ Created on Tue Nov 27 16:27:02 2018
 ### INITIAL SET UP 
 
 import math
-import random
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
@@ -25,7 +24,7 @@ import matplotlib.ticker as ticker
 import eehh as fl
 import pandas as pd
 from invariant import *
-
+import time
 ##########################################################################
 #4*pi*SQRT(2); factor appears in partial width of 2 fermions
 fac = 4.0 * np.sqrt(2.0) * PI 
@@ -35,17 +34,17 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
 the = np.arange(- PI/2.1,  0.0,PI / 20)#theta (i in loop)
-tbe = np.arange(1.0,61.0,1.0) #tanbeta (j in loop)
-tga = np.arange(1.0,61.0,1.0) #tangamma (k in loop)
-delta = np.arange(0.0,2.1 * PI , PI /10)#delta (l in loop)  #delta fixed#
+tbe = np.arange(0.1,61.1,2.5) #tanbeta (j in loop)
+tga = np.arange(0.1,21.1,2.0) #tangamma (k in loop)
+delta = np.arange(0.0,2.01 * PI , PI /12)#delta (l in loop)  #delta fixed#
 A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 2.1#theta
-j = 3.0 #tangentbeta
-k = 0.45#tangamma
-l = PI # set delta (phase shift) to 0
+i = - PI / 4#theta
+j = 10.0#tangentbeta
+k = 0.3#tangamma
+l = PI# set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
 y = np.arange(0.0,0.62,0.02) # y range
 z = np.arange(0.0,5.02,0.02) # z range
@@ -163,14 +162,14 @@ def Z_function(i,k):
 def U(i,j,k,l):
         sga = k / math.sqrt(k**2 + 1.0) # sinegamma
         cga = 1.0 / math.sqrt(1.0 + k**2)# cosgamma
-        sthe = math.sin(i)#sinetheta
-        cthe = math.cos(i)#costheta
-        cde = math.cos(l)#cosdelta
-        sde = math.sin(l)#sindelta
+        sthe = np.sin(i)#sinetheta
+        cthe = np.cos(i)#costheta
+        cde = np.cos(l)#cosdelta
+        sde = np.sin(l)#sindelta
         cbe = 1.0 / math.sqrt(1.0 + j**2)# cosbeta
         sbe = j / math.sqrt(j**2 + 1.0) # sinebeta
         ud1 = sga * cbe
-        ud2 = complex(- cthe * sbe * cde  - sthe * cga * cbe, - cthe * sbe *sde)
+        ud2 = complex(- cthe * sbe * cde  - sthe * cga * cbe, - cthe * sbe * sde)
         ud3 = complex(sthe * sbe * cde - cthe * cga * cbe, sthe * sbe * sde)
         uu1 = sga * sbe
         uu2 = complex(cthe * cbe * cde - sthe * cga * sbe, cthe * cbe * sde)
@@ -178,6 +177,7 @@ def U(i,j,k,l):
         ul1 = cga
         ul2 = sthe * sga
         ul3 = cthe * sga
+#        print('all element',[[ud1,ud2,ud3],[uu1,uu2,uu3],[ul1,ul2,ul3]] )
         return [[ud1,ud2,ud3],[uu1,uu2,uu3],[ul1,ul2,ul3]] 
 ###################################################################
 def start():#choose what 2 parameters in total 4 parameters (theta,tanbeta,tangamma,delta)
@@ -301,6 +301,7 @@ def start1():# choose model
                  def Z3(i,j,k,l):
                      return U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0] #Z3
                  print('Model:',read0)
+                 print(X2(i,j,k,l))
                  break   
             elif read0 == str(5):
                  def X2(i,j,k,l):
@@ -403,6 +404,7 @@ def start3():
                 absolutexlist.append(abs(X2(*my_tuple))) # unpacked bracket of my_tuple by * sign
                 absoluteylist.append(abs(Y2(*my_tuple)))
                 absolutezlist.append(abs(Z2(*my_tuple)))
+                print('1',(*my_tuple),X2(*my_tuple),Y2(*my_tuple),X3(*my_tuple),Y3(*my_tuple))
                 xyfun.append(complexyfunction(*my_tuple))
                 yfun.append(Y2(*my_tuple))
                 xyfun3.append(complexyfunction3(*my_tuple))
@@ -466,14 +468,14 @@ def x_y_zbrthbcb():
                 cbeventlist.append(cbevents(X,Y,Z))
                 mhchlist.append(mhch)
     for i in range(len(listx)):
-        f.write( "%5.1f %5.1f %5.3f %5.1f %10.7e\n" % (mhchlist[i],listx[i],\
+        f.write( "%5.1f %5.1f %5.3f %5.1f %10.7e\n" % (mhchlist[i], listx[i],\
                                                    listy[i], listz[i], cbeventlist[i]) )
     f.close()
-    d1 = pd.DataFrame({'mhch': [*mhchlist], ' X': [*listx],
-                       ' Y': [*listy], ' Z': [*listz],
-                       ' BRTH+BBRH+CB': [*cbeventlist]})
-    d1.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/dthbhcb'+ str(mhch) +'.csv',\
-                   index = None, header=True) 
+#    d1 = pd.DataFrame({'mhch': [*mhchlist], ' X': [*listx],
+#                       ' Y': [*listy], ' Z': [*listz],
+#                       ' BRTH+BBRH+CB': [*cbeventlist]})
+#    d1.to_csv (r'/Users/muyuansong0419/Desktop/Allen/PHDmeeting/3HDM codes/dthbhcb'+ str(mhch) +'.csv',\
+#                   index = None, header=True) 
     
     return  
 #######################################################################
@@ -502,7 +504,7 @@ start1()
 mhch_80_160 = np.arange(80.0,165.0,5.0)
 for n in np.arange(0,len(fl.mhch)):
 #    mhch = fl.mhch[n]
-    mhch = 90.0
+    mhch = 80.0
 #    strmhch = '%.2g'% mhch
     strmhch = str(mhch)
 #    mhch = np.array(np.arange(120,131.0,10.0)[n])
@@ -554,12 +556,12 @@ for n in np.arange(0,len(fl.mhch)):
       lamaw=0.00
 ###########################################################
 # Printout BRT>H+b * BRH+>CB events
-    x_y_zbrthbcb()
+#    x_y_zbrthbcb()
 ############################################          
 ### LOOP CALCULATION and  X, Y, Z dependence
     
-    z_x = np.array([0.1] * len(x)) # create same length of z array for x array
-    z_y = np.array([0.1] * len(y)) # create same length of z array for y array
+#z_x = np.array([0.1] * len(x)) # create same length of z array for x array
+#z_y = np.array([0.1] * len(y)) # create same length of z array for y array
     for Y in y:
 
         for X in x:
@@ -580,7 +582,7 @@ for n in np.arange(0,len(fl.mhch)):
 ###################################################
     BRCS = brcs(xarray,yarray,0.1)
     BRCB = brcb(xarray,yarray,0.1)
-    BRTN = brtn(xarray,yarray,0.1)                                                                                                                                                                  
+    BRTN = brtn(xarray,yarray,0.1)                                                                                                                        
 # Contour of Branching ratio for first H+ > c,s x-axis: |X|, y-axis = |Y|; |Z|= 0.1
     plt.figure()
     ContourBRCS = plt.contour(xarray,yarray,BRCS,levels = linecs,\
@@ -763,7 +765,7 @@ for n in np.arange(0,len(fl.mhch)):
            levels = np.arange(0.15,0.40,0.05))
     plt.axis([min(A), max(A),min(B), max(B)])
 #plt.clabel(Contourbrcs, inline= 0.01, fontsize=10)# contour level show
-    plt.colorbar(Contourbrcs)
+#    plt.colorbar(Contourbrcs)
     plt.title('BR($H^{\pm} \\to $ cs), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#,$M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -780,13 +782,13 @@ for n in np.arange(0,len(fl.mhch)):
            colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'],\
            levels = np.arange(0.0,1.0,0.2))
 #    plt.clabel(Contourbrcb, inline= 0.2, fontsize= 9)# contour level show
-    plt.colorbar(Contourbrcb)
+#    plt.colorbar(Contourbrcb)
     plt.title('BR($H^{\pm} \\to $ cb), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.eps', format='eps')
+#    plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,cb.eps', format='eps')
 #    plt.show()
     plt.close()
 #    print('--------------------------------------------------')
@@ -797,7 +799,7 @@ for n in np.arange(0,len(fl.mhch)):
            colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'],\
              levels = np.arange(0.0,0.8,0.1))
 #plt.clabel(Contourbrtn)# contour level show
-    plt.colorbar(Contourbrtn)
+#    plt.colorbar(Contourbrtn)
     plt.title('BR($H^{\pm} \\to $ $\\tau \\nu_\\tau $), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -833,12 +835,12 @@ for n in np.arange(0,len(fl.mhch)):
            levels = linecs2,colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])
     plt.title('BR($t \\to $ $H^{\pm}$b) X BR($H^{\pm} \\to $ cb),\n $M_{H^{\pm}}$= '+ str(mhch) +' GeV')#plot title
 #    plt.clabel(ContourBRTHBBRCB1, inline= 0.01, fontsize=10)# contour level show
-    plt.colorbar(ContourBRTHBBRCB1)
+#    plt.colorbar(ContourBRTHBBRCB1)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,thbhcb.eps', format='eps')
+#    plt.savefig('M{H^{\pm}}= '+ str(mhch) +' GeV,thbhcb.eps', format='eps')
 #    plt.show()
     plt.close()
     print('--------------------------------------------------')
@@ -867,10 +869,10 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #    plt.clabel(ContourTOTAL, inline= 0.01, fontsize=10)# contour level show
-    plt.colorbar(ContourTOTAL)
+#    plt.colorbar(ContourTOTAL)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
-    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,thbtotal.eps', format='eps')
+#    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,thbtotal.eps', format='eps')
 #    plt.show()
     plt.close()
     print('--------------------------------------------------')
@@ -897,13 +899,13 @@ for n in np.arange(0,len(fl.mhch)):
             np.resize(np.array(np.real(xyfun)),len(np.array(np.real(xyfun)))).reshape(len(B),len(A)),\
             levels = np.arange(-1.1,0.9,0.2),colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])#,levels = linecs3)#
 #    plt.clabel(contourxy, inline= 0.01, fontsize=10)# contour level show
-    plt.colorbar(contourxy)
+#    plt.colorbar(contourxy)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #    plt.show()
-    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.eps')
+#    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.eps')
     plt.close()
     print('--------------------------------------------------')
 #(4 parameters): A,B, IM(XY^{*}) plot [in the :reshape(y,x) not reshape(x,y)]
@@ -912,13 +914,13 @@ for n in np.arange(0,len(fl.mhch)):
     contourxy2 = plt.contourf(A,B,np.resize(np.array(np.imag(xyfun)),len(np.array(np.imag(xyfun)))).reshape(len(B),len(A)),\
                             levels = linecs4,cmap = 'brg')
 #   plt.clabel(contourxy2, inline= 0.01, fontsize=10)# contour level show
-    plt.colorbar(contourxy2)
+#    plt.colorbar(contourxy2)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #    plt.show()
-    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,imxy.eps')
+#    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,imxy.eps')
     plt.close()
     print('--------------------------------------------------')
 #(4 parameters): A,B, |Y| plot [in the :reshape(y,x) not reshape(x,y)]
@@ -927,7 +929,7 @@ for n in np.arange(0,len(fl.mhch)):
     contoury = plt.contour(A,B,\
             np.resize(np.array(absoluteylist),len(np.array(absoluteylist))).reshape(len(B),len(A)))
     plt.clabel(contoury, inline= 0.01, fontsize=10)# contour level show
-    plt.colorbar(contoury)
+#    plt.colorbar(contoury)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
@@ -942,12 +944,12 @@ for n in np.arange(0,len(fl.mhch)):
     contourz = plt.contour(A,B,\
             np.resize(np.array(absolutezlist),len(np.array(absolutezlist))).reshape(len(B),len(A)))
     plt.clabel(contourz, inline= 0.01, fontsize=10)# contour level show
-    plt.colorbar(contourz)
+#    plt.colorbar(contourz)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.savefig('z.eps')
+#    plt.savefig('z.eps')
 #   plt.show()
     plt.close()
     print('--------------------------------------------------')
@@ -1168,6 +1170,7 @@ for n in np.arange(0,len(fl.mhch)):
 #    print(len(twotagsig),A)
 #    np.savetxt('fourtag2bsig.txt',(fourtag2bsig),header="fourtag2bsig",fmt = '%10.5f')
 #    np.savetxt('twotagsig.txt',(twotagsig),header="twotagsig",fmt = '%10.5f')
+
 ####################################
 def start4():#Scan-plot
         start1()
