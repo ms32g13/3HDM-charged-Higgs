@@ -40,3 +40,7 @@ CEPCeehh.py: Codes for CEPC (more energy available range. ie. Centre of mass ene
 
 CEPC_plot.py: Codes to produce graphs of branching ratios of charged Higgs decay (Leptonic and Hadronic).
 >> CEPCeehh.py produces charged Higgs events based on chosen luminoscities. Using the events that code produced can plot for parameter space against branching ratios and other stuffs.
+
+neturonedm.py: Codes to produce 3HDM charged Higgs contribution for Neutron EDM limit based on the (X_iY_i^* ) where i = 2,3 reading values from exercise.py. 
+>> Calculation taken from mu_tH(m_t) scale to mu_hadron(hadron = 1GeV) scale.
+>> Two contributions are mainly useful, (C)3HDM and weinberg operator. Whole formulas are based on the paper :  arXiv:1308.6283.
