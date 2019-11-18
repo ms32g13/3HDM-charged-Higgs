@@ -34,17 +34,17 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
 the = np.arange(- PI/2.1,  0.0,PI / 20)#theta (i in loop)
-tbe = np.arange(0.1,61.1,2.5) #tanbeta (j in loop)
-tga = np.arange(0.1,21.1,2.0) #tangamma (k in loop)
+tbe = np.arange(0.1,8.1,0.2) #tanbeta (j in loop)
+tga = np.arange(0.1,10.1,0.5) #tangamma (k in loop)
 delta = np.arange(0.0,2.01 * PI , PI /12)#delta (l in loop)  #delta fixed#
 A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 4#theta
+i = - PI / 5#theta
 j = 10.0#tangentbeta
-k = 0.3#tangamma
-l = PI# set delta (phase shift) to 0
+k = 0.5#tangamma
+l = 0.0# set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
 y = np.arange(0.0,0.62,0.02) # y range
 z = np.arange(0.0,5.02,0.02) # z range
@@ -389,6 +389,9 @@ def start3():
         reference_array = [i,j,k,l]
         read1_int = int(read1)
         read2_int = int(read2)
+        f = open('X_Yresult.txt','w')
+        f.write('%s %s %s %s\n' % ("   tuple,","              X2", "            Y2",\
+                                 "         X2Y2*") )
         for var_b in B:
             for var_a in A:
                 my_tuple = ()
@@ -404,7 +407,13 @@ def start3():
                 absolutexlist.append(abs(X2(*my_tuple))) # unpacked bracket of my_tuple by * sign
                 absoluteylist.append(abs(Y2(*my_tuple)))
                 absolutezlist.append(abs(Z2(*my_tuple)))
-                print('1',(*my_tuple),X2(*my_tuple),Y2(*my_tuple),X3(*my_tuple),Y3(*my_tuple))
+#                print('1',(*my_tuple),X2(*my_tuple),Y2(*my_tuple),X3(*my_tuple),Y3(*my_tuple))
+#                print(my_tuple)
+                
+                
+                f.write( " %s %s %s %s\n" % \
+                        (my_tuple,X2(*my_tuple),Y2(*my_tuple),complexyfunction(*my_tuple) ) )
+                
                 xyfun.append(complexyfunction(*my_tuple))
                 yfun.append(Y2(*my_tuple))
                 xyfun3.append(complexyfunction3(*my_tuple))
@@ -413,7 +422,7 @@ def start3():
 #                BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
                 BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-                
+        f.close()      
                 
 #                twotag0bsig = fl.eeHH_event()[n] * 2.0 * (np.array(BRCBfinal) + np.array(BRCSfinal)) * np.array(BRTNfinal) * fl.selection_2j /\
 #                              np.sqrt(fl.backgroundnotagging2())
@@ -555,7 +564,7 @@ for n in np.arange(0,len(fl.mhch)):
     else:
       lamaw=0.00
 ###########################################################
-# Printout BRT>H+b * BRH+>CB events
+#Printout BRT>H+b * BRH+>CB events
 #    x_y_zbrthbcb()
 ############################################          
 ### LOOP CALCULATION and  X, Y, Z dependence

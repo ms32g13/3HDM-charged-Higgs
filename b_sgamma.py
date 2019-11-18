@@ -18,7 +18,7 @@ from matplotlib.ticker import MultipleLocator
 #print('xyfun',np.array(xyfun))
 #print('U',U(- PI/2.1,2,20,0.0)[0][2] / U(- PI/2.1,2,20,0.0)[0][0])
 #print('X3',X3(- PI/2.1,2,20,0.0),Y3(- PI/2.1,2,20,0.0))
-mass_differ  = 80   # charged Higgs mass diference
+mass_differ  = 20   # charged Higgs mass diference
 axs = np.arange(1, 41, 1)
 def array4():
     tuple_array = []
@@ -54,19 +54,20 @@ print('mu_w scale at LO and NLO:',mw,LOalpha_s(mw),NLOalpha_s(mw))
 print('mu_z scale at LO and NLO:',mz,LOalpha_s(mz),NLOalpha_s(mz))
 print('mu_b scale at LO and NLO:',mb,LOalpha_s(mb),NLOalpha_s(mb))
 print('mu_t scale at LO and NLO:',mt,LOalpha_s(mt),NLOalpha_s(mt))
+print('mu_c scale at LO and NLO:',mc,LOalpha_s(mc),NLOalpha_s(mc))
 #################running quark mass at scale mu_w under minimal subtract scheme
 def run_quark_bar(q):# 
     c1 = np.log(q**2 / mw**2)
-    c2 = LOalpha_s(mw) / PI
+    c2 = NLOalpha_s(mw) / PI
     return q * (1 + c2 * c1 - 4 / 3 * c2 )
 #############
 charHm_100 = np.array([100,300,500,1000]) #for MH+2 = 100GeV
 charHm_large = np.array([300,500,1000,1200]) #for MH+3 > 100GeV
 delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry 
-zz = (run_quark_bar(mc) / run_quark_bar (mb) )**2  # mc^2 / mb^2
+zz = (mc/ mb )**2  # mc^2 / mb^2
 #zz = (mc / mb)**2
-xx = run_quark_bar(mt)**2 / mw**2 # mt^2 /mw^2
-NLOxx = run_quark_bar(mt)**2 / mw**2
+xx = mt**2 / mw**2 # mt^2 /mw^2
+NLOxx = mt**2 / mw**2
 PI = np.pi
 # mt^2 / mh^2
 def yy(mass):
@@ -305,7 +306,7 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
         ratio22 = 0.0
     else:
         ratio22 = np.log(s**2/(mass2)**2)
-    ratio_muoverpi = NLOalpha_s(mw) / (4 * PI) 
+    ratio_muoverpi = NLOalpha_s(s) / (4 * PI) 
 #    print('yy()',yy())
 #    print('w7_sm',w7_sm(),t7_sm() * (ratio1  - 4 / 3))
 #    print('===',w8_yy(),w8_xy(),t8_xy(),t8_yy(),m8_xy())
@@ -361,7 +362,8 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
 #### Wilson coefficient at low scale(mu_b)
 ##############################LO
 def C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c0_7_eff(mu_b) LO
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+#    eta1 = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) #  NLO
     step1 = eta**(16 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[3]
     step2 = (eta**(14 / 23) - eta**(16 / 23) ) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
     result1 = 0.0
@@ -377,10 +379,10 @@ def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
 #    print('c1_eff(s1,i,j)[6,m]',c1_eff(NLOalpha_s(mw),ll2,ll1)[6])
     step2 = 8 / 3 * (eta1**(37 / 23) - eta1**(39 / 23) ) *\
             c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[7]
-    step3 = ((297664 / 14283) * eta**(16 / 23) - 7164416 / 357075 * eta**(14 / 23) +\
-256868/14283 * (eta**(37 / 23)) - 6698884 / 357075 * eta**(39 / 23)) * \
+    step3 = ((297664 / 14283) * eta1**(16 / 23) - 7164416 / 357075 * eta1**(14 / 23) +\
+256868/14283 * (eta1**(37 / 23)) - 6698884 / 357075 * eta1**(39 / 23)) * \
              c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
-    step4 = 37208/4761 * (eta**(39 / 23) - eta**(16 / 23)) * \
+    step4 = 37208/4761 * (eta1**(39 / 23) - eta1**(16 / 23)) * \
             c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[3]
     result = 0.0
     c1_4effmw = E_0() + 2 / 3 * np.log(s1**2 / mw**2) + np.abs(i1)**2 * E_H(mass1) + \
@@ -395,15 +397,15 @@ def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
 #        print('result',result)
     return step1 + step2 + step3 + step4 + result
 def C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 =  eta**(6 / 23) - eta**(- 12 / 23) 
     return step1 * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[0]
 def C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = 2 /3 * eta**(6 / 23) + 1 /3 * eta**(- 12 / 23) 
     return step1 * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[0]
 def C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta**(14 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
     result = 0.0
     for n in np.arange(0,5):
@@ -506,13 +508,13 @@ def decay_bspg(s2,s1,mass1,mass2,i1,j1,i2,j2):
 ###########Decay_width of semileptonic 
 def decay_SL():
     part1 = gf**2 /(192 * PI**3) * mb**5 * g_z
-    part2 = 1 - 2 * NLOalpha_s(mb) * f_z / (3 * PI) \
-    + delta_NP_SL / run_quark_bar(mb)**2
+    part2 = 1 - 2 * NLOalpha_s(mb ) * f_z / (3 * PI) \
+    + delta_NP_SL / mb**2
     return part1 * part2
 #print('Partial width of semileptonic decay', decay_SL() )
 #################################################################
 #Measured Semi- leptonic branching ratio B_SL
-B_SL = 0.1065 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
+B_SL = 0.1049 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049
 #################################################################
 ################################################################
 #################### Partial width of B_bar > X_s + gamma

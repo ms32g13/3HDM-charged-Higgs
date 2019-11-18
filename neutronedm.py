@@ -23,10 +23,8 @@ def beta_0(): # beta_0 function below EQ2.33
 def LOalpha_s(i): #alpha_s(mu) at LO
 #    print(i,zz,alpmz,mz)
     beta0 = beta_0()
-    beta1 = 0
     v = 1 - beta0 * (alpmz / (2.0 * PI)) * np.log(mz / i)
-    ratio1 = np.log(v) / v
-    return alpmz / v * (1 - (beta1 / beta0) * (alpmz / (4 * PI)) * ratio1)
+    return alpmz / v 
 ################ NLO for strong coupling constant
 def NLOalpha_s(i): #alpha_s(mu) at NLO
     beta0 = beta_0()
@@ -34,10 +32,10 @@ def NLOalpha_s(i): #alpha_s(mu) at NLO
     v = 1 - beta0 * (alpmz / (2.0 * PI)) * np.log(mz / i)
     ratio1 = np.log(v) / v
     return alpmz / v * (1 - (beta1 / beta0) * (alpmz / (4 * PI)) * ratio1)
-def run_quark_bar(q):# 
-    c1 = np.log(q**2 / mw**2)
-    c2 = LOalpha_s(mw) / PI
-    return q * (1 + c2 * c1 - 4 / 3 * c2 )
+def run_quark_bar(q,mq):# 
+    c1 = np.log(mq**2 / q**2)
+    c2 = LOalpha_s(q) / PI
+    return mq * (1 + c2 * c1 - 4 / 3 * c2 )
 #########################
 # Strong coupling constant of specific scale Q   One-loop
 # from paper: PHYSICAL REVIEW D 81, 075016 (2010) Appendix A(4)
@@ -47,6 +45,12 @@ def gs(Q):
                   np.log(Q / mz)
     return LOalpha_s(mz) / denominator
 print('Strong coupling constant at scale '+ str(173) +':', gs(173))
+print('running mass of b quark at 100 GeV',run_quark_bar(mw,4.89),gs(mz))
+print('mu_w scale at LO and NLO:',mw,LOalpha_s(mw),NLOalpha_s(mw))
+print('mu_z scale at LO and NLO:',mz,LOalpha_s(mz),NLOalpha_s(mz))
+print('mu_b scale at LO and NLO:',mb,LOalpha_s(mb),NLOalpha_s(mb),run_quark_bar(4.18,4.89))
+print('mu_t scale at LO and NLO:',mt,LOalpha_s(mt),NLOalpha_s(mt))
+print('mu_c scale at LO and NLO:',mc,LOalpha_s(mc),NLOalpha_s(mc))
 ##########################    
 def eta(x,y):# at NLO for EQ 2.35,2.36,2.37
     return NLOalpha_s(x) / NLOalpha_s(y)
@@ -55,7 +59,7 @@ def kw():# # EQ 2.33 gamma_w / (2 * beta0)
 def kc():# # EQ 2.33 gamma_c / (2 * beta0)
     return (10 * 4 / 3 - 4 * nc)/ (2.0 * beta_0() )
 def kgamma():# # EQ 2.33 gamma_gamma / (2 * beta0)
-    return 2 * 4 / 3.0
+    return 2 * 4 / beta_0() 
 def x_tH(mass):
     return  mt**2 / (mass)**2
 #################################
@@ -78,7 +82,7 @@ def toverH(x):# 2nd contibution in EQ 4.11
     return  (np.log(x) / (x - 1)**3 + \
                 (x - 3) / (2.0 * (x - 1)**2)  )
 def dC_btH(mass1,mass2,j1,j2): # d^{C}_{b}(mu_tH) EQ 4.11
-    part1 = - gf * 2.0 / ( np.sqrt(2) * 16 * PI**2) * np.abs(vtb)**2 * run_quark_bar(mb)
+    part1 = - gf * 2.0 / ( np.sqrt(2) * 16 * PI**2) * np.abs(vtb)**2 * run_quark_bar(mb,mb)
 #    print(part1,toverH(x_tH(mass1)), toverH(x_tH(mass2)) )
     part2 = np.array(j1).imag * x_tH(mass1) * toverH(x_tH(mass1)) \
           + np.array(j2).imag * x_tH(mass2) * toverH(x_tH(mass2))
@@ -118,8 +122,13 @@ def dn_CEDM(mass1,mass2,j1,j2): # 2.3
     # using PI-0 meson , so use mass of PI-0 
     m_pi = 0.135
     part2 = - f_pi**2 * m_pi**2 / (mb + mu)
+    c1 = eta(mt,mhadron)**kgamma() *  (dgmma_dBZ(mass1,j1) + dgmma_dBZ(mass2,j2) )
+    c2 = 8 * 4/3 * (-1/3) / ()
+    c3 =1
     dgammad_muh  = eta(mt,mhadron) * ( dgmma_dBZ(mass1,j1) + dgmma_dBZ(mass2,j2) )
-    return 1.4 * dgammad_muh * (part2 / (0.225)**3)
+    dcq_muh = eta(mc,mahdron)**kc() * eta(mb,mc)**kc() * \
+            eta(mt,mb)**kc() * dC_btH(mass1,mass2,j1,j2)
+    return (1.4 * dgammad_muh  + 1.1 * dcq_muh )* (part2 / (0.225)**3)
     
 #print(dn_CEDM(80,400,complex(100,-1),complex(100,0.1))) 
 # Weinberg Operator 

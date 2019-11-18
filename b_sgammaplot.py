@@ -53,15 +53,14 @@ def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
     plt.close
 ###################################
 def Plot_8_9():
-    xim_axis = np.arange(-5,5.2,0.1)# figure 8
+    xim_axis = np.arange(-10,10.2,0.5)# figure 8
     XYimx_axis = [complex(-2,i)*1.0 for i in xim_axis]
-    rangephi = np.arange(0,3.14,0.01) # figure 9
+    rangephi = np.arange(0,PI,0.01) # figure 9
 #    print('rangephi', rangephi,len(rangephi))
-    XYexpim_axis = [ np.exp(complex(0,j)) for j in rangephi] 
+    XYexpim_axis = [ complex(np.cos(j),np.sin(j)) for j in rangephi] 
 #    print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis])
 #    print('X = 2exp(i phi)',XYexpim_axis,len(XYexpim_axis))
-   #mlx = MultipleLocator(1)
-   #mly = MultipleLocator(0.25)
+    mhch = 100
     y48imx_axis = bsg.BR_B_Xs_gamma(4.8,mhch,mhch,mhch + bsg.mass_differ ,\
                         [1.0],XYimx_axis,[0.0],[0.0])
     y24imx_axis = bsg.BR_B_Xs_gamma(2.4,mhch,mhch,mhch + bsg.mass_differ,\
@@ -174,7 +173,7 @@ def Plot_5() :
 #                        Y2(*array4()[n]),complexyfunction(*array4()[n]),\
 #                        Y3(*array4()[n]),complexyfunction3(*array4()[n])) 
 #        plt.plot(x_axis,y22_axis3hdm / (1e-4))
-    plt.axis([50.0, 1000.0, 1.0, 6.0])
+    plt.axis([100.0, 1000.0, 1.0, 6.0])
     plt.show()
     plt.close()
     return
@@ -240,16 +239,16 @@ def plot_under_deltascan(i,j,k,l):
     plt.axis([50,200, 100.0, 170.0])
 def plot_Hp1_Hp2():# [mH+1,mH+2] for fixed B_bar > X_s + gamma
 #    fixedarray = (- bsg.PI/2.1,10,60,0.0) #mixing matrix parameters
-    tangamma = 1.0#tangamma
-    theta = - bsg.PI/ 2.1
+    tangamma = 20.0#tangamma
+    theta = - bsg.PI/ 4
     tanbeta = 2
     X1_array =  - tanbeta  * np.cos(theta) - tangamma / (1.0 / np.sqrt(1.0 + tanbeta**2)) * np.sin(theta)
     Y1_array = - 1.0/tanbeta * np.cos(theta)
     X2_array =  tanbeta  * np.sin(theta) - tangamma / (1.0 / np.sqrt(1.0 + tanbeta**2))  * np.cos(theta)
     Y2_array = 1.0/tanbeta * np.sin(theta)
     print('X1',X1_array,Y1_array,X2_array,Y2_array)
-    m1_axis = np.array([ i for i in np.arange(50,550,50)] )
-    m2_axis = np.array([ i for i in np.arange(50,1050,50)] )
+    m1_axis = np.array([ i for i in np.arange(50,550,20)] )
+    m2_axis = np.array([ i for i in np.arange(50,1050,20)] )
     empty =[]
     m2 = m2_axis[0]
     m1 = m1_axis[0]
@@ -272,7 +271,7 @@ def plot_Hp1_Hp2():# [mH+1,mH+2] for fixed B_bar > X_s + gamma
     plt.colorbar(result)
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([50,200, 50.0, 1000.0])
+    plt.axis([90,200, 75.0, 300.0])
 #    plt.show()
     return
 def ABarray4(): # using [A,B] to plot BR(B_bar > X_s +gamma)
@@ -422,10 +421,10 @@ def numerical():
 ############################################
 ##PLOT SECTION
 #numerical()
-#Plot_3()
+Plot_3()
 #Plot_4()
-#Plot_5()
-#Plot_8_9()
+Plot_5()
+Plot_8_9()
 #plot_Hp1_Hp2()
 #plot_under_Heatherbasis(exe.i,exe.j,exe.k,exe.l)
 #############################################
@@ -439,11 +438,11 @@ def scanscanplot():#scan each parameter plots
 #scanscanplot()
 #endtime = exe.time.time()
 #print(endtime - starttime)
-plt_A_B_xy()#A_B_XY*
-for jjjj in np.arange(80,90,5):
-    for iiii in np.arange(130,175,5):
-        plt_A_B_bsg(jjjj,iiii )#A_B_bsgamma
-###############################################
+#plt_A_B_xy()#A_B_XY*
+#for jjjj in np.arange(80,180,20):
+#    for iiii in np.arange(180,750,100):
+#        plt_A_B_bsg(jjjj,iiii )#A_B_bsgamma
+##############################################################
 #print('Newcp-asymmetry',bsg.newa_cp(mb,mw,80,400,\
 #                        exe.Y2(*ABarray4()[0] ),exe.complexyfunction(*ABarray4()[0] ),\
 #                        exe.Y3(*ABarray4()[0] ),exe.complexyfunction3(*ABarray4()[0] )))
