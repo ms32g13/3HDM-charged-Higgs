@@ -53,12 +53,12 @@ def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
     plt.close
 ###################################
 def Plot_8_9():
-    xim_axis = np.arange(-10,10.2,0.5)# figure 8
+    xim_axis = np.arange(-10,10.2,0.2)# figure 8
     XYimx_axis = [complex(-2,i)*1.0 for i in xim_axis]
-    rangephi = np.arange(0,PI,0.01) # figure 9
+    rangephi = np.arange(0,3.1415926,0.01) # figure 9
 #    print('rangephi', rangephi,len(rangephi))
     XYexpim_axis = [ complex(np.cos(j),np.sin(j)) for j in rangephi] 
-#    print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis])
+#    print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis],XYimx_axis)
 #    print('X = 2exp(i phi)',XYexpim_axis,len(XYexpim_axis))
     mhch = 100
     y48imx_axis = bsg.BR_B_Xs_gamma(4.8,mhch,mhch,mhch + bsg.mass_differ ,\
@@ -73,7 +73,10 @@ def Plot_8_9():
                         [0.5],XYexpim_axis,[0.0],[0.0])
     y96phi_axis = bsg.BR_B_Xs_gamma(9.6,mhch,mhch,mhch + bsg.mass_differ,\
                         [0.5],XYexpim_axis,[0.0],[0.0])
-
+    print('----')
+    print(y48imx_axis)
+    print(y24imx_axis)
+    print(y96imx_axis)
     plt.xlim(-7, 7)
     plt.ylim(-2, 6.5)
 #plt.axes().xaxis.set_minor_locator(mlx)

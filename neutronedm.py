@@ -19,6 +19,7 @@ mhadron = 1 # 1 GeV hadronic scale
 #########################  
 def beta_0(): # beta_0 function below EQ2.33
     nc = 3
+    nf = 5
     return (11.0 * nc - 2.0 * nf)/3.0
 def LOalpha_s(i): #alpha_s(mu) at LO
 #    print(i,zz,alpmz,mz)
@@ -32,10 +33,10 @@ def NLOalpha_s(i): #alpha_s(mu) at NLO
     v = 1 - beta0 * (alpmz / (2.0 * PI)) * np.log(mz / i)
     ratio1 = np.log(v) / v
     return alpmz / v * (1 - (beta1 / beta0) * (alpmz / (4 * PI)) * ratio1)
-def run_quark_bar(q,mq):# 
-    c1 = np.log(mq**2 / q**2)
-    c2 = LOalpha_s(q) / PI
-    return mq * (1 + c2 * c1 - 4 / 3 * c2 )
+def run_quark_bar(q,m):# 
+    c1 = np.log(m**2 / q**2)
+    c2 = NLOalpha_s(q) / PI
+    return m * (1 + c2 * c1 - 4 / 3 * c2 )
 #########################
 # Strong coupling constant of specific scale Q   One-loop
 # from paper: PHYSICAL REVIEW D 81, 075016 (2010) Appendix A(4)
@@ -50,6 +51,7 @@ print('mu_w scale at LO and NLO:',mw,LOalpha_s(mw),NLOalpha_s(mw))
 print('mu_z scale at LO and NLO:',mz,LOalpha_s(mz),NLOalpha_s(mz))
 print('mu_b scale at LO and NLO:',mb,LOalpha_s(mb),NLOalpha_s(mb),run_quark_bar(4.18,4.89))
 print('mu_t scale at LO and NLO:',mt,LOalpha_s(mt),NLOalpha_s(mt))
+print('mu scale at LO and NLO:',168,LOalpha_s(168),NLOalpha_s(168))
 print('mu_c scale at LO and NLO:',mc,LOalpha_s(mc),NLOalpha_s(mc))
 ##########################    
 def eta(x,y):# at NLO for EQ 2.35,2.36,2.37
