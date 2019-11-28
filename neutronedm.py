@@ -46,7 +46,7 @@ def gs(Q):
                   np.log(Q / mz)
     return LOalpha_s(mz) / denominator
 print('Strong coupling constant at scale '+ str(173) +':', gs(173))
-print('running mass of b quark at 100 GeV',run_quark_bar(mw,4.89),gs(mz))
+print('running mass of b quark at 100 GeV',run_quark_bar(100,4.18))
 print('mu_w scale at LO and NLO:',mw,LOalpha_s(mw),NLOalpha_s(mw))
 print('mu_z scale at LO and NLO:',mz,LOalpha_s(mz),NLOalpha_s(mz))
 print('mu_b scale at LO and NLO:',mb,LOalpha_s(mb),NLOalpha_s(mb),run_quark_bar(4.18,4.89))
@@ -56,12 +56,14 @@ print('mu_c scale at LO and NLO:',mc,LOalpha_s(mc),NLOalpha_s(mc))
 ##########################    
 def eta(x,y):# at NLO for EQ 2.35,2.36,2.37
     return NLOalpha_s(x) / NLOalpha_s(y)
+def kc_p(e):# # EQ 2.33 gamma_{C_photon} / (2 * beta0)
+    return  8 * e * 4 /3
 def kw():# # EQ 2.33 gamma_w / (2 * beta0)
     return (nc + 2 * nf)/ (2.0 * beta_0() )
 def kc():# # EQ 2.33 gamma_c / (2 * beta0)
     return (10 * 4 / 3 - 4 * nc)/ (2.0 * beta_0() )
 def kgamma():# # EQ 2.33 gamma_gamma / (2 * beta0)
-    return 2 * 4 / beta_0() 
+    return 2 * 4/3 / (2.0 * beta_0() )
 def x_tH(mass):
     return  mt**2 / (mass)**2
 #################################
@@ -120,17 +122,22 @@ def dgmma_dBZ(mass,j):# EQ 4.24 charged Higgs contribution
 
 #(C) EDM
 def dn_CEDM(mass1,mass2,j1,j2): # 2.3
-    f_pi = 0.094 # PION decay constant form factor  94 MeV > Phys. Rev. D 40, 2378
+    f_pi = 0.13 # PION decay constant 
     # using PI-0 meson , so use mass of PI-0 
     m_pi = 0.135
-    part2 = - f_pi**2 * m_pi**2 / (mb + mu)
+    ga_c = 10 * 4 /3 - 4 * 3 # gamma_c
+    ga_cga = 8 * 4 /3 * (-1/3) # gamma_{C_gamma} for bottom quark (-1/3)
+    ga_ga = 2 * 4/3 # gamma_{gamma}
+    part2 = - f_pi**2 * m_pi**2 / (mb + 0)
     c1 = eta(mt,mhadron)**kgamma() *  (dgmma_dBZ(mass1,j1) + dgmma_dBZ(mass2,j2) )
-    c2 = 8 * 4/3 * (-1/3) / ()
-    c3 =1
-    dgammad_muh  = eta(mt,mhadron) * ( dgmma_dBZ(mass1,j1) + dgmma_dBZ(mass2,j2) )
-    dcq_muh = eta(mc,mahdron)**kc() * eta(mb,mc)**kc() * \
+    dgammad_muh  = c1 + ga_cga / (ga_ga - ga_c) * \
+            ( eta(mt,mhadron)**kgamma() - eta(mt,mhadron)**kc() ) *  \
+            dC_btH(mass1,mass2,j1,j2)
+    
+    dcq_muh = eta(mc,mhadron)**kc() * eta(mb,mc)**kc() * \
             eta(mt,mb)**kc() * dC_btH(mass1,mass2,j1,j2)
-    return (1.4 * dgammad_muh  + 1.1 * dcq_muh )* (part2 / (0.225)**3)
+    
+    return (1.4 * dgammad_muh  + 1.1 * dcq_muh ) * 1.0 * (part2 / (0.225)**3)
     
 #print(dn_CEDM(80,400,complex(100,-1),complex(100,0.1))) 
 # Weinberg Operator 
@@ -138,9 +145,9 @@ def CW(mass1,mass2,j1,j2):   # EQ 2.37 and 2.5
     part1 = eta(mc,mhadron)**kw() * eta(mb,mc)**kw() 
     part2 = eta(mt,mb)**kw() * C_wmutH()
     part3 = eta(mt,mb)**kc() * gs(mb)**3 / (8 * PI**2 * mb) \
-          * dC_btH(mass1,mass2,j1,j2) /2.0      
+          * dC_btH(mass1,mass2,j1,j2) / 2.0      
     return part1 * (part2 + part3) * 1.0 * 0.02  # 20 MeV 
 # Total Neutron EDM contribution from charged Higgs in 3HDM
 def dn(mass1,mass2,j1,j2):
-    return CW(mass1,mass2,j1,j2)
-print(dn(80,500,complex(100,1),complex(1,0.1))) 
+    return  CW(mass1,mass2,j1,j2) #+ dn_CEDM(mass1,mass2,j1,j2)
+print(CW(100,500,complex(1,1),0) , dn_CEDM(100,500,complex(1,1),0)) 

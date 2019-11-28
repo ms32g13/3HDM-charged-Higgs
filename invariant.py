@@ -8,20 +8,20 @@ Created on Tue Feb 26 14:41:45 2019
 import math
 ###Invariant parameters 
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
-mt = 174.6 # mass of top quark  174.6
-mc = 1.275    # mass of charm quark 1.29 / 1.279
-mb = 4.18   # mass of bottom quark 4.18
+mt = 175 # mass of top quark  174.6
+mc = 1.64  # mass of charm quark 1.29 / 1.279/1.275 # 1.3846 2hdm paper
+mb = 4.8  # mass of bottom quark  #4.78 2hdm paper
 md = 0.0048 # mass of down quark
 mu = 0.0023 # mass of up quark
 nf = 5.0      # num of active flavours
 nc = 3        # repesentation of SU(3)
 PI = math.pi  # pi number 
-mw = 80.389  # mass of w boson 80.33
-mz = 91.1876 # 95.0 #98.14954576223639# 101.59443179342345  #91.18    # mass of z boson
+mw = 80.385 # mass of w boson #80.33 2hdm paper
+mz = 91.18 # 95.0 #98.14954576223639 #91.18    # mass of z boson
 pwz = 2.4952  # partial width of z boson
 pww = 2.085  #  partial width of w boson 
 mtau = 1.7771 # mass of tau lepton
-gf = 0.000011663787 # fermi constant
+gf = 1.1663787e-05#0.000011663787 # fermi constant
 mhch = 100.00  # mass of charged higgs
 mh = 125.0 #  mass of higgs
 ma = 300.00 # mass of Pseudoscalar 
@@ -48,8 +48,8 @@ vtb = c23_ckm * c13_ckm
 ######################################################
 coeffmc = 12.0/25.0
 coeffmb = 12.0/23.0
-alpmz = 0.1185 #coupling of z 
-alpha_electroweak = 1.0 / 128 # alpha for EM coupling
+alpmz = 0.1185 #coupling of z #0.119 2hdm paper
+alpha_electroweak = 1.0 / 130.3 # alpha for EM coupling
 # CKM matrix elements observables from CKMfitter
 #https://indico.cern.ch/event/684284/contributions/2952455/attachments/1719296/2774804/Vale_Silva_3.pdf
 rho_bar_ckm = 0.1577
@@ -59,4 +59,7 @@ eta_ckm = 0.349
 lanmda_ckm = 0.224747
 A_ckm = 0.8403
 lambda_t = vtb * vts # lambda_t = V_tb * (V_ts).conjugate  CKM products
-squared_vtsvtbovervcb = 0.9626 # 0.95 in Borzumati's paper
+squared_vtsvtbovervcb = 0.9626 # 0.95 in Borzumati's paper / 0.9626 Andrew,Stefano
+#################################################################
+#Measured Semi- leptonic branching ratio B_SL for B>Xs + gamma result
+B_SL = 0.1065 # Phys. Rev. Lett. 76, 1570 – Published 4 March 1996 =  0.1049

@@ -41,7 +41,7 @@ A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 5#theta
+i = - PI / 3#theta
 j = 10.0#tangentbeta
 k = 0.5#tangamma
 l = 0.0# set delta (phase shift) to 0
@@ -379,6 +379,10 @@ def complexyfunction(i,j,k,l):# (XY^*) function
         return X2(i,j,k,l) * (np.conjugate(Y2(i,j,k,l)))
 def complexyfunction3(i,j,k,l):# (XY^*) function of additional physical mass
         return X3(i,j,k,l) * (np.conjugate(Y3(i,j,k,l)))
+def complnedm2(i,j,k,l):# (XY^*) function 
+        return X2(i,j,k,l) *  np.conj(-Y2(i,j,k,l))
+def complnedm3(i,j,k,l):# (XY^*) function of additional physical mass
+        return X3(i,j,k,l) *  np.conj(-Y3(i,j,k,l))    
 ###############################################################################
 def start3():
 #        global X2,Y2,Z2 #
@@ -418,6 +422,8 @@ def start3():
                 yfun.append(Y2(*my_tuple))
                 xyfun3.append(complexyfunction3(*my_tuple))
                 yfun3.append(Y3(*my_tuple))
+                xyfunedm2.append(complnedm2(i,j,k,l) )
+                xyfunedm3.append(complnedm3(i,j,k,l) )
                 BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
 #                BRCB2final.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))**2)
                 BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
@@ -723,6 +729,8 @@ for n in np.arange(0,len(fl.mhch)):
     yfun = []
     xyfun3 = []
     yfun3 = []
+    xyfunedm2 = []
+    xyfunedm3 = []
 ##############################################################
 #def X2(i,j,k,l):
 #    return U(i,j,k,l)[0][1] / U(i,j,k,l)[0][0] #X2

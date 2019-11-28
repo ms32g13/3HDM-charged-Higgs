@@ -55,9 +55,9 @@ def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
 def Plot_8_9():
     xim_axis = np.arange(-10,10.2,0.2)# figure 8
     XYimx_axis = [complex(-2,i)*1.0 for i in xim_axis]
-    rangephi = np.arange(0,3.1415926,0.01) # figure 9
+    rangephi = np.arange(0,np.pi,0.01) # figure 9
 #    print('rangephi', rangephi,len(rangephi))
-    XYexpim_axis = [ complex(np.cos(j),np.sin(j)) for j in rangephi] 
+    XYexpim_axis = [  complex(np.cos(j),np.sin(j)) for j in rangephi] 
 #    print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis],XYimx_axis)
 #    print('X = 2exp(i phi)',XYexpim_axis,len(XYexpim_axis))
     mhch = 100
@@ -73,14 +73,13 @@ def Plot_8_9():
                         [0.5],XYexpim_axis,[0.0],[0.0])
     y96phi_axis = bsg.BR_B_Xs_gamma(9.6,mhch,mhch,mhch + bsg.mass_differ,\
                         [0.5],XYexpim_axis,[0.0],[0.0])
-    print('----')
-    print(y48imx_axis)
-    print(y24imx_axis)
-    print(y96imx_axis)
+    print('----',XYimx_axis)
+    print('48',y48imx_axis)
+    print('24',y24imx_axis)
+    print('96',y96imx_axis)
+
     plt.xlim(-7, 7)
     plt.ylim(-2, 6.5)
-#plt.axes().xaxis.set_minor_locator(mlx)
-#plt.axes().yaxis.set_minor_locator(mly)
     plt.plot(xim_axis,y48imx_axis / (1e-4))
     plt.plot(xim_axis,y24imx_axis / (1e-4))
     plt.plot(xim_axis,y96imx_axis / (1e-4))
@@ -104,7 +103,7 @@ def Plot_8_9():
     plt.title('Figure9' )
     plt.legend(('$\mu = 4.8$ GeV', '$\mu = 2.4$ GeV', '$\mu = 9.6$ GeV '),
            loc='upper right', shadow=True,prop={'size': 8})
-    plt.xlim(0, 3)
+    plt.xlim(0, np.pi)
     plt.ylim(0, 8.0)
     plt.show()
     plt.close
@@ -113,10 +112,12 @@ def Plot_4() :
 #    print('II 2HDM tanbeta = 2',BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,\
 #                                              [1.0/2.0],[1.0],[0],[0])\
 #            )
-    Y1_array = - 1.0/2.0 * np.cos(bsg.PI/4.0)
-    X1_array =  1.0/ 2.0  * np.cos(bsg.PI/4.0) 
-    X2_array = - 1.0/2.0 * np.sin(bsg.PI/4.0)
-    Y2_array = 1.0/2.0 * np.sin(bsg.PI/4.0)
+    theta_c = bsg.PI/4.0
+    tan_beta = 2.0
+    Y1_array = - 1.0/tan_beta * np.cos(theta_c)
+    X1_array =  1.0/ tan_beta  * np.cos(theta_c) 
+    X2_array = - 1.0/tan_beta * np.sin(theta_c)
+    Y2_array = 1.0/tan_beta * np.sin(theta_c)
     y12_2hdm = np.array(bsg.BR_B_Xs_gamma(mb,mw,x_axis,x_axis + bsg.mass_differ,\
                                       [1.0/2.0],[-1.0/4.0],[0],[0]) )
     y12_3hdm = np.array(bsg.BR_B_Xs_gamma(mb,mw,x_axis,x_axis + bsg.mass_differ,\
@@ -135,7 +136,7 @@ def Plot_4() :
 #                        Y2(*array4()[n]),complexyfunction(*array4()[n]),\
 #                        Y3(*array4()[n]),complexyfunction3(*array4()[n])) 
 #        plt.plot(x_axis,y22_axis3hdm / (1e-4))
-    plt.axis([100.0, 1000.0, 2.0, 4.0])
+    plt.axis([100.0, 1000.0, 1.0, 7.0])
     plt.show()
     plt.close()
     return
@@ -144,18 +145,22 @@ def Plot_5() :
 #    print('II 2HDM tanbeta = 2',BR_B_Xs_gamma(mb,mw,x_axis,x_axis + 20,\
 #                                              [1.0/2.0],[1.0],[0],[0])\
 #            )
-    cpphase = np.exp(complex(0,PI))
+#    cpphase = np.exp(complex(0,PI))
     y22_2hdm = np.array(bsg.BR_B_Xs_gamma(mb,mw,x_axis,x_axis + bsg.mass_differ,\
                                       [1.0/2.0],[1.0],[0],[0]) )
     plt.plot(x_axis,y22_2hdm / (1e-4))
+    theta_c = - bsg.PI/4.0
+    tan_beta = 2
+    cos_beta = 1 / np.sqrt(1 + tan_beta**2)
+#    tan_gamma = n
     for n in np.array([2,4,7,10,20]):
         
-        X1_array =  - 2.0  * np.cos(- bsg.PI/4.0) - n / (1/np.sqrt(5)) * np.sin(- bsg.PI/4.0) #\
+        X1_array =  - tan_beta  * np.cos(theta_c) - n / (cos_beta) * np.sin(theta_c) #\
                        # * cpphase
-        Y1_array = - 1.0/2.0 * np.cos(- bsg.PI/4.0)
-        X2_array =  2.0  * np.sin(- bsg.PI/4.0) - n / (1/np.sqrt(5)) * np.cos(- bsg.PI/4.0) #\
+        Y1_array = - 1.0/tan_beta * np.cos(theta_c)
+        X2_array =  tan_beta  * np.sin(theta_c) - n / (cos_beta) * np.cos(theta_c) #\
                        # * cpphase
-        Y2_array = 1.0/2.0 * np.sin(- bsg.PI/4.0)
+        Y2_array = 1.0/tan_beta * np.sin(theta_c)
         
         y12_3hdm = np.array(bsg.BR_B_Xs_gamma(mb,mw,x_axis,x_axis + bsg.mass_differ,\
                      [Y1_array],[np.array(X1_array) * np.conjugate(Y1_array)],\
@@ -192,8 +197,8 @@ def plot_under_Heatherbasis(i,j,k,l):
     for m2 in m2_axis:
         for m1 in m1_axis:
             threehdm = bsg.BR_B_Xs_gamma(mb,mw,m1,m2,\
-                        [exe.Y2(i,j,k,l)],[exe.complexyfunction(i,j,k,l)],\
-                        [exe.Y3(i,j,k,l)],[exe.complexyfunction3(i,j,k,l)])
+                        [exe.Y2(i,j,k,l)],[- exe.complexyfunction(i,j,k,l)],\
+                        [exe.Y3(i,j,k,l)],[- exe.complexyfunction3(i,j,k,l)])
             empty.append(threehdm)
     result = plt.contourf(m1_axis, m2_axis, \
            np.resize(np.array(empty) / (1e-4),len(np.array(empty) / (1e-4))).\
@@ -223,8 +228,8 @@ def plot_under_deltascan(i,j,k,l):
     for m2 in m2_axis:
         for m1 in m1_axis:
             threehdm = bsg.BR_B_Xs_gamma(mb,mw,m1,m2,\
-                        [exe.Y2(i,j,k,l)],[exe.X2(i,j,k,l) * np.conjugate(exe.Y2(i,j,k,l) )],\
-                        [exe.Y3(i,j,k,l)],[exe.X3(i,j,k,l) * np.conjugate(exe.Y3(i,j,k,l) )])
+                        [exe.Y2(i,j,k,l)],[- exe.X2(i,j,k,l) * np.conjugate(exe.Y2(i,j,k,l) )],\
+                        [exe.Y3(i,j,k,l)],[- exe.X3(i,j,k,l) * np.conjugate(exe.Y3(i,j,k,l) )])
             empty.append(threehdm)
     result = plt.contourf(m1_axis, m2_axis, \
            np.resize(np.array(empty) / (1e-4),len(np.array(empty) / (1e-4))).\
@@ -242,7 +247,7 @@ def plot_under_deltascan(i,j,k,l):
     plt.axis([50,200, 100.0, 170.0])
 def plot_Hp1_Hp2():# [mH+1,mH+2] for fixed B_bar > X_s + gamma
 #    fixedarray = (- bsg.PI/2.1,10,60,0.0) #mixing matrix parameters
-    tangamma = 20.0#tangamma
+    tangamma = 5.0#tangamma
     theta = - bsg.PI/ 4
     tanbeta = 2
     X1_array =  - tanbeta  * np.cos(theta) - tangamma / (1.0 / np.sqrt(1.0 + tanbeta**2)) * np.sin(theta)
@@ -259,8 +264,8 @@ def plot_Hp1_Hp2():# [mH+1,mH+2] for fixed B_bar > X_s + gamma
     for m2 in m2_axis:
         for m1 in m1_axis:
             threehdm = bsg.BR_B_Xs_gamma(mb,mw,m1,m2,\
-                        [Y1_array],[X1_array * np.conjugate(Y1_array)],\
-                        [Y2_array],[X2_array * np.conjugate(Y2_array)]) 
+                        [Y1_array],[ X1_array * np.conjugate(Y1_array)],\
+                        [Y2_array],[ X2_array * np.conjugate(Y2_array)]) 
             empty.append(threehdm)
     result = plt.contourf(m1_axis, m2_axis, \
            np.resize(np.array(empty) / (1e-4),len(np.array(empty) / (1e-4))).\
@@ -303,10 +308,10 @@ def plt_A_B_xy():# A_B XY*
     resultxy2imag = []
     resultxy3imag = []
     for n in np.arange(0,len(ABarray4()) ):
-        resultxy2real.append(exe.complexyfunction(*ABarray4()[n] ).real)
-        resultxy3real.append(exe.complexyfunction3(*ABarray4()[n] ).real)
-        resultxy2imag.append(exe.complexyfunction(*ABarray4()[n] ).imag)
-        resultxy3imag.append(exe.complexyfunction3(*ABarray4()[n] ).imag)
+        resultxy2real.append( (- exe.complexyfunction(*ABarray4()[n] )).real  )
+        resultxy3real.append( (- exe.complexyfunction3(*ABarray4()[n] )).real )
+        resultxy2imag.append( (- exe.complexyfunction(*ABarray4()[n] )).imag  )
+        resultxy3imag.append( (- exe.complexyfunction3(*ABarray4()[n] )).real )
     #########
     xy2real = plt.contourf(exe.A, exe.B, \
            np.resize(np.array(resultxy2real).flatten()  ,len(np.array(resultxy2real).flatten() ) ).\
@@ -364,9 +369,9 @@ def plt_A_B_bsg(i,j):#A_B bsgamma
 #B>Xs+gamma SECTION    
     for n in np.arange(0,len(ABarray4()) ):
         y3hdm= bsg.BR_B_Xs_gamma(mb,mw,mass_axis1,mass_axis2,\
-                        exe.Y2(*ABarray4()[n] ),exe.complexyfunction(*ABarray4()[n] ),\
+                        exe.Y2(*ABarray4()[n] ),- exe.complexyfunction(*ABarray4()[n] ),\
 #                        [0.0],[0.0])
-                        exe.Y3(*ABarray4()[n] ),exe.complexyfunction3(*ABarray4()[n] )) 
+                        exe.Y3(*ABarray4()[n] ),- exe.complexyfunction3(*ABarray4()[n] )) 
         resultb.append(y3hdm / (1e-4) )
     
 #########
@@ -415,8 +420,8 @@ def numerical():
     result = []
     for n in np.arange(0,len(ABarray4()) ):
         y3hdm= bsg.BR_B_Xs_gamma(mb,mw,mass_axis[0],mass_axis[1],\
-                        exe.Y2(*ABarray4()[n] ),exe.complexyfunction(*ABarray4()[n] ),\
-                        exe.Y3(*ABarray4()[n] ),exe.complexyfunction3(*ABarray4()[n] )) 
+                        exe.Y2(*ABarray4()[n] ),- exe.complexyfunction(*ABarray4()[n] ),\
+                        exe.Y3(*ABarray4()[n] ),- exe.complexyfunction3(*ABarray4()[n] )) 
 #        print(y3hdm / (1e-4),n)
         result.append(y3hdm / (1e-4) )
     return np.concatenate(result).ravel()
@@ -424,8 +429,8 @@ def numerical():
 ############################################
 ##PLOT SECTION
 #numerical()
-Plot_3()
-#Plot_4()
+#Plot_3()
+Plot_4()
 Plot_5()
 Plot_8_9()
 #plot_Hp1_Hp2()
@@ -458,24 +463,26 @@ def NEUTRONEDMtext():#save Neutron edm result in txt file
 #    print('dn',n, dn(80,170,exe.complexyfunction(*ABarray4()[n]).imag, \
 #                       exe.complexyfunction3(*ABarray4()[n]).imag) )
         f.write( "%5.0f %5.1f %5.1f %10.10e %10.10e %10.15e\n" % (n,80,170,\
-            exe.complexyfunction(*ABarray4()[n]).imag,\
-            exe.complexyfunction3(*ABarray4()[n]).imag, \
-            dn(80,170,exe.complexyfunction(*ABarray4()[n]).imag, \
-            exe.complexyfunction3(*ABarray4()[n]).imag) ) )
+            - exe.complexyfunction(*ABarray4()[n]),\
+            - exe.complexyfunction3(*ABarray4()[n]), \
+            dn(80,170,- exe.complexyfunction(*ABarray4()[n]), \
+            - exe.complexyfunction3(*ABarray4()[n])) ) )
     f.close()
     return
 def figure4_plot():#NEDM figure 4
     m_axis = np.array([ i for i in np.arange(100,550,10)] )
-    xy_axis = np.array([ i for i in np.arange(0,0.5,0.01)] )
+    xy_axis = np.array([ i for i in np.arange(- 1.0,1.1,0.1)] )
     empty = []
     for j in xy_axis:
         for i in m_axis:
-            nedm = figure4(i,j)
+            nedm = dn(i,550,[complex(10,j)],[0.0])
+            
             empty.append(nedm)
+            print('nedm',i,j,nedm, nedm * 1.602e-19 )
     result = plt.contourf(m_axis, xy_axis, \
            np.resize(np.array(empty),len(np.array(empty) )).\
            reshape(len(xy_axis),len(m_axis)), \
-           levels = np.array([0.0,2.9])      
+          # levels = np.array([0.0,3.3e-26])      
            )
     plt.colorbar(result)
     plt.xlabel('$M_{H^{\pm}_{1}}$')
@@ -483,7 +490,7 @@ def figure4_plot():#NEDM figure 4
     plt.title('NEDM')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([100,500, 0.0, 0.5])
+    plt.axis([100,500, 0.0, 1.0])
     plt.show()
     plt.close()
     return
