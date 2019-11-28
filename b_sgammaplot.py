@@ -53,6 +53,7 @@ def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
     plt.close
 ###################################
 def Plot_8_9():
+    
     xim_axis = np.arange(-10,10.2,0.2)# figure 8
     XYimx_axis = [complex(-2,i)*1.0 for i in xim_axis]
     rangephi = np.arange(0,np.pi,0.01) # figure 9
@@ -61,6 +62,12 @@ def Plot_8_9():
 #    print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis],XYimx_axis)
 #    print('X = 2exp(i phi)',XYexpim_axis,len(XYexpim_axis))
     mhch = 100
+    y48_axis = bsg.BR_B_Xs_gamma(4.8,mhch,mhch,mhch + bsg.mass_differ ,\
+                        [1.0],xim_axis * 1.0,[0.0],[0.0])
+    y24_axis = bsg.BR_B_Xs_gamma(2.4,mhch,mhch,mhch + bsg.mass_differ ,\
+                        [1.0],xim_axis * 1.0,[0.0],[0.0])
+    y96_axis = bsg.BR_B_Xs_gamma(9.6,mhch,mhch,mhch + bsg.mass_differ ,\
+                        [1.0],xim_axis * 1.0,[0.0],[0.0])
     y48imx_axis = bsg.BR_B_Xs_gamma(4.8,mhch,mhch,mhch + bsg.mass_differ ,\
                         [1.0],XYimx_axis,[0.0],[0.0])
     y24imx_axis = bsg.BR_B_Xs_gamma(2.4,mhch,mhch,mhch + bsg.mass_differ,\
@@ -77,6 +84,19 @@ def Plot_8_9():
     print('48',y48imx_axis)
     print('24',y24imx_axis)
     print('96',y96imx_axis)
+    plt.xlim(-10, 2)
+    plt.ylim(-5, 10)
+    plt.plot(xim_axis,y48_axis / (1e-4))
+    plt.plot(xim_axis,y24_axis / (1e-4))
+    plt.plot(xim_axis,y96_axis / (1e-4))
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.grid(axis='y', linestyle='-', color='0.75') # show x-axis grid line
+    plt.xlabel('X')
+    plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
+    plt.title('Figure4' )
+    plt.legend(('$\mu = 4.8$ GeV', '$\mu = 2.4$ GeV', '$\mu = 9.6$ GeV '),
+           loc='upper right', shadow=True,prop={'size': 8})
+    plt.show()
 
     plt.xlim(-7, 7)
     plt.ylim(-2, 6.5)

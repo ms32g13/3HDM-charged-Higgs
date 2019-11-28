@@ -53,7 +53,7 @@ print('mu_c scale at LO and NLO:',mc,LOalpha_s(mc),NLOalpha_s(mc))
 #################running quark mass at scale mu_w under minimal subtract scheme
 def run_quark_bar(s,q):# 
     c1 = np.log(q**2 / s**2)
-    c2 = NLOalpha_s(s) / PI
+    c2 = LOalpha_s(s) / PI
     return q * (1 + c2 * c1 - 4 / 3 * c2 )
 def run_quark_ownscale(m):
     return m * ( 1 - LOalpha_s(m)/ PI * 4 /3 )
@@ -82,7 +82,7 @@ print('run_quark_bar mb at scale',mb,mb,run_quark_bar(mb,mb))
 charHm_100 = np.array([100,300,500,1000]) #for MH+2 = 100GeV
 charHm_large = np.array([300,500,1000,1200]) #for MH+3 > 100GeV
 delta_cp = 0.3 #delta_cp fraction of Energy cut in CP-asymmetry 
-zz = ( run_quark_bar(mb,mc)/run_quark_bar(mb,mb))**2  # mc^2 / mb^2
+zz = ( 0.29)**2  # mc^2 / mb^2
 #zz = (mc / mb)**2
 xx =  run_quark_bar(mw,mt)**2 / mw**2 # mt^2 /mw^2
 NLOxx =  run_quark_bar(mw,mt)**2 / mw**2
@@ -121,7 +121,7 @@ print('g_z',g_z)
 f_z = (PI**2 - 31 / 4) * (1 - np.sqrt(zz))**2 + 3 / 2
 #NON-Perturbative kronc-delta (GeV^2)
 lamda_1 = - 0.5
-lamda_2 = - 0.12
+lamda_2 =  0.12
 delta_NP_ga = lamda_1 / 2 - 9 * lamda_2 / 2
 delta_NP_c = - lamda_2 / 9
 delta_NP_SL = lamda_1 /2 + 3 * lamda_2 / 2 * (1 - 4 * (1 - zz)**4 / g_z) 
@@ -142,7 +142,7 @@ def G_(t):# t < 4 and t > 4
        impart =  - 2 * PI * log_value
        return complex(repart , impart)
 def grand1(t): # f_22 integrand
-    return (1 - zz * t)**2 * (abs(G_(t)) / t + 1 / 2)**2
+    return (1 - zz * t)**2 * abs(G_(t) / t + 1 / 2)**2
 def grand3(t): # f_27 integrand
     return (1 - zz * t) * (np.real(G_(t))  + t / 2)
 def grand4(t): # f_27 integrand imaginary
@@ -381,7 +381,7 @@ def t8_xy(s,mass):#NLO
 def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
     ratio1 = np.log(mt**2 / s**2)
     ratio = np.log(s**2 / mw**2)
-    ratio_muoverpi = NLOalpha_s(s) / (4 * PI) 
+    ratio_muoverpi = LOalpha_s(s) / (4 * PI) 
     def ratio2():
         if np.any(mass2) == 0.0:
             return 0.0
@@ -440,7 +440,7 @@ print('li',  np.array([ i for i in np.arange(100,500,100)] ), c1_mu_effective(mw
 #### Wilson coefficient at low scale(mu_b)
 ##############################LO
 def C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c0_7_eff(mu_b) LO
-    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
 #    eta1 = NLOalpha_s(s1) / NLOalpha_s(s2) #  NLO
     step1 = eta**(16 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[3]
     step2 = (eta**(14 / 23) - eta**(16 / 23) ) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
@@ -453,7 +453,7 @@ print(C0_7_eff(9.6,100,100,300,1.0,-complex(2,0) * np.conj(complex(1,0)),0.0,0.0
 ###############################NLO
 def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
 #    eta = LOalpha_s(s1) / LOalpha_s(s2)
-    eta1 = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b) NLO
+    eta1 = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b) NLO
     step1 = eta1**(39 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[4]
 #    print('c1_eff(s1,i,j)[6,m]',c1_eff(NLOalpha_s(mw),ll2,ll1)[6])
     step2 = 8 / 3 * (eta1**(37 / 23) - eta1**(39 / 23) ) *\
@@ -479,15 +479,15 @@ def C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2): #c1_7_eff(mu_b) NLO
     return step1 + step2 + step3 + step4 + result
 print('c1_7',  C1_7_eff(9.6,100,100,300,1.0,-complex(2,0) * np.conj(complex(1,0)),0.0,0.0) )
 def C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 =  eta**(6 / 23) - eta**(- 12 / 23) 
     return step1 * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[0]
 def C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = 2 /3 * eta**(6 / 23) + 1 /3 * eta**(- 12 / 23) 
     return step1 * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[0]
 def C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    eta = NLOalpha_s(s1) / NLOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
+    eta = LOalpha_s(s1) / LOalpha_s(s2) # alpha_s (mu_w) / alpha_s(mu_b)
     step1 = eta**(14 / 23) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[6]
     result = 0.0
     for n in np.arange(0,5):
@@ -523,7 +523,7 @@ def D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude LO
     v_ub = ans1 + ans2 + ans7 + ans8 - 16 / 3.0 * \
     C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     return C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + \
-NLOalpha_s(s2) / (4 * PI) *  ((C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) +  v_ub) )
+LOalpha_s(s2) / (4 * PI) *  ((C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) +  v_ub) )
 ####################################################################
 #def NLOD_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude NLO
 #    zeta_3 = 1.2021
@@ -583,7 +583,7 @@ def Amp(s2,s1,mass1,mass2,i1,j1,i2,j2):# A for Decay_width of b > s gamma gluon
         summ88 = np.real(c0_8 * np.conj(c0_8) * f_88)
         summ_all = summ12 + summ17 + summ22 + summ27 + summ28\
     + summ78 + summ88 + summ18 + summ11 
-        return NLOalpha_s(s2) / PI * summ_all
+        return LOalpha_s(s2) / PI * summ_all
 #print('Amp',Amp(ll2,ll1))
 ###########Decay_width of b > s gamma gluon
 def decay_bspg(s2,s1,mass1,mass2,i1,j1,i2,j2):
@@ -593,7 +593,7 @@ def decay_bspg(s2,s1,mass1,mass2,i1,j1,i2,j2):
 ###########Decay_width of semileptonic 
 def decay_SL(i):
     part1 = gf**2 /(192 * PI**3) * (run_quark_bar(i,mb)**5) * g_z
-    part2 = 1 - 2 * NLOalpha_s(i) * f_z / (3 * PI) \
+    part2 = 1 - 2 * LOalpha_s(i) * f_z / (3 * PI) \
         + delta_NP_SL / (run_quark_bar(i,mb)**2)
     return part1 * part2
 #print('Partial width of semileptonic decay', decay_SL() )
