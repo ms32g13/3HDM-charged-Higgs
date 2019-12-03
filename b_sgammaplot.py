@@ -54,7 +54,7 @@ def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
 ###################################
 def Plot_8_9():
     
-    xim_axis = np.arange(-10,10.2,0.2)# figure 8
+    xim_axis = np.arange(-10.0,2.25,0.25)# figure 8
     XYimx_axis = [complex(-2,i)*1.0 for i in xim_axis]
     rangephi = np.arange(0,np.pi,0.01) # figure 9
 #    print('rangephi', rangephi,len(rangephi))
@@ -81,25 +81,26 @@ def Plot_8_9():
     y96phi_axis = bsg.BR_B_Xs_gamma(9.6,mhch,mhch,mhch + bsg.mass_differ,\
                         [0.5],XYexpim_axis,[0.0],[0.0])
     print('----',XYimx_axis)
-    print('48',y48imx_axis)
-    print('24',y24imx_axis)
-    print('96',y96imx_axis)
+    print(xim_axis)
+    print('48',y48_axis * (1e4) )
+    print('24',y24_axis * (1e4))
+    print('96',y96_axis * (1e4))
     plt.xlim(-10, 2)
     plt.ylim(-5, 10)
-    plt.plot(xim_axis,y48_axis / (1e-4))
-    plt.plot(xim_axis,y24_axis / (1e-4))
-    plt.plot(xim_axis,y96_axis / (1e-4))
-    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.grid(axis='y', linestyle='-', color='0.75') # show x-axis grid line
+    plt.plot(xim_axis,y48_axis * (1e4))
+    plt.plot(xim_axis,y24_axis * (1e4))
+    plt.plot(xim_axis,y96_axis * (1e4))
+    plt.grid(axis='x', linestyle='-', color='0.4') # show x-axis grid line
+    plt.grid(axis='y', linestyle='-', color='0.4') # show x-axis grid line
     plt.xlabel('X')
     plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
     plt.title('Figure4' )
     plt.legend(('$\mu = 4.8$ GeV', '$\mu = 2.4$ GeV', '$\mu = 9.6$ GeV '),
-           loc='upper right', shadow=True,prop={'size': 8})
+           loc='lower left', shadow=True,prop={'size': 8})
     plt.show()
 
-    plt.xlim(-7, 7)
-    plt.ylim(-2, 6.5)
+    plt.xlim(-5, 5)
+    plt.ylim(-2, 7)
     plt.plot(xim_axis,y48imx_axis / (1e-4))
     plt.plot(xim_axis,y24imx_axis / (1e-4))
     plt.plot(xim_axis,y96imx_axis / (1e-4))
@@ -491,18 +492,19 @@ def NEUTRONEDMtext():#save Neutron edm result in txt file
     return
 def figure4_plot():#NEDM figure 4
     m_axis = np.array([ i for i in np.arange(100,550,10)] )
-    xy_axis = np.array([ i for i in np.arange(- 1.0,1.1,0.1)] )
+    xy_axis = np.array([ i for i in np.arange(0,1.2,0.2)] )
     empty = []
     for j in xy_axis:
         for i in m_axis:
-            nedm = dn(i,550,[complex(10,j)],[0.0])
+            # 1GeV =  5.06e13 cm^{-1}
+            nedm = dn(i,550,[complex(1,j)],[0]) / 5.06e13
             
-            empty.append(nedm)
-            print('nedm',i,j,nedm, nedm * 1.602e-19 )
+            empty.append(nedm )
+            print('nedm',i,j,nedm )
     result = plt.contourf(m_axis, xy_axis, \
            np.resize(np.array(empty),len(np.array(empty) )).\
            reshape(len(xy_axis),len(m_axis)), \
-          # levels = np.array([0.0,3.3e-26])      
+#           levels = np.array([0.0,33e-27])      
            )
     plt.colorbar(result)
     plt.xlabel('$M_{H^{\pm}_{1}}$')
@@ -556,5 +558,5 @@ def figure43hdm_plot():#NEDM figure 4 3hdm
     plt.show()
     plt.close
     return
-#figure4_plot()
+figure4_plot()
 #figure43hdm_plot()

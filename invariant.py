@@ -9,15 +9,16 @@ import math
 ###Invariant parameters 
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
 mt = 175 # mass of top quark  174.6
-mc = 1.39  # mass of charm quark 1.29 / 1.279/1.275 # 1.3846 2hdm paper
 mb = 4.78  # mass of bottom quark  #4.78 2hdm paper
-md = 0.0048 # mass of down quark
+mc = 1.39  # mass of charm quark 1.29 / 1.279/1.275 # 1.3846 2hdm paper
+ms = 0.095 # mass of strange quark
 mu = 0.0023 # mass of up quark
+md = 0.0048 # mass of down quark
 nf = 5.0      # num of active flavours
 nc = 3        # repesentation of SU(3)
 PI = math.pi  # pi number 
 mw = 80.33 # mass of w boson #80.33 2hdm paper
-mz = 91.18 # 95.0 #98.14954576223639 #91.18    # mass of z boson
+mz = 91.1875 # 95.0 #98.14954576223639 #91.18    # mass of z boson
 pwz = 2.4952  # partial width of z boson
 pww = 2.085  #  partial width of w boson 
 mtau = 1.7771 # mass of tau lepton
