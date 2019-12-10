@@ -70,11 +70,13 @@ def plotfigure1():
         ceff7yy.append(bsg.onlyfigure1(i,mhch,500)[4])
         ceff7xy.append(bsg.onlyfigure1(i,mhch,500)[5])
         print(i,bsg.onlyfigure1(i,mhch,500)[3])
-        print('c0eff7sm',c0eff7sm)
+    print('c0eff7xy',c0eff7xy)
     plt.xlim(80, 0)
     plt.ylim(-0.4, 0)
     plt.plot(x_axis,c0eff7sm)
     plt.plot(x_axis,ceff7sm)
+    plt.grid(axis='x', linestyle='-', color='0.4') # show x-axis grid line
+    plt.grid(axis='y', linestyle='-', color='0.4') # show x-axis grid line
     plt.legend(('$C^{0,eff}_{7,SM}$', '$C^{eff}_{7,SM}$'),
            loc='upper left', shadow=True,prop={'size': 8})
     plt.show()
@@ -86,6 +88,8 @@ def plotfigure1():
     plt.plot(x_axis,c0eff7xy)
     plt.plot(x_axis,ceff7yy)
     plt.plot(x_axis,ceff7xy)
+    plt.grid(axis='x', linestyle='-', color='0.4') # show x-axis grid line
+    plt.grid(axis='y', linestyle='-', color='0.4') # show x-axis grid line
     plt.legend(('$C^{0,eff}_{7,YY}$', '$C^{0,eff}_{7,XY}$','$C^{eff}_{7,YY}$',\
                 '$C^{eff}_{7,XY}$'),
            loc='upper left', shadow=True,prop={'size': 10})
@@ -497,7 +501,7 @@ def numerical():
 #Plot_3()
 #Plot_4()
 #Plot_5()
-#Plot_8_9()
+Plot_8_9()
 plotfigure1()
 #plot_Hp1_Hp2()
 #plot_under_Heatherbasis(exe.i,exe.j,exe.k,exe.l)

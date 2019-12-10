@@ -19,7 +19,6 @@ from matplotlib.ticker import MultipleLocator
 #print('U',U(- PI/2.1,2,20,0.0)[0][2] / U(- PI/2.1,2,20,0.0)[0][0])
 #print('X3',X3(- PI/2.1,2,20,0.0),Y3(- PI/2.1,2,20,0.0))
 mass_differ  = 20   # charged Higgs mass diference
-axs = np.arange(1, 41, 1)
 # I make two arrays to pretend solution of XY* and Y
 #ll1 = np.array(xyfun) #j = XY^*
 #ll2 = np.array(yfun)#i = Y
@@ -93,7 +92,7 @@ print('mc_bar(mc) at NLO',mhch,mc,run_quark_ownscale(mc))
 print('mc_bar(mu-scale) at NLO',mhch,mc,run_quark_speciscale(mhch,mc))
 print('mb_bar(mb) at NLO',mhch,mb,run_quark_ownscale(mb))
 print('mb_bar(mu-scale) at NLO',mhch,mb,run_quark_speciscale(mhch,mb))
-print('run_quark_bar mt at scale',mb,mt,run_quark_bar(mb,mt))
+print('run_quark_bar mt at mw scale',mb,mw,mt,run_quark_bar(mw,mt))
 print('run_quark_bar mc at scale',mb,mc,run_quark_bar(mb,mc))
 print('run_quark_bar mb at scale',mb,mb,run_quark_bar(mb,mb))
 #############
@@ -164,11 +163,7 @@ def grand4(t): # f_27 integrand imaginary
 print('quad3',G_(1.0 / zz), zz,quad(grand3, 0, 1.0 / zz ), type(quad(grand3, 0, 1.0/ zz )))       
 ##########################################################################
 #4*pi*SQRT(2); factor appears in partial width of 2 fermions
-fac = 4.0 * np.sqrt(2.0) * PI 
-############################
-#############################
-####Virtual Correction Functions r_i
-
+#fac = 4.0 * np.sqrt(2.0) * PI 
 ##########################################################################
 ### Wilson coefficient at matching scale(mu_w)
 ####################### LO
@@ -463,8 +458,11 @@ def C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
 #####################################################################
 ####################################################################
 def D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude LO
-    # Riemann Zeta func- tion zeta_3
+# Riemann Zeta func- tion zeta_3
     zeta_3 = 1.2021
+############################
+#############################
+####Virtual Correction Functions r_i
     massb = mb
     L = np.log(zz)
     r2 = complex(2/243 * (-833 + 144 * PI**2 * zz**(3/2) + (1728 - 180 * PI**2 - 1296 * zeta_3 + \
@@ -653,12 +651,14 @@ def onlyfigure1(s,mass1,mass2):
             t7_xy(s,mass2) * (ratio1  - 4 / 3) #7
     listxy82 =  w8_xy(s,mass2) + m8_xy(s,mass2) * ratio22(s,mass2) + \
             t8_xy(s,mass2) * (ratio1  - 4 / 3) #8
-    c14 = E_0(s) + 2/3 * np.log(s**2/mw**2)
+    c14 = E_0(s) + 2/3 * np.log(s**2/mw**2) + E_H(s,mass1)
     c11 = 15 + 6 * np.log(s**2/mw**2)
     c07effsm = c0_7sm(s) * eta0(s)**(16/23) + 8/3 * ((eta0(s)**(14 / 23) - eta0(s)**(16 / 23) ))\
         * c0_8sm(s) + sum(h_i * eta0(s)**(a_i) * 1)
-    c07effyy = c0_7yy(s,mass1) * eta0(s)**(16/23) 
-    c07effxy = c0_7xy(s,mass1) * eta0(s)**(16/23) 
+    c07effyy = c0_7yy(s,mass1) * eta0(s)**(16/23)# + 8/3 * ((eta0(s)**(14 / 23) - eta0(s)**(16 / 23) ))\
+#        * c0_8yy(s,mass1) + sum(h_i * eta0(s)**(a_i) * 1)
+    c07effxy = c0_7xy(s,mass1) * eta0(s)**(16/23) #+ 8/3 * ((eta0(s)**(14 / 23) - eta0(s)**(16 / 23) ))\
+        #* c0_8xy(s,mass1) + sum(h_i * eta0(s)**(a_i) * 1)
     def c1eff7(s,mass1,c17,c18,c07,c08,x,y):
         r1 = c17 * eta0(s)**(39/23) + 8 / 3 * (eta0(s)**(37 / 23) - eta0(s)**(39 / 23) ) *\
              c18
