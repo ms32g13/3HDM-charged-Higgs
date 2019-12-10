@@ -55,7 +55,7 @@ def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
 def plotfigure1():
     mhch = 100
     
-    x_axis = [ i for i in np.arange(1,91,1)[::-1]] 
+    x_axis = [ i for i in np.arange(5,91,1)[::-1]] 
     c0eff7sm = []
     c0eff7yy = []
     c0eff7xy = []
@@ -498,7 +498,7 @@ def numerical():
 #Plot_4()
 #Plot_5()
 #Plot_8_9()
-#plotfigure1()
+plotfigure1()
 #plot_Hp1_Hp2()
 #plot_under_Heatherbasis(exe.i,exe.j,exe.k,exe.l)
 #############################################
@@ -640,8 +640,8 @@ def nedm3hdm_plot():#NEDM figure 4 3hdm
     resultxy2imag = []
     resultxy3imag = []
     for n in np.arange(0,len(ABarray4()) ):
-        resultxy2imag.append( (- exe.complexyfunction(*ABarray4()[n] ))  )
-        resultxy3imag.append( (- exe.complexyfunction3(*ABarray4()[n] )) )
+        resultxy2imag.append( (  exe.complnedm2(*ABarray4()[n] ))  )
+        resultxy3imag.append( (  exe.complnedm3(*ABarray4()[n] )) )
 #        print('xy2',(- exe.complexyfunction(*ABarray4()[n] )).imag)
 #        print('xy3',(- exe.complexyfunction3(*ABarray4()[n] )).imag)
 #    print('XY2',resultxy2imag)
@@ -665,5 +665,5 @@ def nedm3hdm_plot():#NEDM figure 4 3hdm
     plt.close
     return
 
-figure4_plot()#Neutron EDM plot
+#figure4_plot()#Neutron EDM plot
 #nedm3hdm_plot()#Neutron EDM in 3hdm-plot with exercise file

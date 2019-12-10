@@ -106,13 +106,13 @@ zz = ( mc/mb)**2  # mc^2 / mb^2
 def xx(s):
     return mt**2 / mw**2 # mt^2 /mw^2
 def NLOxx(s):
-    return run_quark_bar(s,mt)**2 / mw**2
+    return mt**2 / mw**2
 PI = np.pi
 # mt^2 / mh^2
 def yy(s,mass):
         return mt**2 / mass**2
 def NLOyy(s,mass):
-        return run_quark_bar(s,mt)**2 / mass**2
+        return mt**2 / mass**2
 print('zz',mc/mb,zz,1/zz)
 a_i = np.array([14 /23, 16 /23, 6 /23, - 12/23,0.4086,-0.4230,-0.8994,0.1456])#{a_i}
 h_i = np.array([626126/272277 , - 56281/51730, - 3/7, - 1/14, - 0.6494, - 0.0380,\
@@ -625,14 +625,14 @@ def newa_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # New CP asymmetry
 def onlyfigure1(s,mass1,mass2):
     ratio1 = np.log(mt**2 / s**2)
     ratio = np.log(s**2 / mw**2)
-    ratio_muoverpi = LOalpha_s(s) / (4 * PI) 
+    ratio_muoverpi = NLOalpha_s(s) / (4 * PI) 
 
     def ratio2(s,mass1): 
             return np.log(s**2/mass1**2)
     def ratio22(s,mass2):
             return np.log(s**2/mass2**2)
     def eta0(s):
-            return LOalpha_s(80)/ LOalpha_s(s)
+            return NLOalpha_s(mw)/ NLOalpha_s(s)
     listsm7 =  w7_sm(s) + m7_sm(s) * ratio + \
             t7_sm(s) * (ratio1  - 4 / 3) #7
     listsm8 =  w8_sm(s) + m8_sm(s) * ratio + \
@@ -653,14 +653,12 @@ def onlyfigure1(s,mass1,mass2):
             t7_xy(s,mass2) * (ratio1  - 4 / 3) #7
     listxy82 =  w8_xy(s,mass2) + m8_xy(s,mass2) * ratio22(s,mass2) + \
             t8_xy(s,mass2) * (ratio1  - 4 / 3) #8
-    c14 = E_0(s) + 2/3 * np.log(s**2/mw**2) 
+    c14 = E_0(s) + 2/3 * np.log(s**2/mw**2)
     c11 = 15 + 6 * np.log(s**2/mw**2)
-    c07effsm = c0_7sm(s) * eta0(s)**(16/23) + 8/3 * (eta0(s)**(14/23) - eta0(s)**(16/23)) \
-            * c0_8sm(s) + sum(h_i * eta0(s)**a_i)
-    c07effyy = c0_7yy(s,mass1) * eta0(s)**(16/23) + 8/3 * (eta0(s)**(14/23) - eta0(s)**(16/23)) \
-            * c0_8yy(s,mass1) + sum(h_i * eta0(s)**a_i)
-    c07effxy = c0_7xy(s,mass1) * eta0(s)**(16/23) + 8/3 * (eta0(s)**(14/23) - eta0(s)**(16/23)) \
-            * c0_8xy(s,mass1) + sum(h_i * eta0(s)**a_i)
+    c07effsm = c0_7sm(s) * eta0(s)**(16/23) + 8/3 * ((eta0(s)**(14 / 23) - eta0(s)**(16 / 23) ))\
+        * c0_8sm(s) + sum(h_i * eta0(s)**(a_i) * 1)
+    c07effyy = c0_7yy(s,mass1) * eta0(s)**(16/23) 
+    c07effxy = c0_7xy(s,mass1) * eta0(s)**(16/23) 
     def c1eff7(s,mass1,c17,c18,c07,c08,x,y):
         r1 = c17 * eta0(s)**(39/23) + 8 / 3 * (eta0(s)**(37 / 23) - eta0(s)**(39 / 23) ) *\
              c18
@@ -668,23 +666,21 @@ def onlyfigure1(s,mass1,mass2):
 256868/14283 * (eta0(s)**(37 / 23)) - 6698884 / 357075 * eta0(s)**(39 / 23)) * \
               c08 
         r3 = 37208/4761 * (eta0(s)**(39 / 23) - eta0(s)**(16 / 23)) * \
-            c07
-        result = 0
-        
-        for n in np.arange(0,8):
-            result += (e_i[n] * eta0(s) * x  + (f_i[n] + k_i[n] * eta0(s)) + l_i[n] *\
-                    eta0(s) * y ) * eta0(s)**(a_i[n])
-        return r1 + r2 + r3 + result     
-    print('qweqwe',(e_i[0] * eta0(s) * c14  + (f_i[0] + k_i[0] * eta0(s)) + l_i[0] *\
-                    eta0(s) * c11 ) * eta0(s)**(a_i[0]))
+            c07    
+        result = sum ( (e_i * eta0(s) * x  + (f_i + k_i * eta0(s)) + l_i *\
+                    eta0(s) * y ) * eta0(s)**(a_i))
+        return r1  + r2 + r3 + result 
+#    print('qweqwe',(e_i[0] * eta0(s) * c14  + (f_i[0] + k_i[0] * eta0(s)) + l_i[0] *\
+#                    eta0(s) * c11 ) * eta0(s)**(a_i[0]))
     c1eff7sm = c1eff7(s,mass1,listsm7,listsm8,c0_7sm(s),c0_8sm(s),c14,c11 )  
     c1eff7xy = c1eff7(s,mass1,listxy7,listxy8,c0_7xy(s,mass1),c0_8xy(s,mass1),c14,c11 ) 
     c1eff7yy = c1eff7(s,mass1,listyy7,listyy8,c0_7yy(s,mass1),c0_8yy(s,mass1),c14,c11 ) 
     ceff7sm = c07effsm + ratio_muoverpi * c1eff7sm
     ceff7xy = c07effxy + ratio_muoverpi * c1eff7xy
     ceff7yy = c07effyy + ratio_muoverpi * c1eff7yy
+    
     return [c07effsm,c07effyy,c07effxy,ceff7sm,\
-                     listyy7,listxy7]
+                     ceff7yy,ceff7xy]
 print('onlyfigure1',onlyfigure1(70,100,500),onlyfigure1(70,100,500)[0])
 ####################################################################
 ####################################################################
