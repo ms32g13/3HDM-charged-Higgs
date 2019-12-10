@@ -684,7 +684,7 @@ def onlyfigure1(s,mass1,mass2):
     ceff7xy = c07effxy + ratio_muoverpi * c1eff7xy
     ceff7yy = c07effyy + ratio_muoverpi * c1eff7yy
     return [c07effsm,c07effyy,c07effxy,ceff7sm,\
-                     ceff7yy,ceff7xy]
+                     listyy7,listxy7]
 print('onlyfigure1',onlyfigure1(70,100,500),onlyfigure1(70,100,500)[0])
 ####################################################################
 ####################################################################

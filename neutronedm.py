@@ -151,7 +151,7 @@ def dn_CEDM(mass1,mass2,j1,j2): # 2.3
 def CW(mass1,mass2,j1,j2):   # EQ 2.37 and 2.5
     part1 = eta(mc,mhadron,4,2,kw(4),kw(2)) * eta(mb,mc,5,4,kw(5),kw(4))
     part2 = eta(mt,mb,6,5,kw(6),kw(5)) * C_wmutH()
-    part3 = eta(mt,mb,6,5,kc(6),kc(5)) * np.sqrt(LOalpha_s(mb,5) * 4 * PI)**3 /\
+    part3 = eta(mt,mb,6,5,kc(6),kc(5)) * np.sqrt(NLOalpha_s(mb,5) * 4 * PI)**3 /\
             (8 * PI**2 * mb) * dC_btH(mass1,mass2,j1,j2)      
     return part1 * (part2 + part3) * 1.0 * 0.02  # 20 MeV 
 # Total Neutron EDM contribution from charged Higgs in 3HDM

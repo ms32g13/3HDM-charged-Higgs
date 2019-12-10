@@ -540,7 +540,7 @@ def figure4_plot():#NEDM figure 4
     ################### First charged Higgs
     m_axis = np.array([ i for i in np.arange(100,550,10)] )
     m1_axis = np.array([ i for i in np.arange(50,550,10)] )
-    xy_axis = np.array([ i for i in np.arange(0,1.1,0.1)] )
+    xy_axis = np.array([ i for i in np.arange(-1.1,1.1,0.1)] )
     empty = []
     for j in xy_axis:
         for i in m_axis:
@@ -560,7 +560,7 @@ def figure4_plot():#NEDM figure 4
     plt.title('NEDM in 2HDM')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([100,500, 0.0, 1.0])
+    plt.axis([100,500, -1.0, 1.0])
     plt.show()
     plt.close()
     ################### Second charged Higgs
@@ -568,7 +568,7 @@ def figure4_plot():#NEDM figure 4
     for j in xy_axis:
         for i in m_axis:
             # 1GeV =  5.06e13 cm^{-1}
-            nedm2 = abs(dn(m,i,[complex(1,0.3)],[complex(1,j)]) / (5.06e13) )# dn [GeV^{-1}] > # cm
+            nedm2 = abs(dn(m,i,[complex(1,0.1)],[complex(1,j)]) / (5.06e13) )# dn [GeV^{-1}] > # cm
             
             empty2.append(nedm2 )
 #            print('nedm',i,j,nedm )
@@ -583,7 +583,7 @@ def figure4_plot():#NEDM figure 4
     plt.title('NEDM with $M_{H^{\pm}_{1}}$: '+str(m)+ 'GeV' )
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([100,500, 0.0, 1.0])
+    plt.axis([100,500, -1.0, 1.0])
     plt.show()
     plt.close()
     
@@ -591,7 +591,7 @@ def figure4_plot():#NEDM figure 4
     for j in xy_axis:
         for i in xy_axis:
             # 1GeV =  5.06e13 cm^{-1}
-            nedm3 = abs(dn(80,170,[complex(1,i)],[complex(1,j)]) / (5.06e13) )# dn [GeV^{-1}] > # cm
+            nedm3 = abs(dn(90,300,[complex(1,i)],[complex(1,j)]) / (5.06e13) )# dn [GeV^{-1}] > # cm
             
             empty3.append(nedm3 )
 #            print('nedm',i,j,nedm )
@@ -606,7 +606,7 @@ def figure4_plot():#NEDM figure 4
     plt.title('NEDM in 3HDM' )
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([0.0, 1.0,0.0, 1.0])
+    plt.axis([-1.0, 1.0,-1.0, 1.0])
     plt.show()
     plt.close()
     
@@ -614,7 +614,7 @@ def figure4_plot():#NEDM figure 4
     for j in m1_axis:
         for i in m1_axis:
             # 1GeV =  5.06e13 cm^{-1}
-            nedm4 = abs(dn(i,j,[complex(1,0.3)],[complex(1,0.2)]) / (5.06e13) )# dn [GeV^{-1}] > # cm
+            nedm4 = abs(dn(i,j,[complex(1,-0.2)],[complex(1,0.4)]) / (5.06e13) )# dn [GeV^{-1}] > # cm
             
             empty4.append(nedm4 )
 #            print('nedm',i,j,nedm )
@@ -665,5 +665,5 @@ def nedm3hdm_plot():#NEDM figure 4 3hdm
     plt.close
     return
 
-#figure4_plot()#Neutron EDM plot
+figure4_plot()#Neutron EDM plot
 #nedm3hdm_plot()#Neutron EDM in 3hdm-plot with exercise file
