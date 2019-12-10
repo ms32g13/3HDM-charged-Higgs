@@ -9,8 +9,8 @@ import math
 ###Invariant parameters 
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
 mt = 175 # mass of top quark  174.6
-mb = 4.78  # mass of bottom quark  #4.78 2hdm paper
-mc = 1.39  # mass of charm quark 1.29 / 1.279/1.275 # 1.3846 2hdm paper
+mb = 4.774647887323944 # mass of bottom quark  #4.78 2hdm paper
+mc = 1.3846478873239438  # mass of charm quark 1.29 / 1.279/1.275 # 1.3846 2hdm paper
 ms = 0.095 # mass of strange quark
 mu = 0.0023 # mass of up quark
 md = 0.0048 # mass of down quark
@@ -28,7 +28,7 @@ mh = 125.0 #  mass of higgs
 ma = 300.00 # mass of Pseudoscalar 
 # CKM elements
 s12_ckm = 0.2229  
-s23_ckm = 0.0412 
+s23_ckm = 0.0412
 s13_ckm = 0.0036 
 c12_ckm = math.sqrt(1.0 - s12_ckm**2) 
 c23_ckm = math.sqrt(1.0 - s23_ckm**2) 
@@ -42,6 +42,7 @@ vcb = s23_ckm * c13_ckm
 vtd = s12_ckm * s23_ckm - c12_ckm * c23_ckm * s13_ckm
 vts = -c12_ckm * s23_ckm - s12_ckm * c23_ckm * s13_ckm
 vtb = c23_ckm * c13_ckm
+print('vtb',vtb)
 ############
 #QCD running coupling constant (alp) at energy scale MH. Relevant                                                                                                                                                                        
 #for QCD corrections to Higgs decay widths.

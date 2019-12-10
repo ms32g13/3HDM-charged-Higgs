@@ -52,22 +52,63 @@ def Plot_3():#Figure 3 DOI: 10.1142/S0217751X17501457
     plt.show()
     plt.close
 ###################################
+def plotfigure1():
+    mhch = 100
+    
+    x_axis = [ i for i in np.arange(1,91,1)[::-1]] 
+    c0eff7sm = []
+    c0eff7yy = []
+    c0eff7xy = []
+    ceff7sm = []
+    ceff7yy = []
+    ceff7xy = []
+    for i in x_axis:
+        c0eff7sm.append(bsg.onlyfigure1(i,mhch,500)[0])
+        c0eff7yy.append(bsg.onlyfigure1(i,mhch,500)[1])
+        c0eff7xy.append(bsg.onlyfigure1(i,mhch,500)[2])
+        ceff7sm.append(bsg.onlyfigure1(i,mhch,500)[3])
+        ceff7yy.append(bsg.onlyfigure1(i,mhch,500)[4])
+        ceff7xy.append(bsg.onlyfigure1(i,mhch,500)[5])
+        print(i,bsg.onlyfigure1(i,mhch,500)[3])
+        print('c0eff7sm',c0eff7sm)
+    plt.xlim(80, 0)
+    plt.ylim(-0.4, 0)
+    plt.plot(x_axis,c0eff7sm)
+    plt.plot(x_axis,ceff7sm)
+    plt.legend(('$C^{0,eff}_{7,SM}$', '$C^{eff}_{7,SM}$'),
+           loc='upper left', shadow=True,prop={'size': 8})
+    plt.show()
+    plt.close()
+    
+    plt.xlim(80, 0)
+    plt.ylim(-0.4, 0)
+    plt.plot(x_axis,c0eff7yy)
+    plt.plot(x_axis,c0eff7xy)
+    plt.plot(x_axis,ceff7yy)
+    plt.plot(x_axis,ceff7xy)
+    plt.legend(('$C^{0,eff}_{7,YY}$', '$C^{0,eff}_{7,XY}$','$C^{eff}_{7,YY}$',\
+                '$C^{eff}_{7,XY}$'),
+           loc='upper left', shadow=True,prop={'size': 10})
+    plt.show()
+    plt.close()
+    return 
+###################################
 def Plot_8_9():
     
-    xim_axis = np.arange(-10.0,2.25,0.25)# figure 8
-    XYimx_axis = [complex(-2,i)*1.0 for i in xim_axis]
+    x_axis = np.arange(-10.0,10.25,0.25)# figure 8
+    XYimx_axis = [complex(-2,i)*1.0 for i in x_axis]
     rangephi = np.arange(0,np.pi,0.01) # figure 9
 #    print('rangephi', rangephi,len(rangephi))
     XYexpim_axis = [  complex(np.cos(j),np.sin(j)) for j in rangephi] 
 #    print('REALX,IMX:',[np.complex(-2,i)*1.0 for i in xim_axis],XYimx_axis)
 #    print('X = 2exp(i phi)',XYexpim_axis,len(XYexpim_axis))
     mhch = 100
-    y48_axis = bsg.BR_B_Xs_gamma(4.8,mhch,mhch,mhch + bsg.mass_differ ,\
-                        [1.0],xim_axis * 1.0,[0.0],[0.0])
+    y48_axis = bsg.BR_B_Xs_gamma(4.80,mhch,mhch,mhch + bsg.mass_differ ,\
+                        [1.0],x_axis ,[0.0],[0.0])
     y24_axis = bsg.BR_B_Xs_gamma(2.4,mhch,mhch,mhch + bsg.mass_differ ,\
-                        [1.0],xim_axis * 1.0,[0.0],[0.0])
+                        [1.0],x_axis ,[0.0],[0.0])
     y96_axis = bsg.BR_B_Xs_gamma(9.6,mhch,mhch,mhch + bsg.mass_differ ,\
-                        [1.0],xim_axis * 1.0,[0.0],[0.0])
+                        [1.0],x_axis ,[0.0],[0.0])
     y48imx_axis = bsg.BR_B_Xs_gamma(4.8,mhch,mhch,mhch + bsg.mass_differ ,\
                         [1.0],XYimx_axis,[0.0],[0.0])
     y24imx_axis = bsg.BR_B_Xs_gamma(2.4,mhch,mhch,mhch + bsg.mass_differ,\
@@ -81,15 +122,18 @@ def Plot_8_9():
     y96phi_axis = bsg.BR_B_Xs_gamma(9.6,mhch,mhch,mhch + bsg.mass_differ,\
                         [0.5],XYexpim_axis,[0.0],[0.0])
     print('----',XYimx_axis)
-    print(xim_axis)
-    print('48',y48_axis * (1e4) )
+    print(x_axis)
+    print('48',y48_axis * (1e4))
     print('24',y24_axis * (1e4))
     print('96',y96_axis * (1e4))
+    print('48im',y48imx_axis * (1e4) )
+    print('24im',y24imx_axis * (1e4))
+    print('96im',y96imx_axis * (1e4))
     plt.xlim(-10, 2)
     plt.ylim(-5, 10)
-    plt.plot(xim_axis,y48_axis * (1e4))
-    plt.plot(xim_axis,y24_axis * (1e4))
-    plt.plot(xim_axis,y96_axis * (1e4))
+    plt.plot(x_axis,y48_axis * (1e4))
+    plt.plot(x_axis,y24_axis * (1e4))
+    plt.plot(x_axis,y96_axis * (1e4))
     plt.grid(axis='x', linestyle='-', color='0.4') # show x-axis grid line
     plt.grid(axis='y', linestyle='-', color='0.4') # show x-axis grid line
     plt.xlabel('X')
@@ -101,9 +145,9 @@ def Plot_8_9():
 
     plt.xlim(-5, 5)
     plt.ylim(-2, 7)
-    plt.plot(xim_axis,y48imx_axis / (1e-4))
-    plt.plot(xim_axis,y24imx_axis / (1e-4))
-    plt.plot(xim_axis,y96imx_axis / (1e-4))
+    plt.plot(x_axis,y48imx_axis * (1e4))
+    plt.plot(x_axis,y24imx_axis * (1e4))
+    plt.plot(x_axis,y96imx_axis * (1e4))
 #plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.grid(axis='y', linestyle='-', color='0.75') # show x-axis grid line
@@ -111,7 +155,7 @@ def Plot_8_9():
     plt.ylabel('BR($\\bar{B} \\to X_{s} \gamma$) $\\times 10^{4}$')
     plt.title('Figure8' )
     plt.legend(('$\mu = 4.8$ GeV', '$\mu = 2.4$ GeV', '$\mu = 9.6$ GeV '),
-           loc='upper right', shadow=True,prop={'size': 8})
+           loc='lower right', shadow=True,prop={'size': 8})
     plt.show()
     plt.close
     plt.plot(rangephi,y48phi_axis / (1e-4))
@@ -332,7 +376,7 @@ def plt_A_B_xy():# A_B XY*
         resultxy2real.append( (- exe.complexyfunction(*ABarray4()[n] )).real  )
         resultxy3real.append( (- exe.complexyfunction3(*ABarray4()[n] )).real )
         resultxy2imag.append( (- exe.complexyfunction(*ABarray4()[n] )).imag  )
-        resultxy3imag.append( (- exe.complexyfunction3(*ABarray4()[n] )).real )
+        resultxy3imag.append( (- exe.complexyfunction3(*ABarray4()[n] )).imag )
     #########
     xy2real = plt.contourf(exe.A, exe.B, \
            np.resize(np.array(resultxy2real).flatten()  ,len(np.array(resultxy2real).flatten() ) ).\
@@ -451,9 +495,10 @@ def numerical():
 ##PLOT SECTION
 #numerical()
 #Plot_3()
-Plot_4()
-Plot_5()
-Plot_8_9()
+#Plot_4()
+#Plot_5()
+#Plot_8_9()
+#plotfigure1()
 #plot_Hp1_Hp2()
 #plot_under_Heatherbasis(exe.i,exe.j,exe.k,exe.l)
 #############################################
@@ -491,72 +536,134 @@ def NEUTRONEDMtext():#save Neutron edm result in txt file
     f.close()
     return
 def figure4_plot():#NEDM figure 4
+    m = 90 # first charged Higgs
+    ################### First charged Higgs
     m_axis = np.array([ i for i in np.arange(100,550,10)] )
-    xy_axis = np.array([ i for i in np.arange(0,1.2,0.2)] )
+    m1_axis = np.array([ i for i in np.arange(50,550,10)] )
+    xy_axis = np.array([ i for i in np.arange(0,1.1,0.1)] )
     empty = []
     for j in xy_axis:
         for i in m_axis:
             # 1GeV =  5.06e13 cm^{-1}
-            nedm = dn(i,550,[complex(1,j)],[0]) / 5.06e13
+            nedm = abs(dn(i,550,[complex(1,j)],[0.0]) / (5.06e13) )# dn [GeV^{-1}] > # cm
             
             empty.append(nedm )
-            print('nedm',i,j,nedm )
+#            print('nedm',i,j,nedm )
     result = plt.contourf(m_axis, xy_axis, \
            np.resize(np.array(empty),len(np.array(empty) )).\
            reshape(len(xy_axis),len(m_axis)), \
-#           levels = np.array([0.0,33e-27])      
+           levels = np.array([0.0,3.3e-26])      
            )
     plt.colorbar(result)
     plt.xlabel('$M_{H^{\pm}_{1}}$')
-    plt.ylabel('IM($XY^*$)')
-    plt.title('NEDM')
+    plt.ylabel('IM($X_2Y_2^*$)')
+    plt.title('NEDM in 2HDM')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
     plt.axis([100,500, 0.0, 1.0])
     plt.show()
     plt.close()
-    return
-
-###############
-# random Monte carlo
-#n = 1000000
-#m_axis_neg, m_axis_pos = 80, 550
-#xy_axis_neg, xy_axis_pos = 0.0,0.5
-#count = 0
-#for i in range(0, n):
-#        x = random.uniform(m_axis_neg, m_axis_pos)
-#        y = random.uniform(xy_axis_neg, xy_axis_pos)
-#        if abs(dn(x,200,y,0.0) ) <= 2.9:
-#            count += 1
-#result = count / float(n)    
-
-
-
-def figure43hdm_plot():#NEDM figure 4 3hdm
-    m_axis = np.arange(80,550,10)
-    xy_axis  = np.arange(0,0.5,0.01)
-    empty = []
-    
-    for i in m_axis:
-        for j in xy_axis:
-            nedm = dn(i,300,j,0.0) 
+    ################### Second charged Higgs
+    empty2 = []
+    for j in xy_axis:
+        for i in m_axis:
+            # 1GeV =  5.06e13 cm^{-1}
+            nedm2 = abs(dn(m,i,[complex(1,0.3)],[complex(1,j)]) / (5.06e13) )# dn [GeV^{-1}] > # cm
             
-            empty.append(nedm)
-    print('empty',empty)
-    result = plt.contourf(m_axis, xy_axis, \
-                                  np.resize(empty,len(empty )).\
-                                  reshape(len(xy_axis),len(m_axis)), \
-#                                  levels = np.array([0.0,2.9])      
-                                  )
-    plt.colorbar(result)
-    plt.xlabel('$M_{H^{\pm}_{1}}$')
-    plt.ylabel('IM($XY^*$)')
-    plt.title('NEDM')
+            empty2.append(nedm2 )
+#            print('nedm',i,j,nedm )
+    result2 = plt.contourf(m_axis, xy_axis, \
+           np.resize(np.array(empty2),len(np.array(empty2) )).\
+           reshape(len(xy_axis),len(m_axis)), \
+           levels = np.array([0.0,3.3e-26])      
+           )
+    plt.colorbar(result2)
+    plt.xlabel('$M_{H^{\pm}_{2}}$')
+    plt.ylabel('IM($X_3Y_3^*$)')
+    plt.title('NEDM with $M_{H^{\pm}_{1}}$: '+str(m)+ 'GeV' )
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([80,500, 0.0, 0.5])
+    plt.axis([100,500, 0.0, 1.0])
+    plt.show()
+    plt.close()
+    
+    empty3 = []
+    for j in xy_axis:
+        for i in xy_axis:
+            # 1GeV =  5.06e13 cm^{-1}
+            nedm3 = abs(dn(80,170,[complex(1,i)],[complex(1,j)]) / (5.06e13) )# dn [GeV^{-1}] > # cm
+            
+            empty3.append(nedm3 )
+#            print('nedm',i,j,nedm )
+    result3 = plt.contourf(xy_axis, xy_axis, \
+           np.resize(np.array(empty3),len(np.array(empty3) )).\
+           reshape(len(xy_axis),len(xy_axis)), \
+           levels = np.array([0.0,3.3e-26])      
+           )
+    plt.colorbar(result3)
+    plt.xlabel('IM($X_2Y_2^*$)')
+    plt.ylabel('IM($X_3Y_3^*$)')
+    plt.title('NEDM in 3HDM' )
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.axis([0.0, 1.0,0.0, 1.0])
+    plt.show()
+    plt.close()
+    
+    empty4 = []
+    for j in m1_axis:
+        for i in m1_axis:
+            # 1GeV =  5.06e13 cm^{-1}
+            nedm4 = abs(dn(i,j,[complex(1,0.3)],[complex(1,0.2)]) / (5.06e13) )# dn [GeV^{-1}] > # cm
+            
+            empty4.append(nedm4 )
+#            print('nedm',i,j,nedm )
+    result4 = plt.contourf(m1_axis, m1_axis, \
+           np.resize(np.array(empty4),len(np.array(empty4) )).\
+           reshape(len(m1_axis),len(m1_axis)), \
+           levels = np.array([0.0,3.3e-26])      
+           )
+    plt.colorbar(result4)
+    plt.xlabel('$M_{H^{\pm}_{1}}$')
+    plt.ylabel('$M_{H^{\pm}_{2}}$')
+    plt.title('NEDM in 3HDM' )
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+    plt.axis([50,500,50,500])
+    plt.show()
+    plt.close()
+    return
+
+def nedm3hdm_plot():#NEDM figure 4 3hdm
+#    m_axis = np.arange(80,550,10)
+#    xy_axis  = np.arange(0,0.5,0.01)
+    resultxy2imag = []
+    resultxy3imag = []
+    for n in np.arange(0,len(ABarray4()) ):
+        resultxy2imag.append( (- exe.complexyfunction(*ABarray4()[n] ))  )
+        resultxy3imag.append( (- exe.complexyfunction3(*ABarray4()[n] )) )
+#        print('xy2',(- exe.complexyfunction(*ABarray4()[n] )).imag)
+#        print('xy3',(- exe.complexyfunction3(*ABarray4()[n] )).imag)
+#    print('XY2',resultxy2imag)
+#    print('xy3',resultxy3imag)
+    nedm = abs(dn(80,150,resultxy2imag,resultxy3imag) / (5.06e13) )# dn [GeV^{-1}] > # cm
+        
+    print('empty',len(nedm),np.array(nedm).flatten())
+    result = plt.contourf(exe.A, exe.B, \
+                         np.resize(np.array(nedm).flatten(),len(np.array(nedm).flatten())).\
+                                  reshape(len(exe.B),len(exe.A)), \
+                                 levels = np.array([0.0,3.3e-26])        
+                                  )
+    plt.colorbar(result)
+    plt.xlabel(exe.readlist[int(exe.read1)])
+    plt.ylabel(exe.readlist[int(exe.read2)])
+    plt.title('NEDM in 3HDM')
+    plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
+    plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
+#    plt.axis([80,500, 0.0, 0.5])
     plt.show()
     plt.close
     return
-figure4_plot()
-#figure43hdm_plot()
+
+#figure4_plot()#Neutron EDM plot
+#nedm3hdm_plot()#Neutron EDM in 3hdm-plot with exercise file

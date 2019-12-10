@@ -42,9 +42,9 @@ def run_quark_bar(s,m,i):#  NLO
 # from paper: PHYSICAL REVIEW D 81, 075016 (2010) Appendix A(4)
 def gs(Q,i): 
     b0 = beta_0(i)
-    denominator = 1.0 + b0 * NLOalpha_s(mz,i) / (2 * PI) *\
+    denominator = 1.0 + b0 * LOalpha_s(mz,i) / (2 * PI) *\
                   np.log(Q / mz)
-    return NLOalpha_s(mz,i) / denominator
+    return LOalpha_s(mz,i) / denominator
 print('Strong coupling constant at scale '+ str(173) +':', gs(173,5))
 print('running mass of b quark at 100 GeV',run_quark_bar(100,4.18,5))
 print('mu_w scale at LO and NLO:',mw,LOalpha_s(mw,5),NLOalpha_s(mw,5))
@@ -53,6 +53,7 @@ print('mu_b scale at LO and NLO:',mb,LOalpha_s(mb,5),NLOalpha_s(mb,5),run_quark_
 print('mu_t scale at LO and NLO:',mt,LOalpha_s(mt,6),NLOalpha_s(mt,6))
 print('168 scale at LO and NLO:',168,LOalpha_s(168,5),NLOalpha_s(168,5))
 print('mu_c scale at LO and NLO:',mc,LOalpha_s(mc,4),NLOalpha_s(mc,4))
+print('LO', LOalpha_s(5,5))
 ##########################    
 def kc_p(e):# # EQ 2.33 gamma_{C_photon} / (2 * beta0) e: electric charge
     return  8 * e * 4 /3 
@@ -92,7 +93,7 @@ def toverH(x):# 2nd contibution in EQ 4.11
     return  (np.log(x) / (x - 1)**3 + \
                 (x - 3) / (2.0 * (x - 1)**2)  )
 def dC_btH(mass1,mass2,j1,j2): # d^{C}_{b}(mu_tH) EQ 4.11
-    part1 = - gf  / ( np.sqrt(2) * 16 * PI**2) * np.abs(vtb)**2 * run_quark_bar(mt,mb,5)
+    part1 = - gf  / ( np.sqrt(2) * 16 * PI**2) * np.abs(vtb)**2 * run_quark_bar(mt,mb,6)
 #    print(part1,toverH(x_tH(mass1)), toverH(x_tH(mass2)) )
     part2 = np.array(j1).imag * x_tH(mass1) * toverH(x_tH(mass1)) \
           + np.array(j2).imag * x_tH(mass2) * toverH(x_tH(mass2))
@@ -150,10 +151,9 @@ def dn_CEDM(mass1,mass2,j1,j2): # 2.3
 def CW(mass1,mass2,j1,j2):   # EQ 2.37 and 2.5
     part1 = eta(mc,mhadron,4,2,kw(4),kw(2)) * eta(mb,mc,5,4,kw(5),kw(4))
     part2 = eta(mt,mb,6,5,kw(6),kw(5)) * C_wmutH()
-    part3 = eta(mt,mb,6,5,kc(6),kc(5)) * gs(mb,5)**3 / (8 * PI**2 * mb) \
-          * dC_btH(mass1,mass2,j1,j2)      
-    return part1 * (part2 + part3) * 1 * 0.02  # 20 MeV 
+    part3 = eta(mt,mb,6,5,kc(6),kc(5)) * np.sqrt(LOalpha_s(mb,5) * 4 * PI)**3 /\
+            (8 * PI**2 * mb) * dC_btH(mass1,mass2,j1,j2)      
+    return part1 * (part2 + part3) * 1.0 * 0.02  # 20 MeV 
 # Total Neutron EDM contribution from charged Higgs in 3HDM
 def dn(mass1,mass2,j1,j2):
     return  CW(mass1,mass2,j1,j2) #+ dn_CEDM(mass1,mass2,j1,j2)
-print(CW(100,500,complex(1,0.35),0) )
