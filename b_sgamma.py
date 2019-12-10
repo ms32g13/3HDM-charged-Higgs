@@ -620,7 +620,7 @@ def newa_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # New CP asymmetry
     (epsilon_s * c2 / c7).imag
     return (part1 - part2 - part3) * PI
 ###################################################################
-def onlyfigure1(s,mass1,mass2):
+def onlyfigure1(s,mass1,mass2):# Figure 1 of Boltzmati's paper
     ratio1 = np.log(mt**2 / s**2)
     ratio = np.log(s**2 / mw**2)
     ratio_muoverpi = NLOalpha_s(s) / (4 * PI) 
@@ -660,7 +660,7 @@ def onlyfigure1(s,mass1,mass2):
     c07effxy = c0_7xy(s,mass1) * eta0(s)**(16/23) #+ 8/3 * ((eta0(s)**(14 / 23) - eta0(s)**(16 / 23) ))\
         #* c0_8xy(s,mass1) + sum(h_i * eta0(s)**(a_i) * 1)
     def c1eff7(s,mass1,c17,c18,c07,c08,x,y):
-        r1 = c17 * eta0(s)**(39/23) + 8 / 3 * (eta0(s)**(37 / 23) - eta0(s)**(39 / 23) ) *\
+        r1 = c17 * eta0(s)**(39/23)  + 8 / 3 * (eta0(s)**(37 / 23) - eta0(s)**(39 / 23) ) *\
              c18
         r2 = ((297664 / 14283) * eta0(s)**(16 / 23) - 7164416 / 357075 * eta0(s)**(14 / 23) +\
 256868/14283 * (eta0(s)**(37 / 23)) - 6698884 / 357075 * eta0(s)**(39 / 23)) * \
@@ -669,7 +669,7 @@ def onlyfigure1(s,mass1,mass2):
             c07    
         result = sum ( (e_i * eta0(s) * x  + (f_i + k_i * eta0(s)) + l_i *\
                     eta0(s) * y ) * eta0(s)**(a_i))
-        return r1  + r2 + r3 + result 
+        return r1 + r2 + r3 + result 
 #    print('qweqwe',(e_i[0] * eta0(s) * c14  + (f_i[0] + k_i[0] * eta0(s)) + l_i[0] *\
 #                    eta0(s) * c11 ) * eta0(s)**(a_i[0]))
     c1eff7sm = c1eff7(s,mass1,listsm7,listsm8,c0_7sm(s),c0_8sm(s),c14,c11 )  
