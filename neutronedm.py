@@ -157,3 +157,4 @@ def CW(mass1,mass2,j1,j2):   # EQ 2.37 and 2.5
 # Total Neutron EDM contribution from charged Higgs in 3HDM
 def dn(mass1,mass2,j1,j2):
     return  CW(mass1,mass2,j1,j2) #+ dn_CEDM(mass1,mass2,j1,j2)
+print(abs(dn(180,300,complex(0,0.05),complex(0,0.3)) / (5.06e13) ) )

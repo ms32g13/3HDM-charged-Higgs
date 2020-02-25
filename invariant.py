@@ -23,7 +23,7 @@ pwz = 2.4952  # partial width of z boson
 pww = 2.085  #  partial width of w boson 
 mtau = 1.7771 # mass of tau lepton
 gf = 1.1663787e-05#0.000011663787 # fermi constant
-mhch = 100.00  # mass of charged higgs
+mhch = 120.00  # mass of charged higgs
 mh = 125.0 #  mass of higgs
 ma = 300.00 # mass of Pseudoscalar 
 # CKM elements

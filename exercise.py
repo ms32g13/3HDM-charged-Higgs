@@ -41,10 +41,10 @@ A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 3#theta
-j = 10.0#tangentbeta
+i = - PI / 2.1#theta
+j = 30.0#tangentbeta
 k = 1#tangamma
-l = PI/2# set delta (phase shift) to 0
+l = PI/4# set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
 y = np.arange(0.0,0.62,0.02) # y range
 z = np.arange(0.0,5.02,0.02) # z range
@@ -519,7 +519,7 @@ start1()
 mhch_80_160 = np.arange(80.0,165.0,5.0)
 for n in np.arange(0,len(fl.mhch)):
 #    mhch = fl.mhch[n]
-    mhch = 80.0
+    mhch = 120.0
 #    strmhch = '%.2g'% mhch
     strmhch = str(mhch)
 #    mhch = np.array(np.arange(120,131.0,10.0)[n])
@@ -628,7 +628,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
 #   plt.savefig('hcb.png')
-#    plt.show()
+    plt.show()
     plt.close()
     print('--------------------------------------------------')
 # Contour of Branching ratio for H+ > tau,tau-neutrino x-axis: |X|, y-axis = |Y|; |Z|= 0.1
