@@ -472,25 +472,6 @@ def plt_A_B_bsg(i,j):#A_B bsgamma
     plt.show()
     plt.close()
 ######################################################################################
-#Neutron EDM PLOT SECTION
-#    for m in np.arange(0,len(ABarray4()) ):
-#        nedm3hdm= C_wmuh(mb,mass_axis[0],mass_axis[1],\
-#                        exe.complexyfunction(*ABarray4()[m] ),\
-#                        exe.complexyfunction3(*ABarray4()[m] )) 
-#        result1.append(nedm3hdm )
-#    nedm = plt.contourf(exe.A, exe.B, \
-#           np.resize(np.array(result1).flatten()  ,len(np.array(result1).flatten() ) ).\
-#          reshape(len(exe.B),len(exe.A)) ,\
-#           levels = np.arange(2.0,7.0,1.0),\
-#          colors = ['black','royalblue','purple','darkgreen',\
-#                    'brown','red','gray','orange','pink'])
-#    plt.colorbar(nedm)
-#    plt.title('Neutron EDM in ['\
-#                    + str("%02d" % mass_axis[0]) +',' + str("%02d"% mass_axis[1]) +']')
-#    plt.xlabel(exe.readlist[int(exe.read1)])
-#    plt.ylabel(exe.readlist[int(exe.read2)])
-#    plt.show()
-#    plt.close()
     return
 def numerical():
     mass_axis = (80.0,250.0)
@@ -507,9 +488,9 @@ def numerical():
 ##PLOT SECTION
 #numerical()
 #Plot_3()
-Plot_4()
-Plot_5()
-Plot_8_9()
+#Plot_4()
+#Plot_5()
+Plot4_8_9()
 #plotfigure1()
 #plot_Hp1_Hp2()
 #plot_under_Heatherbasis(exe.i,exe.j,exe.k,exe.l)
@@ -729,7 +710,7 @@ def nedm3hdm_plot():#NEDM figure 4 3hdm
 #        print('xy3',(- exe.complexyfunction3(*ABarray4()[n] )).imag)
 #    print('XY2',resultxy2imag)
 #    print('xy3',resultxy3imag)
-    nedm = abs(dn(200,280,resultxy2imag,resultxy3imag) / (5.06e13) )# dn [GeV^{-1}] > # cm
+    nedm = abs(dn(100,120,resultxy2imag,resultxy3imag) / (5.06e13) )# dn [GeV^{-1}] > # cm
         
     print('empty',len(nedm),np.array(nedm).flatten())
     result = plt.contourf(exe.A, exe.B, \
@@ -844,8 +825,26 @@ def nedm3hdm_xy1_xy2():# NEDM figure 4 3hdm
     plt.show()
     plt.close()
     return
-#def nedm_3line():
-    
+###############################################################
+#Neutron EDM PLOT SECTION
+#    for m in np.arange(0,len(ABarray4()) ):
+#        nedm3hdm= C_wmuh(mb,mass_axis[0],mass_axis[1],\
+#                        exe.complexyfunction(*ABarray4()[m] ),\
+#                        exe.complexyfunction3(*ABarray4()[m] )) 
+#        result1.append(nedm3hdm )
+#    nedm = plt.contourf(exe.A, exe.B, \
+#           np.resize(np.array(result1).flatten()  ,len(np.array(result1).flatten() ) ).\
+#          reshape(len(exe.B),len(exe.A)) ,\
+#           levels = np.arange(2.0,7.0,1.0),\
+#          colors = ['black','royalblue','purple','darkgreen',\
+#                    'brown','red','gray','orange','pink'])
+#    plt.colorbar(nedm)
+#    plt.title('Neutron EDM in ['\
+#                    + str("%02d" % mass_axis[0]) +',' + str("%02d"% mass_axis[1]) +']')
+#    plt.xlabel(exe.readlist[int(exe.read1)])
+#    plt.ylabel(exe.readlist[int(exe.read2)])
+#    plt.show()
+#    plt.close()    
 #figure4_plot()#Neutron EDM plot
 #nedm3hdm_plot()#Neutron EDM in 3hdm-plot with exercise file
 #nedm3hdm_xy1_xy2()# NEDM figure 4 3hdm
