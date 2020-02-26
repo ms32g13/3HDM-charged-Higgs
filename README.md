@@ -44,3 +44,6 @@ CEPC_plot.py: Codes to produce graphs of branching ratios of charged Higgs decay
 neturonedm.py: Codes to produce 3HDM charged Higgs contribution for Neutron EDM limit based on the (X_iY_i^* ) where i = 2,3 reading values from exercise.py. 
 >> Calculation taken from mu_tH(m_t) scale to mu_hadron(hadron = 1GeV) scale.
 >> Two contributions are mainly useful, (C)3HDM and weinberg operator. Whole formulas are based on the paper :  arXiv:1308.6283.
+
+Hplus3decay.py : Codes for H+> AW* / hW* 3 body decay. Based on the SUSY Higgs particle paper: https://arxiv.org/pdf/hep-ph/9511342.pdf. 
+>> Results produce the partial width of charged Higgs H+ decay to Pseudoscalar and off-shell W boson which will decays further to 2 decays (Thus, 3-body decay released from charged Higgs).
