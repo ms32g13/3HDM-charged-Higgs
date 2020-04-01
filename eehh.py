@@ -359,12 +359,12 @@ def fake_b_cscs(x,y): # 1 fake b tag for 4jet case (Hadronic) cscs
     return chunk1 * np.array(x) * np.array(y) 
 ###########################################################################
 #Cross-section of eeww against COM E 
-plt.figure()
-plt.plot(np.sqrt(np.array(S)), cross_section_eeww()/ (2.56819 * 10 **(-9)))
-plt.ylabel('Cross-section in $pb^-1$')
-plt.xlabel('CoM energy $\sqrt{S}$')
+#plt.figure()
+#plt.plot(np.sqrt(np.array(S)), cross_section_eeww()/ (2.56819 * 10 **(-9)))
+#plt.ylabel('Cross-section in $pb^-1$')
+#plt.xlabel('CoM energy $\sqrt{S}$')
 #plt.savefig('picture.png')
-plt.show()
+#plt.show()
 ####################################################################################
 ################################################################################### 
 def boson_decay_exist():  #check bosonic decay of charged Higgs exist or not and get lamaw value

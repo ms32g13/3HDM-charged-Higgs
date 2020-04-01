@@ -355,8 +355,8 @@ def c1_mu_effective(s,mass1,mass2,i1,j1,i2,j2):
     result_LO7 = c0_7sm() + np.abs(i1)**2 * c0_7yy(mass1) + np.array(j1) * c0_7xy(mass1) +\
                   np.abs(i2)**2 * c0_7yy(mass2) + np.array(j2) * c0_7xy(mass2)
 ###########                  
-    result_LO2 = np.array([1.0] * len(j1) )
-    result_NLO2 = np.array([0.0] * len(j1) )
+    result_LO2 = np.array([1.0]  )
+    result_NLO2 = np.array([0.0]  )
 ###########
     result_NLO8 = listsm8 + np.abs(i1)**2 * listyy8 + np.abs(i2)**2 * listyy82 + \
                   np.array(j1) * listxy8 + np.array(j2) * listxy82
@@ -422,11 +422,11 @@ def C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2):
     for n in np.arange(0,5):
         result += h2_i[n] * eta**(a2_i[n]) * c1_mu_effective(s1,mass1,mass2,i1,j1,i2,j2)[0]        
     return step1 + result
-print('LO C1^1 muW = 4.8GeV',C0_1_eff(4.8,mw,100,300,[0],[0],[0],[0]))
-print('LO C2^1 muW = 4.8GeV',C0_2_eff(4.8,mw,100,300,[0],[0],[0],[0]))
-print('LO C7^1 muW = 4.8GeV',C0_7_eff(4.8,mw,100,300,[0],[0],[0],[0]))
-print('LO C8^1 muW = 4.8GeV',C0_8_eff(4.8,mw,100,300,[0],[0],[0],[0]))
-print('NLO C7^1 muW = 4.8GeV',C1_7_eff(4.8,mw,100,300,[0],[0],[0],[0]))
+#print('LO C1^1 muW = 4.8GeV',C0_1_eff(4.8,mw,100,300,[0],[0],[0],[0]))
+#print('LO C2^1 muW = 4.8GeV',C0_2_eff(4.8,mw,100,300,[0],[0],[0],[0]))
+#print('LO C7^1 muW = 4.8GeV',C0_7_eff(4.8,mw,100,300,[0],[0],[0],[0]))
+#print('LO C8^1 muW = 4.8GeV',C0_8_eff(4.8,mw,100,300,[0],[0],[0],[0]))
+#print('NLO C7^1 muW = 4.8GeV',C1_7_eff(4.8,mw,100,300,[0],[0],[0],[0]))
 #####################################################################
 ####################################################################
 ####################################################################
@@ -451,10 +451,10 @@ def D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude LO
     (r7 + 1 / 2.0 * gaeff.gamma0eff()[6][6] * np.log(mb**2 / s2**2 ))
     ans8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * \
     (r8 + 1 / 2.0 * gaeff.gamma0eff()[7][6] * np.log(mb**2 / s2**2 ))
-    print('gaeff.gamma0eff()17',gaeff.gamma0eff()[0][6])
-    print('gaeff.gamma0eff()27',gaeff.gamma0eff()[1][6])
-    print('gaeff.gamma0eff()77',gaeff.gamma0eff()[6][6])
-    print('gaeff.gamma0eff()87',gaeff.gamma0eff()[7][6])
+#    print('gaeff.gamma0eff()17',gaeff.gamma0eff()[0][6])
+#    print('gaeff.gamma0eff()27',gaeff.gamma0eff()[1][6])
+#    print('gaeff.gamma0eff()77',gaeff.gamma0eff()[6][6])
+#    print('gaeff.gamma0eff()87',gaeff.gamma0eff()[7][6])
     v_ub = ans1 + ans2 + ans7 + ans8 - 16 / 3.0 * \
     C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     return C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + \
@@ -483,11 +483,11 @@ def NewDbarsquared(s2,s1,mass1,mass2,i1,j1,i2,j2):#mu_b scale Reduced Amplitude 
     (r7 + 1 / 2.0 * gaeff.gamma0eff()[6][6] * np.log(mb**2 / s2**2 ))
     ans8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * \
     (r8 + 1 / 2.0 * gaeff.gamma0eff()[7][6] * np.log(mb**2 / s2**2 ))
-    print('zeta_3',zeta_3)
-    print('r1',r1)
-    print('r2',r2)
-    print('r7',r7)
-    print('r8',r8)
+#    print('zeta_3',zeta_3)
+#    print('r1',r1)
+#    print('r2',r2)
+#    print('r7',r7)
+#    print('r8',r8)
     v_ub = ans1 + ans2 + ans7 + ans8 - 16 / 3.0 * \
     C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     chunk1 = C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + v_ub 
@@ -519,15 +519,15 @@ def Amp(s2,s1,mass1,mass2,i1,j1,i2,j2):# A for Decay_width of b > s gamma gluon
         f_18 = - 1 /6 * f_28
         f_78 = 8 /9 * (25 /12 - PI**2 / 6)
         f_88 = 1 /27 * (16 /3 - 4 * PI**2 / 3 + 4 * np.log(mb / s2 ))
-        print('zz,s2,mb,mc',zz,s2,mb,mc)
-        print('f11',f_11,)
-        print('f12',f_12)
-        print('f17',f_17)
-        print('f18',f_18)
-        print('f_22',f_22)
-        print('f_27',f_27)
-        print('f_27',f_28)
-        print('f_78,f_88',f_78,f_88)
+#        print('zz,s2,mb,mc',zz,s2,mb,mc)
+#        print('f11',f_11,)
+#        print('f12',f_12)
+#        print('f17',f_17)
+#        print('f18',f_18)
+#        print('f_22',f_22)
+#        print('f_27',f_27)
+#        print('f_27',f_28)
+#        print('f_78,f_88',f_78,f_88)
         summ11 = c0_1 * np.conjugate(c0_1) * f_11
         summ12 = c0_1 * np.conjugate(c0_2) * f_12
         summ17 = c0_1 * np.conjugate(c0_7) * f_17
@@ -574,25 +574,33 @@ def decay_B_bar_Xsg(s2,s1,mass1,mass2,i1,j1,i2,j2):
 def BR_B_Xs_gamma(s2,s1,mass1,mass2,i1,j1,i2,j2):
     return decay_B_bar_Xsg(s2,s1,mass1,mass2,i1,j1,i2,j2) \
           / decay_SL(s2) * B_SL 
-############
-#  print('ll2,ll1',ll2,ll1,len(ll2))
-#  print('xyfun-list',xyfun_list[m],yfun_list[m],len(xyfun_list[m]))
-#  print('c0_7eff(i,j)',c0_7eff(yfun_list[m],xyfun_list[m]),len(c0_7eff(yfun_list[m],xyfun_list[m])))
-#  print('c0_8eff(i,j)',c0_8eff(yfun_list[m],xyfun_list[m]),len(c0_8eff(yfun_list[m],xyfun_list[m])))
-#  print('c0_eff(LOalpha_s(mw),i,j)',c0_eff(LOalpha_s(mw),yfun_list[m],xyfun_list[m]))
-#  print('c1_eff(mu_w,i,j)',c1_eff(NLOalpha_s(mw),ll2,ll1), type( c1_eff(NLOalpha_s(mw),ll2,ll1)    ))
-#  print('c1_eff(s1,i,j)[3]',c1_eff(NLOalpha_s(mw),ll2,ll1)[3])
-#print('c_i_eff_muw(mu_w,i,j)',c_i_eff_muw(ll2,ll1 ))
-#################################################################
-##################################################################
-#  print('C0_7_eff(mu_b)',c0_7_eff(mb,mw,yfun_list[m],xyfun_list[m])) #
-#  print('C1_7_eff(mu_b)',c1_7_eff(mb,mw,yfun_list[m],xyfun_list[m]))
-#  print('C0_2_eff(mu_b)',c0_2_eff(mb,mw,yfun_list[m],xyfun_list[m])) #
-#  print('C0_8_eff(mu_b)',c0_8_eff(LOalpha_s(mb),LOalpha_s(mw),ll2,ll1)) #
-#print('D_bar',D_bar(0.8,0.2), type(D_bar(0.8,0.2)))
-#print('delta_D_bar',delta_D_bar(0.8,complex(0.2, 0.1)))
 print('SMBRBXSgamma______________',BR_B_Xs_gamma(4.8,mw,100,300,[0],[0],[0],[0]))
 print('---------------------------------------------------------')
+#################################################################
+#################################################################
+#########################Partial width of B_bar > X_d + gamma
+def decay_B_bar_Xdg(s2,s1,mass1,mass2,i1,j1,i2,j2):
+    ###### Wolfenstein parametrization of the CKM matrix
+    A,lamda1,rhho,etta = 0.819, 0.2196, 0.3, 0.34
+    vcb = A * lamda1**2
+    rho_bar = rhho * (1 - lamda1**2/2)
+    eta_bar = etta * (1 - lamda1**2/2) 
+    ###########################
+    vstartdvtb = A * lamda1**3 * complex(1 - rho_bar , eta_bar)
+    a1 = gf**2 / (32 * PI**4) * abs(vstartdvtb)**2 / abs(vcb)**2 \
+            * alpha_electroweak * mb**5 
+    chunk1 =  NewDbarsquared(s2,s1,mass1,mass2,i1,j1,i2,j2) +\
+             Amp(s2,s1,mass1,mass2,i1,j1,i2,j2) + (delta_NP_ga / mb**2) * \
+             abs(C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \
+             (delta_NP_c / mc**2) * \
+      np.real(np.conj(C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)) *\
+             (C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) - \
+              C0_1_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) * 1 / 6))
+    return a1 * chunk1
+def BR_B_Xd_gamma(s2,s1,mass1,mass2,i1,j1,i2,j2):
+    return decay_B_bar_Xdg(s2,s1,mass1,mass2,i1,j1,i2,j2) \
+          / decay_SL(s2) * B_SL 
+print('SMBRBXDgamma______________',BR_B_Xd_gamma(4.8,mw,100,300,[0],[0],[0],[0]))
 ##################################################################
 ##################################################################
 ######### A_CP CP asymmetry  expression 
@@ -622,17 +630,24 @@ def A_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # CP asymmetry
     part5 = 8 * zz / 27 * b_cp(zz, delta_cp) *\
         ( (1 + epsilon_s) * (c2 * np.conjugate(c8) ) ).imag
     return part1 * (part2 - part3  - part4 + part5)
-def newa_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # New CP asymmetry 
+###################################################################
+###################################################################
+def newa_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # New CP_s asymmetry PRL 106,141801 (2011)
+    ###### Wolfenstein parametrization of the CKM matrix
+    lamda1,rhho,etta = 0.2196, 0.3, 0.34
+    rho_bar = rhho * (1 - lamda1**2/2)
+    eta_bar = etta * (1 - lamda1**2/2)
+    epsilon_s = lamda1**2 * complex(- rho_bar, eta_bar) / \
+                (1 - lamda1**2 * complex(1 - rho_bar, eta_bar))
     lamda_delat_c17 = - 0.009 #0.011 # -0.033
     lamda_delat_78 = 0.19  # - 0.017
     lamda_delat_u17 = 0.525 # 0.017
-    lamda_c = 0.38
-    espec = 1/6
+    lamda_c = 0.38 #Formula 4 
+    espec = 2/3
     c2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + NLOalpha_s(s2) / \
          (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     c8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    epsilon_s = lanmda_ckm**2 * complex(- rho_ckm ,eta_ckm)#e_s = V*_usV_ub / V*_tsV_tb
     part1 = ((40 /81 - 40/9 * lamda_c/mb) * NLOalpha_s(s2) / PI + lamda_delat_c17/mb) * \
     (c2 / c7).imag
     part2 = ( 4 * LOalpha_s(s2) / (9 * PI )  -  4* PI * NLOalpha_s(s2) * espec * lamda_delat_78 / mb)* \
@@ -640,28 +655,31 @@ def newa_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # New CP asymmetry
     part3 = ((lamda_delat_u17 - lamda_delat_c17)/mb + 40/9 * lamda_c/mb * NLOalpha_s(s2) / PI) * \
     (epsilon_s * c2 / c7).imag
     return (part1 - part2 - part3) * PI
-#print('BR(B_bar>X_s + gamma)',BR_B_Xs_gamma(4.8,mw,80,170,[0.],[0.],[0.0],[0])) 
-#print('Newcp-asymmetry',newa_cp(9.6,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
+####################################################################
+def newa_cpd(s2,s1,mass1,mass2,i1,j1,i2,j2): # New CP_d asymmetry PRL 106,141801 (2011)
+    ###### Wolfenstein parametrization of the CKM matrix
+    A,lamda1,rhho,etta = 0.819, 0.2196, 0.3, 0.34
+    rho_bar = rhho * (1 - lamda1**2/2)
+    eta_bar = etta * (1 - lamda1**2/2)
+    epsilon_d = complex(rho_bar , - eta_bar) / complex(1 - rho_bar , eta_bar)
+    ###########
+    lamda_delat_c17 = - 0.009 #0.011 # -0.033
+    lamda_delat_78 = 0.19  # - 0.017
+    lamda_delat_u17 = 0.525 # 0.017
+    lamda_c = 0.38 #Formula 4 
+    espec = 2/3
+    c2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + NLOalpha_s(s2) / \
+         (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    c8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    part1 = ((40 /81 - 40/9 * lamda_c/mb) * NLOalpha_s(s2) / PI + lamda_delat_c17/mb) * \
+    (c2 / c7).imag
+    part2 = ( 4 * LOalpha_s(s2) / (9 * PI )  -  4* PI * NLOalpha_s(s2) * espec * lamda_delat_78 / mb)* \
+    (c8 / c7).imag
+    part3 = ((lamda_delat_u17 - lamda_delat_c17)/mb + 40/9 * lamda_c/mb * NLOalpha_s(s2) / PI) * \
+    (epsilon_d * c2 / c7).imag
+    return (part1 - part2 - part3) * PI
+print('Newcps-asymmetry',newa_cp(9.6,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
+print('Newcpd-asymmetry',newa_cpd(9.6,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
 ##############################################################################################
-#print('---------------------------------------------------------')
-#print('BR(X_bar>Xs+gamma)',\
-#          BR_B_Xs_gamma(mb,100,100,100 + 20,\
-#                        [1.0],1j * np.array(np.arange(-5,6,1.0)),[0],[0]) )
-#print('A_CP',np.sort(A_cp(mb,mw,charHm_100,charHm_100 + 20 ,[1.0],[1.0],[0],[0])))
-#for m in np.arange(0,len(charHm_100)):
-#    print(m,'---------------------')
-#    print('charHm_100[m]',charHm_100[m],charHm_100[m]+ 20,m)
-#    print('Ti_sm,xy,yy()',t7_sm(),'xy',t7_xy(charHm_100[m]),'yy',t7_yy(charHm_100[m]))#
-#    print('wi_sm,xy,yy()',w7_sm(),'xy',w7_xy(charHm_100[m]),'yy',w7_yy(charHm_100[m]))#
-#    print('c1_mu_effective(scale,mhch),sm,xy,yy',\
-#          c1_mu_effective(mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0] ))
-#    print('C0_7_eff(s2,s1,i,j)',\
-#          C0_7_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
-#    print('C0_8_eff(s2,s1,i,j)',\
-#          C0_8_eff(mb,mw,charHm_100[m],charHm_large[m],[1.0],[-1.0],[0],[0]))
 
-#M = np.ones((3, 2))
-#a = np.arange(3)
-#print(M,a)
-#print(a[:,np.newaxis])
-#print(M * a[:,np.newaxis])

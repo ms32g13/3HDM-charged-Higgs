@@ -33,18 +33,18 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tbe = random.uniform(1.0,61.0) #tanbeta (j in loop)
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
-the = np.arange(- PI/2.1,  0.0,PI / 20)#theta (i in loop)
-tbe = np.arange(1.0,31,1) #tanbeta (j in loop)
-tga = np.arange(1.0,31,1) #tangamma (k in loop)
+the = np.arange(- PI/2.1,  PI / 25,PI / 25)#theta (i in loop)
+tbe = np.arange(1.0,62,2) #tanbeta (j in loop)
+tga = np.arange(1.0,62,2) #tangamma (k in loop)
 delta = np.arange(0.0,2.01 * PI , PI /12)#delta (l in loop)  #delta fixed#
 A = []
 B = []
 read1 = str('')
 read2 = str('')
 i = - PI / 2.1#theta
-j = 30.0#tangentbeta
+j = 40#tangentbeta
 k = 1#tangamma
-l = PI/4# set delta (phase shift) to 0
+l = PI/2# set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
 y = np.arange(0.0,0.62,0.02) # y range
 z = np.arange(0.0,5.02,0.02) # z range
@@ -376,13 +376,19 @@ def start1():# choose model
 #abs(U(i,j,k,l)[0][2] / U(i,j,k,l)[0][0]) #Z3
 #############################################################################
 def complexyfunction(i,j,k,l):# (XY^*) function 
-        return X2(i,j,k,l) * (np.conjugate(Y2(i,j,k,l)))
+        return -X2(i,j,k,l) * (np.conjugate(Y2(i,j,k,l)))
 def complexyfunction3(i,j,k,l):# (XY^*) function of additional physical mass
-        return X3(i,j,k,l) * (np.conjugate(Y3(i,j,k,l)))
+        return -X3(i,j,k,l) * (np.conjugate(Y3(i,j,k,l)))
 def complnedm2(i,j,k,l):# (XY^*) function 
         return X2(i,j,k,l) *  np.conj(-Y2(i,j,k,l))
 def complnedm3(i,j,k,l):# (XY^*) function of additional physical mass
         return X3(i,j,k,l) *  np.conj(-Y3(i,j,k,l))    
+#print('1234',complnedm2(- PI/4,60,1,PI/2))
+#print('xx2',X2(- PI/4,60,1,PI/2),Y2(- PI/4,60,1,PI/2))
+#print('x2',U(- PI/4,60,1,PI/2)[0][1] / U(- PI/4,60,1,PI/2)[0][0] )
+#print('y2', - U(- PI/4,60,1,PI/2)[1][1] / U(- PI/4,60,1,PI/2)[1][0] )
+#print('- x2y2*', U(- PI/4,60,1,PI/2)[0][1] / U(- PI/4,60,1,PI/2)[0][0] * \
+#      np.conj(U(- PI/4,60,1,PI/2)[1][1] / U(- PI/4,60,1,PI/2)[1][0] ) )
 ###############################################################################
 def start3():
 #        global X2,Y2,Z2 #
@@ -519,7 +525,7 @@ start1()
 mhch_80_160 = np.arange(80.0,165.0,5.0)
 for n in np.arange(0,len(fl.mhch)):
 #    mhch = fl.mhch[n]
-    mhch = 120.0
+    mhch = 85.0
 #    strmhch = '%.2g'% mhch
     strmhch = str(mhch)
 #    mhch = np.array(np.arange(120,131.0,10.0)[n])
@@ -915,13 +921,13 @@ for n in np.arange(0,len(fl.mhch)):
     contourxy = plt.contour(A,B,\
             np.resize(np.array(np.real(xyfun)),len(np.array(np.real(xyfun)))).reshape(len(B),len(A)),\
             levels = np.arange(-1.1,0.9,0.2),colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'])#,levels = linecs3)#
-#    plt.clabel(contourxy, inline= 0.01, fontsize=10)# contour level show
-#    plt.colorbar(contourxy)
+    plt.clabel(contourxy, inline= 0.01, fontsize=10)# contour level show
+    plt.colorbar(contourxy)
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-#    plt.show()
+    plt.show()
 #    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.eps')
     plt.close()
     print('--------------------------------------------------')
@@ -1240,9 +1246,9 @@ def start4():#Scan-plot
                 lamaw=9.0 * gf**2 * mw**4 * mhch * gaw /(16.0 * PI**3)
             else:
                 lamaw=0.00
-            BRCBfinal = []
-            BRCSfinal = []
-            BRTNfinal = []
+#            BRCBfinal = []
+#            BRCSfinal = []
+#            BRTNfinal = []
             list_a =[]
             list_b =[]
             list_c =[]
@@ -1261,73 +1267,73 @@ def start4():#Scan-plot
 #                    absoluteylist.append(abs(Y2(*my_tuple)))
 #                    absolutezlist.append(abs(Z2(*my_tuple)))
 #                    xyfun.append(complexyfunction(*my_tuple))
-                        BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-                        BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
-                        BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))) 
-                        arrayhadron = np.array(BRCBfinal) + np.array(BRCSfinal)
-                        arrayhadrontn =  arrayhadron * np.array(BRTNfinal)
-                        twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
-                fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
-                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
-                ) * fl.selection_2j  / np.sqrt(fl.backgroundtagging2())
-                        fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
-                   fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
-                   fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
-                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
-                   fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
-                   * fl.epsilon / np.sqrt(fl.backgroundtagging())
-                        fourtag1bsig = fl.eeHH_event()[n] * (fl.real_b_cbcb(BRCBfinal,BRCBfinal) +\
-                   fl.fake_b_cbcb(BRCBfinal,BRCBfinal) + fl.real_b_cbcs(BRCBfinal,BRCSfinal) + \
-                   fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
-                   fl.fake_b_cscs(BRCSfinal,BRCSfinal))  * \
-                   fl.epsilon / np.sqrt(fl.backgroundtag4j1b())
-                        fourjnontag = fl.eeHH_event()[n] *  (arrayhadron**2)\
-                  * fl.epsilon / np.sqrt(fl.backgroundnotagging() )
-                        twojnontag = fl.eeHH_event()[n] * 2.0 * arrayhadrontn \
-                                 * fl.selection_2j  / np.sqrt(fl.backgroundnotagging2())
-            d1 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           'BRCB': [*BRCBfinal]})
-            d2 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           'BRCS': [*BRCSfinal]})
-            d3 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           'BRTN': [*BRTNfinal]})
-            d4 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           '4tag0bsig': [*fourjnontag]})    
-            d5 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           '2tag0bsig': [*twojnontag]})      
-            d6 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           '2tag1bsig': [*twotagsig]}) 
-            d7 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           '4tag2bsig': [*fourtag2bsig]}) 
-            d8 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           '4tag1bsig': [*fourtag1bsig]}) 
-            d9 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           'BRHADMTN': [*arrayhadrontn]})  
-            d10 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
-                           'BRCBPCS': [*arrayhadron]})  
+#                        BRCBfinal.append(brcb(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
+#                        BRCSfinal.append(brcs(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple))))
+#                        BRTNfinal.append(brtn(abs(X2(*my_tuple)),abs(Y2(*my_tuple)),abs(Z2(*my_tuple)))) 
+#                        arrayhadron = np.array(BRCBfinal) + np.array(BRCSfinal)
+#                        arrayhadrontn =  arrayhadron * np.array(BRTNfinal)
+#                        twotagsig = fl.eeHH_event()[n] * (fl.eeHHcbtn_1bsignal(BRCBfinal,BRTNfinal) +\
+#                fl.eeHHcbtn_0bsignal(BRCBfinal,BRTNfinal) + \
+#                fl.eeHHcstn_1bsignal(BRCBfinal,BRTNfinal) + fl.eeHHcstn_0bsignal(BRCBfinal,BRTNfinal) \
+#                ) * fl.selection_2j  / np.sqrt(fl.backgroundtagging2())
+#                        fourtag2bsig = fl.eeHH_event()[n] * (fl.eeHHcbcb_2bsignal(BRCBfinal,BRCBfinal) +\
+#                   fl.eeHHcbcb_1bsignal(BRCBfinal,BRCBfinal) + \
+#                   fl.eeHHcbcs_2bsignal(BRCBfinal,BRCSfinal) + fl.eeHHcbcs_1bsignal(BRCBfinal,BRCSfinal) + \
+#                   fl.eeHHcbcb_0bsignal(BRCBfinal,BRCBfinal) + fl.eeHHcbcs_0bsignal(BRCBfinal,BRCSfinal) + \
+#                   fl.eeHHcscs_0bsignal(BRCSfinal,BRCSfinal)) \
+#                   * fl.epsilon / np.sqrt(fl.backgroundtagging())
+#                        fourtag1bsig = fl.eeHH_event()[n] * (fl.real_b_cbcb(BRCBfinal,BRCBfinal) +\
+#                   fl.fake_b_cbcb(BRCBfinal,BRCBfinal) + fl.real_b_cbcs(BRCBfinal,BRCSfinal) + \
+#                   fl.fake_b_cbcs(BRCBfinal,BRCSfinal) + fl.real_b_cscs(BRCSfinal,BRCSfinal) + \
+#                   fl.fake_b_cscs(BRCSfinal,BRCSfinal))  * \
+#                   fl.epsilon / np.sqrt(fl.backgroundtag4j1b())
+#                        fourjnontag = fl.eeHH_event()[n] *  (arrayhadron**2)\
+#                  * fl.epsilon / np.sqrt(fl.backgroundnotagging() )
+#                        twojnontag = fl.eeHH_event()[n] * 2.0 * arrayhadrontn \
+#                                 * fl.selection_2j  / np.sqrt(fl.backgroundnotagging2())
+#            d1 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           'BRCB': [*BRCBfinal]})
+#            d2 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           'BRCS': [*BRCSfinal]})
+#            d3 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           'BRTN': [*BRTNfinal]})
+#            d4 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           '4tag0bsig': [*fourjnontag]})    
+#            d5 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           '2tag0bsig': [*twojnontag]})      
+#            d6 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           '2tag1bsig': [*twotagsig]}) 
+#            d7 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           '4tag2bsig': [*fourtag2bsig]}) 
+#            d8 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           '4tag1bsig': [*fourtag1bsig]}) 
+#            d9 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           'BRHADMTN': [*arrayhadrontn]})  
+#            d10 = pd.DataFrame({'theta': [*list_a],'tanbeta': [*list_b],'tangamma': [*list_c],
+#                           'BRCBPCS': [*arrayhadron]})  
 
-            d1.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcb'+ strmhch +'.csv',\
-                   index = None, header=True) 
-            d2.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcs'+ strmhch +'.csv',\
-                   index = None, header=True)
-            d3.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dtn'+ strmhch+'.csv',\
-                   index = None, header=True)
-            d4.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcbpcs'+ strmhch +'.csv',\
-                   index = None, header=True)
-            d5.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcbmtn'+ strmhch +'.csv',\
-                   index = None, header=True)
-            d6.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d2jtag'+ strmhch +'.csv',\
-                   index = None, header=True)
-            d7.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d4j2btag'+ strmhch +'.csv',\
-                   index = None, header=True)
-            d8.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d4j1btag'+ strmhch +'.csv',\
-                   index = None, header=True)
-            d9.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dhadrontn'+ strmhch +'.csv',\
-                   index = None, header=True)
-            d10.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dhadron'+ strmhch +'.csv',\
-                   index = None, header=True)
-            print('alpmb :',alpmb, ' alpmhch:',alpmhch)
-        print('mhchfinal', mhch)
+#            d1.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcb'+ strmhch +'.csv',\
+#                   index = None, header=True) 
+#            d2.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcs'+ strmhch +'.csv',\
+#                   index = None, header=True)
+#            d3.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dtn'+ strmhch+'.csv',\
+#                   index = None, header=True)
+#            d4.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcbpcs'+ strmhch +'.csv',\
+#                   index = None, header=True)
+#            d5.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dcbmtn'+ strmhch +'.csv',\
+#                   index = None, header=True)
+#            d6.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d2jtag'+ strmhch +'.csv',\
+#                   index = None, header=True)
+#            d7.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d4j2btag'+ strmhch +'.csv',\
+#                   index = None, header=True)
+#            d8.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/d4j1btag'+ strmhch +'.csv',\
+#                   index = None, header=True)
+#            d9.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dhadrontn'+ strmhch +'.csv',\
+#                   index = None, header=True)
+#            d10.to_csv (r'/Volumes/Backup/Allen/PHDmeeting/3HDM codes/significanceplot/dhadron'+ strmhch +'.csv',\
+#                   index = None, header=True)
+#            print('alpmb :',alpmb, ' alpmhch:',alpmhch)
+#        print('mhchfinal', mhch)
 #        xtbe,ytga = np.meshgrid(tbe,tga)
         #zzz = np.reshape(np.array(BRCBfinal),( len(the) , len(tbe) * len(tga) ))
         #break whole list to [ len(tga) * len(tbe) ], * len(the) 
