@@ -103,6 +103,7 @@ def C_wmutH():       # EQ 4.13 neutral  Higgs contribution
     return 0.0       # keep no neutral contribution
 
 #######################################
+# e-EDM
 def zx(x):#EQ 4.23
         return x**2 / mt**2
 def tt(x):#EQ 4.23
@@ -119,14 +120,21 @@ def Fb_(mass):#EQ4.23 for q = b
         tbh = tb(zx(mass))
         tbw = tb(zx(mw))
         return (tbh - tbw)/(zx(mass) - zx(mw))
+def de(mass1,mass2,k1,k2):# EQ. 4.22
+    me = 0.511e-3
+    qt = 2/3
+    qb = - 1/3
+    part1 = - 12 * gf**2 * mw**2 / ((4 * PI)**4) * me * 2
+    part2 = np.array(k1).imag * (qt * Ft_(mass1) + qb * Fb_(mass1) )
+    part3 = np.array(k2).imag * (qt * Ft_(mass2) + qb * Fb_(mass2) )
+    result =  part1 * abs(vtb)**2 * (part2 + part3) 
+    return result / 5.06e13
 def dgmma_dBZ(mass,j):# EQ 4.24 charged Higgs contribution
     part1 = - 12 * gf**2 * mw**2 / (4 * PI)**4 * mb
     part2 = np.abs(vtb)**2 * np.abs(vud)**2 
     part3 = np.array(j).imag * (Ft_(mass) * 2/3 - 1/3 * Fb_(mass) )
     return part1 * part2 * part3 
-#print('C_wmuh(,mass1,mass2,j1,j2)',\
-#      C_wmuh(mb,np.arange(100,500,50),600,[complex(0.0,0.1)],[complex(0.0,0.1)]))
-
+############################################
 #(C) EDM
 def dn_CEDM(mass1,mass2,j1,j2): # 2.3
     f_pi = 0.13 # PION decay constant 
@@ -158,4 +166,5 @@ def CW(mass1,mass2,j1,j2):   # EQ 2.37 and 2.5
 def dn(mass1,mass2,j1,j2):
     return  CW(mass1,mass2,j1,j2) #+ dn_CEDM(mass1,mass2,j1,j2)
 
-print(dn(100,100,complex(0,-1),complex(0,1)))
+print('121',dn(100,100,complex(0,-1),complex(0,1)))
+print(de(100,300,complex(0,1),complex(0,1)))

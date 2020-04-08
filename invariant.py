@@ -9,8 +9,8 @@ import math
 ###Invariant parameters 
 ### INVARIANT VALUE (PHYSICS VALUE OF SM PARAMATERS)
 mt = 175 # mass of top quark  174.6
-mb = 4.18 # mass of bottom quark 4.18 #4.774647887323944 2hdm paper
-mc = 1.275  # mass of charm quark 1.275 # 1.3846478873239438 2hdm paper
+mb = 4.774647887323944  # mass of bottom quark 4.18 #4.774647887323944 2hdm paper
+mc = 1.3846478873239438  # mass of charm quark 1.275 # 1.3846478873239438 2hdm paper
 ms = 0.095 # mass of strange quark
 mu = 0.0023 # mass of up quark
 md = 0.0048 # mass of down quark
