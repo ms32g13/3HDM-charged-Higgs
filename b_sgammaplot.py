@@ -640,7 +640,7 @@ def NEDMfigure4_plot():#NEDM figure 4
     resultedm = plt.contourf(m1_axis, xy1_axis, \
            np.resize(np.array(emptye),len(np.array(emptye) )).\
            reshape(len(xy1_axis),len(m1_axis)), \
-           levels = np.array([0.0,1.0e-27])      
+           levels = np.array([0.0,1.1e-29])      
            )
     plt.colorbar(resultedm)
     plt.xlabel('$M_{H^{\pm}_{1}}$')
@@ -648,7 +648,7 @@ def NEDMfigure4_plot():#NEDM figure 4
     plt.title('e-EDM in 2HDM')
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([100,500, 0, 0.5])
+    plt.axis([100,500, 0, 0.005])
     plt.show()
     plt.close()
 #################
@@ -672,14 +672,14 @@ def NEDMfigure4_plot():#NEDM figure 4
     plt.title('NEDM in 3HDM with $M_{H^{\pm}_2} = $' + str(masss2))
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([50,500, 0, 1.0])
+    plt.axis([50,500, 0, 40])
     plt.show()
 #        plt.savefig('m1' + str(masss2) + 'imxy2'+ str("%.2f" % m) + '.png' )
     plt.close()
     result8e = plt.contourf(m1_axis, xy1_axis, \
                           np.resize(np.array(empty3hdme),len(np.array(empty3hdme) )).\
                           reshape(len(xy1_axis),len(m1_axis)), \
-                          levels = np.array([0.0,1.0e-27])      
+                          levels = np.array([0.0,1.1e-29])      
                           )
     plt.colorbar(result8e)
     plt.xlabel('$M_{H^{\pm}_{1}}$')
@@ -687,7 +687,7 @@ def NEDMfigure4_plot():#NEDM figure 4
     plt.title('e-EDM in 3HDM with $M_{H^{\pm}_2} = $' + str(masss2))
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.axis([50,500, 0, 1.0])
+    plt.axis([50,500, 0, 5])
     plt.show()
 #    plt.savefig('m1' + str(masss2) + 'imxy2'+ str("%.2f" % m) + '.png' )
     plt.close()
@@ -721,17 +721,17 @@ def NEDMfigure4_plot():#NEDM figure 4
         result9e = plt.contourf(m1_axis, massdiffer_list2, \
                           np.resize(np.array(threehdme),len(np.array(threehdme) )).\
                           reshape(len(massdiffer_list2),len(m1_axis)), \
-                          levels = np.array([0.0,1.0e-27])      
+                          levels = np.array([0.0,1.1e-29])      
                           )
 
         
         plt.colorbar(result9e)
         plt.xlabel('$M_{H^{\pm}_{1}}$')
         plt.ylabel('Mass difference')
-        plt.title('e-EDM with IM($X_2Y_2^*$) = '+ str('%.2g'% m) + \
-              ', IM($X_3Y_3^*$) =  ' + str('%.2g'% - m) )
-        plt.savefig('m1masdiferimxy2'+ str('%.2g'% m) + 'imxy3'+ str('%.2g'% m) + 'eedm.png' )
-        plt.axis([0,500,0, 80])
+        plt.title('e-EDM with IM($X_2^*Z_2$) = '+ str('%.2g'% m) + \
+              ', IM($X_3^*Z_3$) =  ' + str('%.2g'% - m) )
+        plt.savefig('m1masdiferimxz2'+ str('%.2g'% m) + 'imxz3'+ str('%.2g'% m) + 'eedm.png' )
+        plt.axis([0,500,0, 10])
         plt.show()
         plt.close()
 #####################################
