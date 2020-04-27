@@ -24,11 +24,12 @@ bsgamma.py : Code to produce Branching ratio of B > Xs + gamma(photon) based on 
 > i2,j2: i2 = Y array , j2 = XY^* array for the second MH+ contribution.
 >>> Set a parameter called: mass_differ = first MH+ and second MH+ mass difference.
 
-b_sgammaplot.py : Plot functions or codes to show dependence between input parameters of H1+,H2+ masses, scale values(mu_i, i = mw/mb/mhch), mixing matrix parameters (theta, tanbeta,tangamma,delta) against BR(B_bar > X_s + gamma(photon)) results.
+bsgonly.py : Plot functions or codes to show dependence between input parameters of H1+,H2+ masses, scale values(mu_i, i = mw/mb/mhch), mixing matrix parameters (theta, tanbeta,tangamma,delta) against BR(B_bar > X_s + gamma(photon)), CP-asymmetry (B_bar > X_s gamma, X_d gamma), CP-asymmetry difference and Untagg-asymmetry formula (B_bar > X_{s+d} gamma) results.
 > several plots based on papers: arXiv:hep-ph/9803368 and arXiv:1605.05881.
 > read b_sgamma.py functions and import exercise.py to plot dependence between (theta, tanbeta,tangamma,delta) and BR(B_bar > X_s + gamma(photon)).
 >> Do same procedure in exercise.py first, and input specific type-3HDM needed, then b_sgammaplot.py will read through exercise.py to get X,Y,Z_{2,3}, complexfunction (X_2Y_2^* ), complex3function (X_3Y_3^* ) arrays. Using array4() function to obtain input (theta, tanbeta,tangamma,delta) to get result of BR(B_bar > X_s + gamma(photon)) in function called: 
 plot_under_Heatherbasis().
+
 
 gammaeffective.py : anomalous dimension matrix. It includes LO and NLO together.
 >> Requires to put this with b>sgamma.py together.
@@ -41,9 +42,11 @@ CEPCeehh.py: Codes for CEPC (more energy available range. ie. Centre of mass ene
 CEPC_plot.py: Codes to produce graphs of branching ratios of charged Higgs decay (Leptonic and Hadronic).
 >> CEPCeehh.py produces charged Higgs events based on chosen luminoscities. Using the events that code produced can plot for parameter space against branching ratios and other stuffs.
 
-neturonedm.py: Codes to produce 3HDM charged Higgs contribution for Neutron EDM limit based on the (X_iY_i^* ) where i = 2,3 reading values from exercise.py. 
+neutronedm.py: Codes to produce 3HDM charged Higgs contribution for Neutron EDM limit based on the (X_iY_i^* ) where i = 2,3 reading values from exercise.py. 
 >> Calculation taken from mu_tH(m_t) scale to mu_hadron(hadron = 1GeV) scale.
 >> Two contributions are mainly useful, (C)3HDM and weinberg operator. Whole formulas are based on the paper :  arXiv:1308.6283.
+
+edmonly.py: Codes to plot Neutron-EDM and Electron-EDM based on the neutronedm.py file. The effective parameters are from charged Higgs masses H+1, H+2, and four mixing parameters (theta, tanbeta,tangamma,delta ).
 
 Hplus3decay.py : Codes for H+> AW* / hW* 3 body decay. Based on the SUSY Higgs particle paper: https://arxiv.org/pdf/hep-ph/9511342.pdf. 
 >> Results produce the partial width of charged Higgs H+ decay to Pseudoscalar and off-shell W boson which will decays further to 2 decays (Thus, 3-body decay released from charged Higgs).
