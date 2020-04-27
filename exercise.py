@@ -34,17 +34,17 @@ fac = 4.0 * np.sqrt(2.0) * PI
 #tga = random.uniform(1.0,61.0) #tangamma (k in loop)
 #delta = random.uniform(0.0,2 * math.pi)#delta (l in loop)  #delta fixed#
 the = np.arange(- 1.5707963267948966,  PI / 50,PI / 50)#theta (i in loop)
-tbe = np.arange(1.0,62,2) #tanbeta (j in loop)
-tga = np.arange(0.1,61.1,1) #tangamma (k in loop)
+tbe = np.arange(1,63,1.5) #tanbeta (j in loop)
+tga = np.arange(1,63,1.5) #tangamma (k in loop)
 delta = np.arange(0.0,2.0 * PI + PI/20 , PI /20)#delta (l in loop)  #delta fixed#
 A = []
 B = []
 read1 = str('')
 read2 = str('')
-i = - PI / 2#theta
+i = - PI / 2.5#theta
 j = 10#tangentbeta
-k = 1#tangamma
-l = PI/2# set delta (phase shift) to 0
+k = 10#tangamma
+l = 0# set delta (phase shift) to 0
 x = np.arange(0.0,40.2,0.2) # x range
 y = np.arange(0.0,0.62,0.02) # y range
 z = np.arange(0.0,5.02,0.02) # z range
@@ -301,7 +301,6 @@ def start1():# choose model
                  def Z3(i,j,k,l):
                      return U(i,j,k,l)[1][2] / U(i,j,k,l)[1][0] #Z3
                  print('Model:',read0)
-                 print(X2(i,j,k,l))
                  break   
             elif read0 == str(5):
                  def X2(i,j,k,l):
@@ -383,6 +382,11 @@ def complnedm2(i,j,k,l):# (XY^*) function
         return X2(i,j,k,l) *  np.conj(-Y2(i,j,k,l))
 def complnedm3(i,j,k,l):# (XY^*) function of additional physical mass
         return X3(i,j,k,l) *  np.conj(-Y3(i,j,k,l))    
+def yconjz2(i,j,k,l):
+#        print(i,j,k,l,Y2(i,j,k,l), Z2(i,j,k,l) )
+        return np.conj(- Y2(i,j,k,l)) * Z2(i,j,k,l)
+def yconjz3(i,j,k,l):
+        return np.conj(- Y3(i,j,k,l)) * Z3(i,j,k,l) 
 #print('1234',complnedm2(- PI/4,60,1,PI/2))
 #print('xx2',X2(- PI/4,60,1,PI/2),Y2(- PI/4,60,1,PI/2))
 #print('x2',U(- PI/4,60,1,PI/2)[0][1] / U(- PI/4,60,1,PI/2)[0][0] )
@@ -822,7 +826,7 @@ for n in np.arange(0,len(fl.mhch)):
            colors = ['black','royalblue','purple','darkgreen','brown','red','gray','orange'],\
              levels = np.arange(0.0,0.8,0.1))
 #plt.clabel(Contourbrtn)# contour level show
-#    plt.colorbar(Contourbrtn)
+    plt.colorbar(Contourbrtn)
     plt.title('BR($H^{\pm} \\to $ $\\tau \\nu_\\tau $), $M_{H^{\pm}}$: '+ strmhch +' GeV ')#plot title
     plt.xlabel(readlist[int(read1)])# x-axis label
     plt.ylabel(readlist[int(read2)])# y-axis label
@@ -927,7 +931,7 @@ for n in np.arange(0,len(fl.mhch)):
     plt.ylabel(readlist[int(read2)])# y-axis label
     plt.grid(axis='y', linestyle='-', color='0.75') # show y-axis grid line
     plt.grid(axis='x', linestyle='-', color='0.75') # show x-axis grid line
-    plt.show()
+#    plt.show()
 #    plt.savefig('M{H^{\pm}}= '+ strmhch +' GeV,realxy.eps')
     plt.close()
     print('--------------------------------------------------')

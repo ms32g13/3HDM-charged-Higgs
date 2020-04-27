@@ -561,7 +561,7 @@ def decay_SL(s2):
 ################################################################
 #################### Partial width of B_bar > X_s + gamma
 def decay_B_bar_Xsg(s2,s1,mass1,mass2,i1,j1,i2,j2):
-    a1 = gf**2 / (32 * PI**4) * squared_vtsvtbovervcb * alpha_electroweak * mb**5 
+    a1 = gf**2 / (32 * PI**4) * 1**2 * alpha_electroweak * mb**5 
 #    chunk1 = abs(D_bar(s2,s1,mass1,mass2,i1,j1,i2,j2))**2 + \
     chunk1 =  NewDbarsquared(s2,s1,mass1,mass2,i1,j1,i2,j2) +\
              Amp(s2,s1,mass1,mass2,i1,j1,i2,j2) + (delta_NP_ga / mb**2) * \
@@ -601,102 +601,135 @@ def BR_B_Xd_gamma(s2,s1,mass1,mass2,i1,j1,i2,j2):
 print('SMBRBXSgamma______________',BR_B_Xs_gamma(4.8,mw,100,300,[0],[0],[0],[0]))
 ##################################################################
 ##################################################################
-######### A_CP CP asymmetry  expression 
-######### DOI: 10.1103/PhysRevD.58.094012 
-def v_cp(i):
-    return (5 + np.log(i) + np.log(i)**2 - PI**2 / 3) + \
- (np.log(i)**2 - PI**2 /3 ) * i + (28/ 9 - 4 /3 * np.log(i)) * i**2
-def g(i,y): # i will = zz, y will = delta_cp
-    stepfunction = np.heaviside(4 * i / y,1.0)
-    part1 = (y**2 - 4 * y * i + 6 * i**2) * np.log(np.sqrt(y / (4 * i)) + \
-            np.sqrt(y /(4 * i) + 1 ) ) 
-    part2 = 3 * y * (y - 2 * i) / 4 * np.sqrt(stepfunction) 
-    return  part1 - part2 
-def b_cp(i,x):#delta_cp fraction of Energy cut
-    return g(i,1) - g(i, 1 - x)
-def A_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # CP asymmetry 
-    epsilon_s = lanmda_ckm**2 * complex(- rho_ckm ,eta_ckm)#e_s = V*_usV_ub / V*_tsV_tb
-    c2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + NLOalpha_s(s2) / \
-         (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    c8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    part1 = NLOalpha_s(s2) / (np.abs(c7) )**2
-    part2 = 40 / 81 * (c2 * np.conjugate(c7)).imag 
-    part3 = 8 * zz / 9 * (v_cp(zz) + b_cp(zz, delta_cp)) *\
-        ( (1 + epsilon_s) * (c2 * np.conjugate(c7) ) ).imag
-    part4 = 4 / 9 * (c8 * np.conjugate(c7) ).imag
-    part5 = 8 * zz / 27 * b_cp(zz, delta_cp) *\
-        ( (1 + epsilon_s) * (c2 * np.conjugate(c8) ) ).imag
-    return part1 * (part2 - part3  - part4 + part5)
+######### A_CP CP asymmetry  expression for B>Xs gamma and B>Xd gamma
+######### https://arxiv.org/pdf/1012.3167v2.pdf
 ###################################################################
 ###################################################################
 print('SMBRBXSgamma______________',BR_B_Xs_gamma(4.8,mw,100,300,[0],[0],[0],[0]))
 def hadron_parameter():
-    lamda_delat_c17 = - 0.009 # 0.011
-    lamda_delat_78 = 0.017 #0.19
-    lamda_delat_u17 = -0.33#0.525
+    lamda_delat_c17 = 0.01 # 0.011 > new range -0.007 to 0.010
+    lamda_delat_78 = 0.19  # 0.017 to 0.19 
+    lamda_delat_u17 =   0.66#0.525 > new range -0.66 to 0.66
     return [lamda_delat_c17,lamda_delat_78,lamda_delat_u17]
-def newa_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # New CP_s asymmetry PRL 106,141801 (2011)
+###############################################################################
+def newa_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # New B>X_s + gamma CP-asymmetry
+    #PRL 106,141801 (2011) Formula 12 
     ###### Wolfenstein parametrization of the CKM matrix
-    lamda1,rhho,etta = 0.2196, 0.3, 0.34
-    rho_bar = rhho * (1 - lamda1**2/2)
-    eta_bar = etta * (1 - lamda1**2/2)
+    lamda1,rho_bar,eta_bar = 0.2254, 0.144, 0.342
     epsilon_s = lamda1**2 * complex(- rho_bar, eta_bar) / \
-                (1 - lamda1**2 * complex(1 - rho_bar, eta_bar))
+                (1 - lamda1**2 * 1 - rho_bar + 1j * eta_bar)
+    print('e_s',epsilon_s)
     lamda_delat_c17 = hadron_parameter()[0] #0.011
     lamda_delat_78 = hadron_parameter()[1]  #  0.017
     lamda_delat_u17 = hadron_parameter()[2] # 0.017
     lamda_c = 0.38 #Formula 4 
-    espec = 2/3
+    espec = -1/3
     c2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + NLOalpha_s(s2) / \
-         (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)# + NLOalpha_s(s2) / \
+         #(4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     c8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    part1 = ((40 /81 - 40/9 * lamda_c/mb) * NLOalpha_s(s2) / PI + lamda_delat_c17/mb) * \
-    (c2 / c7).imag
-    part2 = ( 4 * LOalpha_s(s2) / (9 * PI )  -  4* PI * NLOalpha_s(s2) * espec * lamda_delat_78 / mb)* \
-    (c8 / c7).imag
-    part3 = ((lamda_delat_u17 - lamda_delat_c17)/mb + 40/9 * lamda_c/mb * NLOalpha_s(s2) / PI) * \
-    (epsilon_s * c2 / c7).imag
+    part1 = ((40 /81 - 40/9 * lamda_c/mb) * LOalpha_s(s2) / PI + \
+             lamda_delat_c17/mb) * (c2 / c7).imag
+    part2 = ( 4 * LOalpha_s(s2) / (9 * PI )  -  4* PI * LOalpha_s(s2) *\
+             espec * lamda_delat_78 / mb) * (c8 / c7).imag
+    part3 = ((lamda_delat_u17 - lamda_delat_c17)/mb + 40/9 * lamda_c/mb * \
+             LOalpha_s(s2) / PI) * (epsilon_s * c2 / c7).imag
     return (part1 - part2 - part3) * PI
 ####################################################################
-print('SMBRBXSgamma______________',BR_B_Xs_gamma(4.8,mw,100,300,[0],[0],[0],[0]))
-def newa_cpd(s2,s1,mass1,mass2,i1,j1,i2,j2): # New CP_d asymmetry PRL 106,141801 (2011)
+def newa_cpd(s2,s1,mass1,mass2,i1,j1,i2,j2): # New B>X_d + gamma CP-asymmetry
+    #PRL 106,141801 (2011) Formula 12 
+    #and replace CKM matrix element from s to d
     ###### Wolfenstein parametrization of the CKM matrix
-    A,lamda1,rhho,etta = 0.819, 0.2196, 0.3, 0.34
-    rho_bar = rhho * (1 - lamda1**2/2)
-    eta_bar = etta * (1 - lamda1**2/2)
-    epsilon_d = complex(rho_bar , - eta_bar) / complex(1 - rho_bar , eta_bar)
+    rho_bar,eta_bar =  0.144, 0.342
+    epsilon_d = (rho_bar - 1j * eta_bar) / (1 - rho_bar + 1j * eta_bar)
+    print('e_d',epsilon_d)
     ###########
     lamda_delat_c17 = hadron_parameter()[0] #0.011
     lamda_delat_78 = hadron_parameter()[1]  #  0.017
     lamda_delat_u17 = hadron_parameter()[2] # 0.017
     lamda_c = 0.38 #Formula 4 
-    espec = 2/3
+    espec = -1/3
     c2 = C0_2_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2) + NLOalpha_s(s2) / \
-         (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)# + NLOalpha_s(s2) / \
+        # (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
     c8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
-    part1 = ((40 /81 - 40/9 * lamda_c/mb) * NLOalpha_s(s2) / PI + lamda_delat_c17/mb) * \
+    part1 = ((40 /81 - 40/9 * lamda_c/mb) * lamda_c/mb + lamda_delat_c17/mb) * \
     (c2 / c7).imag
-    part2 = ( 4 * LOalpha_s(s2) / (9 * PI )  -  4* PI * NLOalpha_s(s2) * espec * lamda_delat_78 / mb)* \
+    part2 = ( 4 * lamda_c / (9 * mb)  -  4* PI * lamda_c/mb * PI * espec * lamda_delat_78 / mb)* \
     (c8 / c7).imag
-    part3 = ((lamda_delat_u17 - lamda_delat_c17)/mb + 40/9 * lamda_c/mb * NLOalpha_s(s2) / PI) * \
+    part3 = ((lamda_delat_u17 - lamda_delat_c17)/mb + 40/9 * lamda_c/mb * lamda_c/mb) * \
     (epsilon_d * c2 / c7).imag
+    print('1',((40 /81 - 40/9 * lamda_c/mb) * lamda_c/mb + lamda_delat_c17/mb) )
+    print('2',( 4 * lamda_c / (9 * mb)  -  4* PI * lamda_c/mb * PI * espec * lamda_delat_78 / mb))
+    print('3',((lamda_delat_u17 - lamda_delat_c17)/mb + 40/9 * lamda_c/mb * lamda_c/mb))
     return (part1 - part2 - part3) * PI
+#######################################################################
+def newdifferacps(s2,s1,mass1,mass2,i1,j1,i2,j2):#New CP difference of B>X_S + gamma
+    #PRL 106,141801 (2011) formula 14
+    part1 = 4 * PI**2 * LOalpha_s(s2) * hadron_parameter()[1] / mb
+    c7 = C0_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)# + NLOalpha_s(s2) / \
+    #     (4 * PI) * C1_7_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    c8 = C0_8_eff(s2,s1,mass1,mass2,i1,j1,i2,j2)
+    part2 = (c8/c7).imag
+    return part1 * part2
 ######################################################################
-print('SMBRBXSgamma______________',BR_B_Xs_gamma(4.8,mw,100,300,[0],[0],[0],[0]))
 def untag_cp(s2,s1,mass1,mass2,i1,j1,i2,j2): # Untagged CP-asymmetry(B>X_(s+d) + gamma)
-    Rds = 1/20
+    Rds = 1.73e-5/3.36e-5 # https://arxiv.org/pdf/hep-ex/0506079.pdf 
     s = newa_cp(s2,s1,mass1,mass2,i1,j1,i2,j2)
     d = newa_cpd(s2,s1,mass1,mass2,i1,j1,i2,j2)
     return (s + Rds * d) / (1 + Rds)
 ######################################################################
-print('Newcps-asymmetry',newa_cp(9.6,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
-print('Newcpd-asymmetry',newa_cpd(9.6,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
-print('Untagged (s + d) asymmetry',untag_cp(9.6,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
+def sm_cps(u,c):
+    u17 = u
+    c17 = c
+    return 1.15 * (u17 - c17)/0.3 + 0.71
+def smm_directcps():#Formula 3
+    #mu_scale = 2 #2 GeV
+    alphas = 0.307 #from scale 2 GEV
+    lamda1,rho_bar,eta_bar = 0.2254, 0.144, 0.342
+    epsilon_s = lamda1**2 * complex(- rho_bar, eta_bar) / \
+                (1 - lamda1**2 * complex(1 - rho_bar, eta_bar))
+    epsilon_d = (rho_bar - 1j * eta_bar) / (1 - rho_bar + 1j * eta_bar)
+    print('epsilon_s,epsilon_d', epsilon_s,epsilon_d)
+    lamda_c = 0.38 #Formula 4 
+    c2,c7,c8 = 1.204, - 0.381,- 0.175
+    part1 = 40 / 81 * np.imag(c2/c7)
+    part2 = 4 / 9 * np.imag(c8/c7) 
+    part3 = 40 * lamda_c / (9 * mb) * np.imag((1 + epsilon_d) * c2 /c7)   
+    return alphas * (part1 - part2 - part3 )
+######################################################################
+def smm_cpsformula11():#Formula 11
+    #mu_scale = 2 #2 GeV
+    alphas = 0.307 #from scale 2 GEV
+    lamda_delat_c17 = hadron_parameter()[0] #0.011
+    lamda_delat_78 = hadron_parameter()[1]  #  0.017
+    lamda_delat_u17 = hadron_parameter()[2] # 0.017
+    lamda1,rho_bar,eta_bar = 0.2254, 0.144, 0.342
+    epsilon_s = lamda1**2 * complex(- rho_bar, eta_bar) / \
+                (1 - lamda1**2 * complex(1 - rho_bar, eta_bar))
+    epsilon_d = (rho_bar - 1j * eta_bar) / (1 - rho_bar + 1j * eta_bar)
+    lamda_c = 0.38 #Formula 4 
+    c2,c7,c8 = 1.204, - 0.381,- 0.175
+    part1 = np.abs(c2/c7)
+    part2 = np.imag(epsilon_d)
+    part3 = (lamda_delat_u17 - lamda_delat_c17)/mb + \
+            40 * alphas * lamda_c / (9 * PI * mb)
+    return PI * part1 * part2 * part3 
+######################################################################
+print('Newcps-asymmetry',newa_cp(mb,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
+print('Newcpd-asymmetry',newa_cpd(mb,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
+print('cps-asymmetrydifference',newdifferacps(mb,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
+print('Untagged (s + d) asymmetry',untag_cp(mb,mw,80,170,[0.1],[0.1],[0.1],[complex(0.1,0.1)]))
 print('---------------------------------------------------------')
-print('SMBRBXSgamma______________',BR_B_Xs_gamma(4.8,mw,100,300,[0],[0],[0],[0]))
-print('SMuntaggedcp(s+d)asymmetry',untag_cp(4.8,mw,100,300,[0],[0],[0],[0]))
+print(sm_cps(-0.33,-0.009),sm_cps(0.525,0.011),'newsmcps', sm_cps(-0.66,-0.007),sm_cps(0.66,0.01))
+print('R_{ds}', 1.73e-5/3.36e-5,'Sigma_{R_ds}',np.sqrt((0.23/3.36)**2 + (0.22/1.73)**2) * (1.73e-5/3.36e-5))
+print('Directasymmetry formula 3',smm_directcps())
+print('SM CP-asymmetry X_s gamma formula 11',smm_cpsformula11())
+print('---------------------------------------------------------')
+print('SMBRBXSgamma______________',BR_B_Xs_gamma(mb,mw,100,300,[0],[0],[0],[0]))
+print('SMcps-asymmetry',newa_cp(mb,mw,100,300,[0],[0],[0],[0]))
+print('SMcps-asymmetrydifference',newdifferacps(mb,mw,100,300,[0],[0],[0],[0]))
+print('SMuntaggedcp(s+d)asymmetry',untag_cp(mb,mw,100,300,[0],[0],[0],[0]))
+
 ##############################################################################################
 
